@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2 } from 'lucide-svelte';
+	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -35,6 +35,7 @@
 	let summaryOpen = $state(false);
 	let showFloatingButton = $state(false);
 	let copySuccess = $state(false);
+	let showShareDropdown = $state(false);
 
 	const encodedUrl = encodeURIComponent($page.url.href);
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
@@ -264,105 +265,134 @@
 </div>
 
 {#snippet header(article: Article)}
-	<div class="px-3 md:px-12">
-		<header
-			class="flex justify-between flex-col p-10 border-b max-md:px-5 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
-		>
-			<a
-				href="/"
-				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
-			>
-				<ArrowLeft class="w-6 h-6" />
-			</a>
-			<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-				<section class="flex flex-col pb-8 w-full">
-					<h1
-						class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
-					>
-						{article.title}
-					</h1>
-					<p class="mt-4 text-2xl leading-9 max-md:max-w-full">
-						{article.summary}
-					</p>
-				</section>
-				<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
-					<div class="flex gap-1.5 items-start self-start">
-						<span>By</span>
-						<div class="flex items-center gap-1">
-							{#each article.authors as author, index}
-								<a
-									href={author.twitterUsername
-										? `https://twitter.com/${author.twitterUsername}`
-										: null}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="gap-1 self-stretch my-auto border-b"
-								>
-									{author.fullName}
-								</a>
-								{#if index < article.authors.length - 2}
-									<span class="self-stretch my-auto">,</span>
-								{:else if index < article.authors.length - 1}
-									<span class="self-stretch my-auto">and</span>
-								{/if}
-							{/each}
-						</div>
-					</div>
-				</div>
-			</div>
+  <div class="px-3 md:px-12">
+    <header
+      class="flex justify-between flex-col p-10 border-b max-md:px-5 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
+    >
+      <a
+        href="/"
+        aria-label="Back to Home"
+        class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
+      >
+        <ArrowLeft class="w-6 h-6" />
+      </a>
+      <div class="flex flex-col max-w-full tracking-tight w-[888px]">
+        <section class="flex flex-col pb-8 w-full">
+          <h1
+            class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+          >
+            {article.title}
+          </h1>
+          <p class="mt-4 text-2xl leading-9 max-md:max-w-full">
+            {article.summary}
+          </p>
+        </section>
+        <div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+          <div class="flex gap-1.5 items-start self-start">
+            <span>By</span>
+            <div class="flex items-center gap-1">
+              {#each article.authors as author, index}
+                <a
+                  href={author.twitterUsername
+                    ? `https://twitter.com/${author.twitterUsername}`
+                    : null}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="gap-1 self-stretch my-auto border-b"
+                >
+                  {author.fullName}
+                </a>
+                {#if index < article.authors.length - 2}
+                  <span class="self-stretch my-auto">,</span>
+                {:else if index < article.authors.length - 1}
+                  <span class="self-stretch my-auto">and</span>
+                {/if}
+              {/each}
+            </div>
+          </div>
+        </div>
+      </div>
 
-			<div
-				class="flex flex-wrap gap-1 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
-			>
-				<time datetime={article.scheduledPublishTime} class="text-gray-500">
-					Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				</time>
-				<nav class="flex gap-1.5 items-center min-w-[240px]">
-					<span class="self-stretch my-auto">Share on</span>
-					<a
-						href={twitterShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b border-neutral-950"
-					>
-						X
-					</a>
-					<span class="self-stretch my-auto">,</span>
-					<a
-						href={facebookShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b"
-					>
-						Facebook
-					</a>
-					<span class="self-stretch my-auto">or</span>
-					<a
-						href={linkedinShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b"
-					>
-						Linkedin
-					</a>
-					<span class="self-stretch my-auto mx-2">|</span>
-					<button
-						onclick={() => downloadPDF(article)}
-						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
-						aria-label="Download as PDF"
-					>
-						<FileDown class="w-5 h-5" />
-						<span class="border-b">PDF</span>
-					</button>
-				</nav>
+      <div
+        class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+      >
+        <time datetime={article.scheduledPublishTime} class="text-gray-500">
+          Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        <nav class="flex gap-1.5 items-center min-w-[240px]">
+			<div class="relative">
+			  <button
+				onclick={() => (showShareDropdown = !showShareDropdown)}
+				onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+				class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
+				aria-label="Share article"
+				aria-expanded={showShareDropdown}
+			  >
+				<ShareIcon class="w-5 h-5" />
+				<span class="border-b">Share</span>
+			  </button>
+		  
+			  <!-- Share Dropdown -->
+			  {#if showShareDropdown}
+				<div
+				  class="absolute right-0 mt-2 w-48 bg-background border rounded-lg shadow-lg z-50 transition-opacity duration-200"
+				  use:clickOutside={() => (showShareDropdown = false)}
+				>
+				  <a
+					href={twitterShareURL}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+				  >
+					Share on X
+				  </a>
+				  <a
+					href={facebookShareURL}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+				  >
+					Share on Facebook
+				  </a>
+				  <a
+					href={linkedinShareURL}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+				  >
+					Share on LinkedIn
+				  </a>
+				  <button
+					onclick={copyShareLink}
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+				  >
+					Copy Link
+					{#if copySuccess}
+					  <span class="ml-2 text-sm text-green-500">Copied!</span>
+					{/if}
+				  </button>
+				</div>
+			  {/if}
 			</div>
-		</header>
-	</div>
+		  
+			<!-- PDF Download Button -->
+			<span class="self-stretch my-auto mx-1">|</span>
+			<button
+			  onclick={() => downloadPDF(article)}
+			  class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
+			  aria-label="Download as PDF"
+			>
+			  <FileDown class="w-5 h-5" />
+			  <span class="border-b">PDF</span>
+			</button>
+		</nav>
+      </div>
+    </header>
+  </div>
 {/snippet}
 
 {#snippet body(article: Article)}
