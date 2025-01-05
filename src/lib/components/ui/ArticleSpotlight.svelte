@@ -9,7 +9,7 @@
 	}
 
 	function getAuthorsText(authors: ArticleMetadata['authors'] | undefined): string {
-		if (!authors) return '';
+		if (!authors?.length) return 'Unknown';
 		return authors.map(getAuthorDisplayName).join(', ');
 	}
 
