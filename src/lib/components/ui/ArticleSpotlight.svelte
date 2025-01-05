@@ -3,6 +3,16 @@
 	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
+
+	function getAuthorDisplayName(author: ArticleMetadata['authors'][number]): string {
+		return author.full_name || author.username;
+	}
+
+	function getAuthorsText(authors: ArticleMetadata['authors'] | undefined): string {
+		if (!authors?.length) return 'Unknown';
+		return authors.map(getAuthorDisplayName).join(', ');
+	}
+
 </script>
 
 <a href={`/${article.slug}`}>
@@ -23,7 +33,7 @@
 				{article.summary}
 			</p>
 			<p class="font-medium dark:text-white">
-				By {article.authors?.map((author) => author.username).join(', ')}
+				By {getAuthorsText(article.authors)}
 			</p>
 		</div>
 	</div>
