@@ -23,7 +23,7 @@
 				{article.summary}
 			</p>
 			<p class="font-medium dark:text-white">
-				By {article.authors?.map((author) => author.full_name).join(', ')}
+				By {article.authors?.map((author) => author.full_name || author.username).join(', ')}
 			</p>
 		</div>
 	</div>
