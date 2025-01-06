@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon, FacebookIcon, Twitter, LinkedinIcon } from 'lucide-svelte';
+	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon, Twitter, LinkedinIcon } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -12,6 +12,7 @@
 	import { fly } from 'svelte/transition';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import { siReddit, siFarcaster } from 'simple-icons';
+	import DOMPurify from 'dompurify';
 	
 
 	import 'prismjs/components/prism-python';
@@ -201,8 +202,10 @@
     	}
 	}
 
-	function convertToSvgIcon(icon: { path: string }, size = 20) {
-    	return `<svg 
+	function convertToSvgIcon(icon: { path: string } || undefined, size = 20) {
+		if (!icon || !icon.path) return '';
+
+    	const svgString = `<svg 
     	  width="${size}" 
     	  height="${size}" 
     	  viewBox="0 0 24 24" 
@@ -214,6 +217,8 @@
     	>
     	  <path d="${icon.path}"></path>
     	</svg>`;
+
+		return DOMPurify.sanitize(svgString);
   	}
 
 
@@ -389,7 +394,7 @@
 			  {#if showShareDropdown}
 				<div
 				  class="share-dropdown absolute left-0 mt-2 w-40 bg-background border rounded-lg shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
-				  use:clickOutside={() => (showShareDropdown = false)}
+				  on:click|outside={() => (showShareDropdown = false)}
 				>
 				  <a
 					href={twitterShareURL}
