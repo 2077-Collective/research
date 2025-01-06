@@ -1,7 +1,7 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon } from 'lucide-svelte';
+	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon, FacebookIcon, Twitter, LinkedinIcon } from 'lucide-svelte';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -11,6 +11,8 @@
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import { fly } from 'svelte/transition';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
+	import { siReddit, siFarcaster } from 'simple-icons';
+	
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -41,12 +43,21 @@
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
 	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
+	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
+
+
+	const redditIcon = convertToSvgIcon(siReddit);
+	const farcasterIcon = convertToSvgIcon(siFarcaster);
+
 
 	const { data }: { data: PageData } = $props();
 
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
+
+
+	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
 
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
@@ -154,7 +165,6 @@
 
 	async function copyShareLink() {
 		const url = new URL(window.location.href);
-		url.searchParams.set('summary', 'true');
 		await navigator.clipboard.writeText(url.toString());
 		copySuccess = true;
 		setTimeout(() => {
@@ -171,17 +181,41 @@
 		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
 	}
 
-	function handleClickOutside(event: MouseEvent) {
-		if (!summaryOpen) return;
+	function handleClickOutside(event: MouseEvent, options: {
+    	isOpen: boolean;
+    	containerSelector: string;
+    	toggleSelector: string;
+    	onClose: () => void;
+	
+		}) {
+    	const { isOpen, containerSelector, toggleSelector, onClose } = options;
 
-		const panel = document.querySelector('.summary-panel');
-		const target = event.target as HTMLElement;
+    	if (!isOpen) return;
 
-		// Check if click is outside the panel and not on the toggle button
-		if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
-			toggleSummary();
-		}
+    	const container = document.querySelector(containerSelector);
+    	const target = event.target as HTMLElement;
+
+    	// Check if click is outside the container and not on the toggle button
+    	if (container && !container.contains(target) && !target.closest(toggleSelector)) {
+    	    onClose();
+    	}
 	}
+
+	function convertToSvgIcon(icon: { path: string }, size = 20) {
+    	return `<svg 
+    	  width="${size}" 
+    	  height="${size}" 
+    	  viewBox="0 0 24 24" 
+    	  fill="none" 
+    	  stroke="currentColor" 
+    	  stroke-width="2" 
+    	  stroke-linecap="round" 
+    	  stroke-linejoin="round"
+    	>
+    	  <path d="${icon.path}"></path>
+    	</svg>`;
+  	}
+
 
 	onMount(() => {
 		hydrateNewsletterBanner();
@@ -213,7 +247,21 @@
 		summaryOpen = urlParams.get('summary') === 'true';
 
 		// Add click outside listener
-		document.addEventListener('mousedown', handleClickOutside);
+		document.addEventListener('mousedown', (event) => {
+			handleClickOutside(event, {
+				isOpen: showShareDropdown,
+				containerSelector: '.share-dropdown',
+				toggleSelector: '[data-share-toggle]',
+				onClose: () => (showShareDropdown = false),
+			});
+
+			handleClickOutside(event, {
+				isOpen: summaryOpen,
+				containerSelector: '.summary-panel',
+				toggleSelector: '[data-summary-toggle]',
+				onClose: toggleSummary,
+			});
+		});
 
 		return () => {
 			observer.disconnect();
@@ -331,6 +379,7 @@
 				class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
 				aria-label="Share article"
 				aria-expanded={showShareDropdown}
+				data-share-toggle
 			  >
 				<ShareIcon class="w-5 h-5" />
 				<span class="border-b">Share</span>
@@ -339,42 +388,56 @@
 			  <!-- Share Dropdown -->
 			  {#if showShareDropdown}
 				<div
-				  class="absolute right-0 mt-2 w-48 bg-background border rounded-lg shadow-lg z-50 transition-opacity duration-200"
+				  class="share-dropdown absolute left-0 mt-2 w-40 bg-background border rounded-lg shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
 				  use:clickOutside={() => (showShareDropdown = false)}
 				>
 				  <a
 					href={twitterShareURL}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
 				  >
-					Share on X
+				  <Twitter class="w-5 h-5" />
+				  <span>X/Twitter</span>
 				  </a>
 				  <a
-					href={facebookShareURL}
+				  	href={farcasterShareURL}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
 				  >
-					Share on Facebook
+				  {@html farcasterIcon}
+				  <span>Farcaster</span>
+				  </a>
+				  <a
+				  	href={redditShareURL}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
+				  >
+				  {@html redditIcon}
+					<span>Reddit</span>
 				  </a>
 				  <a
 					href={linkedinShareURL}
 					target="_blank"
 					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
+					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
 				  >
-					Share on LinkedIn
+				  <LinkedinIcon class="w-5 h-5" />
+				  <span>LinkedIn</span>
 				  </a>
 				  <button
-					onclick={copyShareLink}
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg"
-				  >
-					Copy Link
-					{#if copySuccess}
-					  <span class="ml-2 text-sm text-green-500">Copied!</span>
-					{/if}
-				  </button>
+					  onclick={copyShareLink}
+					  class="block w-full px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg text-left flex items-center gap-2">
+					  
+					  <Link2 class="w-5 h-5" />
+					  {#if copySuccess}
+					    <span class="text-[#07BEBF]">Link Copied</span>
+					  {:else}
+					    <span>Copy Link</span>
+					  {/if}
+				</button>
 				</div>
 			  {/if}
 			</div>
