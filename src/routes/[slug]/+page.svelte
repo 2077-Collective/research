@@ -50,7 +50,6 @@
 
 	const encodedUrl = encodeURIComponent($page.url.href);
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
-	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
 
@@ -191,27 +190,33 @@
 		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
 	}
 
-	function handleClickOutside(event: MouseEvent | TouchEvent, options: {
-    	isOpen: boolean;
-    	containerSelector: string;
-    	toggleSelector: string;
-    	onClose: () => void;
-	}) {
-    	const { isOpen, containerSelector, toggleSelector, onClose } = options;
-    	const panel = document.querySelector('.summary-panel');
-    	const shareDropdown = document.querySelector('.share-dropdown');
-    	const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
-
-    	if (!isOpen) return;
-
-    	if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]') && !shareDropdown?.contains(target)) {toggleSummary();
-    	}
-
-    	const container = document.querySelector(containerSelector);
-
-    	if (container && !container.contains(target) && !target.closest(toggleSelector)) {
-    	    onClose();
-    	}
+	type ClickOutsideOptions = {
+	  isOpen: boolean;
+	  containerSelector: string;
+	  toggleSelector: string;
+	  onClose: () => void;
+	};
+	
+	function handleClickOutside(
+	  event: MouseEvent | TouchEvent,
+	  options: ClickOutsideOptions
+	): void {
+	  const { isOpen, containerSelector, toggleSelector, onClose } = options;
+	  const panel = document.querySelector('.summary-panel');
+	  const shareDropdown = document.querySelector('.share-dropdown');
+	  const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
+	
+	  if (!isOpen) return;
+	
+	  if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]') && !shareDropdown?.contains(target)) {
+	    toggleSummary();
+	  }
+  
+	  const container = document.querySelector(containerSelector);
+  
+	  if (container && !container.contains(target) && !target.closest(toggleSelector)) {
+	    onClose();
+	  }
 	}
 
   	function handleMouseEnter() {
