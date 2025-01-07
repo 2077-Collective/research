@@ -202,6 +202,7 @@
 	  options: ClickOutsideOptions
 	): void {
 	  const { isOpen, containerSelector, toggleSelector, onClose } = options;
+	  const trigger = document.querySelector(toggleSelector) as HTMLElement;
 	  const panel = document.querySelector('.summary-panel');
 	  const shareDropdown = document.querySelector('.share-dropdown');
 	  const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
@@ -216,6 +217,7 @@
   
 	  if (container && !container.contains(target) && !target.closest(toggleSelector)) {
 	    onClose();
+		trigger?.focus();
 	  }
 	}
 
