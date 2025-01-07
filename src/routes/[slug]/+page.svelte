@@ -1,7 +1,14 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2, ShareIcon, Twitter, LinkedinIcon } from 'lucide-svelte';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import FileDown from 'lucide-svelte/icons/file-down';
+	import XIcon from 'lucide-svelte/icons/x';
+	import ScrollText from 'lucide-svelte/icons/scroll-text';
+	import Twitter from 'lucide-svelte/icons/twitter';
+	import Link2 from 'lucide-svelte/icons/link-2';
+	import Share from 'lucide-svelte/icons/share';
+	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -11,9 +18,8 @@
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import { fly } from 'svelte/transition';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
-	import { siReddit, siFarcaster } from 'simple-icons';
-	import DOMPurify from 'dompurify';
-	
+	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
+	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -40,16 +46,13 @@
 	let copySuccess = $state(false);
 	let showShareDropdown = $state(false);
 
+	let closeTimeout: ReturnType<typeof setTimeout>;
+
 	const encodedUrl = encodeURIComponent($page.url.href);
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
 	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
-
-
-	const redditIcon = convertToSvgIcon(siReddit);
-	const farcasterIcon = convertToSvgIcon(siFarcaster);
-
 
 	const { data }: { data: PageData } = $props();
 
@@ -57,8 +60,14 @@
 		throw error(404, 'Article not found');
 	}
 
-
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+
+	const shareOptions = [
+		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
+		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster},
+		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
+		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
+	];
 
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
@@ -182,45 +191,39 @@
 		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
 	}
 
-	function handleClickOutside(event: MouseEvent, options: {
+	function handleClickOutside(event: MouseEvent | TouchEvent, options: {
     	isOpen: boolean;
     	containerSelector: string;
     	toggleSelector: string;
     	onClose: () => void;
-	
-		}) {
+	}) {
     	const { isOpen, containerSelector, toggleSelector, onClose } = options;
+    	const panel = document.querySelector('.summary-panel');
+    	const shareDropdown = document.querySelector('.share-dropdown');
+    	const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
 
     	if (!isOpen) return;
 
-    	const container = document.querySelector(containerSelector);
-    	const target = event.target as HTMLElement;
+    	if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]') && !shareDropdown?.contains(target)) {toggleSummary();
+    	}
 
-    	// Check if click is outside the container and not on the toggle button
+    	const container = document.querySelector(containerSelector);
+
     	if (container && !container.contains(target) && !target.closest(toggleSelector)) {
     	    onClose();
     	}
 	}
 
-	function convertToSvgIcon(icon: { path: string } || undefined, size = 20) {
-		if (!icon || !icon.path) return '';
-
-    	const svgString = `<svg 
-    	  width="${size}" 
-    	  height="${size}" 
-    	  viewBox="0 0 24 24" 
-    	  fill="none" 
-    	  stroke="currentColor" 
-    	  stroke-width="2" 
-    	  stroke-linecap="round" 
-    	  stroke-linejoin="round"
-    	>
-    	  <path d="${icon.path}"></path>
-    	</svg>`;
-
-		return DOMPurify.sanitize(svgString);
+  	function handleMouseEnter() {
+  	  clearTimeout(closeTimeout);
+	  showShareDropdown = true;
   	}
 
+	function handleMouseLeave() {
+    	closeTimeout = setTimeout(() => {
+    	  showShareDropdown = false;
+    	}, 300);
+  	}
 
 	onMount(() => {
 		hydrateNewsletterBanner();
@@ -252,27 +255,31 @@
 		summaryOpen = urlParams.get('summary') === 'true';
 
 		// Add click outside listener
-		document.addEventListener('mousedown', (event) => {
-			handleClickOutside(event, {
-				isOpen: showShareDropdown,
-				containerSelector: '.share-dropdown',
-				toggleSelector: '[data-share-toggle]',
-				onClose: () => (showShareDropdown = false),
-			});
+		const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+        	handleClickOutside(event, {
+        	    isOpen: showShareDropdown,
+        	    containerSelector: '.share-dropdown',
+        	    toggleSelector: '[data-share-toggle]',
+        	    onClose: () => (showShareDropdown = false),
+        	});
 
-			handleClickOutside(event, {
-				isOpen: summaryOpen,
-				containerSelector: '.summary-panel',
-				toggleSelector: '[data-summary-toggle]',
-				onClose: toggleSummary,
-			});
-		});
+        	handleClickOutside(event, {
+        	    isOpen: summaryOpen,
+        	    containerSelector: '.summary-panel',
+        	    toggleSelector: '[data-summary-toggle]',
+        	    onClose: toggleSummary,
+        	});
+    	};
 
-		return () => {
-			observer.disconnect();
-			window.removeEventListener('scroll', handleScroll);
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
+    	document.addEventListener('mousedown', handleOutsideClick);
+    	document.addEventListener('touchstart', handleOutsideClick);
+
+    	return () => {
+    	    observer.disconnect();
+    	    window.removeEventListener('scroll', handleScroll);
+    	    document.removeEventListener('mousedown', handleOutsideClick);
+    	    document.removeEventListener('touchstart', handleOutsideClick);
+    	};
 	});
 
 	$effect(() => {
@@ -376,73 +383,61 @@
             day: 'numeric'
           })}
         </time>
-        <nav class="flex gap-1.5 items-center min-w-[240px]">
-			<div class="relative">
+        <nav class="flex gap-1.5 items-center">
+			<div
+			  class="relative"
+			  onmouseenter={handleMouseEnter}
+			  onmouseleave={handleMouseLeave}
+			  role="menu"
+			  tabindex="0"
+			>
 			  <button
-				onclick={() => (showShareDropdown = !showShareDropdown)}
 				onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
 				class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
 				aria-label="Share article"
 				aria-expanded={showShareDropdown}
+				aria-haspopup="true"
 				data-share-toggle
 			  >
-				<ShareIcon class="w-5 h-5" />
+				<Share class="w-5 h-5" />
 				<span class="border-b">Share</span>
 			  </button>
 		  
 			  <!-- Share Dropdown -->
 			  {#if showShareDropdown}
 				<div
-				  class="share-dropdown absolute left-0 mt-2 w-40 bg-background border rounded-lg shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
-				  on:click|outside={() => (showShareDropdown = false)}
+				  class="share-dropdown absolute left-0 mt-2 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+				  
 				>
-				  <a
-					href={twitterShareURL}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
-				  >
-				  <Twitter class="w-5 h-5" />
-				  <span>X/Twitter</span>
-				  </a>
-				  <a
-				  	href={farcasterShareURL}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
-				  >
-				  {@html farcasterIcon}
-				  <span>Farcaster</span>
-				  </a>
-				  <a
-				  	href={redditShareURL}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
-				  >
-				  {@html redditIcon}
-					<span>Reddit</span>
-				  </a>
-				  <a
-					href={linkedinShareURL}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="block px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg flex items-center gap-2"
-				  >
-				  <LinkedinIcon class="w-5 h-5" />
-				  <span>LinkedIn</span>
-				  </a>
-				  <button
-					  onclick={copyShareLink}
-					  class="block w-full px-4 py-2 hover:bg-white hover:text-black hover:rounded-lg text-left flex items-center gap-2">
-					  
-					  <Link2 class="w-5 h-5" />
-					  {#if copySuccess}
-					    <span class="text-[#07BEBF]">Link Copied</span>
+				  {#each shareOptions as option}
+					<a
+					  href={option.url}
+					  target="_blank"
+					  rel="noopener noreferrer"
+					  role="menuitem"
+					  class="block px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+					>
+					  {#if option.isSvg}
+						{@html option.icon}
 					  {:else}
-					    <span>Copy Link</span>
+						{@const IconComponent = option.icon}
+						<IconComponent class="w-5 h-5" />
 					  {/if}
-				</button>
+					  <span>{option.name}</span>
+					</a>
+				  {/each}
+				  <button
+					onclick={copyShareLink}
+					role="menuitem"
+					class="block w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+				  >
+					<Link2 class="w-5 h-5" />
+					{#if copySuccess}
+					  <span class="text-[#07BEBF]">Link Copied</span>
+					{:else}
+					  <span>Copy Link</span>
+					{/if}
+				  </button>
 				</div>
 			  {/if}
 			</div>
