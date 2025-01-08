@@ -1,7 +1,14 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import type { Article } from '$lib/types/article';
-	import { ArrowLeft, FileDown, XIcon, ScrollText, Link2 } from 'lucide-svelte';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import FileDown from 'lucide-svelte/icons/file-down';
+	import XIcon from 'lucide-svelte/icons/x';
+	import ScrollText from 'lucide-svelte/icons/scroll-text';
+	import Twitter from 'lucide-svelte/icons/twitter';
+	import Link2 from 'lucide-svelte/icons/link-2';
+	import Share from 'lucide-svelte/icons/share';
+	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -11,6 +18,8 @@
 	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import { fly } from 'svelte/transition';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
+	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
+	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -35,17 +44,36 @@
 	let summaryOpen = $state(false);
 	let showFloatingButton = $state(false);
 	let copySuccess = $state(false);
+	let showShareDropdown = $state(false);
+
+	let closeTimeout: ReturnType<typeof setTimeout>;
 
 	const encodedUrl = encodeURIComponent($page.url.href);
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
-	const facebookShareURL = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
+	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
 
 	const { data }: { data: PageData } = $props();
 
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
+
+	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+
+	interface ShareOption {
+	  name: string;
+	  url: string;
+	  icon: any;
+	  isSvg?: boolean;
+	}
+
+	const shareOptions: ShareOption[] = [
+		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
+		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster},
+		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
+		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
+	];
 
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
@@ -153,7 +181,6 @@
 
 	async function copyShareLink() {
 		const url = new URL(window.location.href);
-		url.searchParams.set('summary', 'true');
 		await navigator.clipboard.writeText(url.toString());
 		copySuccess = true;
 		setTimeout(() => {
@@ -170,17 +197,46 @@
 		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
 	}
 
-	function handleClickOutside(event: MouseEvent) {
-		if (!summaryOpen) return;
-
-		const panel = document.querySelector('.summary-panel');
-		const target = event.target as HTMLElement;
-
-		// Check if click is outside the panel and not on the toggle button
-		if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
-			toggleSummary();
-		}
+	type ClickOutsideOptions = {
+	  isOpen: boolean;
+	  containerSelector: string;
+	  toggleSelector: string;
+	  onClose: () => void;
+	};
+	
+	function handleClickOutside(
+	  event: MouseEvent | TouchEvent,
+	  options: ClickOutsideOptions
+	): void {
+	  const { isOpen, containerSelector, toggleSelector, onClose } = options;
+	  const trigger = document.querySelector(toggleSelector) as HTMLElement;
+	  const panel = document.querySelector('.summary-panel');
+	  const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
+	
+	  if (!isOpen) return;
+	
+	  if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
+	    toggleSummary();
+	  }
+  
+	  const container = document.querySelector(containerSelector);
+  
+	  if (container && !container.contains(target) && !target.closest(toggleSelector)) {
+	    onClose();
+		trigger?.focus();
+	  }
 	}
+
+  	function handleMouseEnter() {
+  	  clearTimeout(closeTimeout);
+	  showShareDropdown = true;
+  	}
+
+	function handleMouseLeave() {
+    	closeTimeout = setTimeout(() => {
+    	  showShareDropdown = false;
+    	}, 300);
+  	}
 
 	onMount(() => {
 		hydrateNewsletterBanner();
@@ -212,13 +268,25 @@
 		summaryOpen = urlParams.get('summary') === 'true';
 
 		// Add click outside listener
-		document.addEventListener('mousedown', handleClickOutside);
+		const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
+        	handleClickOutside(event, {
+        	    isOpen: summaryOpen,
+        	    containerSelector: '.summary-panel',
+        	    toggleSelector: '[data-summary-toggle]',
+        	    onClose: toggleSummary,
+        	});
+    	};
 
-		return () => {
-			observer.disconnect();
-			window.removeEventListener('scroll', handleScroll);
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
+    	document.addEventListener('mousedown', handleOutsideClick);
+    	document.addEventListener('touchstart', handleOutsideClick);
+
+    	return () => {
+    	    observer.disconnect();
+    	    window.removeEventListener('scroll', handleScroll);
+    	    document.removeEventListener('mousedown', handleOutsideClick);
+    	    document.removeEventListener('touchstart', handleOutsideClick);
+			clearTimeout(closeTimeout);
+    	};
 	});
 
 	$effect(() => {
@@ -264,105 +332,137 @@
 </div>
 
 {#snippet header(article: Article)}
-	<div class="px-3 md:px-12">
-		<header
-			class="flex justify-between flex-col p-10 border-b max-md:px-5 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
-		>
-			<a
-				href="/"
-				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
-			>
-				<ArrowLeft class="w-6 h-6" />
-			</a>
-			<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-				<section class="flex flex-col pb-8 w-full">
-					<h1
-						class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
-					>
-						{article.title}
-					</h1>
-					<p class="mt-4 text-2xl leading-9 max-md:max-w-full">
-						{article.summary}
-					</p>
-				</section>
-				<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
-					<div class="flex gap-1.5 items-start self-start">
-						<span>By</span>
-						<div class="flex items-center gap-1">
-							{#each article.authors as author, index}
-								<a
-									href={author.twitterUsername
-										? `https://twitter.com/${author.twitterUsername}`
-										: null}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="gap-1 self-stretch my-auto border-b"
-								>
-									{author.fullName}
-								</a>
-								{#if index < article.authors.length - 2}
-									<span class="self-stretch my-auto">,</span>
-								{:else if index < article.authors.length - 1}
-									<span class="self-stretch my-auto">and</span>
-								{/if}
-							{/each}
-						</div>
-					</div>
-				</div>
-			</div>
+  <div class="px-3 md:px-12">
+    <header
+      class="flex justify-between flex-col p-10 border-b max-md:px-5 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
+    >
+      <a
+        href="/"
+        aria-label="Back to Home"
+        class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
+      >
+        <ArrowLeft class="w-6 h-6" />
+      </a>
+      <div class="flex flex-col max-w-full tracking-tight w-[888px]">
+        <section class="flex flex-col pb-8 w-full">
+          <h1
+            class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+          >
+            {article.title}
+          </h1>
+          <p class="mt-4 text-2xl leading-9 max-md:max-w-full">
+            {article.summary}
+          </p>
+        </section>
+        <div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+          <div class="flex gap-1.5 items-start self-start">
+            <span>By</span>
+            <div class="flex items-center gap-1">
+              {#each article.authors as author, index}
+                <a
+                  href={author.twitterUsername
+                    ? `https://twitter.com/${author.twitterUsername}`
+                    : null}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="gap-1 self-stretch my-auto border-b"
+                >
+                  {author.fullName}
+                </a>
+                {#if index < article.authors.length - 2}
+                  <span class="self-stretch my-auto">,</span>
+                {:else if index < article.authors.length - 1}
+                  <span class="self-stretch my-auto">and</span>
+                {/if}
+              {/each}
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div
+        class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+      >
+        <time datetime={article.scheduledPublishTime} class="text-gray-500">
+          Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </time>
+        <nav class="flex gap-1.5 items-center">
 			<div
-				class="flex flex-wrap gap-1 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+			  class="relative"
+			  onmouseenter={handleMouseEnter}
+			  onmouseleave={handleMouseLeave}
+			  role="menu"
+			  tabindex="0"
 			>
-				<time datetime={article.scheduledPublishTime} class="text-gray-500">
-					Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
-						year: 'numeric',
-						month: 'long',
-						day: 'numeric'
-					})}
-				</time>
-				<nav class="flex gap-1.5 items-center min-w-[240px]">
-					<span class="self-stretch my-auto">Share on</span>
+			  <button
+				onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+				class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
+				aria-label="Share article"
+				aria-expanded={showShareDropdown}
+				aria-haspopup="true"
+				data-share-toggle
+			  >
+				<Share class="w-5 h-5" />
+				<span class="border-b">Share</span>
+			  </button>
+		  
+			  <!-- Share Dropdown -->
+			  {#if showShareDropdown}
+				<div
+				  class="share-dropdown absolute left-0 mt-2 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+				  
+				>
+				  {#each shareOptions as option}
 					<a
-						href={twitterShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b border-neutral-950"
+					  href={option.url}
+					  target="_blank"
+					  rel="noopener noreferrer"
+					  role="menuitem"
+					  class="block px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
 					>
-						X
+					  {#if option.isSvg}
+						{@html option.icon}
+					  {:else}
+						{@const IconComponent = option.icon}
+						<IconComponent class="w-5 h-5" />
+					  {/if}
+					  <span>{option.name}</span>
 					</a>
-					<span class="self-stretch my-auto">,</span>
-					<a
-						href={facebookShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b"
-					>
-						Facebook
-					</a>
-					<span class="self-stretch my-auto">or</span>
-					<a
-						href={linkedinShareURL}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="gap-1 self-stretch my-auto border-b"
-					>
-						Linkedin
-					</a>
-					<span class="self-stretch my-auto mx-2">|</span>
-					<button
-						onclick={() => downloadPDF(article)}
-						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
-						aria-label="Download as PDF"
-					>
-						<FileDown class="w-5 h-5" />
-						<span class="border-b">PDF</span>
-					</button>
-				</nav>
+				  {/each}
+				  <button
+					onclick={copyShareLink}
+					role="menuitem"
+					class="block w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+				  >
+					<Link2 class="w-5 h-5" />
+					{#if copySuccess}
+					  <span class="text-[#07BEBF]">Link Copied</span>
+					{:else}
+					  <span>Copy Link</span>
+					{/if}
+				  </button>
+				</div>
+			  {/if}
 			</div>
-		</header>
-	</div>
+		  
+			<!-- PDF Download Button -->
+			<span class="self-stretch my-auto mx-1">|</span>
+			<button
+			  onclick={() => downloadPDF(article)}
+			  class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
+			  aria-label="Download as PDF"
+			>
+			  <FileDown class="w-5 h-5" />
+			  <span class="border-b">PDF</span>
+			</button>
+		</nav>
+      </div>
+    </header>
+  </div>
 {/snippet}
 
 {#snippet body(article: Article)}
