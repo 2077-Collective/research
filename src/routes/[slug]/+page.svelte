@@ -204,12 +204,11 @@
 	  const { isOpen, containerSelector, toggleSelector, onClose } = options;
 	  const trigger = document.querySelector(toggleSelector) as HTMLElement;
 	  const panel = document.querySelector('.summary-panel');
-	  const shareDropdown = document.querySelector('.share-dropdown');
 	  const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
 	
 	  if (!isOpen) return;
 	
-	  if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]') && !shareDropdown?.contains(target)) {
+	  if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
 	    toggleSummary();
 	  }
   
@@ -263,13 +262,6 @@
 
 		// Add click outside listener
 		const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
-        	handleClickOutside(event, {
-        	    isOpen: showShareDropdown,
-        	    containerSelector: '.share-dropdown',
-        	    toggleSelector: '[data-share-toggle]',
-        	    onClose: () => (showShareDropdown = false),
-        	});
-
         	handleClickOutside(event, {
         	    isOpen: summaryOpen,
         	    containerSelector: '.summary-panel',
