@@ -50,6 +50,87 @@
 			platform: 'x',
 			avatar: 'https://pbs.twimg.com/profile_images/1679262771697926145/r3qk5Ycf_400x400.jpg',
 			company: 'Wildcat Labs'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-1">Bonus points because it breaks down ZKPs by using Tornado Cash as a practical example.</p>
+            <p>Shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a> 🫡</p>
+            `,
+			author: 'Martin | Blocksense 🏴‍☠️',
+			link: 'https://x.com/0bretenov/status/1868033218185695387?t=kYQqYpUR05zd0ZgVFyUFnA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1858960896715878400/eJ1QcIjd_400x400.jpg',
+			company: 'Blocksense'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-1">But where can you go to learn more?</p>
+            <p>Luckily, our friends over <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a> have you covered...</p>
+            `,
+			author: '☉neBalance',
+			link: 'https://x.com/OneBalance_io/status/1867306674908016811?t=xIosQaRU9w43b8lQuL0_YA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1792965136287752192/yxw3FekR_400x400.jpg',
+			company: '☉neBalance'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2">Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/EspressoSys" target="_blank" rel="noopener noreferrer">@EspressoSys</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/arbitrum" target="_blank" rel="noopener noreferrer">@arbitrum</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/therollupco" target="_blank" rel="noopener noreferrer">@therollupco</a></p>
+            <p class="">And definitely don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a></p>
+            `,
+			author: 'jill gunter ☕',
+			link: 'https://x.com/jillrgunter/status/1867041611605217359?t=49faH793BEin4k3yXpFHjA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1858577254370185216/KZICN_J2_400x400.jpg',
+			company: 'EspressoSys'
+		},
+		{
+			text: '<p>👀 excellent roundup here that covers what we\'re building, the current capabilities of a fast confirmation layer and what it offers chains in terms of enhanced composability, and how it lays the groundwork for additional interop standards and protocols.</p>',
+			author: 'Espresso Systems',
+			link: 'https://x.com/EspressoSys/status/1867043045868441934?t=49faH793BEin4k3yXpFHjA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1681910133217976320/MkWAL9Aq_400x400.png',
+			company: 'EspressoSys'
+		},
+		{
+			text: `	
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+			<p>Read more about Aethir in this fantastic article by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a>! 🚀👇🏻</p>
+			`,
+			author: 'Aethir Ecosystem',
+			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1877063779478913025/qRc8Wx4Q_400x400.jpg',
+		},
+		{
+			text: '<p>Great read! Extensive research on the current DePIN landscape</p>',
+			author: 'cookies 🍪',
+			link: 'https://x.com/jinglingcookies/status/1865278297065844845?t=Td21JfR7C6sARUNFVfgS7Q&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1711676132679204864/Lo66olvL_400x400.jpg',
+			company: 'Monad'
+		},
+		{
+			text: `	
+            <p class="mb-2">This is super solid work <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a>!</p>
+			<p>I believe all the apps will be chain abstracted app next year.</p>
+			`,
+			author: 'Dhee.eth/nft 🦇🔊 CHAIN ABSTRACTION',
+			link: 'https://x.com/DheerajShah_/status/1869106503501959555',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1530282673327198208/orgJVbJL_400x400.png',
+			company: 'Socket Protocol'
+		},
+		{
+			text: '<p>“2077 Research team is based” 🥷</p>',
+			author: 'accountless',
+			link: 'https://x.com/alexanderchopan/status/1870298456905978201',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1842325603225071616/kgSPmt48_400x400.jpg',
+			company: 'Intersend'
 		}
 	];
 
@@ -94,8 +175,84 @@
 			author: 'altan tutar',
 			link: 'https://x.com/mraltantutar/status/1864989691365171446',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1859994819331796992/-b_37I4q_400x400.jpg',
+			avatar: 'https://pbs.twimg.com/profile_images/1870031078158729216/RetjJEzN_400x400.jpg',
 			company: 'nuffle'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+			<p>Very nice work breaking down ERC-7683 by the <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer">@2077Collective</a>. S/o to the teams like <a class="text-blue-500 hover:underline" href="https://x.com/AcrossProtocol" target="_blank" rel="noopener noreferrer">@AcrossProtocol</a> & <a class="text-blue-500 hover:underline" href="https://x.com/Uniswap" target="_blank" rel="noopener noreferrer">@Uniswap</a> for collaborating on the standard.</p>
+			`,
+			author: 'apriori',
+			link: 'https://x.com/apriori0x/status/1867300537172972019?t=2HjEDAqB61UGKHYlSRPeZg&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1831847845801897984/L_WbpWCO_400x400.jpg',
+			company: 'Anoma'
+		},
+		{
+			text: `
+            <p class="mb-2">ERC-7683 will unify Ethereum</p>
+            <p>2077 Research thread on how the standard works:</p>
+            `,
+			author: 'Across',
+			link: 'https://x.com/AcrossProtocol/status/1867245588263121335?t=jppHsnzhix9f1UEwzPPTkA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1874864686002208768/qfyJ62Ne_400x400.jpg',
+			company: 'Across Protocol'
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2">Big thanks to <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer">@2077Collective</a> & <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a> for their cutting-edge research driving Ethereum forward.</p>
+            <p class="italic text-muted-foreground text-xs">[...]</p>
+            `,
+			author: 'Labyrinth',
+			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1813464584424161280/LKhnbELk_400x400.jpg',
+		},
+		{
+			text: `
+            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2">Great overview of <a class="text-blue-500 hover:underline" href="https://x.com/hashtag/DePIN?src=hashtag_click" target="_blank" rel="noopener noreferrer">#DePIN</a> on Ethereum from <a class="text-blue-500 hover:underline" href="https://x.com/0xyanshu" target="_blank" rel="noopener noreferrer">@0xyanshu</a> and <a class="text-blue-500 hover:underline" href="https://x.com/eawosikaa" target="_blank" rel="noopener noreferrer">@eawosikaa</a> writing in <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a> 👇 </p>
+            <p><a class="text-blue-500 hover:underline" href="https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems#streamr-peer-to-peer-data-streaming" target="_blank" rel="noopener noreferrer">research.2077.xyz/depin-on-ether...</a></p>
+            `,
+			author: 'Streamr Network',
+			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1427159301299310598/hM2nChNL_400x400.png',
+		},
+		{
+			text: `
+            <p class="mb-2">Great primer on ERC-7683 by 2077 Research!</p>
+            <p>If you care about intents, read this 👇</p>
+            `,
+			author: 'Arjun | LI.FI',
+			link: 'https://x.com/arjunnchand/status/1868886295881351512?t=5p3iEbuHeedDXMb4moVLLQ&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1474641834999615489/QwWh-AyB_400x400.jpg',
+			company: 'Li.Fi'
+		},
+		{
+			text: `
+            <p class="mb-2">Focus is now on building the best apps</p>
+            <p>This is a great read by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer">@2077Research</a> team on how <a class="text-blue-500 hover:underline" href="https://x.com/SOCKETProtocol" target="_blank" rel="noopener noreferrer">@SOCKETProtocol</a> does it.</p>
+            `,
+			author: 'Vaibhav ⚡️',
+			link: 'https://x.com/vaibhavchellani/status/1869099478340485517?s=46&t=3HX1wysJ915JPCYnZlMPfA',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1792479716068282369/LeymuGm9_400x400.jpg',
+			company: 'Socket Protocol'
+		},
+		{
+			text: `
+            <p>Great research from 2077 Research team on <a class="text-blue-500 hover:underline" href="https://x.com/nufflelabs" target="_blank" rel="noopener noreferrer">@nufflelabs</a> ! Go <a class="text-blue-500 hover:underline" href="https://x.com/mraltantutar" target="_blank" rel="noopener noreferrer">@mraltantutar</a> and team!</p>
+            `,
+			author: 'swisshustler',
+			link: 'https://x.com/swisshustler/status/1870462573486760117?t=KH6q1q7zdOBN_pauytSNig&s=19',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1609162704526229507/x5HvIgwJ_400x400.jpg',
+			company: 'NEAR Protocol'
 		}
 	];
 
