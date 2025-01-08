@@ -61,7 +61,14 @@
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
 
-	const shareOptions = [
+	interface ShareOption {
+	  name: string;
+	  url: string;
+	  icon: any;
+	  isSvg?: boolean;
+	}
+
+	const shareOptions: ShareOption[] = [
 		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster},
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
@@ -278,6 +285,7 @@
     	    window.removeEventListener('scroll', handleScroll);
     	    document.removeEventListener('mousedown', handleOutsideClick);
     	    document.removeEventListener('touchstart', handleOutsideClick);
+			clearTimeout(closeTimeout);
     	};
 	});
 
