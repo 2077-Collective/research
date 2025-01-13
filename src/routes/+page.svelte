@@ -34,6 +34,11 @@
 
 		<img
 			src="/hero.webp"
+			width="720"
+			height="542"
+			fetchpriority="high"
+			loading="eager"
+			decoding="async"
 			class="absolute top-0 right-0 w-1/2 animate-float"
 			alt="Hero illustration"
 		/>
