@@ -1,24 +1,8 @@
 <script lang="ts">
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
-	import { browser } from '@sveltejs/kit';
-
 
 	const { article }: { article: ArticleMetadata } = $props();
-
-    const aspectRatio = 1929/1028;
-    const maxWidth = 960;
-    const maxHeight = 546;
-
-    let width = $state(maxWidth);
-    let height = $state(Math.min(maxWidth / aspectRatio, maxHeight));
-
-    $effect(() => {
-        if (browser) {
-            width = Math.min(maxWidth, window.innerWidth * 0.66);
-            height = Math.min(width / aspectRatio, maxHeight);
-        }
-    });
 
 	function getAuthorDisplayName(author: ArticleMetadata['authors'][number]): string {
 		return author.full_name || author.username;
@@ -35,8 +19,6 @@
 	<div class="flex flex-col lg:flex-row">
 		<img src={article.thumb}
 		alt={article.title}
-		width={width}
-		height={height}
 		loading="eager"
 		fetchpriority="high"
 		decoding="async"
@@ -67,5 +49,6 @@
 	img {
 	        width: min(66vw, 960px);
 			height: min(calc(66vw * (1028/1929)), 546px);
+			content-visibility: auto;
 	    }
 </style>
