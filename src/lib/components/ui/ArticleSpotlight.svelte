@@ -22,7 +22,6 @@
 		loading="eager"
 		fetchpriority="high"
 		decoding="async"
-		sizes="(max-width: 768px) 100vw, (max-width: 1024px) 66vw, 960px"
 		class="w-full h-auto lg:w-4/6 object-cover" />
 		<div
 			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 flex flex-col p-6 md:p-10 text-base tracking-normal bg-secondary max-md:px-5 max-md:max-w-full"
