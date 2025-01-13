@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
+	import { browser } from '@sveltejs/kit';
+
 
 	const { article }: { article: ArticleMetadata } = $props();
 
@@ -63,7 +65,7 @@
 
 <style>
 	img {
-	        content-visibility: auto;
-	        aspect-ratio: 1929/1028;
+	        width: min(66vw, 960px);
+			height: min(calc(66vw * (1028/1929)), 546px);
 	    }
 </style>

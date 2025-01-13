@@ -34,8 +34,8 @@
 
 		<img
 			src="/hero.webp"
-			width="720"
-			height="542"
+			width="928"
+			height="698"
 			fetchpriority="high"
 			loading="eager"
 			decoding="async"
