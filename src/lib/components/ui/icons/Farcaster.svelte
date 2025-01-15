@@ -1,5 +1,5 @@
 <script lang="ts">
-	const { size = '24px' }: { size: string } = $props();
+	const { size = '20px' }: { size: string } = $props();
 </script>
 
 <svg width={size} height={size} viewBox="0 0 1000 1000">
