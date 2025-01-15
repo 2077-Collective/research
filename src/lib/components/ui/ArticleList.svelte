@@ -62,6 +62,20 @@
 			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
 		}
 	});
+
+	function scrollToLatestResearch() {
+		const element = document.getElementById('latest-research');
+		if (element) {
+			const elementHeight = element.getBoundingClientRect().height;
+			const elementPosition = element.getBoundingClientRect().top;
+			const offsetPosition = elementPosition + window.pageYOffset - (elementHeight + 40);
+
+			window.scrollTo({
+				top: offsetPosition,
+				behavior: 'smooth'
+			});
+		}
+	}
 </script>
 
 {#snippet cardSkeleton()}
@@ -70,25 +84,34 @@
 			<div class="aspect-square w-full bg-gray-200 rounded-md"></div>
 		</div>
 		<div class="flex flex-col py-6 w-full space-y-4">
-			<div class="flex gap-1 items-start w-full text-sm">
+			<div class="flex gap-1 items-start w-full text-sm tracking-wide">
 				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
 				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
 			</div>
-			<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
-			<div class="h-4 bg-gray-200 w-full rounded-md"></div>
-			<div class="h-4 bg-gray-200 w-5/6 rounded-md"></div>
-			<div class="h-4 bg-gray-200 w-1/2 rounded-md"></div>
+			<div class="h-8 bg-gray-200 w-3/4 rounded-md tracking-tight"></div>
+			<div class="h-4 bg-gray-200 w-full rounded-md tracking-normal"></div>
+			<div class="h-4 bg-gray-200 w-5/6 rounded-md tracking-normal"></div>
+			<div class="h-4 bg-gray-200 w-1/2 rounded-md tracking-normal"></div>
 		</div>
 	</div>
 {/snippet}
 
 <div>
-	<h2 class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne">
+	<h2
+		id="latest-research"
+		class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+	>
 		Latest Research
 	</h2>
 
 	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input class="grow-0" type="text" placeholder="Search" bind:value={search} variant="small">
+		<Input
+			class="grow-0 max-md:w-full tracking-normal"
+			type="text"
+			placeholder="Search"
+			bind:value={search}
+			variant="small"
+		>
 			{#snippet icon()}
 				<Search class="w-4 h-4" />
 			{/snippet}
@@ -96,13 +119,16 @@
 		<div class="flex flex-wrap gap-2">
 			<Badge
 				onclick={() => (selectedCategory = '')}
-				class="cursor-pointer h-10"
+				class="cursor-pointer py-1 px-4 text-[16px] leading-[20px] tracking-wide"
 				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
 			>
 			{#each articleCategories as category}
 				<Badge
-					onclick={() => (selectedCategory = category)}
-					class="cursor-pointer h-10"
+					onclick={() => {
+						selectedCategory = category;
+						scrollToLatestResearch();
+					}}
+					class="cursor-pointer py-1 px-4 text-[16px] leading-[20px]"
 					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
 				>
 			{/each}
@@ -114,7 +140,13 @@
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
 			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard {article} />
+				<ArticleCard
+					{article}
+					onBadgeClick={(category) => {
+						selectedCategory = category;
+						scrollToLatestResearch();
+					}}
+				/>
 			</div>
 		{/each}
 

@@ -13,11 +13,11 @@
 </script>
 
 <footer class="border-t py-6 flex flex-col md:flex-row gap-6 w-full">
-	<p class="self-stretch my-auto md:hidden text-center">©2077 Research</p>
+	<p class="self-stretch my-auto md:hidden text-center tracking-normal">©2077 Research</p>
 	<div
-		class="flex flex-wrap gap-6 justify-center md:justify-between items-center text-base tracking-tight w-full"
+		class="flex flex-wrap gap-6 justify-center md:justify-between items-center text-base w-full"
 	>
-		<p class="self-stretch my-auto hidden md:block">©2077 Research</p>
+		<p class="self-stretch my-auto hidden md:block tracking-normal">©2077 Research</p>
 		{#each links as link}
 			{@render linkComp(link)}
 		{/each}
