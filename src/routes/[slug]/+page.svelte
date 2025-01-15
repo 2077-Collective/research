@@ -84,6 +84,22 @@
 		{name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp},
 	];
 
+	let progress = $state(0);
+
+	function updateReadingProgress() {
+		const article = document.querySelector('article');
+		if (!article) return;
+
+		const windowHeight = window.innerHeight;
+		const articleHeight = article.offsetHeight;
+		const scrollTop = window.scrollY;
+		
+		// Calculate progress percentage
+		const totalHeight = articleHeight - windowHeight;
+		const currentProgress = (scrollTop / totalHeight) * 100;
+		progress = Math.min(Math.max(currentProgress, 0), 100);
+	}
+
 	async function highlightCodeBlocks() {
 		if (contentState !== 'ready') return;
 
@@ -236,16 +252,119 @@
 	  }
 	}
 
-  	function handleMouseEnter() {
-  	  clearTimeout(closeTimeout);
-	  showShareDropdown = true;
-  	}
-
 	function handleMouseLeave() {
     	closeTimeout = setTimeout(() => {
     	  showShareDropdown = false;
     	}, 300);
   	}
+
+	let readingTime = $state('');
+
+	function calculateReadingTime() {
+		if (!data || !data.article || !data.article.content) return '';
+		
+		const wordsPerMinute = 200;
+		const textContent = data.article.content.replace(/<[^>]*>/g, '');
+		const wordCount = textContent.split(/\s+/).length;
+		const minutes = Math.ceil(wordCount / wordsPerMinute);
+		
+		return `${minutes} min read`;
+	}
+
+	function processHeaderIds() {
+		if (!window) return;
+		
+		const container = document.getElementById('content-container');
+		if (!container) return;
+
+		const headers = container.querySelectorAll('h1, h2');
+		headers.forEach(header => {
+			if (!header.id) {
+				// Generate URL-friendly ID from header text
+				const id = header.textContent
+					?.toLowerCase()
+					.replace(/[^a-z0-9]+/g, '-')
+					.replace(/(^-|-$)/g, '');
+				
+				if (id) header.id = id;
+			}
+		});
+	}
+
+	let copiedHeaderId = $state<string | null>(null);
+
+	async function handleHeaderClick(header: HTMLElement) {
+		if (!header.id) return;
+		
+		const url = new URL(window.location.href);
+		url.hash = header.id;
+		await navigator.clipboard.writeText(url.toString());
+		
+		copiedHeaderId = header.id;
+		setTimeout(() => {
+			copiedHeaderId = null;
+		}, 2000);
+	}
+
+	function addHeaderClickListeners() {
+		if (!window) return;
+		
+		const container = document.getElementById('content-container');
+		if (!container) return;
+
+		const headers = container.querySelectorAll('h1, h2');
+		headers.forEach(header => {
+			const clickHandler = () => handleHeaderClick(header as HTMLElement);
+			
+			header.removeEventListener('click', clickHandler);
+			header.addEventListener('click', clickHandler);
+			
+			// Add classes for hover and click interactions
+			header.classList.add(
+				'cursor-pointer',
+				'transition-colors',
+				'duration-200',
+				'hover:text-primary/80',
+				'active:text-primary/60',
+				'active:translate-y-[1px]'
+			);
+		});
+	}
+
+	let isDownloading = $state(false);
+
+	async function handlePdfDownload(article: Article) {
+		isDownloading = true;
+		try {
+			await downloadPDF(article);
+		} finally {
+			isDownloading = false;
+		}
+	}
+
+	function getDropdownPosition(button: HTMLElement) {
+		const buttonRect = button.getBoundingClientRect();
+		const dropdownHeight = 280; // Approximate height of dropdown
+		const windowHeight = window.innerHeight;
+		const spaceBelow = windowHeight - buttonRect.bottom;
+		const spaceAbove = buttonRect.top;
+		
+		// Check if there's enough space below, otherwise show above
+		return spaceBelow >= dropdownHeight || spaceBelow >= spaceAbove
+			? 'bottom'
+			: 'top';
+	}
+
+	let dropdownPosition = $state('bottom');
+
+	function handleMouseEnter(event: MouseEvent) {
+		clearTimeout(closeTimeout);
+		const button = (event.currentTarget as HTMLElement)?.querySelector('button');
+		if (button) {
+			dropdownPosition = getDropdownPosition(button);
+		}
+		showShareDropdown = true;
+	}
 
 	onMount(() => {
 		hydrateNewsletterBanner();
@@ -289,17 +408,28 @@
     	document.addEventListener('mousedown', handleOutsideClick);
     	document.addEventListener('touchstart', handleOutsideClick);
 
+    	window.addEventListener('scroll', updateReadingProgress);
+
+    	readingTime = calculateReadingTime();
+
+    	processHeaderIds();
+
+    	addHeaderClickListeners();
+
     	return () => {
     	    observer.disconnect();
     	    window.removeEventListener('scroll', handleScroll);
     	    document.removeEventListener('mousedown', handleOutsideClick);
     	    document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
+			window.removeEventListener('scroll', updateReadingProgress);
     	};
 	});
 
 	$effect(() => {
 		if (data.article.content && contentState === 'ready') {
+			processHeaderIds();
+			addHeaderClickListeners();
 			highlightCodeBlocks();
 		}
 	});
@@ -322,17 +452,26 @@
 	});
 </script>
 
+<style>
+	:global(h1.copied, h2.copied) {
+		@apply text-primary transition-colors duration-200 scale-[1.02] origin-left;
+	}
+</style>
+
 <ArticleHead article={data.article} />
+
+<div 
+	class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-50"
+	aria-hidden="true"
+>
+	<div
+		class="h-full bg-primary transition-all duration-150 ease-out"
+		style="width: {progress}%"
+	></div>
+</div>
 
 <div class="flex flex-col gap-y-6 md:gap-y-14">
 	{@render header(data.article)}
-	<div class="px-3 md:px-12">
-		<img
-			src={data.article.thumb}
-			alt={data.article.title}
-			class="w-full h-full object-cover cover-image"
-		/>
-	</div>
 	{@render body(data.article)}
 	<div class="px-3 md:px-12">
 		<hr class="mb-6 md:mb-12" />
@@ -341,136 +480,156 @@
 </div>
 
 {#snippet header(article: Article)}
-  <div class="px-3 md:px-12">
-    <header
-      class="flex justify-between flex-col p-10 border-b max-md:px-5 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
-    >
-      <a
-        href="/"
-        aria-label="Back to Home"
-        class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background hover:bg-input"
-      >
-        <ArrowLeft class="w-6 h-6" />
-      </a>
-      <div class="flex flex-col max-w-full tracking-tight w-[888px]">
-        <section class="flex flex-col pb-8 w-full">
-          <h1
-            class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
-          >
-            {article.title}
-          </h1>
-          <p class="mt-4 text-2xl leading-9 max-md:max-w-full">
-            {article.summary}
-          </p>
-        </section>
-        <div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
-          <div class="flex gap-1.5 items-start self-start">
-            <span>By</span>
-            <div class="flex items-center gap-1">
-              {#each article.authors as author, index}
-                <a
-                  href={author.twitterUsername
-                    ? `https://twitter.com/${author.twitterUsername}`
-                    : null}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="gap-1 self-stretch my-auto border-b"
-                >
-                  {author.fullName}
-                </a>
-                {#if index < article.authors.length - 2}
-                  <span class="self-stretch my-auto">,</span>
-                {:else if index < article.authors.length - 1}
-                  <span class="self-stretch my-auto">and</span>
-                {/if}
-              {/each}
-            </div>
-          </div>
-        </div>
-      </div>
+	<div class="relative">
+		<!-- Background Cover Image -->
+		<div class="absolute inset-0 w-full">
+			<img
+				src={article.thumb}
+				alt={article.title}
+				class="w-full h-full object-cover"
+			/>
+			<div class="absolute inset-0 bg-gradient-to-b from-black/70 to-white dark:from-black/70 dark:to-background"></div>
+		</div>
 
-      <div
-        class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
-      >
-        <time datetime={article.scheduledPublishTime} class="text-gray-500">
-          Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-          })}
-        </time>
-        <nav class="flex gap-1.5 items-center">
-			<div
-			  class="relative"
-			  onmouseenter={handleMouseEnter}
-			  onmouseleave={handleMouseLeave}
-			  role="menu"
-			  tabindex="0"
-			>
-			  <button
-				onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
-				class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
-				aria-label="Share article"
-				aria-expanded={showShareDropdown}
-				aria-haspopup="true"
-				data-share-toggle
-			  >
-				<Share class="w-5 h-5" />
-				<span class="border-b">Share</span>
-			  </button>
-		  
-			  {#if showShareDropdown}
-				<div
-				  class="share-dropdown absolute left-0 mt-2 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
-				  
+		<!-- Header Content -->
+		<div class="relative px-3 md:px-12">
+			<header class="flex justify-between flex-col p-10 max-md:px-5">
+				<a
+					href="/"
+					aria-label="Back to Home"
+					class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background/80 hover:bg-background"
 				>
-				  {#each shareOptions as option}
-					<a
-					  href={option.url}
-					  target="_blank"
-					  rel="noopener noreferrer"
-					  role="menuitem"
-					  class="block px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
-					>
-					  {#if option.isSvg}
-						{@html option.icon}
-					  {:else}
-						{@const IconComponent = option.icon}
-						<IconComponent class="w-5 h-5" />
-					  {/if}
-					  <span class="text-sm">{option.name}</span>
-					</a>
-				  {/each}
-				  <button
-					onclick={copyShareLink}
-					role="menuitem"
-					class="block w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
-				  >
-					<Link2 class="w-5 h-5" />
-					{#if copySuccess}
-					  <span class="text-[#07BEBF] text-sm">Link Copied</span>
-					{:else}
-					  <span class="text-sm">Copy Link</span>
-					{/if}
-				  </button>
+					<ArrowLeft class="w-6 h-6" />
+				</a>
+				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
+					<section class="flex flex-col pb-8 w-full">
+						<h1
+							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+						>
+							{article.title}
+						</h1>
+						<p class="mt-4 text-2xl leading-9 max-md:max-w-full">
+							{article.summary}
+						</p>
+					</section>
+					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+						<div class="flex gap-1.5 items-start self-start">
+							<span>By</span>
+							<div class="flex items-center gap-1">
+								{#each article.authors as author, index}
+									<a
+										href={author.twitterUsername
+											? `https://twitter.com/${author.twitterUsername}`
+											: null}
+										target="_blank"
+										rel="noopener noreferrer"
+										class="gap-1 self-stretch my-auto {author.twitterUsername ? 'border-b' : ''}"
+									>
+										{author.fullName}
+									</a>
+									{#if index < article.authors.length - 2}
+										<span class="self-stretch my-auto">,</span>
+									{:else if index < article.authors.length - 1}
+										<span class="self-stretch my-auto">and</span>
+									{/if}
+								{/each}
+							</div>
+						</div>
+					</div>
 				</div>
-			  {/if}
-			</div>
-		  
-			<!-- PDF Download Button -->
-			<span class="self-stretch my-auto mx-1">|</span>
-			<button
-			  onclick={() => downloadPDF(article)}
-			  class="flex items-center gap-1 hover:text-primary/50 cursor-pointer"
-			  aria-label="Download as PDF"
-			>
-			  <FileDown class="w-5 h-5" />
-			  <span class="border-b">PDF</span>
-			</button>
-		</nav>
-      </div>
-    </header>
-  </div>
+
+				<div
+					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+				>
+					<div class="flex items-center gap-2 text-gray-500">
+						<time datetime={article.scheduledPublishTime}>
+							Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})}
+						</time>
+						<span class="inline">·</span>
+						<span>{readingTime}</span>
+					</div>
+					<nav class="flex gap-1.5 items-center">
+						<div
+							class="relative"
+							onmouseenter={handleMouseEnter}
+							onmouseleave={handleMouseLeave}
+							role="menu"
+							tabindex="0"
+						>
+							<button
+								onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+								class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
+								aria-label="Share article"
+								aria-expanded={showShareDropdown}
+								aria-haspopup="true"
+								data-share-toggle
+							>
+								<Share class="w-5 h-5" />
+								<span class="border-b">Share</span>
+							</button>
+						
+							{#if showShareDropdown}
+								<div
+									class="share-dropdown absolute {dropdownPosition === 'bottom' ? 'mt-2 top-full' : 'bottom-full mb-2'} 
+									left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+								>
+									{#each shareOptions as option}
+										<a
+											href={option.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											role="menuitem"
+											class="block px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+										>
+											{#if option.isSvg}
+												{@html option.icon}
+											{:else}
+												{@const IconComponent = option.icon}
+												<IconComponent class="w-5 h-5" />
+											{/if}
+											<span class="text-sm">{option.name}</span>
+										</a>
+									{/each}
+									<button
+										onclick={copyShareLink}
+										role="menuitem"
+										class="block w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+									>
+										<Link2 class="w-5 h-5" />
+										{#if copySuccess}
+											<span class="text-[#07BEBF] text-sm">Link Copied</span>
+										{:else}
+											<span class="text-sm">Copy Link</span>
+										{/if}
+									</button>
+								</div>
+							{/if}
+						</div>
+					
+						<!-- PDF Download Button -->
+						<span class="self-stretch my-auto mx-1">|</span>
+						<button
+							onclick={() => handlePdfDownload(article)}
+							class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
+							aria-label="Download as PDF"
+							disabled={isDownloading}
+						>
+							{#if isDownloading}
+								<div class="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+							{:else}
+								<FileDown class="w-5 h-5" />
+							{/if}
+							<span class="border-b">PDF</span>
+						</button>
+					</nav>
+				</div>
+			</header>
+		</div>
+	</div>
 {/snippet}
 
 {#snippet body(article: Article)}
@@ -501,6 +660,7 @@
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
 			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]"
+			class:copied={copiedHeaderId}
 		>
 			{@html article.content}
 		</div>
