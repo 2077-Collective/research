@@ -2,7 +2,8 @@
     const { size = '24px' }: { size: string } = $props();
   </script>
   
-  <svg width={size} height={size} viewBox="0 0 50 50" fill="currentColor" stroke="currentColor">
+  <svg width={size} height={size} viewBox="0 0 50 50" fill="currentColor" stroke="currentColor" aria-label="Telegram">
+    <title>Telegram</title>
     <g stroke-width="0"></g>
     <g stroke-linecap="round" stroke-linejoin="round"></g>
     <g>
