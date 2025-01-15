@@ -9,6 +9,7 @@
 	import Link2 from 'lucide-svelte/icons/link-2';
 	import Share from 'lucide-svelte/icons/share';
 	import Linkedin from 'lucide-svelte/icons/linkedin';
+	import Mail from 'lucide-svelte/icons/mail';
 	import type { PageData } from './$types';
 	import { onMount, tick, hydrate } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -21,6 +22,7 @@
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
+	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -62,6 +64,8 @@
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
+	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
 	  name: string;
@@ -76,6 +80,8 @@
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
 		{ name: 'Telegram', url: telegramShareURL, icon: Telegram},
+		{ name: 'Mail', url: mailShareURL, icon: Mail},
+		{name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp},
 	];
 
 	async function highlightCodeBlocks() {
@@ -413,7 +419,6 @@
 				<span class="border-b">Share</span>
 			  </button>
 		  
-			  <!-- Share Dropdown -->
 			  {#if showShareDropdown}
 				<div
 				  class="share-dropdown absolute left-0 mt-2 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
@@ -433,7 +438,7 @@
 						{@const IconComponent = option.icon}
 						<IconComponent class="w-5 h-5" />
 					  {/if}
-					  <span>{option.name}</span>
+					  <span class="text-sm">{option.name}</span>
 					</a>
 				  {/each}
 				  <button
@@ -445,7 +450,7 @@
 					{#if copySuccess}
 					  <span class="text-[#07BEBF]">Link Copied</span>
 					{:else}
-					  <span>Copy Link</span>
+					  <span class="text-sm">Copy Link</span>
 					{/if}
 				  </button>
 				</div>
