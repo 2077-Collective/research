@@ -17,7 +17,12 @@
 
 <a href={`/${article.slug}`}>
 	<div class="flex flex-col lg:flex-row">
-		<img src={article.thumb} alt={article.title} class="w-full h-auto lg:w-4/6 object-cover" />
+		<img src={article.thumb}
+		alt={article.title}
+		loading="eager"
+		fetchpriority="high"
+		decoding="async"
+		class="w-full h-auto lg:w-4/6 object-cover" />
 		<div
 			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 p-6 md:p-10 text-base bg-secondary max-md:px-5 max-md:max-w-full"
 		>
@@ -38,3 +43,11 @@
 		</div>
 	</div>
 </a>
+
+<style>
+	img {
+	        width: min(66vw, 960px);
+			height: min(calc(66vw * (1028/1929)), 546px);
+			content-visibility: auto;
+	    }
+</style>
