@@ -88,7 +88,8 @@
 			company: 'EspressoSys'
 		},
 		{
-			text: '<p>👀 excellent roundup here that covers what we\'re building, the current capabilities of a fast confirmation layer and what it offers chains in terms of enhanced composability, and how it lays the groundwork for additional interop standards and protocols.</p>',
+			text: `<p class="mb-2">👀 excellent roundup here that covers what we\'re building, the current capabilities of a fast confirmation layer and what it offers chains in</p>
+			<p class="italic text-muted-foreground text-xs">[...]</p>`,
 			author: 'Espresso Systems',
 			link: 'https://x.com/EspressoSys/status/1867043045868441934?t=49faH793BEin4k3yXpFHjA&s=19',
 			platform: 'x',
