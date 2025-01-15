@@ -20,6 +20,7 @@
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
+	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -60,6 +61,7 @@
 	}
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
 
 	interface ShareOption {
 	  name: string;
@@ -73,6 +75,7 @@
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster},
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
+		{ name: 'Telegram', url: telegramShareURL, icon: Telegram},
 	];
 
 	async function highlightCodeBlocks() {
