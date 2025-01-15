@@ -64,7 +64,7 @@
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
-	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + " " + $page.url.href)}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
