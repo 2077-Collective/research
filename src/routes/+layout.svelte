@@ -6,7 +6,6 @@
 	import Analytics from '$lib/components/server/Analytics.svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import Beehiiv from '$lib/components/ui/Beehiiv.svelte';
 
 	injectAnalytics();
 
