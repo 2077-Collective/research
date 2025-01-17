@@ -62,9 +62,13 @@ const config: Config = {
 				soehne: ['Soehne', 'sans-serif']
 			},
 			letterSpacing: {
-				tighter: '-1.5px',
-				tight: '-1px',
-				normal: '-0.25px'
+				tightest: '-.075em',
+				tighter: '-.05em',
+				tight: '-.025em',
+				normal: '0',
+				wide: '.025em',
+				wider: '.05em',
+				widest: '.1em'
 			},
 			lineHeight: {
 				'58': '58px'
