@@ -14,7 +14,7 @@
 			></div>
 
 			<div class="flex flex-col">
-				<p class="font-soehne text-xl md:text-3xl font-medium leading-9 tracking-tight">
+				<p class="font-soehne text-xl md:text-2xl font-medium leading-9 tracking-tight">
 					{full_name}
 				</p>
 				<div class="mt-1 flex items-center gap-2">
