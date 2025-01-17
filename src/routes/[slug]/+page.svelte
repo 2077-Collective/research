@@ -16,7 +16,6 @@
 	import Prism from 'prismjs';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import { page } from '$app/stores';
-	import NewsletterBanner from '$lib/components/ui/NewsletterBanner.svelte';
 	import { fly } from 'svelte/transition';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
@@ -177,16 +176,6 @@
 				}
 			});
 		});
-	}
-
-	function hydrateNewsletterBanner() {
-		const container = document.getElementById('newsletter-banner-container');
-		if (container) {
-			hydrate(NewsletterBanner, {
-				target: container,
-				props: { variant: 'article' }
-			});
-		}
 	}
 
 	function toggleSummary() {
@@ -367,7 +356,6 @@
 	}
 
 	onMount(() => {
-		hydrateNewsletterBanner();
 
 		currentURL = window.location.href;
 		contentState = 'ready';
