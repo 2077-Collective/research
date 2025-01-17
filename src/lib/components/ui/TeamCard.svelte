@@ -2,7 +2,7 @@
 	import type { TeamMember } from '$lib/types/team';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
-
+	import X from '$lib/components/ui/icons/X.svelte';
 	const { full_name, picture_url, summary, role, twitter_username }: TeamMember = $props();
 </script>
 
@@ -17,8 +17,11 @@
 				<p class="font-soehne text-xl md:text-3xl font-medium leading-9 tracking-tight">
 					{full_name}
 				</p>
-				<div class="mt-1 flex">
+				<div class="mt-1 flex items-center gap-2">
 					<Badge variant="outline">{role}</Badge>
+					{#if twitter_username}
+						<a href={'https://x.com/' + twitter_username} class="inline-block"><X size="16px" /></a>
+					{/if}
 				</div>
 			</div>
 		</div>
