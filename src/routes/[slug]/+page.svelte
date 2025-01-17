@@ -35,6 +35,8 @@
 	import 'prismjs/components/prism-solidity';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { error } from '@sveltejs/kit';
+	import { browser } from '$app/environment';
+	import DOMPurify from 'isomorphic-dompurify';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -302,13 +304,16 @@
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
+		const clickHandlers = new WeakMap();
 		headers.forEach(header => {
-			const clickHandler = () => handleHeaderClick(header as HTMLElement);
-			
+			let clickHandler = clickHandlers.get(header);
+			if (!clickHandler) {
+				clickHandler = () => handleHeaderClick(header as HTMLElement);
+				clickHandlers.set(header, clickHandler);
+			}
 			header.removeEventListener('click', clickHandler);
 			header.addEventListener('click', clickHandler);
 			
-			// Add classes for hover and click interactions
 			header.classList.add(
 				'cursor-pointer',
 				'transition-colors',
@@ -353,6 +358,15 @@
 			dropdownPosition = getDropdownPosition(button);
 		}
 		showShareDropdown = true;
+	}
+
+	// Update sanitization function
+	function sanitizeContent(content: string) {
+		if (!browser) return content;
+		return DOMPurify.sanitize(content, {
+			ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'p', 'a', 'strong', 'em', 'ul', 'ol', 'li', 'img', 'pre', 'code', 'blockquote', 'table', 'tr', 'td', 'th'],
+			ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+		});
 	}
 
 	onMount(() => {
@@ -650,7 +664,7 @@
 			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]"
 			class:copied={copiedHeaderId}
 		>
-			{@html article.content}
+			{@html sanitizeContent(article.content)}
 		</div>
 		{@render floatingSummaryButton()}
 	</article>
