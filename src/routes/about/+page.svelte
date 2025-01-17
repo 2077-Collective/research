@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 </script>
 
 <BaseHead />
@@ -17,9 +18,27 @@
 			decentralized tech and the web3 movement. We collaborate with industry leaders to deliver
 			state-of-the-art research on Ethereum and the broader crypto ecosystem.
 		</p>
-		<p>
-			Our team combines technical expertise with clear communication to help our clients navigate
-			and understand the rapidly evolving blockchain landscape.
-		</p>
 	</div>
+	<section>
+		<h2
+			id="team"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+		>
+			Our team
+		</h2>
+		<div class="grid sm:grid-cols-3 gap-4">
+			<TeamCard
+				twitter_username="lynettdoteth"
+				full_name="Lynett Simons"
+				role="Shitposter"
+				summary="Lyn is a deeply unprofessional software engineer working at 2077 Labs. In her free time, she chases pigeons."
+			/>
+			<TeamCard
+				twitter_username="eawosikaa"
+				full_name="Emmanuel Awosika"
+				role="CEO"
+				summary="Emmanuel is a very cool person. He reads a lot of LessWrong and yaps far too much in my DMs."
+			/>
+		</div>
+	</section>
 </div>
