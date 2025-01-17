@@ -11,11 +11,15 @@
 	>
 		About us
 	</h2>
-	<p class="text-lg leading-relaxed mb-6">
-		2077 Research is a specialized research firm dedicated to producing in-depth analysis and
-		insights on cryptocurrency, Web3, and decentralized technologies. We collaborate with industry
-		leaders to deliver state-of-the-art research on Ethereum and the broader crypto ecosystem. Our
-		team combines technical expertise with clear communication to help our clients navigate and
-		understand the rapidly evolving blockchain landscape.
-	</p>
+	<div class="md:text-lg leading-relaxed mb-6 max-w-screen-lg space-y-4 text-pretty">
+		<p>
+			2077 Research is a research firm dedicated to producing in-depth analysis and insights on
+			decentralized tech and the web3 movement. We collaborate with industry leaders to deliver
+			state-of-the-art research on Ethereum and the broader crypto ecosystem.
+		</p>
+		<p>
+			Our team combines technical expertise with clear communication to help our clients navigate
+			and understand the rapidly evolving blockchain landscape.
+		</p>
+	</div>
 </div>
