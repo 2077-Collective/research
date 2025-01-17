@@ -6,7 +6,7 @@
 	const { full_name, picture_url, summary, role, twitter_username }: TeamMember = $props();
 </script>
 
-<div transition:slide={{ duration: 300 }} class={`flex flex-row justify-center h-fit`}>
+<div transition:slide={{ duration: 300 }} class={`flex flex-row justify-center h-full`}>
 	<div class="flex flex-col bg-zinc-900 rounded-xl p-4 w-full">
 		<div class="flex flex-row gap-4 items-center">
 			<div
