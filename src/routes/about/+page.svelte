@@ -33,18 +33,18 @@
 		>
 			Our team
 		</h2>
-		<div class="grid sm:grid-cols-3 gap-4">
-			<TeamCard
-				twitter_username="lynettdoteth"
-				full_name="Lynett Simons"
-				role="Shitposter"
-				summary="Lyn is a deeply unprofessional software engineer working at 2077 Labs. In her free time, she chases pigeons."
-			/>
+		<div class="grid lg:grid-cols-3 gap-4">
 			<TeamCard
 				twitter_username="eawosikaa"
 				full_name="Emmanuel Awosika"
 				role="CEO"
 				summary="Emmanuel is a very cool person. He reads a lot of LessWrong and yaps far too much in my DMs."
+			/>
+			<TeamCard
+				twitter_username="lynettdoteth"
+				full_name="Lynett Simons"
+				role="Shitposter"
+				summary="Lyn is a deeply unprofessional software engineer working at 2077 Labs. In her free time, she chases pigeons."
 			/>
 		</div>
 	</section>
