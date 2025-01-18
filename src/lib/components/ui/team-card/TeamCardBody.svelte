@@ -4,7 +4,7 @@
 	const { full_name, picture_url, summary, role, twitter_username }: TeamMember = $props();
 </script>
 
-<div class="flex flex-row gap-4 items-center">
+<div class="flex flex-row gap-4">
 	{#if picture_url}
 		<img
 			class="w-16 h-16 aspect-square rounded-full bg-gradient-to-br from-blue-500 to-purple-400"

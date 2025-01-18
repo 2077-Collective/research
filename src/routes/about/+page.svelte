@@ -33,7 +33,7 @@
 		>
 			Our team
 		</h2>
-		<div class="grid lg:grid-cols-3 gap-4">
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
 			<TeamCard
 				twitter_username="eawosikaa"
 				full_name="Emmanuel Awosika"
