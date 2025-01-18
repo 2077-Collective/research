@@ -254,6 +254,16 @@
 			platform: 'x',
 			avatar: 'https://pbs.twimg.com/profile_images/1609162704526229507/x5HvIgwJ_400x400.jpg',
 			company: 'NEAR Protocol'
+		},
+		{
+			text: `
+            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            `,
+			author: 'tkstanczak',
+			link: 'https://x.com/tkstanczak/status/1880153593896128907',
+			platform: 'x',
+			avatar: 'https://pbs.twimg.com/profile_images/1085263128521293827/yA7Jc_5u_400x400.jpg',
+			company: 'Nethermind'
 		}
 	];
 
