@@ -18,7 +18,7 @@
 			author: 'Akaki Mamageishvili',
 			link: 'https://x.com/kakia1989/status/1830642446885359937?t=hN9TWvlpkNKKUvcfwre0Aw&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1821936982248828928/1bpDPzMf_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/1_1_mxy40i.webp',
 			company: 'Offchain Labs'
 		},
 		{
@@ -26,7 +26,7 @@
 			author: 'Eli Ben-Sasson',
 			link: 'https://x.com/EliBenSasson/status/1842607212193259840?t=bwY9baCX4pR383YbFnQ35Q&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1833608126186090496/zGminA-__400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/2_1_yaz2uq.webp',
 			company: 'StarkWare'
 		},
 		{
@@ -37,7 +37,7 @@
 			author: 'Euler Labs🛢️🇬🇧',
 			link: 'https://x.com/eulerfinance/status/1863653055566430695',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1745107740135915520/AVyw9xJ9_400x400.png',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/3_v5larm.webp',
 			company: 'Euler Finance'
 		},
 		{
@@ -48,7 +48,7 @@
 			author: 'laurence',
 			link: 'https://x.com/functi0nzer0/status/1843704425568972901?s=46&t=Oa3-io-PodorudtH4BCkGg',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1679262771697926145/r3qk5Ycf_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/4_jif4sf.webp',
 			company: 'Wildcat Labs'
 		},
 		{
@@ -60,7 +60,7 @@
 			author: 'Martin | Blocksense 🏴‍☠️',
 			link: 'https://x.com/0bretenov/status/1868033218185695387?t=kYQqYpUR05zd0ZgVFyUFnA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1858960896715878400/eJ1QcIjd_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/4_jif4sf.webp',
 			company: 'Blocksense'
 		},
 		{
@@ -72,7 +72,7 @@
 			author: '☉neBalance',
 			link: 'https://x.com/OneBalance_io/status/1867306674908016811?t=xIosQaRU9w43b8lQuL0_YA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1792965136287752192/yxw3FekR_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/6_rlsvma.webp',
 			company: '☉neBalance'
 		},
 		{
@@ -84,7 +84,7 @@
 			author: 'jill gunter ☕',
 			link: 'https://x.com/jillrgunter/status/1867041611605217359?t=49faH793BEin4k3yXpFHjA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1858577254370185216/KZICN_J2_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/7_lhuujk.webp',
 			company: 'EspressoSys'
 		},
 		{
@@ -93,7 +93,7 @@
 			author: 'Espresso Systems',
 			link: 'https://x.com/EspressoSys/status/1867043045868441934?t=49faH793BEin4k3yXpFHjA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1681910133217976320/MkWAL9Aq_400x400.png',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/8_pmyaxg.webp',
 			company: 'EspressoSys'
 		},
 		{
@@ -104,14 +104,14 @@
 			author: 'Aethir Ecosystem',
 			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1877063779478913025/qRc8Wx4Q_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/9_fmamuw.webp',
 		},
 		{
 			text: '<p>Great read! Extensive research on the current DePIN landscape</p>',
 			author: 'cookies 🍪',
 			link: 'https://x.com/jinglingcookies/status/1865278297065844845?t=Td21JfR7C6sARUNFVfgS7Q&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1711676132679204864/Lo66olvL_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/10_swh2xt.webp',
 			company: 'Monad'
 		},
 		{
@@ -122,7 +122,7 @@
 			author: 'Dhee.eth/nft 🦇🔊 CHAIN ABSTRACTION',
 			link: 'https://x.com/DheerajShah_/status/1869106503501959555',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1530282673327198208/orgJVbJL_400x400.png',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/11_tb47hv.webp',
 			company: 'Socket Protocol'
 		},
 		{
@@ -130,7 +130,7 @@
 			author: 'accountless',
 			link: 'https://x.com/alexanderchopan/status/1870298456905978201',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1842325603225071616/kgSPmt48_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/12_oats8e.webp',
 			company: 'Intersend'
 		}
 	];
@@ -142,7 +142,7 @@
 			author: 'taetaehoho',
 			link: 'https://x.com/0xtaetaehoho/status/1828440721075868089?t=ixll2icB1vuM76Qsi9zhmQ&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1815856561329442816/3x0Y1Fwv_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/13_gjagtj.webp',
 			company: 'Eclipse'
 		},
 		{
@@ -153,7 +153,7 @@
 			author: '☉neBalance',
 			link: 'https://x.com/onebalance_io/status/1846220067610284490?s=46&t=3HX1wysJ915JPCYnZlMPfA',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1792965136287752192/yxw3FekR_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295104/6_rlsvma.webp',
 			company: '☉neBalance'
 		},
 		{
@@ -165,7 +165,7 @@
 			author: 'DeFi Dad',
 			link: 'https://x.com/defi_dad/status/1849100399485067733?s=46&t=Oa3-io-PodorudtH4BCkGg',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1613764698775633921/72tL5YzB_400x400.jpg'
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/15_1_kvuazx.webp'
 		},
 		{
 			text: `
@@ -176,7 +176,7 @@
 			author: 'altan tutar',
 			link: 'https://x.com/mraltantutar/status/1864989691365171446',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1870031078158729216/RetjJEzN_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/16_uxotic.webp',
 			company: 'nuffle'
 		},
 		{
@@ -187,7 +187,7 @@
 			author: 'apriori',
 			link: 'https://x.com/apriori0x/status/1867300537172972019?t=2HjEDAqB61UGKHYlSRPeZg&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1831847845801897984/L_WbpWCO_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/17_rs7qhp.webp',
 			company: 'Anoma'
 		},
 		{
@@ -198,7 +198,7 @@
 			author: 'Across',
 			link: 'https://x.com/AcrossProtocol/status/1867245588263121335?t=jppHsnzhix9f1UEwzPPTkA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1874864686002208768/qfyJ62Ne_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/18_euzm4s.webp',
 			company: 'Across Protocol'
 		},
 		{
@@ -210,7 +210,7 @@
 			author: 'Labyrinth',
 			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1813464584424161280/LKhnbELk_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/19_w7uryo.webp',
 		},
 		{
 			text: `
@@ -221,7 +221,7 @@
 			author: 'Streamr Network',
 			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1427159301299310598/hM2nChNL_400x400.png',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/20_oyacnc.webp',
 		},
 		{
 			text: `
@@ -231,7 +231,7 @@
 			author: 'Arjun | LI.FI',
 			link: 'https://x.com/arjunnchand/status/1868886295881351512?t=5p3iEbuHeedDXMb4moVLLQ&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1474641834999615489/QwWh-AyB_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295107/21_evw2eh.webp',
 			company: 'Li.Fi'
 		},
 		{
@@ -242,7 +242,7 @@
 			author: 'Vaibhav ⚡️',
 			link: 'https://x.com/vaibhavchellani/status/1869099478340485517?s=46&t=3HX1wysJ915JPCYnZlMPfA',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1792479716068282369/LeymuGm9_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295107/22_xif9zm.webp',
 			company: 'Socket Protocol'
 		},
 		{
@@ -252,8 +252,18 @@
 			author: 'swisshustler',
 			link: 'https://x.com/swisshustler/status/1870462573486760117?t=KH6q1q7zdOBN_pauytSNig&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1609162704526229507/x5HvIgwJ_400x400.jpg',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295107/23_pfizf2.webp',
 			company: 'NEAR Protocol'
+		},
+		{
+			text: `
+            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            `,
+			author: 'tkstanczak',
+			link: 'https://x.com/tkstanczak/status/1880153593896128907',
+			platform: 'x',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295820/43_qwuneq.webp',
+			company: 'Nethermind'
 		}
 	];
 
