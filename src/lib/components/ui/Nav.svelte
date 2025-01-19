@@ -24,10 +24,6 @@
 			<Mail class="w-4 h-4 ml-1" />
 		</Button>
 		<DarkModeToggle />
-		<a href="https://2077.xyz" target="_blank" class="flex items-center gap-1 hover:underline">
-			2077.xyz
-			<ArrowUpRight class="w-5 h-5" />
-		</a>
 	</div>
 
 	<div class="md:hidden">
