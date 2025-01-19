@@ -3,7 +3,10 @@
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
-	const { article, onBadgeClick }: { article: ArticleMetadata, onBadgeClick: (val: string) => void } = $props();
+	const {
+		article,
+		onBadgeClick
+	}: { article: ArticleMetadata; onBadgeClick?: (val: string) => void } = $props();
 </script>
 
 <a href={`/${article.slug}`} class="block">
@@ -25,7 +28,9 @@
 						onclick={(e: MouseEvent) => {
 							e.stopPropagation();
 							e.preventDefault();
-							onBadgeClick(category.name);
+							if (onBadgeClick) {
+								onBadgeClick(category.name);
+							}
 						}}
 					>
 						{category.name}
