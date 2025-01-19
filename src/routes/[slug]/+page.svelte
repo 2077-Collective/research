@@ -11,7 +11,7 @@
 	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import Mail from 'lucide-svelte/icons/mail';
 	import type { PageData } from './$types';
-	import { onMount, tick, hydrate, type Component } from 'svelte';
+	import { onMount, tick, type Component } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import Prism from 'prismjs';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
