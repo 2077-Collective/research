@@ -47,7 +47,7 @@
 <style>
 	img {
 	        width: min(66vw, 960px);
-			height: min(calc(66vw * (1028/1929)), 546px);
+			height: min(calc(66vw * (1028/1929)), 810px);
 			content-visibility: auto;
 	    }
 </style>
