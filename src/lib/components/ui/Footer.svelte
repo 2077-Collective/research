@@ -12,10 +12,9 @@
 	};
 	const links: Link[] = [
 		{ href: '/list', text: 'Latest research', isExternal: false },
-
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{
-			href: 'mailto:community@2077.xyz',
+			href: 'mailto:research@2077.xyz',
 			text: 'Contact us',
 			isExternal: false,
 			icon: MailIcon
