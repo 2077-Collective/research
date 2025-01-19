@@ -16,7 +16,7 @@
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{
 			href: 'mailto:research@2077.xyz',
-			text: 'Contact us',
+			text: 'Contact',
 			isExternal: false,
 			icon: MailIcon
 		},
