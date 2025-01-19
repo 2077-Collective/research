@@ -7,7 +7,7 @@
 	import Testimonials from '$lib/components/ui/Testimonials.svelte';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { Mail } from 'lucide-svelte';
+	import { ArrowDown, Mail } from 'lucide-svelte';
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
@@ -59,6 +59,19 @@
 
 	<ArticleSpotlight article={articles[0]} />
 
-	<ArticleList {articles} {articleCategories} />
+	<ArticleList {articles} {articleCategories} displayLoadMore={false} />
+	<div class="flex justify-center py-4 md:py-10">
+		<a
+			href="/list"
+			class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
+		>
+			See all research
+			<div
+				class="border rounded-full p-2 h-10 w-10 flex items-center justify-center group-hover:bg-primary group-hover:text-accent group-hover:translate-y-1 transition-transform duration-300"
+			>
+				<ArrowDown class="h-10 w-10 rounded-full" style="stroke-width: 1.4" />
+			</div>
+		</a>
+	</div>
 	<Testimonials />
 </div>
