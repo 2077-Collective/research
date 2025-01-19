@@ -5,7 +5,6 @@
 	const links: Link[] = [
 		{ href: '/list', text: 'Latest research', isExternal: false },
 		{ href: 'mailto:research@2077.xyz', text: 'Contact', isExternal: false },
-		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{ href: 'https://x.com/2077research', text: 'X (Twitter)', isExternal: true },
 	];
