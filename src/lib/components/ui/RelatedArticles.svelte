@@ -7,9 +7,11 @@
 
 	const {
 		categories,
+		currentArticleId,
 		relatedArticlesFromApi = []
 	}: {
 		categories: ArticleMetadata['categories'];
+		currentArticleId?: string;
 		relatedArticlesFromApi?: ArticleMetadata[];
 	} = $props();
 
@@ -37,6 +39,11 @@
 		} else {
 			selectedArticles = articles.slice(0, 3);
 		}
+
+		if (currentArticleId) {
+			selectedArticles = selectedArticles.filter((v) => v.id != currentArticleId);
+		}
+
 		return selectedArticles;
 	};
 

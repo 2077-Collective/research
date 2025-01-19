@@ -63,26 +63,26 @@
 		throw error(404, 'Article not found');
 	}
 
-	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + " " + encodedUrl)}`;
+	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
-	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + " " + $page.url.href)}`;
+	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + ' ' + $page.url.href)}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
-	  name: string;
-	  url: string;
-	  icon: any;
-	  isSvg?: boolean;
+		name: string;
+		url: string;
+		icon: any;
+		isSvg?: boolean;
 	}
 
 	const shareOptions: ShareOption[] = [
 		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
-		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster},
-		{ name: 'Reddit', url: redditShareURL, icon: Reddit},
+		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
+		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
-		{ name: 'Telegram', url: telegramShareURL, icon: Telegram},
-		{ name: 'Mail', url: mailShareURL, icon: Mail},
-		{name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp},
+		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
+		{ name: 'Mail', url: mailShareURL, icon: Mail },
+		{ name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp }
 	];
 
 	let progress = $state(0);
@@ -94,7 +94,7 @@
 		const windowHeight = window.innerHeight;
 		const articleHeight = article.offsetHeight;
 		const scrollTop = window.scrollY;
-		
+
 		// Calculate progress percentage
 		const totalHeight = articleHeight - windowHeight;
 		const currentProgress = (scrollTop / totalHeight) * 100;
@@ -214,69 +214,67 @@
 	}
 
 	type ClickOutsideOptions = {
-	  isOpen: boolean;
-	  containerSelector: string;
-	  toggleSelector: string;
-	  onClose: () => void;
+		isOpen: boolean;
+		containerSelector: string;
+		toggleSelector: string;
+		onClose: () => void;
 	};
-	
-	function handleClickOutside(
-	  event: MouseEvent | TouchEvent,
-	  options: ClickOutsideOptions
-	): void {
-	  const { isOpen, containerSelector, toggleSelector, onClose } = options;
-	  const trigger = document.querySelector(toggleSelector) as HTMLElement;
-	  const panel = document.querySelector('.summary-panel');
-	  const target = (event.target as HTMLElement) || (event as TouchEvent).touches[0].target as HTMLElement;
-	
-	  if (!isOpen) return;
-	
-	  if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
-	    toggleSummary();
-	  }
-  
-	  const container = document.querySelector(containerSelector);
-  
-	  if (container && !container.contains(target) && !target.closest(toggleSelector)) {
-	    onClose();
-		trigger?.focus();
-	  }
+
+	function handleClickOutside(event: MouseEvent | TouchEvent, options: ClickOutsideOptions): void {
+		const { isOpen, containerSelector, toggleSelector, onClose } = options;
+		const trigger = document.querySelector(toggleSelector) as HTMLElement;
+		const panel = document.querySelector('.summary-panel');
+		const target =
+			(event.target as HTMLElement) || ((event as TouchEvent).touches[0].target as HTMLElement);
+
+		if (!isOpen) return;
+
+		if (panel && !panel.contains(target) && !target.closest('[data-summary-toggle]')) {
+			toggleSummary();
+		}
+
+		const container = document.querySelector(containerSelector);
+
+		if (container && !container.contains(target) && !target.closest(toggleSelector)) {
+			onClose();
+			trigger?.focus();
+		}
 	}
 
 	function handleMouseLeave() {
-    	closeTimeout = setTimeout(() => {
-    	  showShareDropdown = false;
-    	}, 300);
-  	}
+		closeTimeout = setTimeout(() => {
+			showShareDropdown = false;
+		}, 300);
+	}
 
 	let readingTime = $state('');
 
 	function calculateReadingTime() {
 		if (!data || !data.article || !data.article.content) return '';
-		
+
 		const wordsPerMinute = 200;
 		const textContent = data.article.content.replace(/<[^>]*>/g, '');
 		const wordCount = textContent.split(/\s+/).length;
 		const minutes = Math.ceil(wordCount / wordsPerMinute);
-		
+
 		return `${minutes} min read`;
 	}
 
 	function processHeaderIds() {
 		if (!window) return;
-		
+
 		const container = document.getElementById('content-container');
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
-		headers.forEach(header => {
+		headers.forEach((header) => {
 			if (!header.id) {
 				// Generate URL-friendly ID from header text
 				const id = header.textContent
 					?.toLowerCase()
 					.replace(/[^a-z0-9]+/g, '-')
 					.replace(/(^-|-$)/g, '');
-				
+
 				if (id) header.id = id;
 			}
 		});
@@ -286,11 +284,11 @@
 
 	async function handleHeaderClick(header: HTMLElement) {
 		if (!header.id) return;
-		
+
 		const url = new URL(window.location.href);
 		url.hash = header.id;
 		await navigator.clipboard.writeText(url.toString());
-		
+
 		copiedHeaderId = header.id;
 		setTimeout(() => {
 			copiedHeaderId = null;
@@ -299,13 +297,13 @@
 
 	function addHeaderClickListeners() {
 		if (!window) return;
-		
+
 		const container = document.getElementById('content-container');
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
 		const clickHandlers = new WeakMap();
-		headers.forEach(header => {
+		headers.forEach((header) => {
 			let clickHandler = clickHandlers.get(header);
 			if (!clickHandler) {
 				clickHandler = () => handleHeaderClick(header as HTMLElement);
@@ -313,7 +311,7 @@
 			}
 			header.removeEventListener('click', clickHandler);
 			header.addEventListener('click', clickHandler);
-			
+
 			header.classList.add(
 				'cursor-pointer',
 				'transition-colors',
@@ -342,11 +340,9 @@
 		const windowHeight = window.innerHeight;
 		const spaceBelow = windowHeight - buttonRect.bottom;
 		const spaceAbove = buttonRect.top;
-		
+
 		// Check if there's enough space below, otherwise show above
-		return spaceBelow >= dropdownHeight || spaceBelow >= spaceAbove
-			? 'bottom'
-			: 'top';
+		return spaceBelow >= dropdownHeight || spaceBelow >= spaceAbove ? 'bottom' : 'top';
 	}
 
 	let dropdownPosition = $state('bottom');
@@ -364,13 +360,32 @@
 	function sanitizeContent(content: string) {
 		if (!browser) return content;
 		return DOMPurify.sanitize(content, {
-			ALLOWED_TAGS: ['h1', 'h2', 'h3', 'h4', 'p', 'a', 'strong', 'em', 'ul', 'ol', 'li', 'img', 'pre', 'code', 'blockquote', 'table', 'tr', 'td', 'th'],
+			ALLOWED_TAGS: [
+				'h1',
+				'h2',
+				'h3',
+				'h4',
+				'p',
+				'a',
+				'strong',
+				'em',
+				'ul',
+				'ol',
+				'li',
+				'img',
+				'pre',
+				'code',
+				'blockquote',
+				'table',
+				'tr',
+				'td',
+				'th'
+			],
 			ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
 		});
 	}
 
 	onMount(() => {
-
 		currentURL = window.location.href;
 		contentState = 'ready';
 
@@ -399,33 +414,33 @@
 
 		// Add click outside listener
 		const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
-        	handleClickOutside(event, {
-        	    isOpen: summaryOpen,
-        	    containerSelector: '.summary-panel',
-        	    toggleSelector: '[data-summary-toggle]',
-        	    onClose: toggleSummary,
-        	});
-    	};
+			handleClickOutside(event, {
+				isOpen: summaryOpen,
+				containerSelector: '.summary-panel',
+				toggleSelector: '[data-summary-toggle]',
+				onClose: toggleSummary
+			});
+		};
 
-    	document.addEventListener('mousedown', handleOutsideClick);
-    	document.addEventListener('touchstart', handleOutsideClick);
+		document.addEventListener('mousedown', handleOutsideClick);
+		document.addEventListener('touchstart', handleOutsideClick);
 
-    	window.addEventListener('scroll', updateReadingProgress);
+		window.addEventListener('scroll', updateReadingProgress);
 
-    	readingTime = calculateReadingTime();
+		readingTime = calculateReadingTime();
 
-    	processHeaderIds();
+		processHeaderIds();
 
-    	addHeaderClickListeners();
+		addHeaderClickListeners();
 
-    	return () => {
-    	    observer.disconnect();
-    	    window.removeEventListener('scroll', handleScroll);
-    	    document.removeEventListener('mousedown', handleOutsideClick);
-    	    document.removeEventListener('touchstart', handleOutsideClick);
+		return () => {
+			observer.disconnect();
+			window.removeEventListener('scroll', handleScroll);
+			document.removeEventListener('mousedown', handleOutsideClick);
+			document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
 			window.removeEventListener('scroll', updateReadingProgress);
-    	};
+		};
 	});
 
 	$effect(() => {
@@ -454,18 +469,9 @@
 	});
 </script>
 
-<style>
-	:global(h1.copied, h2.copied) {
-		@apply text-primary transition-colors duration-200 scale-[1.02] origin-left;
-	}
-</style>
-
 <ArticleHead article={data.article} />
 
-<div 
-	class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-50"
-	aria-hidden="true"
->
+<div class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-50" aria-hidden="true">
 	<div
 		class="h-full bg-primary transition-all duration-150 ease-out"
 		style="width: {progress}%"
@@ -477,7 +483,7 @@
 	{@render body(data.article)}
 	<div class="px-3 md:px-12">
 		<hr class="mb-6 md:mb-12" />
-		<RelatedArticles categories={data.article.categories} />
+		<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
 	</div>
 </div>
 
@@ -485,12 +491,10 @@
 	<div class="relative">
 		<!-- Background Cover Image -->
 		<div class="absolute inset-0 w-full">
-			<img
-				src={article.thumb}
-				alt={article.title}
-				class="w-full h-full object-cover"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-b from-black/70 to-white dark:from-black/70 dark:to-background"></div>
+			<img src={article.thumb} alt={article.title} class="w-full h-full object-cover" />
+			<div
+				class="absolute inset-0 bg-gradient-to-b from-black/70 to-white dark:from-black/70 dark:to-background"
+			></div>
 		</div>
 
 		<!-- Header Content -->
@@ -573,10 +577,12 @@
 								<Share class="w-5 h-5" />
 								<span class="border-b">Share</span>
 							</button>
-						
+
 							{#if showShareDropdown}
 								<div
-									class="share-dropdown absolute {dropdownPosition === 'bottom' ? 'mt-2 top-full' : 'bottom-full mb-2'} 
+									class="share-dropdown absolute {dropdownPosition === 'bottom'
+										? 'mt-2 top-full'
+										: 'bottom-full mb-2'} 
 									left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
 								>
 									{#each shareOptions as option}
@@ -611,7 +617,7 @@
 								</div>
 							{/if}
 						</div>
-					
+
 						<!-- PDF Download Button -->
 						<span class="self-stretch my-auto mx-1">|</span>
 						<button
@@ -621,7 +627,9 @@
 							disabled={isDownloading}
 						>
 							{#if isDownloading}
-								<div class="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"></div>
+								<div
+									class="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+								></div>
 							{:else}
 								<FileDown class="w-5 h-5" />
 							{/if}
@@ -762,3 +770,9 @@
 		{/if}
 	{/if}
 {/snippet}
+
+<style>
+	:global(h1.copied, h2.copied) {
+		@apply text-primary transition-colors duration-200 scale-[1.02] origin-left;
+	}
+</style>
