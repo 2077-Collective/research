@@ -104,7 +104,7 @@
 			author: 'Aethir Ecosystem',
 			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1877063779478913025/qRc8Wx4Q_400x400.jpg',
+			avatar: 'https://pbs.twimg.com/profile_images/1877063779478913025/qRc8Wx4Q_400x400.jpg'
 		},
 		{
 			text: '<p>Great read! Extensive research on the current DePIN landscape</p>',
@@ -210,7 +210,7 @@
 			author: 'Labyrinth',
 			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1813464584424161280/LKhnbELk_400x400.jpg',
+			avatar: 'https://pbs.twimg.com/profile_images/1813464584424161280/LKhnbELk_400x400.jpg'
 		},
 		{
 			text: `
@@ -221,7 +221,7 @@
 			author: 'Streamr Network',
 			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
 			platform: 'x',
-			avatar: 'https://pbs.twimg.com/profile_images/1427159301299310598/hM2nChNL_400x400.png',
+			avatar: 'https://pbs.twimg.com/profile_images/1427159301299310598/hM2nChNL_400x400.png'
 		},
 		{
 			text: `
@@ -268,9 +268,11 @@
 </script>
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
+	<!--
 	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
 		Our research has reached over 150,000 people and been shared by the community 300+ times.
 	</h2>
+	-->
 
 	<div class="relative">
 		<div
