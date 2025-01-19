@@ -20,8 +20,7 @@
 			isExternal: false,
 			icon: MailIcon
 		},
-		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X },
-		{ href: 'https://discord.gg/2077collective', text: 'Discord', isExternal: true, icon: Discord }
+		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X }
 	];
 </script>
 
