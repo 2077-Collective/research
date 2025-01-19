@@ -2,7 +2,6 @@
 	import { ArrowUpRightIcon, InboxIcon, MailIcon, type Icon as IconType } from 'lucide-svelte';
 	import X from '$lib/components/ui/icons/X.svelte';
 	import type { Component } from 'svelte';
-	import Discord from './icons/Discord.svelte';
 
 	type Link = {
 		href: string;
@@ -12,16 +11,15 @@
 	};
 	const links: Link[] = [
 		{ href: '/list', text: 'Latest research', isExternal: false },
-		{ href: '/article-review', text: 'Publish your research', isExternal: false },
+		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{
 			href: 'mailto:research@2077.xyz',
-			text: 'Contact us',
+			text: 'Contact',
 			isExternal: false,
 			icon: MailIcon
 		},
-		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X },
-		{ href: 'https://discord.gg/2077collective', text: 'Discord', isExternal: true, icon: Discord }
+		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X }
 	];
 </script>
 
