@@ -22,14 +22,10 @@
 		</h2>
 		<div class="md:text-lg leading-relaxed max-w-screen-lg space-y-4 text-pretty">
 			<p>
-				2077 Research is a research firm dedicated to producing in-depth analysis and insights on
-				decentralized tech and the web3 movement. We collaborate with industry leaders to deliver
-				state-of-the-art research on Ethereum and the broader crypto ecosystem.
-			</p>
-			<p>
-				Though some of our articles are sponsored, our research articles are meant to be neutral and
-				unbiased. If there are flaws, we will highlight them. If there are benefits, we will also
-				highlight those. We're not KOLs.
+				2077 Research is a research group dedicated to producing in-depth analysis and insights on
+				decentralized tech and cryptocurrency. We help people understand and make sense of Ethereum
+				by crafting insightful, technically accurate, and accessible content on topics related to
+				Ethereum protocol development.
 			</p>
 		</div>
 	</section>
