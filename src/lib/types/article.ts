@@ -1,23 +1,18 @@
 import { z } from 'zod';
 
 // Basic schemas
-const CategorySchema = z.object({
+export const CategorySchema = z.object({
 	name: z.string()
 });
 
-const AuthorSchema = z.object({
+export const AuthorSchema = z.object({
 	username: z.string(),
 	id: z.string(),
-	full_name: z.string(),
+	full_name: z.string().nullable(),
 	twitter_username: z.string().nullable()
 });
-
-export const CardAuthorSchema = z.object({
-	full_name: z.string(),
-	twitter_username: z.string().nullable()
-});
-
-export type CardAuthor = z.infer<typeof CardAuthorSchema>;
+export const AuthorArraySchema = z.array(AuthorSchema);
+export type Author = z.infer<typeof AuthorSchema>;
 
 const CommonArticleFields = z.object({
 	id: z.string(),

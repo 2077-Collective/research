@@ -2,6 +2,12 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ContributorCard from '$lib/components/ui/contributor-card/ContributorCard.svelte';
 	import TeamCard from '$lib/components/ui/team-card/TeamCard.svelte';
+
+	import { onMount } from 'svelte';
+	import type { PageData } from './$types';
+
+	const { data }: { data: PageData } = $props();
+	const authors = $derived(data.authors);
 </script>
 
 <BaseHead />
@@ -57,8 +63,11 @@
 			Contributors
 		</h2>
 		<!-- TODO: Replace this once the API endpoint is up -->
+
 		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<ContributorCard twitter_username="eawosikaa" full_name="Emmanuel Awosika" />
+			{#each authors as author}
+				<ContributorCard {...author} />
+			{/each}
 		</div>
 	</section>
 </div>
