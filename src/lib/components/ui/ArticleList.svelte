@@ -12,11 +12,13 @@
 	const {
 		articles,
 		articleCategories,
-		articlesPerPage = ARTICLES_PER_PAGE
+		articlesPerPage = ARTICLES_PER_PAGE,
+		displayLoadMore = true
 	}: {
 		articles: ArticleMetadata[];
 		articleCategories: string[];
 		articlesPerPage?: number;
+		displayLoadMore?: boolean;
 	} = $props();
 	let search = $state('');
 	let selectedCategory = $state('');
@@ -157,7 +159,7 @@
 		{/if}
 	</div>
 
-	{#if visibleArticles < filteredArticles.length}
+	{#if visibleArticles < filteredArticles.length && displayLoadMore}
 		<div class="flex justify-center py-4 md:py-10">
 			<button
 				onclick={loadMore}
