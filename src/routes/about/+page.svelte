@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import ContributorCard from '$lib/components/ui/contributor-card/ContributorCard.svelte';
 	import TeamCard from '$lib/components/ui/team-card/TeamCard.svelte';
 </script>
 
@@ -46,6 +47,18 @@
 				role="Developer"
 				summary="i chase pigeons for fun"
 			/>
+		</div>
+	</section>
+	<section>
+		<h2
+			id="team"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+		>
+			Contributors
+		</h2>
+		<!-- TODO: Replace this once the API endpoint is up -->
+		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+			<ContributorCard twitter_username="eawosikaa" full_name="Emmanuel Awosika" />
 		</div>
 	</section>
 </div>

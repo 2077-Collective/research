@@ -12,6 +12,13 @@ const AuthorSchema = z.object({
 	twitter_username: z.string().nullable()
 });
 
+export const CardAuthorSchema = z.object({
+	full_name: z.string(),
+	twitter_username: z.string().nullable()
+});
+
+export type CardAuthor = z.infer<typeof CardAuthorSchema>;
+
 const CommonArticleFields = z.object({
 	id: z.string(),
 	slug: z.string(),
