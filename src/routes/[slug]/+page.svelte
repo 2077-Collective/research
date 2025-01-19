@@ -11,7 +11,7 @@
 	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import Mail from 'lucide-svelte/icons/mail';
 	import type { PageData } from './$types';
-	import { onMount, tick, hydrate } from 'svelte';
+	import { onMount, tick, hydrate, type Component } from 'svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import Prism from 'prismjs';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
@@ -37,6 +37,7 @@
 	import { error } from '@sveltejs/kit';
 	import { browser } from '$app/environment';
 	import DOMPurify from 'isomorphic-dompurify';
+	import type { Icon } from 'lucide-svelte';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -71,7 +72,7 @@
 	interface ShareOption {
 		name: string;
 		url: string;
-		icon: any;
+		icon: typeof Icon | Component<any>;
 		isSvg?: boolean;
 	}
 
