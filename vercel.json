@@ -1,8 +1,20 @@
 {
-    "rewrites": [
-      {
-        "source": "/p/(.*)",
-        "destination": "https://cms.2077.xyz/p/$1"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/p/(.*)",
+      "destination": "https://cms.2077.xyz/p/$1"
+    },
+    {
+      "source": "/s/(.*)",
+      "destination": "https://www.research.2077.xyz/"
+    },
+    {
+      "source": "/about",
+      "destination": "https://www.research.2077.xyz/"
+    },
+    {
+      "source": "/archive",
+      "destination": "https://www.research.2077.xyz/"
+    }
+  ]
+}
