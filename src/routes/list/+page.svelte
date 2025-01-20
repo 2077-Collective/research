@@ -17,5 +17,9 @@
 <BaseHead />
 
 <div class="px-3 md:px-12 flex flex-col gap-10">
-	<ArticleList {articles} {articleCategories} articlesPerPage={100} />
+	<ArticleList 
+		{articles} 
+		{articleCategories} 
+		articlesPerPage={100}
+	/>
 </div>
