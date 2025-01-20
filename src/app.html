@@ -19,7 +19,8 @@
 
 				const linkTheme = document.createElement('link');
 				linkTheme.rel = 'stylesheet';
-				linkTheme.href = '/themes/prism-one-dark.css'; // Always use dark theme for Prism.js
+				const isDark = document.documentElement.classList.contains('dark');
+				linkTheme.href = isDark ? '/themes/prism-one-dark.css' : '/themes/prism-light.css';
 				document.head.appendChild(linkTheme);
 			});
 		</script>
