@@ -1,6 +1,5 @@
 <script>
 	import { ArrowUpRight, Menu, Mail, X } from 'lucide-svelte';
-	//import DarkModeToggle from './DarkModeToggle.svelte';
 	import Button from './button/button.svelte';
 	import { fade } from 'svelte/transition';
 	import Research from './icons/Research.svelte';
