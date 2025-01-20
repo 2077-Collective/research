@@ -1,6 +1,5 @@
 <script>
 	import { ArrowUpRight, Menu, Mail, X } from 'lucide-svelte';
-	import DarkModeToggle from './DarkModeToggle.svelte';
 	import Button from './button/button.svelte';
 	import { fade } from 'svelte/transition';
 	import Research from './icons/Research.svelte';
@@ -23,7 +22,6 @@
 			Subscribe
 			<Mail class="w-4 h-4 ml-1" />
 		</Button>
-		<DarkModeToggle />
 	</div>
 
 	<div class="md:hidden">
@@ -33,7 +31,6 @@
 
 {#snippet mobileMenu()}
 	<div class="md:hidden">
-		<DarkModeToggle />
 		<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = true)}>
 			<Menu class="w-5 h-5" />
 		</Button>
@@ -54,7 +51,6 @@
 				</div>
 
 				<div class="flex gap-2 items-center">
-					<DarkModeToggle class="p-1 w-fit" label="Toggle dark mode" />
 				</div>
 
 				<Button
