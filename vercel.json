@@ -7,7 +7,7 @@
     },
     {
       "source": "/s/(.*)",
-      "destination": "https://www.research.2077.xyz/",
+      "destination": "https://cms.2077.xyz/s/$1",
       "permanent": true
     },
     {
