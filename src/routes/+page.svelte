@@ -30,7 +30,9 @@
 
 <div class="px-3 md:px-12 flex flex-col gap-10">
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
-	<ArticleSpotlight article={articles[0]} />
+	{#if articles[0]}
+		<ArticleSpotlight article={articles[0]} />
+	{/if}
 
 	<!-- <ArticleList {articles} {articleCategories} displayLoadMore={false} /> -->
 	<div
