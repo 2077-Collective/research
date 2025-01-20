@@ -2,19 +2,23 @@
   "rewrites": [
     {
       "source": "/p/(.*)",
-      "destination": "https://cms.2077.xyz/p/$1"
+      "destination": "https://cms.2077.xyz/p/$1",
+      "permanent": true
     },
     {
       "source": "/s/(.*)",
-      "destination": "https://www.research.2077.xyz/"
+      "destination": "https://www.research.2077.xyz/",
+      "permanent": true
     },
     {
       "source": "/about",
-      "destination": "https://www.research.2077.xyz/"
+      "destination": "https://www.research.2077.xyz/",
+      "permanent": true
     },
     {
       "source": "/archive",
-      "destination": "https://www.research.2077.xyz/"
+      "destination": "https://www.research.2077.xyz/",
+      "permanent": true
     }
   ]
 }
