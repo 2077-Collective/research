@@ -1,0 +1,8 @@
+{
+    "rewrites": [
+      {
+        "source": "/p/(.*)",
+        "destination": "https://cms.2077.xyz/p/$1"
+      }
+    ]
+  }
