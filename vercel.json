@@ -10,7 +10,7 @@
     },
     {
       "source": "/t/(.*)",
-      "destination": "https://www.research.2077.xyz/"
+      "destination": "https://cms.2077.xyz/t/$1"
     },
     {
       "source": "/about",
