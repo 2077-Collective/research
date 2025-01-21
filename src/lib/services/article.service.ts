@@ -14,11 +14,13 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 };
 
 export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
-	try {
-		const res = await fetch(`${baseURL}/articles/${slug}`);
-		const body = await res.json();
-		return FullArticleSchema.parse(body.data);
-	} catch (error) {
-		return null;
-	}
+    console.log(`Fetching article: ${slug}`);
+    try {
+        const res = await fetch(`${baseURL}/articles/${slug}/`);
+        const body = await res.json();
+        return FullArticleSchema.parse(body.data);
+    } catch (error) {
+        console.error(`Error fetching article ${slug}:`, error); 
+        return null;
+    }
 };
