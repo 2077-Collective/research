@@ -8,7 +8,7 @@ import {
 const baseURL = 'https://cms.2077.xyz/api';
 
 export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
-    const res = await fetch(`${baseURL}/articles`);
+    const res = await fetch(`${baseURL}/articles/`);
     const body = await res.json();
     return ArticleMetadataArraySchema.parse(body);
 };
