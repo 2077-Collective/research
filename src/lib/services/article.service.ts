@@ -14,7 +14,6 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
 };
 
 export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
-    console.log(`Fetching article: ${slug}`);
     try {
         const res = await fetch(`${baseURL}/articles/${slug}/`);
         const body = await res.json();
