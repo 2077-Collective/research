@@ -3,9 +3,7 @@
 	import ContributorCard from '$lib/components/ui/ContributorCard.svelte';
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 
-	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import Accordion from '$lib/components/ui/accordion/accordion.svelte';
 
 	const { data }: { data: PageData } = $props();
 	const authors = $derived(data.authors);
@@ -29,32 +27,6 @@
 				Ethereum protocol development.
 			</p>
 		</div>
-	</section>
-	<section>
-		<h2
-			id="faq"
-			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
-		>
-			FAQ
-		</h2>
-		<Accordion
-			items={[
-				{
-					title: 'Accordion Item 1',
-					content:
-						"The way your dad looked at it, this watch was your birthright. He'd be damned if any slopes gonna put their greasy yellow hands on his boy's birthright, so he hid it, in the one place he knew he could hide something: his ass. Five long years, he wore this watch up his ass. Then when he died of dysentery, he gave me the watch. I hid this uncomfortable piece of metal up my ass for two years. Then, after seven years, I was sent home to my family. And now, little man, I give the watch to you."
-				},
-				{
-					title: 'Accordion Item 2',
-					content: 'English, motherfucker, do you speak it?'
-				},
-				{
-					title: 'Accordion Item 3',
-					content:
-						"That's a pretty fucking good milkshake. I dont know if it's worth five dollars, but it's pretty fucking good."
-				}
-			]}
-		/>
 	</section>
 	<section>
 		<h2

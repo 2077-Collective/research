@@ -2,10 +2,11 @@
 	import { Accordion } from 'bits-ui';
 	import { slide } from 'svelte/transition';
 	import { ArrowDown } from 'lucide-svelte';
+	import type { Component, Snippet } from 'svelte';
 	const {
 		class: className,
 		items
-	}: { class?: string; items: { title: string; content: string }[] } = $props();
+	}: { class?: string; items: { title: string; content: string | Snippet }[] } = $props();
 </script>
 
 <Accordion.Root class={className} multiple>
@@ -28,7 +29,11 @@
 				transitionConfig={{ duration: 200 }}
 				class="pb-[25px] text-base tracking-[-0.01em]"
 			>
-				{item.content}
+				{#if typeof item.content === 'string'}
+					{item.content}
+				{:else}
+					{@render item.content()}
+				{/if}
 			</Accordion.Content>
 		</Accordion.Item>
 	{/each}
