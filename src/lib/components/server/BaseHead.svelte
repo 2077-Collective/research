@@ -30,11 +30,4 @@
 	<!-- General meta tags -->
 	<meta name="title" content={title} />
 	<meta name="description" content={description} />
-
-	<!--Plausible analytics-->
-	<script
-		defer
-		data-domain="research.2077.xyz"
-		src="https://analytics.2077.xyz/js/script.js"
-	></script>
 </svelte:head>
