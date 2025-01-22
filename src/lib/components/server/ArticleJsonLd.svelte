@@ -20,7 +20,7 @@
 			name: '2077 Research',
 			logo: {
 				'@type': 'ImageObject',
-				url: 'https://2077research.com/favicon.svg'
+				url: 'https://research.2077.xyz/favicon.svg'
 			}
 		},
 		description: article.summary
