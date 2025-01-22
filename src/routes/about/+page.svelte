@@ -76,6 +76,12 @@
 				role="Developer"
 				summary="i chase pigeons for fun"
 			/>
+			<TeamCard
+				twitter_username="lilfatfrank"
+				full_name="Karan"
+				role="Developer"
+				summary="frontend specialist, backend aware. part-time degen."
+			/>
 		</div>
 	</section>
 	<section>
