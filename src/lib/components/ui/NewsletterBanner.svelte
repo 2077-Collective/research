@@ -74,7 +74,7 @@
 			</h1>
 
 			<span class="mt-1 text-md max-md:max-w-full text-center mb-6 leading-tight md:leading-normal">
-				Get first-hand research delivered by our team of experts.
+				Stay ahead of the curve with cutting-edge Ethereum research from our team.
 			</span>
 			{@render subscribeForm()}
 			<p class="text-sm mt-1.5 max-md:max-w-full text-center">{responseMessage}</p>
