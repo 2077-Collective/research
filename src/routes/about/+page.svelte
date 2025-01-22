@@ -14,12 +14,12 @@
 
 <div class="px-3 md:px-12 flex flex-col gap-8">
 	<section>
-		<h2
+		<h1
 			id="about-us"
 			class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
 		>
 			About us
-		</h2>
+		</h1>
 		<div class="md:text-lg leading-relaxed max-w-screen-lg space-y-4 text-pretty">
 			<p>
 				2077 Research is a research group dedicated to producing in-depth analysis and insights on
@@ -28,6 +28,14 @@
 				Ethereum protocol development.
 			</p>
 		</div>
+	</section>
+	<section>
+		<h2
+			id="faq"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+		>
+			FAQ
+		</h2>
 	</section>
 	<section>
 		<h2
