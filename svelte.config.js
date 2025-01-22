@@ -23,7 +23,6 @@ const config = {
 					'https://www.googletagmanager.com',
 					'https://vercel.live',
 					'https://va.vercel-scripts.com',
-					'https://analytics.2077.xyz'
 				],
 				'img-src': ['self', 'data:', 'https:'],
 				'style-src': ['self', 'unsafe-inline'],
