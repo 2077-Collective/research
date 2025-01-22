@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Author } from '$lib/types/article';
-	import X from '../icons/X.svelte';
+	import X from './icons/X.svelte';
 	const { full_name, twitter_username, username }: Author = $props();
 </script>
 

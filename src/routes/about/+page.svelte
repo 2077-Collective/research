@@ -1,7 +1,7 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
-	import ContributorCard from '$lib/components/ui/contributor-card/ContributorCard.svelte';
-	import TeamCard from '$lib/components/ui/team-card/TeamCard.svelte';
+	import ContributorCard from '$lib/components/ui/ContributorCard.svelte';
+	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
