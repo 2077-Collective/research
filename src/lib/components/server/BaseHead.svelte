@@ -4,7 +4,7 @@
 	const pageUrl = $page.url.origin;
 	const image = `${pageUrl}/preview-image.jpg`;
 	const title = '2077 Research';
-	const description = 'State of the art research on Ethereum and the broader crypto ecosystem';
+	const description = '2077 Research: Cutting-Edge Ethereum Research';
 </script>
 
 <svelte:head>
