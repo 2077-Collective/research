@@ -29,10 +29,12 @@
 				src={picture_url}
 				alt=""
 			/>
-		{:else}
+			<!--
+			{:else}
 			<div
 				class="w-16 h-16 aspect-square rounded-full bg-gradient-to-br from-blue-500 to-purple-400"
 			></div>
+			-->
 		{/if}
 		<div class="flex flex-col">
 			<p class="font-soehne text-xl md:text-2xl font-medium leading-9 tracking-tight">
