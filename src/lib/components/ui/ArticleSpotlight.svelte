@@ -4,13 +4,13 @@
 
 	const { article }: { article: ArticleMetadata } = $props();
 
-	const primaryCategory = article.categories.find((category) => category.is_primary);
+	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 
-	function getAuthorDisplayName(author: ArticleMetadata['authors'][number]): string {
+	function getAuthorDisplayName(author: { full_name?: string; username: string }): string {
 		return author.full_name || author.username;
 	}
 
-	function getAuthorsText(authors: ArticleMetadata['authors'] | undefined): string {
+	function getAuthorsText(authors: { full_name?: string; username: string }[] | undefined): string {
 		if (!authors?.length) return 'Unknown';
 		return authors.map(getAuthorDisplayName).join(', ');
 	}

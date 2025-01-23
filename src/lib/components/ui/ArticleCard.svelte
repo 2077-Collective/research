@@ -8,7 +8,7 @@
 		onBadgeClick
 	}: { article: ArticleMetadata; onBadgeClick?: (val: string) => void } = $props();
 
-	const primaryCategory = article.categories.find((category) => category.is_primary);
+	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 </script>
 
 <a href={`/${article.slug}`} class="block">

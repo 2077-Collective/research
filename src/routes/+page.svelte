@@ -62,7 +62,7 @@
 	<ArticleList {articles} {articleCategories} displayLoadMore={false} />
 	<div class="flex justify-center py-4 md:py-10">
 		<a
-			href="/list"
+			href="/reports"
 			class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			See all research
