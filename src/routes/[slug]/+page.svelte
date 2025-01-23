@@ -365,9 +365,12 @@
 
 	// Update sanitization function
 	function sanitizeContent(content: string) {
+<<<<<<< HEAD
 		// The following line causes a desync between server & client, resulting in
 		// massive fuckery. Do not uncomment without a very good reason.
 		//if (!browser) return content;
+=======
+>>>>>>> 4b2e51c (fix: dompurify)
 		return DOMPurify.sanitize(content, {
 			ALLOWED_TAGS: [
 				'h1',
@@ -575,7 +578,7 @@
 							{#each article.categories as category}
 								<Badge
 									variant="outline"
-									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm opacity-60"
+									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
 								>
 									{category.name}
 								</Badge>
