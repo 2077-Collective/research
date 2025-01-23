@@ -2,7 +2,7 @@
 
 ## Notes
 
-- ElevenLabs player in dev will appear with an error: this is fine, ignore it
+- ElevenLabs player in dev will not appear
   - Testing in development will cost real credits
   - The generations cannot be transferred to prod
 
