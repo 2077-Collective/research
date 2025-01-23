@@ -17,14 +17,11 @@
 		<div class="md:text-lg leading-relaxed max-w-screen-lg space-y-4 text-pretty">
 			<p>
 				2077 Research can work with your DeFi protocol or other crypto project to produce neutral,
-				unbiased technical reports. If you are a protocol interested in working with us, you can
+				detailed technical reports. If you are a protocol interested in working with us, you can
 				contact us via email: <a
 					href="mailto://research@2077.xyz"
 					class="text-blue-500 hover:underline">research@2077.xyz</a
 				>.
-			</p>
-			<p>
-				Our research has reached over 150,000 people and been shared by the community 300+ times.
 			</p>
 		</div>
 	</section>
@@ -39,19 +36,18 @@
 		<Accordion
 			items={[
 				{
-					title: 'Who is our research for?',
+					title: 'Who is the target audience?',
 					content:
-						'Our research is tailored for technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and smart contract architecture. We aim to provide rigorous, in-depth analysis that goes beyond surface-level explanations to examine the underlying systems and code.'
+						'Our research is tailored for technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and Ethereum architecture.'
 				},
 				{
-					title: 'Meow?',
+					title: 'What does this research cover?',
 					content:
-						'Lorem ipsum odor amet, consectetuer adipiscing elit. Eros vestibulum accumsan in condimentum purus sollicitudin laoreet. Et facilisis egestas maecenas gravida hac porttitor commodo conubia. Metus donec augue, sed diam varius hendrerit. Vitae aliquet efficitur volutpat eleifend tincidunt diam nulla aptent donec.'
+						'We aim to provide rigorous, in-depth analysis that goes beyond surface-level explanations to examine the underlying systems and code, covering everything from consensus algorithms to VM design.'
 				},
 				{
-					title: 'Accordion Item 3',
-					content:
-						'At tortor nullam ultrices nisi interdum facilisi semper. Et himenaeos viverra eleifend dolor euismod commodo. Cras gravida lobortis scelerisque maximus dui nulla.'
+					title: 'How do I get in touch?',
+					content: 'You can contact us for inquiries by our email address, research@2077.xyz.'
 				}
 			]}
 		/>
