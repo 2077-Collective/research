@@ -23,6 +23,7 @@
 					class="text-blue-500 hover:underline">research@2077.xyz</a
 				>.
 			</p>
+			<p><a href="/about" class="text-blue-500 hover:underline">Read more about us here.</a></p>
 		</div>
 	</section>
 	<section>
@@ -38,7 +39,7 @@
 				{
 					title: 'Who is the target audience?',
 					content:
-						'Our research is tailored for technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and Ethereum architecture.'
+						'Our research is tailored for highly technical and semi-technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and Ethereum architecture.'
 				},
 				{
 					title: 'What does this research cover?',

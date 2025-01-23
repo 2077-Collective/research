@@ -23,8 +23,12 @@
 			<p>
 				2077 Research is a research group dedicated to producing in-depth analysis and insights on
 				decentralized tech and cryptocurrency. We help people understand and make sense of Ethereum
-				by crafting insightful, technically accurate, and accessible content on topics related to
-				Ethereum protocol development.
+				by crafting insightful, technically accurate, and accessible content on DeFi and other
+				topics.
+			</p>
+			<p class="text-base text-white/50">
+				Are you seeking a report about your project? {' '}
+				<a href="/work-with-us" class="text-blue-500 hover:underline">Get in touch.</a>
 			</p>
 		</div>
 	</section>
