@@ -808,6 +808,22 @@
 					</div>
 				</div>
 			{/if}
+			<div
+				id="elevenlabs-audionative-widget"
+				data-height="90"
+				data-width="100%"
+				data-frameborder="no"
+				data-scrolling="no"
+				data-publicuserid="8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+				data-playerurl="https://elevenlabs.io/player/index.html"
+			>
+				Loading the
+				<a href="https://elevenlabs.io/text-to-speech" target="_blank" rel="noopener"
+					>Elevenlabs Text to Speech</a
+				>
+				AudioNative Player...
+			</div>
+
 			{@html sanitizeContent(article.content)}
 		</div>
 		{@render floatingButtons()}
