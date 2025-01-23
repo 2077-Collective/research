@@ -47,7 +47,7 @@
 	<div class="flex justify-center md:hidden">
 		<Button
 			href="#subscribe"
-			class="mt-2 flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF]"
+			class="mt-2 flex items-center gap-1 justify-center w-fit px-8 text-special-blue"
 			onclick={() => {
 				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 			}}
