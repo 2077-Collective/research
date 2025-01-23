@@ -40,7 +40,8 @@
 			items={[
 				{
 					title: 'Who is our research for?',
-					content: 'Lorem ipsum odor amet, consectetuer adipiscing elit.'
+					content:
+						'Our research is tailored for technical audiences in the cryptocurrency space including developers, researchers, and protocol team members who want to deeply understand DeFi mechanisms and smart contract architecture. We aim to provide rigorous, in-depth analysis that goes beyond surface-level explanations to examine the underlying systems and code.'
 				},
 				{
 					title: 'Meow?',
