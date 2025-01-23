@@ -54,7 +54,7 @@
 
 				<Button
 					href="#subscribe"
-					class="mt-4 flex items-center gap-1 justify-center  px-8 text-special-blue"
+					class="mt-4 flex items-center gap-1 justify-center px-8 bg-special-blue"
 					onclick={() => {
 						mobileMenuOpen = false;
 						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
