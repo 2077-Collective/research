@@ -106,7 +106,7 @@
 		Latest Research
 	</h2>
 
-	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
+	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
 		<Input
 			class="grow-0 max-md:w-full tracking-normal"
 			type="text"
@@ -118,23 +118,6 @@
 				<Search class="w-4 h-4" />
 			{/snippet}
 		</Input>
-		<div class="flex flex-wrap gap-2">
-			<Badge
-				onclick={() => (selectedCategory = '')}
-				class="cursor-pointer py-1 px-4 text-[16px] leading-[20px] tracking-wide"
-				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
-			>
-			{#each articleCategories as category}
-				<Badge
-					onclick={() => {
-						selectedCategory = category;
-						scrollToLatestResearch();
-					}}
-					class="cursor-pointer py-1 px-4 text-[16px] leading-[20px]"
-					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
-				>
-			{/each}
-		</div>
 	</div>
 
 	<div
