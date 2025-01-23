@@ -22,7 +22,9 @@ const config = {
 					'self',
 					'https://www.googletagmanager.com',
 					'https://vercel.live',
-					'https://va.vercel-scripts.com'
+					'https://va.vercel-scripts.com',
+					'https://elevenlabs.io',
+					'https://fonts.googleapis.com'
 				],
 				'img-src': ['self', 'data:', 'https:'],
 				'style-src': ['self', 'unsafe-inline', 'https://fonts.googleapis.com'],
