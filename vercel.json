@@ -9,6 +9,10 @@
       "destination": "https://cms.2077.xyz/s/$1"
     },
     {
+      "source": "/t/(.*)",
+      "destination": "https://cms.2077.xyz/t/$1"
+    },
+    {
       "source": "/about",
       "destination": "https://www.research.2077.xyz/"
     },
