@@ -2,8 +2,7 @@
 
 ## Notes
 
-- ElevenLabs player in dev will not appear and a 'Url not allowed.' error will appear
-  - This is normal
+- ElevenLabs player in dev will appear with an error: this is fine, ignore it
   - Testing in development will cost real credits
   - The generations cannot be transferred to prod
 
