@@ -359,7 +359,9 @@
 
 	// Update sanitization function
 	function sanitizeContent(content: string) {
-		if (!browser) return content;
+		// The following line causes a desync between server & client, resulting in
+		// massive fuckery. Do not uncomment without a very good reason.
+		//if (!browser) return content;
 		return DOMPurify.sanitize(content, {
 			ALLOWED_TAGS: [
 				'h1',
