@@ -582,7 +582,13 @@
 					<ArrowLeft class="w-6 h-6" />
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-					<section class="flex flex-col w-full gap-2">
+					<section class="flex flex-col w-full">
+						<h1
+							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+						>
+							{article.title}
+						</h1>
+
 						<!-- Add categories here -->
 						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
