@@ -7,6 +7,8 @@
 		article,
 		onBadgeClick
 	}: { article: ArticleMetadata; onBadgeClick?: (val: string) => void } = $props();
+
+	const primaryCategory = article.categories.find((category) => category.is_primary);
 </script>
 
 <a href={`/${article.slug}`} class="block">
@@ -21,7 +23,7 @@
 
 		<div class="flex flex-col py-6 w-full" class:px-6={article.isSponsored}>
 			<div class="flex gap-1 items-start w-full text-sm tracking-wide">
-				{#each article.categories as category}
+				{#if primaryCategory}
 					<Badge
 						variant="outline"
 						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
@@ -29,18 +31,17 @@
 							e.stopPropagation();
 							e.preventDefault();
 							if (onBadgeClick) {
-								onBadgeClick(category.name);
+								onBadgeClick(primaryCategory.name);
 							}
 						}}
 					>
-						{category.name}
+						{primaryCategory.name}
 					</Badge>
-				{/each}
+				{/if}
 			</div>
 			<p class="font-soehne mt-4 text-2xl md:text-3xl font-medium leading-9 tracking-tight">
 				{article.title}
 			</p>
-			<p class="mt-4 leading-6 tracking-normal">{article.summary}</p>
 			<p class="mt-4 font-medium tracking-normal">
 				By {article.authors?.map((author) => author.full_name || author.username).join(', ')}
 			</p>

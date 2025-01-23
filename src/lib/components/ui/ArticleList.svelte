@@ -106,37 +106,6 @@
 		Latest Research
 	</h2>
 
-	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input
-			class="grow-0 max-md:w-full tracking-normal"
-			type="text"
-			placeholder="Search"
-			bind:value={search}
-			variant="small"
-		>
-			{#snippet icon()}
-				<Search class="w-4 h-4" />
-			{/snippet}
-		</Input>
-		<div class="flex flex-wrap gap-2">
-			<Badge
-				onclick={() => (selectedCategory = '')}
-				class="cursor-pointer py-1 px-4 text-[16px] leading-[20px] tracking-wide"
-				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
-			>
-			{#each articleCategories as category}
-				<Badge
-					onclick={() => {
-						selectedCategory = category;
-						scrollToLatestResearch();
-					}}
-					class="cursor-pointer py-1 px-4 text-[16px] leading-[20px]"
-					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
-				>
-			{/each}
-		</div>
-	</div>
-
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
