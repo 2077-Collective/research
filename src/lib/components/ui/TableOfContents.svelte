@@ -11,16 +11,15 @@
 
 	onMount(() => {
 		currentHash = window.location.hash.slice(1);
-		window.addEventListener('hashchange', () => {
-			currentHash = window.location.hash.slice(1);
+		
+		// Observe all headings, regardless of reading mode
+		const headingObserver = getHeadingObserver();
+		document.querySelectorAll('h1[id], h2[id]').forEach((heading) => {
+			headingObserver.observe(heading);
 		});
 
-		// Headings observer
-		const headingObserver = getHeadingObserver();
-		document.querySelectorAll('h1, h2').forEach((heading) => {
-			if (heading.id) {
-				headingObserver.observe(heading);
-			}
+		window.addEventListener('hashchange', () => {
+			currentHash = window.location.hash.slice(1);
 		});
 
 		// Table of contents observer
@@ -53,7 +52,8 @@
 						const id = entry.target.id;
 						if (id && id !== currentHash) {
 							currentHash = id;
-							history.replaceState(null, '', `#${id}`);
+							// Use pushState instead of replaceState to maintain history
+							history.pushState(null, '', `#${id}`);
 							updateSelectedIndex(id);
 						}
 					}
@@ -83,6 +83,22 @@
 	function calculateItemOpacity(index: number) {
 		return 1 - Math.abs(selectedItemIndex - index) / tableOfContents.length;
 	}
+
+	function handleClick(e: MouseEvent, href: string) {
+		e.preventDefault();
+		const targetId = href.substring(1); // Remove the # from href
+		const targetElement = document.getElementById(targetId);
+		
+		if (targetElement) {
+			targetElement.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+			
+			// Optionally update URL without jumping
+			history.pushState(null, '', href);
+		}
+	}
 </script>
 
 <ul
@@ -95,8 +111,8 @@
 				class={`hover:underline hover:text-primary block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
 				style="opacity: {calculateItemOpacity(index)}"
 				onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
-				onmouseleave={(e) =>
-					(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
+				onmouseleave={(e) => (e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
+				onclick={(e) => handleClick(e, `#${item.id}`)}
 			>
 				{item.title}
 			</a>
@@ -132,6 +148,7 @@
 						<a
 							href={`#${item.id}`}
 							class={`text-sm block w-full transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
+							onclick={(e) => handleClick(e, `#${item.id}`)}
 						>
 							{item.title}
 						</a>
@@ -151,6 +168,7 @@
 					<a
 						href={`#${subItem.id}`}
 						class={`text-sm ${currentHash === subItem.id ? 'font-medium' : 'font-normal'}`}
+						onclick={(e) => handleClick(e, `#${subItem.id}`)}
 					>
 						{subItem.title}
 					</a>

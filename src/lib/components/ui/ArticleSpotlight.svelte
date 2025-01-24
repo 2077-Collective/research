@@ -34,13 +34,18 @@
 					<Badge variant="outline">{primaryCategory.name}</Badge>
 				{/if}
 			</div>
-			<h1 class="font-soehne text-5xl font-medium max-md:text-3xl leading-[57px] tracking-tight">
+
+			<h1
+				class="font-soehne text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+			>
 				{article.title}
 			</h1>
-			<p class="leading-7 dark:text-white tracking-normal">
+
+			<p class="text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed">
 				{article.summary}
 			</p>
-			<p class="font-medium dark:text-white tracking-normal">
+
+			<p class="font-medium text-gray-300 text-xs sm:text-sm lg:text-base">
 				By {getAuthorsText(article.authors)}
 			</p>
 		</div>
