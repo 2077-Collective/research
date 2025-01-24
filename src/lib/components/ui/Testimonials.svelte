@@ -279,7 +279,7 @@
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
 	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
-		See what industry leaders say about 2077 Research.
+		See what industry leaders say about us.
 	</h2>
 
 	<div class="relative">
