@@ -365,12 +365,9 @@
 
 	// Update sanitization function
 	function sanitizeContent(content: string) {
-<<<<<<< HEAD
 		// The following line causes a desync between server & client, resulting in
 		// massive fuckery. Do not uncomment without a very good reason.
 		//if (!browser) return content;
-=======
->>>>>>> 4b2e51c (fix: dompurify)
 		return DOMPurify.sanitize(content, {
 			ALLOWED_TAGS: [
 				'h1',
