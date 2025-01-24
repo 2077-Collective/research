@@ -268,10 +268,10 @@
 		if (!window) return;
 
 		// Get container based on reading mode
-		const container = isReadingMode 
+		const container = isReadingMode
 			? document.querySelector('.reading-content')
 			: document.getElementById('content-container');
-		
+
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
@@ -569,24 +569,24 @@
 					<ArrowLeft class="w-6 h-6" />
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-					<section class="flex flex-col w-full">
-						<h1
-							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
-						>
-							{article.title}
-						</h1>
-						
+					<section class="flex flex-col w-full gap-2">
 						<!-- Add categories here -->
-						<div class="flex flex-wrap mt-4 gap-2">
+						<div class="flex flex-wrap gap-2">
 							{#each article.categories as category}
-								<Badge 
-									variant="outline" 
-									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
+								<Badge
+									variant="outline"
+									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm opacity-60"
 								>
 									{category.name}
 								</Badge>
 							{/each}
 						</div>
+
+						<h1
+							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+						>
+							{article.title}
+						</h1>
 
 						<p class="text-2xl leading-9 max-md:max-w-full">
 							{article.summary}
@@ -717,8 +717,8 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<article 
-		class="lg:flex lg:gap-14 relative {isReadingMode ? 'reading-mode' : ''}" 
+	<article
+		class="lg:flex lg:gap-14 relative {isReadingMode ? 'reading-mode' : ''}"
 		class:overflow-hidden={summaryOpen}
 	>
 		<!-- Hide TOC in reading mode -->
@@ -738,7 +738,9 @@
 			</a>
 		{/if}
 
-		<div id="content-container" class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
+		<div
+			id="content-container"
+			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
@@ -766,15 +768,19 @@
 			{#if isReadingMode}
 				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
 					<h1 class="text-4xl mb-6 tracking-tight">{article.title}</h1>
-					<p class="text-xl mb-8 text-gray-500 dark:text-gray-300 leading-relaxed tracking-tight">{article.summary}</p>
+					<p class="text-xl mb-8 text-gray-500 dark:text-gray-300 leading-relaxed tracking-tight">
+						{article.summary}
+					</p>
 					<div class="flex flex-col gap-3 text-base text-gray-400">
 						<div class="flex items-center gap-2">
 							By {#each article.authors as author, index}
 								<a
-									href={author.twitterUsername ? `https://twitter.com/${author.twitterUsername}` : null}
+									href={author.twitterUsername
+										? `https://twitter.com/${author.twitterUsername}`
+										: null}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="{author.twitterUsername ? 'reading-mode-link' : ''}"
+									class={author.twitterUsername ? 'reading-mode-link' : ''}
 								>
 									{author.fullName}
 								</a>
@@ -850,7 +856,9 @@
 				class:overflow-hidden={summaryOpen}
 				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
 			>
-				<div class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center">
+				<div
+					class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center"
+				>
 					<h2 class="text-2xl font-medium">Summary</h2>
 					<button
 						onclick={toggleSummary}
@@ -860,7 +868,8 @@
 						<XIcon class="w-6 h-6" />
 					</button>
 				</div>
-				<div class="flex-1 overflow-y-auto px-12 py-6 text-primary w-full leading-8
+				<div
+					class="flex-1 overflow-y-auto px-12 py-6 text-primary w-full leading-8
 					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
 					[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
 					[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
