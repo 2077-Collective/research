@@ -365,6 +365,9 @@
 
 	// Update sanitization function
 	function sanitizeContent(content: string) {
+		// The following line causes a desync between server & client, resulting in
+		// massive fuckery. Do not uncomment without a very good reason.
+		//if (!browser) return content;
 		return DOMPurify.sanitize(content, {
 			ALLOWED_TAGS: [
 				'h1',
@@ -447,6 +450,12 @@
 
 		addHeaderClickListeners();
 
+		// Add keyboard shortcut listener
+		window.addEventListener('keydown', handleKeyPress);
+
+		// Handle browser's print event
+		window.addEventListener('beforeprint', handleBeforePrint);
+
 		return () => {
 			observer.disconnect();
 			window.removeEventListener('scroll', handleScroll);
@@ -454,6 +463,8 @@
 			document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
 			window.removeEventListener('scroll', updateReadingProgress);
+			window.removeEventListener('keydown', handleKeyPress);
+			window.removeEventListener('beforeprint', handleBeforePrint);
 		};
 	});
 
@@ -494,6 +505,23 @@
 			setTimeout(processHeaderIds, 0);
 		}
 	});
+
+	function handleKeyPress(event: KeyboardEvent) {
+		// Check for cmd+p (Mac) or ctrl+p (Windows)
+		if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
+			event.preventDefault(); // Prevent default print dialog
+			if (data.article) {
+				handlePdfDownload(data.article);
+			}
+		}
+	}
+
+	function handleBeforePrint(event: Event) {
+		event.preventDefault();
+		if (data.article) {
+			handlePdfDownload(data.article);
+		}
+	}
 </script>
 
 <ArticleHead article={data.article} />
@@ -541,24 +569,24 @@
 					<ArrowLeft class="w-6 h-6" />
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-					<section class="flex flex-col w-full">
-						<h1
-							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
-						>
-							{article.title}
-						</h1>
-
+					<section class="flex flex-col w-full gap-2">
 						<!-- Add categories here -->
-						<div class="flex flex-wrap mt-4 gap-2">
+						<div class="flex flex-wrap gap-2">
 							{#each article.categories as category}
 								<Badge
 									variant="outline"
-									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
+									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm opacity-60"
 								>
 									{category.name}
 								</Badge>
 							{/each}
 						</div>
+
+						<h1
+							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+						>
+							{article.title}
+						</h1>
 
 						<p class="text-2xl leading-9 max-md:max-w-full">
 							{article.summary}

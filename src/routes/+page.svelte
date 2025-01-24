@@ -7,7 +7,7 @@
 	import Testimonials from '$lib/components/ui/Testimonials.svelte';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { ArrowRight } from 'lucide-svelte';
+	import { ArrowRight, Mail } from 'lucide-svelte';
 	import ArticleCategory from '$lib/components/ui/ArticleCategory.svelte';
 
 	const { data }: { data: PageData } = $props();
@@ -29,6 +29,31 @@
 <BaseHead />
 
 <div class="px-3 md:px-12 flex flex-col gap-10">
+	<div
+		class="font-soehne h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
+	>
+		<!-- leading-[69px] and max-w-[928px] are arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
+		<h1
+			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10"
+		>
+			Cutting edge Ethereum research and technical analysis
+		</h1>
+		<p class="text-[14px] leading-[18px] md:text-[16px] md:leading-[20px] max-w-[928px] px-10 mb-6">
+			Explore the Ethereum frontier with deep dives into infrastructure, finance, governance,
+			applications, and protocols. Cutting-edge research, high signal, actionable insights, zero
+			fluff
+		</p>
+		<img
+			src="/hero.webp"
+			width="928"
+			height="698"
+			fetchpriority="high"
+			loading="eager"
+			decoding="async"
+			class="absolute top-0 right-0 w-1/2 animate-float"
+			alt="Hero illustration"
+		/>
+	</div>
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
 	{#if articles[0]}
 		<ArticleSpotlight article={articles[0]} />
@@ -44,7 +69,7 @@
 	</div>
 	<div class="flex justify-center py-4 md:py-10">
 		<a
-			href="/list"
+			href="/reports"
 			class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
 		>
 			See all research
