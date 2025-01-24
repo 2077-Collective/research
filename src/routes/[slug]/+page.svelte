@@ -284,6 +284,18 @@
 
 				if (id) header.id = id;
 			}
+
+			// Remove existing indicator span if it exists
+			const existingSpan = header.querySelector('span[data-header-indicator]');
+			if (existingSpan) {
+				existingSpan.remove();
+			}
+			// Create and add the new indicator span
+			const headerIndicator = document.createElement('span');
+			headerIndicator.innerText = '⛓';
+			headerIndicator.className = 'inline-block ml-4 text-primary/80';
+			headerIndicator.setAttribute('data-header-indicator', 'true');
+			header.appendChild(headerIndicator);
 		});
 	}
 
@@ -322,8 +334,9 @@
 			header.classList.add(
 				'cursor-pointer',
 				'transition-colors',
+				'transition-opacity',
 				'duration-200',
-				'hover:text-primary/80',
+				'hover:opacity-80',
 				'active:text-primary/60',
 				'active:translate-y-[1px]'
 			);
@@ -760,7 +773,8 @@
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]"
+			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
+			"
 			class:copied={copiedHeaderId}
 		>
 			<!-- Update the metadata section -->
