@@ -592,7 +592,7 @@
 							{article.summary}
 						</p>
 					</section>
-					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full font-mono">
 						<div class="flex gap-1.5 items-start self-start">
 							<span>By</span>
 							<div class="flex items-center gap-1">
