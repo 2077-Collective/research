@@ -574,7 +574,7 @@
 						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
 								<Badge
-									variant="outline"
+									variant="rectangular"
 									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
 								>
 									{category.name}
