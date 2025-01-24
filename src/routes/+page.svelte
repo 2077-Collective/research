@@ -43,6 +43,7 @@
 			applications, and protocols. Cutting-edge research, high signal, actionable insights, zero
 			fluff
 		</p>
+		<!--
 		<img
 			src="/hero.webp"
 			width="928"
@@ -53,6 +54,7 @@
 			class="absolute top-0 right-0 w-1/2 animate-float"
 			alt="Hero illustration"
 		/>
+		-->
 	</div>
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
 	{#if articles[0]}
