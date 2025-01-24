@@ -571,7 +571,7 @@
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
 					<section class="flex flex-col w-full gap-2">
 						<!-- Add categories here -->
-						<div class="flex flex-wrap gap-2">
+						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
 								<Badge
 									variant="outline"
@@ -588,7 +588,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-2xl leading-9 max-md:max-w-full">
+						<p class="text-xl max-md:max-w-full font-soehne">
 							{article.summary}
 						</p>
 					</section>
@@ -619,11 +619,11 @@
 				</div>
 
 				<div
-					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start tracking-tight max-md:max-w-full"
 				>
-					<div class="flex items-center gap-2 text-gray-500">
+					<div class="flex items-center gap-2 text-gray-500 font-mono">
 						<time datetime={article.scheduledPublishTime}>
-							Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'
@@ -632,7 +632,7 @@
 						<span class="inline">·</span>
 						<span>{readingTime}</span>
 					</div>
-					<nav class="flex gap-1.5 items-center">
+					<nav class="flex gap-1.5 items-center font-mono">
 						<div
 							class="relative"
 							onmouseenter={handleMouseEnter}
