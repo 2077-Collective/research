@@ -284,6 +284,18 @@
 
 				if (id) header.id = id;
 			}
+
+			// Remove existing indicator span if it exists
+			const existingSpan = header.querySelector('span[data-header-indicator]');
+			if (existingSpan) {
+				existingSpan.remove();
+			}
+			// Create and add the new indicator span
+			const headerIndicator = document.createElement('span');
+			headerIndicator.innerText = '⛓';
+			headerIndicator.className = 'inline-block ml-4 text-primary/80';
+			headerIndicator.setAttribute('data-header-indicator', 'true');
+			header.appendChild(headerIndicator);
 		});
 	}
 
@@ -322,8 +334,9 @@
 			header.classList.add(
 				'cursor-pointer',
 				'transition-colors',
+				'transition-opacity',
 				'duration-200',
-				'hover:text-primary/80',
+				'hover:opacity-80',
 				'active:text-primary/60',
 				'active:translate-y-[1px]'
 			);
@@ -571,11 +584,11 @@
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
 					<section class="flex flex-col w-full gap-2">
 						<!-- Add categories here -->
-						<div class="flex flex-wrap gap-2">
+						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
 								<Badge
-									variant="outline"
-									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm opacity-60"
+									variant="rectangular"
+									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
 								>
 									{category.name}
 								</Badge>
@@ -588,11 +601,11 @@
 							{article.title}
 						</h1>
 
-						<p class="text-2xl leading-9 max-md:max-w-full">
+						<p class="text-xl max-md:max-w-full font-soehne">
 							{article.summary}
 						</p>
 					</section>
-					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full font-mono">
 						<div class="flex gap-1.5 items-start self-start">
 							<span>By</span>
 							<div class="flex items-center gap-1">
@@ -619,20 +632,20 @@
 				</div>
 
 				<div
-					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start tracking-tight max-md:max-w-full"
 				>
-					<div class="flex items-center gap-2 text-gray-500">
+					<div class="flex items-center gap-2 text-gray-500 font-mono">
 						<time datetime={article.scheduledPublishTime}>
-							Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'
 							})}
 						</time>
-						<span class="inline">·</span>
+						<span class="inline">|</span>
 						<span>{readingTime}</span>
 					</div>
-					<nav class="flex gap-1.5 items-center">
+					<nav class="flex gap-1.5 items-center font-mono">
 						<div
 							class="relative"
 							onmouseenter={handleMouseEnter}
@@ -760,7 +773,8 @@
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]"
+			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
+			"
 			class:copied={copiedHeaderId}
 		>
 			<!-- Update the metadata section -->

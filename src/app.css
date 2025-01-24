@@ -1,4 +1,7 @@
 @import '@fontsource-variable/inter';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/kode-mono';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -66,7 +69,8 @@
 		@apply tracking-normal;
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
-		font-family: 'Inter Variable', sans-serif;
+		font-family: 'Space Grotesk Variable', sans-serif;
+		font-weight: 300;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
