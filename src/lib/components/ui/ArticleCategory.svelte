@@ -41,7 +41,7 @@
 	<div>
 		{#if article.categories?.[0]}
 			<a
-				href={`/list?highlight=${article.categories[0].name}`}
+				href={`/reports`}
 				class="text-xs font-bold px-4 py-2 bg-white text-black rounded-sm hover:underline"
 			>
 				{article.categories[0].name}
