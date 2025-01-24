@@ -365,7 +365,9 @@
 
 	// Update sanitization function
 	function sanitizeContent(content: string) {
-		if (!browser) return content;
+		// The following line causes a desync between server & client, resulting in
+		// massive fuckery. Do not uncomment without a very good reason.
+		//if (!browser) return content;
 		return DOMPurify.sanitize(content, {
 			ALLOWED_TAGS: [
 				'h1',
@@ -448,6 +450,12 @@
 
 		addHeaderClickListeners();
 
+		// Add keyboard shortcut listener
+		window.addEventListener('keydown', handleKeyPress);
+
+		// Handle browser's print event
+		window.addEventListener('beforeprint', handleBeforePrint);
+
 		return () => {
 			observer.disconnect();
 			window.removeEventListener('scroll', handleScroll);
@@ -455,6 +463,8 @@
 			document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
 			window.removeEventListener('scroll', updateReadingProgress);
+			window.removeEventListener('keydown', handleKeyPress);
+			window.removeEventListener('beforeprint', handleBeforePrint);
 		};
 	});
 
@@ -495,6 +505,23 @@
 			setTimeout(processHeaderIds, 0);
 		}
 	});
+
+	function handleKeyPress(event: KeyboardEvent) {
+		// Check for cmd+p (Mac) or ctrl+p (Windows)
+		if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
+			event.preventDefault(); // Prevent default print dialog
+			if (data.article) {
+				handlePdfDownload(data.article);
+			}
+		}
+	}
+
+	function handleBeforePrint(event: Event) {
+		event.preventDefault();
+		if (data.article) {
+			handlePdfDownload(data.article);
+		}
+	}
 </script>
 
 <ArticleHead article={data.article} />

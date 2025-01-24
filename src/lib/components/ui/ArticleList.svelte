@@ -3,7 +3,6 @@
 	import { browser } from '$app/environment';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { Search, ArrowDown, ArrowLeft } from 'lucide-svelte';
-	import Badge from './badge/badge.svelte';
 	import Input from './input/input.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { slide } from 'svelte/transition';
@@ -137,7 +136,7 @@
 		</h2>
 	</div>
 
-	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
+	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
 		<Input
 			class="grow-0 max-md:w-full tracking-normal"
 			type="text"
@@ -149,20 +148,6 @@
 				<Search class="w-4 h-4" />
 			{/snippet}
 		</Input>
-		<div class="flex flex-wrap gap-2">
-			<Badge
-				onclick={() => handleCategoryClick('')}
-				class="cursor-pointer py-1 px-4 text-[16px] leading-[20px] tracking-wide"
-				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
-			>
-			{#each articleCategories as category}
-				<Badge
-					onclick={() => handleCategoryClick(category)}
-					class="cursor-pointer py-1 px-4 text-[16px] leading-[20px]"
-					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
-				>
-			{/each}
-		</div>
 	</div>
 
 	<div
