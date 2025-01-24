@@ -629,7 +629,7 @@
 								day: 'numeric'
 							})}
 						</time>
-						<span class="inline">·</span>
+						<span class="inline">|</span>
 						<span>{readingTime}</span>
 					</div>
 					<nav class="flex gap-1.5 items-center font-mono">
