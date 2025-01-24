@@ -104,7 +104,7 @@
 			author: 'Aethir Ecosystem',
 			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
 			platform: 'x',
-			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/9_fmamuw.webp',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/9_fmamuw.webp'
 		},
 		{
 			text: '<p>Great read! Extensive research on the current DePIN landscape</p>',
@@ -210,7 +210,7 @@
 			author: 'Labyrinth',
 			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
 			platform: 'x',
-			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/19_w7uryo.webp',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/19_w7uryo.webp'
 		},
 		{
 			text: `
@@ -221,7 +221,7 @@
 			author: 'Streamr Network',
 			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
 			platform: 'x',
-			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/20_oyacnc.webp',
+			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295106/20_oyacnc.webp'
 		},
 		{
 			text: `
@@ -279,7 +279,7 @@
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
 	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
-		Our research has reached over 150,000 people and been shared by the community 300+ times.
+		See what industry leaders say about 2077 Research.
 	</h2>
 
 	<div class="relative">
