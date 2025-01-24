@@ -30,7 +30,7 @@
 
 <div class="px-3 md:px-12 flex flex-col gap-10">
 	<div
-		class="font-soehne h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
+		class="h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
 	>
 		<!-- leading-[69px] and max-w-[928px] are arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
 		<h1
@@ -41,8 +41,9 @@
 		<p class="text-[14px] leading-[18px] md:text-[16px] md:leading-[20px] max-w-[928px] px-10 mb-6">
 			Explore the Ethereum frontier with deep dives into infrastructure, finance, governance,
 			applications, and protocols. Cutting-edge research, high signal, actionable insights, zero
-			fluff
+			fluff.
 		</p>
+		<!--
 		<img
 			src="/hero.webp"
 			width="928"
@@ -53,6 +54,7 @@
 			class="absolute top-0 right-0 w-1/2 animate-float"
 			alt="Hero illustration"
 		/>
+		-->
 	</div>
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
 	{#if articles[0]}
