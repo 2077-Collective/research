@@ -61,7 +61,7 @@ const config: Config = {
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
-				mono: ['Kode Mono', 'monospace']
+				mono: ['Kode Mono Variable', 'monospace']
 			},
 			letterSpacing: {
 				tightest: '-.075em',
