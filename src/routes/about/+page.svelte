@@ -60,7 +60,7 @@
 			/>
 			<TeamCard
 				twitter_username="https://x.com/korayakpinarr"
-				full_name="Koray"
+				full_name="Koray Akpınar"
 				role="Research Lead"
 				summary="Arise, you have nothing to lose but your barbed wire fences!"
 			/>
