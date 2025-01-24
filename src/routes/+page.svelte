@@ -36,7 +36,7 @@
 		<h1
 			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10"
 		>
-			Cutting edge Ethereum research and technical analysis
+			Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
 		</h1>
 		<p class="text-[14px] leading-[18px] md:text-[16px] md:leading-[20px] max-w-[928px] px-10 mb-6">
 			Explore the Ethereum frontier with deep dives into infrastructure, finance, governance,
