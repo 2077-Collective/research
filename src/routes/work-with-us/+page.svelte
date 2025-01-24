@@ -16,14 +16,22 @@
 		</h1>
 		<div class="md:text-lg leading-relaxed max-w-screen-lg space-y-4 text-pretty">
 			<p>
-				2077 Research can work with your DeFi protocol or other crypto project to produce neutral,
-				detailed technical reports. If you are a protocol interested in working with us, you can
-				contact us via email: <a
-					href="mailto://research@2077.xyz"
-					class="text-blue-500 hover:underline">research@2077.xyz</a
+				2077 Research works with visionary teams pushing the boundaries of innovation across DeFi,
+				interoperability, privacy, UX, scaling, and more crypto verticals. As a research partner, we
+				help make the more technical details of protocols accessible to a wider audience and
+				communicate their value sans the hype of KOLs and influencers.
+			</p>
+			<p>
+				Our expertise lies in producing in-depth reports packed with thorough explanations and
+				research-driven insights on crypto infrastructure and products. Want to work with us? Get in
+				touch via email: <a href="mailto://research@2077.xyz" class="text-blue-500 hover:underline"
+					>research@2077.xyz</a
 				>.
 			</p>
-			<p><a href="/about" class="text-blue-500 hover:underline">Read more about us here.</a></p>
+			<p class="text-base text-white/50">
+				To learn more about us, {' '}
+				<a href="/about" class="text-blue-500 hover:underline">read our about page.</a>
+			</p>
 		</div>
 	</section>
 	<section>
