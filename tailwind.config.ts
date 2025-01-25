@@ -60,7 +60,9 @@ const config: Config = {
 			fontFamily: {
 				inter: ['Inter Variable', 'sans-serif'],
 				menlo: ['Menlo Regular', 'monospace'],
-				soehne: ['Soehne', 'sans-serif']
+				soehne: ['Soehne', 'sans-serif'],
+				'eb-garamond': ['"EB Garamond"', 'serif'],
+				mono: ['Kode Mono Variable', 'monospace']
 			},
 			letterSpacing: {
 				tightest: '-.075em',

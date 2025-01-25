@@ -16,7 +16,7 @@
 		icon?: typeof IconType | Component<{ size: '16px' | '20px' | '24px' }>;
 	};
 	const links: Link[] = [
-		{ href: '/list', text: 'Latest research', isExternal: false },
+		{ href: '/reports', text: 'Latest research', isExternal: false },
 		{ href: '/about', text: 'About', isExternal: false },
 		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },

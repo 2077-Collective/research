@@ -23,13 +23,17 @@ const config = {
 					'https://www.googletagmanager.com',
 					'https://vercel.live',
 					'https://va.vercel-scripts.com',
+					'https://elevenlabs.io',
+					'https://fonts.googleapis.com'
 				],
 				'img-src': ['self', 'data:', 'https:'],
-				'style-src': ['self', 'unsafe-inline'],
+				'style-src': ['self', 'unsafe-inline', 'https://fonts.googleapis.com'],
+				'font-src': ['self', 'https://fonts.gstatic.com'],
 				'connect-src': ['self', 'https:'],
 				'default-src': ['self'],
 				'frame-ancestors': ['self'],
-				'base-uri': ['self']
+				'base-uri': ['self'],
+				'frame-src': ['https://elevenlabs.io']
 			}
 		}
 	}

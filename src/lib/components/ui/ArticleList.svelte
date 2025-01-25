@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { page } from '$app/stores';
+	import { browser } from '$app/environment';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { Search, ArrowDown } from 'lucide-svelte';
-	import Badge from './badge/badge.svelte';
+	import { Search, ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import Input from './input/input.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { slide } from 'svelte/transition';
@@ -65,6 +66,26 @@
 		}
 	});
 
+	// Initialize selectedCategory from URL
+	$effect(() => {
+		const highlightParam = $page.url.searchParams.get('highlight');
+		selectedCategory = highlightParam || '';
+	});
+
+	// Update URL when category changes
+	function handleCategoryClick(category: string) {
+		selectedCategory = category;
+		if (browser) {
+			const url = new URL(window.location.href);
+			if (category) {
+				url.searchParams.set('highlight', category);
+			} else {
+				url.searchParams.delete('highlight');
+			}
+			window.history.replaceState({}, '', url.toString());
+		}
+	}
+
 	function scrollToLatestResearch() {
 		const element = document.getElementById('latest-research');
 		if (element) {
@@ -99,14 +120,23 @@
 {/snippet}
 
 <div>
-	<h2
-		id="latest-research"
-		class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
-	>
-		Latest Research
-	</h2>
+	<div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
+		<a
+			href="/"
+			aria-label="Back to Home"
+			class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
+		>
+			<ArrowLeft class="w-6 h-6" />
+		</a>
+		<h2
+			id="latest-research"
+			class="text-3xl md:text-5xl font-medium leading-9 font-soehne tracking-tight"
+		>
+			Latest Research
+		</h2>
+	</div>
 
-	<div class="flex flex-col md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
+	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
 		<Input
 			class="grow-0 max-md:w-full tracking-normal"
 			type="text"
@@ -118,23 +148,6 @@
 				<Search class="w-4 h-4" />
 			{/snippet}
 		</Input>
-		<div class="flex flex-wrap gap-2">
-			<Badge
-				onclick={() => (selectedCategory = '')}
-				class="cursor-pointer py-1 px-4 text-[16px] leading-[20px] tracking-wide"
-				variant={selectedCategory === '' ? 'default' : 'outline'}>All</Badge
-			>
-			{#each articleCategories as category}
-				<Badge
-					onclick={() => {
-						selectedCategory = category;
-						scrollToLatestResearch();
-					}}
-					class="cursor-pointer py-1 px-4 text-[16px] leading-[20px]"
-					variant={selectedCategory === category ? 'default' : 'outline'}>{category}</Badge
-				>
-			{/each}
-		</div>
 	</div>
 
 	<div

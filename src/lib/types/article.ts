@@ -2,7 +2,8 @@ import { z } from 'zod';
 
 // Basic schemas
 export const CategorySchema = z.object({
-	name: z.string()
+	name: z.string(),
+	is_primary: z.boolean().optional().default(false),
 });
 
 export const AuthorSchema = z.object({

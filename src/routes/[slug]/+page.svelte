@@ -4,6 +4,7 @@
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import FileDown from 'lucide-svelte/icons/file-down';
 	import XIcon from 'lucide-svelte/icons/x';
+	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import ScrollText from 'lucide-svelte/icons/scroll-text';
 	import Twitter from 'lucide-svelte/icons/twitter';
 	import Link2 from 'lucide-svelte/icons/link-2';
@@ -22,6 +23,7 @@
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 
 	import 'prismjs/components/prism-python';
 	import 'prismjs/components/prism-json';
@@ -47,7 +49,7 @@
 	let lightboxIndex = $state(0);
 	let showLightbox = $state(false);
 	let summaryOpen = $state(false);
-	let showFloatingButton = $state(false);
+	let showFloatingButtons = $state(false);
 	let copySuccess = $state(false);
 	let showShareDropdown = $state(false);
 
@@ -211,7 +213,8 @@
 		if (!contentContainer) return;
 
 		const contentRect = contentContainer.getBoundingClientRect();
-		showFloatingButton = contentRect.top <= window.innerHeight && contentRect.bottom >= 0;
+		// Always show in reading mode, otherwise show after scroll
+		showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
 	}
 
 	type ClickOutsideOptions = {
@@ -264,13 +267,16 @@
 	function processHeaderIds() {
 		if (!window) return;
 
-		const container = document.getElementById('content-container');
+		// Get container based on reading mode
+		const container = isReadingMode
+			? document.querySelector('.reading-content')
+			: document.getElementById('content-container');
+
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header) => {
 			if (!header.id) {
-				// Generate URL-friendly ID from header text
 				const id = header.textContent
 					?.toLowerCase()
 					.replace(/[^a-z0-9]+/g, '-')
@@ -278,6 +284,18 @@
 
 				if (id) header.id = id;
 			}
+
+			// Remove existing indicator span if it exists
+			const existingSpan = header.querySelector('span[data-header-indicator]');
+			if (existingSpan) {
+				existingSpan.remove();
+			}
+			// Create and add the new indicator span
+			const headerIndicator = document.createElement('span');
+			headerIndicator.innerText = '⛓';
+			headerIndicator.className = 'inline-block ml-4 text-primary/80';
+			headerIndicator.setAttribute('data-header-indicator', 'true');
+			header.appendChild(headerIndicator);
 		});
 	}
 
@@ -316,8 +334,9 @@
 			header.classList.add(
 				'cursor-pointer',
 				'transition-colors',
+				'transition-opacity',
 				'duration-200',
-				'hover:text-primary/80',
+				'hover:opacity-80',
 				'active:text-primary/60',
 				'active:translate-y-[1px]'
 			);
@@ -388,7 +407,15 @@
 		});
 	}
 
+	// Update state management for reading mode
+	let isReadingMode = $state(false);
+
+	// Initialize reading mode from localStorage
 	onMount(() => {
+		const storedReadingMode = localStorage.getItem('readingMode');
+		if (storedReadingMode !== null) {
+			isReadingMode = storedReadingMode === 'true';
+		}
 		currentURL = window.location.href;
 		contentState = 'ready';
 
@@ -436,6 +463,12 @@
 
 		addHeaderClickListeners();
 
+		// Add keyboard shortcut listener
+		window.addEventListener('keydown', handleKeyPress);
+
+		// Handle browser's print event
+		window.addEventListener('beforeprint', handleBeforePrint);
+
 		return () => {
 			observer.disconnect();
 			window.removeEventListener('scroll', handleScroll);
@@ -443,6 +476,8 @@
 			document.removeEventListener('touchstart', handleOutsideClick);
 			clearTimeout(closeTimeout);
 			window.removeEventListener('scroll', updateReadingProgress);
+			window.removeEventListener('keydown', handleKeyPress);
+			window.removeEventListener('beforeprint', handleBeforePrint);
 		};
 	});
 
@@ -470,6 +505,36 @@
 			document.body.style.overflow = summaryOpen ? 'hidden' : '';
 		}
 	});
+
+	function toggleReadingMode() {
+		isReadingMode = !isReadingMode;
+		localStorage.setItem('readingMode', isReadingMode.toString());
+	}
+
+	// Call processHeaderIds when reading mode changes
+	$effect(() => {
+		if (isReadingMode !== undefined) {
+			// Wait for DOM update
+			setTimeout(processHeaderIds, 0);
+		}
+	});
+
+	function handleKeyPress(event: KeyboardEvent) {
+		// Check for cmd+p (Mac) or ctrl+p (Windows)
+		if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
+			event.preventDefault(); // Prevent default print dialog
+			if (data.article) {
+				handlePdfDownload(data.article);
+			}
+		}
+	}
+
+	function handleBeforePrint(event: Event) {
+		event.preventDefault();
+		if (data.article) {
+			handlePdfDownload(data.article);
+		}
+	}
 </script>
 
 <ArticleHead article={data.article} />
@@ -482,9 +547,15 @@
 </div>
 
 <div class="flex flex-col gap-y-6 md:gap-y-14">
-	{@render header(data.article)}
+	{#if !isReadingMode}
+		{@render header(data.article)}
+	{/if}
 	{@render body(data.article)}
-	<div class="px-3 md:px-12">
+	<!-- Only show toggle button when not in reading mode -->
+	{#if !isReadingMode}
+		{@render floatingButtons()}
+	{/if}
+	<div class="px-3 md:px-12 {isReadingMode ? 'hidden' : ''}">
 		<hr class="mb-6 md:mb-12" />
 		<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
 	</div>
@@ -511,17 +582,30 @@
 					<ArrowLeft class="w-6 h-6" />
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-					<section class="flex flex-col pb-8 w-full">
+					<section class="flex flex-col w-full gap-2">
+						<!-- Add categories here -->
+						<div class="flex flex-wrap gap-2 font-mono">
+							{#each article.categories as category}
+								<Badge
+									variant="rectangular"
+									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
+								>
+									{category.name}
+								</Badge>
+							{/each}
+						</div>
+
 						<h1
 							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
 						>
 							{article.title}
 						</h1>
-						<p class="mt-4 text-2xl leading-9 max-md:max-w-full">
+
+						<p class="text-xl max-md:max-w-full font-soehne">
 							{article.summary}
 						</p>
 					</section>
-					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full">
+					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full font-mono">
 						<div class="flex gap-1.5 items-start self-start">
 							<span>By</span>
 							<div class="flex items-center gap-1">
@@ -548,20 +632,20 @@
 				</div>
 
 				<div
-					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start w-full tracking-tight max-md:max-w-full"
+					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start tracking-tight max-md:max-w-full"
 				>
-					<div class="flex items-center gap-2 text-gray-500">
+					<div class="flex items-center gap-2 text-gray-500 font-mono">
 						<time datetime={article.scheduledPublishTime}>
-							Published on {new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'
 							})}
 						</time>
-						<span class="inline">·</span>
+						<span class="inline">|</span>
 						<span>{readingTime}</span>
 					</div>
-					<nav class="flex gap-1.5 items-center">
+					<nav class="flex gap-1.5 items-center font-mono">
 						<div
 							class="relative"
 							onmouseenter={handleMouseEnter}
@@ -646,13 +730,31 @@
 {/snippet}
 
 {#snippet body(article: Article)}
-	<article class="lg:flex lg:gap-14 relative" class:overflow-hidden={summaryOpen}>
-		<TableOfContents tableOfContents={article.tableOfContents} />
-		<div id="toc" class="block lg:hidden"></div>
+	<article
+		class="lg:flex lg:gap-14 relative {isReadingMode ? 'reading-mode' : ''}"
+		class:overflow-hidden={summaryOpen}
+	>
+		<!-- Hide TOC in reading mode -->
+		{#if !isReadingMode}
+			<TableOfContents tableOfContents={article.tableOfContents} />
+			<div id="toc" class="block lg:hidden"></div>
+		{/if}
+
+		<!-- Update the back button in reading mode -->
+		{#if isReadingMode}
+			<a
+				href="/"
+				class="absolute left-[20px] top-0 p-2 hover:bg-secondary rounded-full transition-colors"
+				aria-label="Back to home"
+			>
+				<ArrowLeft class="w-5 h-5" />
+			</a>
+		{/if}
 
 		<div
 			id="content-container"
 			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
+			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
 			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
@@ -660,122 +762,187 @@
 			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/50
-			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
+			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-cyan-400
+			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
 			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
 			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
-			[&>a]:underline
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]"
+			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
+			"
 			class:copied={copiedHeaderId}
 		>
+			<!-- Update the metadata section -->
+			{#if isReadingMode}
+				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
+					<h1 class="text-4xl mb-6 tracking-tight">{article.title}</h1>
+					<p class="text-xl mb-8 text-gray-500 dark:text-gray-300 leading-relaxed tracking-tight">
+						{article.summary}
+					</p>
+					<div class="flex flex-col gap-3 text-base text-gray-400">
+						<div class="flex items-center gap-2">
+							By {#each article.authors as author, index}
+								<a
+									href={author.twitterUsername
+										? `https://twitter.com/${author.twitterUsername}`
+										: null}
+									target="_blank"
+									rel="noopener noreferrer"
+									class={author.twitterUsername ? 'reading-mode-link' : ''}
+								>
+									{author.fullName}
+								</a>
+								{#if index < article.authors.length - 2}
+									<span>,</span>
+								{:else if index < article.authors.length - 1}
+									<span>and</span>
+								{/if}
+							{/each}
+						</div>
+						<div class="flex items-center gap-2">
+							<time datetime={article.scheduledPublishTime}>
+								{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric'
+								})}
+							</time>
+							<span>·</span>
+							<span>{readingTime}</span>
+						</div>
+					</div>
+				</div>
+			{/if}
+			<div
+				id="elevenlabs-audionative-widget"
+				data-height="90"
+				data-width="100%"
+				data-frameborder="no"
+				data-scrolling="no"
+				data-publicuserid="8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+				data-playerurl="https://elevenlabs.io/player/index.html"
+			>
+				Loading the
+				<a href="https://elevenlabs.io/text-to-speech" target="_blank" rel="noopener"
+					>Elevenlabs Text to Speech</a
+				>
+				AudioNative Player...
+			</div>
+
 			{@html sanitizeContent(article.content)}
 		</div>
-		{@render floatingSummaryButton()}
+		{@render floatingButtons()}
 	</article>
 {/snippet}
 
-{#snippet markdown(content: string)}
-	<div
-		class="text-primary w-full leading-8
-		[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
-		[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
-		[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
-		[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
-		[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
-		[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-		[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/50
-		[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
-		[&_em]:leading-6 [&_em]:italic
-		[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-		[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal"
-	>
-		{@html content}
-	</div>
+{#snippet floatingButtons()}
+	{#if showFloatingButtons || isReadingMode}
+		<div
+			class="fixed bottom-10 right-10 flex gap-3 transition-all duration-300"
+			in:fly={{ y: 20, duration: 300, opacity: 0 }}
+			out:fly={{ y: 20, duration: 300, opacity: 0 }}
+		>
+			{#if !isReadingMode && data?.article?.gpt_summary}
+				<button
+					onclick={toggleSummary}
+					class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-all duration-300"
+					aria-label="Show AI Summary"
+					data-summary-toggle
+				>
+					<svelte:component this={BrainCog} class="w-6 h-6" />
+				</button>
+			{/if}
+			<button
+				onclick={toggleReadingMode}
+				class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-colors"
+				aria-label="Toggle reading mode"
+			>
+				<svelte:component this={ScrollText} class="w-6 h-6" />
+			</button>
+		</div>
+	{/if}
 {/snippet}
 
-{#snippet floatingSummaryButton()}
+{#snippet summaryPanel()}
 	{#if data?.article?.gpt_summary}
 		<div
 			class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center"
 			class:overflow-hidden={summaryOpen}
 		>
-			{#if summaryOpen}
-				<div
-					class="fixed inset-0 bg-black/50 transition-opacity duration-500"
-					style="opacity: {summaryOpen ? '1' : '0'}"
-					role="presentation"
-					aria-hidden="true"
-				></div>
-			{/if}
+			<div
+				class="fixed inset-0 bg-black/50 transition-opacity duration-500"
+				style="opacity: {summaryOpen ? '1' : '0'}"
+				role="presentation"
+				aria-hidden="true"
+			></div>
 			<div
 				class="summary-panel w-full lg:max-w-screen-md bg-background h-screen transform will-change-transform backface-visibility-hidden -webkit-backface-visibility-hidden transition-transform duration-500 ease-out pointer-events-auto flex flex-col relative z-10"
 				class:overflow-hidden={summaryOpen}
 				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
 			>
-				{#if summaryOpen}
-					<div
-						class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center"
+				<div
+					class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center"
+				>
+					<h2 class="text-2xl font-medium">Summary</h2>
+					<button
+						onclick={toggleSummary}
+						class="p-2 hover:bg-secondary rounded-full"
+						aria-label="Close summary"
 					>
-						<div class="flex items-center gap-4">
-							<h2 class="text-2xl font-medium">Summary</h2>
-							<button
-								onclick={copyShareLink}
-								class="p-2 hover:bg-secondary rounded-full relative group"
-								aria-label="Copy share link"
-							>
-								<Link2 class="w-5 h-5" />
-								{#if copySuccess}
-									<span
-										class="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-sm bg-primary text-white px-2 py-1 rounded whitespace-nowrap"
-									>
-										Link copied!
-									</span>
-								{/if}
-							</button>
-						</div>
-						<button
-							onclick={toggleSummary}
-							class="p-2 hover:bg-secondary rounded-full"
-							aria-label="Close summary"
-						>
-							<XIcon class="w-6 h-6" />
-						</button>
-					</div>
-					<div class="flex-1 overflow-y-auto px-12 py-6">
-						{@render markdown(data.article.gpt_summary ?? '')}
-					</div>
-				{/if}
+						<XIcon class="w-6 h-6" />
+					</button>
+				</div>
+				<div
+					class="flex-1 overflow-y-auto px-12 py-6 text-primary w-full leading-8
+					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
+					[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
+					[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
+					[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
+					[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+					[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
+					[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-cyan-400
+					[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
+					[&_em]:leading-6 [&_em]:italic
+					[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+					[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal"
+				>
+					{@html sanitizeContent(data.article.gpt_summary)}
+				</div>
 			</div>
 		</div>
-
-		{#if showFloatingButton}
-			<div
-				class="fixed bottom-10 right-10 transition-all duration-300"
-				in:fly={{ y: 20, duration: 300, opacity: 0 }}
-				out:fly={{ y: 20, duration: 300, opacity: 0 }}
-			>
-				<button
-					data-summary-toggle
-					onclick={toggleSummary}
-					class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-colors"
-					aria-label="Toggle summary"
-				>
-					<ScrollText class="w-6 h-6" />
-				</button>
-			</div>
-		{/if}
 	{/if}
 {/snippet}
 
+<!-- Add this right after the main content div -->
+{@render summaryPanel()}
+
 <style>
-	:global(h1.copied, h2.copied) {
-		@apply text-primary transition-colors duration-200 scale-[1.02] origin-left;
+	/* Add Garamond font */
+	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
+
+	/* Update reading mode styles */
+	:global(.reading-mode) {
+		@apply max-w-[68ch] mx-auto relative px-8 pt-16;
+	}
+
+	:global(.reading-content) {
+		@apply text-primary w-full leading-8
+			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
+			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
+			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
+			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
+			[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
+			[&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-cyan-400 [&_a:hover]:text-primary/60 [&_a]:transition-colors
+			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
+			[&_em]:leading-6 [&_em]:italic
+			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal;
+		@apply font-eb-garamond;
 	}
 </style>
