@@ -284,6 +284,7 @@
 
 				if (id) header.id = id;
 			}
+			header.classList.add('group');
 
 			// Remove existing indicator span if it exists
 			const existingSpan = header.querySelector('span[data-header-indicator]');
@@ -292,8 +293,9 @@
 			}
 			// Create and add the new indicator span
 			const headerIndicator = document.createElement('span');
-			headerIndicator.innerText = '⛓';
-			headerIndicator.className = 'inline-block ml-4 text-primary/80';
+			headerIndicator.innerText = '#';
+			headerIndicator.className =
+				'inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic';
 			headerIndicator.setAttribute('data-header-indicator', 'true');
 			header.appendChild(headerIndicator);
 		});
@@ -320,7 +322,7 @@
 		const container = document.getElementById('content-container');
 		if (!container) return;
 
-		const headers = container.querySelectorAll('h1, h2');
+		const headers = container.querySelectorAll('h1, h2, h3');
 		const clickHandlers = new WeakMap();
 		headers.forEach((header) => {
 			let clickHandler = clickHandlers.get(header);
