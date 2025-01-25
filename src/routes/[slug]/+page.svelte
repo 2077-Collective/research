@@ -605,29 +605,25 @@
 							{article.summary}
 						</p>
 					</section>
-					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full font-mono">
-						<div class="flex gap-1.5 items-start self-start">
-							<span>By</span>
-							<div class="flex items-center gap-1">
-								{#each article.authors as author, index}
-									<a
-										href={author.twitterUsername
-											? `https://twitter.com/${author.twitterUsername}`
-											: null}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="gap-1 self-stretch my-auto {author.twitterUsername ? 'border-b' : ''}"
-									>
-										{author.fullName}
-									</a>
-									{#if index < article.authors.length - 2}
-										<span class="self-stretch my-auto">,</span>
-									{:else if index < article.authors.length - 1}
-										<span class="self-stretch my-auto">and</span>
-									{/if}
-								{/each}
-							</div>
-						</div>
+					<div class="self-start pb-6 mt-4 font-mono">
+						<span>By</span>
+						{#each article.authors as author, index}
+							<a
+								href={author.twitterUsername
+									? `https://twitter.com/${author.twitterUsername}`
+									: null}
+								target="_blank"
+								rel="noopener noreferrer"
+								class={author.twitterUsername ? 'border-b' : ''}
+							>
+								{author.fullName}
+							</a>
+							{#if index < article.authors.length - 2}
+								<span>, </span>
+							{:else if index < article.authors.length - 1}
+								<span>{' '}and{' '}</span>
+							{/if}
+						{/each}
 					</div>
 				</div>
 
