@@ -74,7 +74,7 @@
 	</section>
 	<section>
 		<h2
-			id="team"
+			id="contributors"
 			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
 		>
 			Contributors
