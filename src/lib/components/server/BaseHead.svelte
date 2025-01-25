@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { sanitizeTitle } from '$lib/utils/sanitise'; // Import the utility function
 
 	const pageUrl = $page.url.origin;
 	const image = `${pageUrl}/preview-image.jpg`;
 	const title = '2077 Research';
 	const description = '2077 Research: Cutting-Edge Ethereum Research';
 
-	function sanitizeTitle(title: string): string {
-		return title
-			.replace(/&amp;/g, '&')
-			.replace(/&lt;/g, '<')
-			.replace(/&gt;/g, '>')
-			.replace(/&quot;/g, '"')
-			.replace(/&#039;/g, "'");
-	}
-
-	const sanitizedTitle = sanitizeTitle(title);
-	const sanitizedDescription = sanitizeTitle(description);
+	// Use the imported utility function
+	const sanitizedTitle = sanitizeTitle(title ?? '');
+	const sanitizedDescription = sanitizeTitle(description ?? '');
 </script>
 
 <svelte:head>
