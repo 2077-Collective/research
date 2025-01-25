@@ -936,7 +936,7 @@
 			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
 			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
 			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
-			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-cyan-400 [&_a:hover]:text-primary/60 [&_a]:transition-colors
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:text-base
