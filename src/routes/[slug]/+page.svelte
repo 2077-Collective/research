@@ -295,7 +295,7 @@
 			const headerIndicator = document.createElement('span');
 			headerIndicator.innerText = '#';
 			headerIndicator.className =
-				'inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic';
+				'hidden sm:inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic absolute left-0';
 			headerIndicator.setAttribute('data-header-indicator', 'true');
 			header.appendChild(headerIndicator);
 		});
@@ -603,7 +603,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-xl max-md:max-w-full font-soehne">
+						<p class="text-xl max-md:max-w-full">
 							{article.summary}
 						</p>
 					</section>
@@ -816,21 +816,17 @@
 					</div>
 				</div>
 			{/if}
-			<div
-				id="elevenlabs-audionative-widget"
-				data-height="90"
-				data-width="100%"
-				data-frameborder="no"
-				data-scrolling="no"
-				data-publicuserid="8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-				data-playerurl="https://elevenlabs.io/player/index.html"
-			>
-				Loading the
-				<a href="https://elevenlabs.io/text-to-speech" target="_blank" rel="noopener"
-					>Elevenlabs Text to Speech</a
-				>
-				AudioNative Player...
-			</div>
+
+			<iframe
+				id="AudioNativeElevenLabsPlayer"
+				title="AudioNative ElevenLabs Player"
+				width="100%"
+				height="90"
+				frameborder="no"
+				scrolling="no"
+				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+				style="max-height: 90px;"
+			></iframe>
 
 			{@html sanitizeContent(article.content)}
 		</div>
