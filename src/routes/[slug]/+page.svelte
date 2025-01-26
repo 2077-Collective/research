@@ -284,6 +284,7 @@
 
 				if (id) header.id = id;
 			}
+			header.classList.add('group');
 
 			// Remove existing indicator span if it exists
 			const existingSpan = header.querySelector('span[data-header-indicator]');
@@ -292,8 +293,9 @@
 			}
 			// Create and add the new indicator span
 			const headerIndicator = document.createElement('span');
-			headerIndicator.innerText = '⛓';
-			headerIndicator.className = 'inline-block ml-4 text-primary/80';
+			headerIndicator.innerText = '#';
+			headerIndicator.className =
+				'hidden sm:inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic absolute';
 			headerIndicator.setAttribute('data-header-indicator', 'true');
 			header.appendChild(headerIndicator);
 		});
@@ -320,7 +322,7 @@
 		const container = document.getElementById('content-container');
 		if (!container) return;
 
-		const headers = container.querySelectorAll('h1, h2');
+		const headers = container.querySelectorAll('h1, h2, h3');
 		const clickHandlers = new WeakMap();
 		headers.forEach((header) => {
 			let clickHandler = clickHandlers.get(header);
@@ -582,7 +584,7 @@
 					<ArrowLeft class="w-6 h-6" />
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
-					<section class="flex flex-col w-full gap-2">
+					<section class="flex flex-col w-full">
 						<!-- Add categories here -->
 						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
@@ -601,33 +603,29 @@
 							{article.title}
 						</h1>
 
-						<p class="text-xl max-md:max-w-full font-soehne">
+						<p class="text-xl max-md:max-w-full">
 							{article.summary}
 						</p>
 					</section>
-					<div class="flex flex-col self-start pb-6 mt-4 max-md:max-w-full font-mono">
-						<div class="flex gap-1.5 items-start self-start">
-							<span>By</span>
-							<div class="flex items-center gap-1">
-								{#each article.authors as author, index}
-									<a
-										href={author.twitterUsername
-											? `https://twitter.com/${author.twitterUsername}`
-											: null}
-										target="_blank"
-										rel="noopener noreferrer"
-										class="gap-1 self-stretch my-auto {author.twitterUsername ? 'border-b' : ''}"
-									>
-										{author.fullName}
-									</a>
-									{#if index < article.authors.length - 2}
-										<span class="self-stretch my-auto">,</span>
-									{:else if index < article.authors.length - 1}
-										<span class="self-stretch my-auto">and</span>
-									{/if}
-								{/each}
-							</div>
-						</div>
+					<div class="self-start pb-6 mt-4 font-mono">
+						<span>By</span>
+						{#each article.authors as author, index}
+							<a
+								href={author.twitterUsername
+									? `https://twitter.com/${author.twitterUsername}`
+									: null}
+								target="_blank"
+								rel="noopener noreferrer"
+								class={author.twitterUsername ? 'border-b' : ''}
+							>
+								{author.fullName}
+							</a>
+							{#if index < article.authors.length - 2}
+								<span>, </span>
+							{:else if index < article.authors.length - 1}
+								<span>{' '}and{' '}</span>
+							{/if}
+						{/each}
 					</div>
 				</div>
 
@@ -785,7 +783,7 @@
 						{article.summary}
 					</p>
 					<div class="flex flex-col gap-3 text-base text-gray-400">
-						<div class="flex items-center gap-2">
+						<div class="">
 							By {#each article.authors as author, index}
 								<a
 									href={author.twitterUsername
@@ -818,21 +816,17 @@
 					</div>
 				</div>
 			{/if}
-			<div
-				id="elevenlabs-audionative-widget"
-				data-height="90"
-				data-width="100%"
-				data-frameborder="no"
-				data-scrolling="no"
-				data-publicuserid="8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-				data-playerurl="https://elevenlabs.io/player/index.html"
-			>
-				Loading the
-				<a href="https://elevenlabs.io/text-to-speech" target="_blank" rel="noopener"
-					>Elevenlabs Text to Speech</a
-				>
-				AudioNative Player...
-			</div>
+
+			<iframe
+				id="AudioNativeElevenLabsPlayer"
+				title="AudioNative ElevenLabs Player"
+				width="100%"
+				height="90"
+				frameborder="no"
+				scrolling="no"
+				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+				style="max-height: 90px;"
+			></iframe>
 
 			{@html sanitizeContent(article.content)}
 		</div>
