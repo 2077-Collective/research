@@ -1,24 +1,20 @@
 {
-  "rewrites": [
-    {
-      "source": "/p/(.*)",
-      "destination": "https://cms.2077.xyz/p/$1"
-    },
-    {
-      "source": "/s/(.*)",
-      "destination": "https://cms.2077.xyz/s/$1"
-    },
-    {
-      "source": "/t/(.*)",
-      "destination": "https://cms.2077.xyz/t/$1"
-    },
-    {
-      "source": "/about",
-      "destination": "https://www.research.2077.xyz/"
-    },
-    {
-      "source": "/archive",
-      "destination": "https://www.research.2077.xyz/"
-    }
-  ]
+	"rewrites": [
+		{
+			"source": "/p/(.*)",
+			"destination": "https://cms.2077.xyz/p/$1"
+		},
+		{
+			"source": "/s/(.*)",
+			"destination": "https://cms.2077.xyz/s/$1"
+		},
+		{
+			"source": "/t/(.*)",
+			"destination": "https://cms.2077.xyz/t/$1"
+		},
+		{
+			"source": "/archive",
+			"destination": "https://www.research.2077.xyz/"
+		}
+	]
 }
