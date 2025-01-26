@@ -10,21 +10,23 @@
 		return author.full_name || author.username;
 	}
 
-	function getAuthorsText(authors: { full_name?: string; username: string }[] | undefined): string {
+	function getAuthorsText(
+		authors: { full_name?: string; username: string }[] | null | undefined
+	): string {
 		if (!authors?.length) return 'Unknown';
 		return authors.map(getAuthorDisplayName).join(', ');
 	}
 </script>
 
 <a href={`/${article.slug}`}>
-	<div class="flex flex-col lg:flex-row">
+	<div class="flex flex-col lg:flex-row w-full">
 		<img
 			src={article.thumb}
-			alt={article.title}
+			alt=""
 			loading="eager"
 			fetchpriority="high"
 			decoding="async"
-			class="w-full h-auto lg:w-4/6 object-cover"
+			class="!w-full object-cover"
 		/>
 		<div
 			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 p-6 md:p-10 text-base bg-secondary max-md:px-5 max-md:max-w-full"
