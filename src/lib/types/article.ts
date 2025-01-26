@@ -3,7 +3,7 @@ import { z } from 'zod';
 // Basic schemas
 export const CategorySchema = z.object({
 	name: z.string(),
-	is_primary: z.boolean().optional().default(false),
+	is_primary: z.boolean().optional().default(false)
 });
 
 export const AuthorSchema = z.object({
@@ -14,6 +14,13 @@ export const AuthorSchema = z.object({
 });
 export const AuthorArraySchema = z.array(AuthorSchema);
 export type Author = z.infer<typeof AuthorSchema>;
+
+export const ContributorSchema = z.object({
+	full_name: z.string(),
+	twitter_username: z.string().nullable().optional()
+});
+export const ContributorArraySchema = z.array(ContributorSchema);
+export type Contributor = z.infer<typeof ContributorSchema>;
 
 const CommonArticleFields = z.object({
 	id: z.string(),
