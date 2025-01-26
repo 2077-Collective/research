@@ -50,7 +50,20 @@
 					</Button>
 				</div>
 
-				<div class="flex gap-2 items-center"></div>
+				<div class="flex flex-col gap-2 items-center">
+					<a
+						href="/about"
+						onclick={() => {
+							mobileMenuOpen = false;
+						}}>About us</a
+					>
+					<a
+						href="/work-with-us"
+						onclick={() => {
+							mobileMenuOpen = false;
+						}}>Work with us</a
+					>
+				</div>
 
 				<Button
 					href="#subscribe"
