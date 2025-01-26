@@ -74,7 +74,7 @@
 				twitter_username="lilfatfrank"
 				full_name="Karan"
 				role="Developer"
-				summary="frontend specialist, backend aware. part-time degen."
+				summary="Frontend specialist, backend aware. Part-time degen."
 			/>
 			<TeamCard
 				twitter_username="alexhooketh"
