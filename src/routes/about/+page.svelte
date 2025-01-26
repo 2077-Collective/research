@@ -59,13 +59,13 @@
 				summary="frontend specialist, backend aware. part-time degen."
 			/>
 			<TeamCard
-				twitter_username="https://x.com/korayakpinarr"
+				twitter_username="korayakpinarr"
 				full_name="Koray Akpınar"
 				role="Research Lead"
 				summary="Arise, you have nothing to lose but your barbed wire fences!"
 			/>
 			<TeamCard
-				twitter_username="https://x.com/losndu"
+				twitter_username="losndu"
 				full_name="ndu"
 				role="Engineering Lead"
 				summary="Software Engineer | Technical Writer"
