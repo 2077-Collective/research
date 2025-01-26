@@ -6,12 +6,12 @@
 
 	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 
-	function getAuthorDisplayName(author: { full_name?: string; username: string }): string {
+	function getAuthorDisplayName(author: { full_name?: string | null; username: string }): string {
 		return author.full_name || author.username;
 	}
 
 	function getAuthorsText(
-		authors: { full_name?: string; username: string }[] | null | undefined
+		authors: { full_name?: string | null; username: string }[] | null | undefined
 	): string {
 		if (!authors?.length) return 'Unknown';
 		return authors.map(getAuthorDisplayName).join(', ');
