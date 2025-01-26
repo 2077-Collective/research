@@ -26,7 +26,7 @@
 			loading="eager"
 			fetchpriority="high"
 			decoding="async"
-			class="!w-full object-cover"
+			class="!w-full lg:!w-4/6 object-contain"
 		/>
 		<div
 			class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 p-6 md:p-10 text-base bg-secondary max-md:px-5 max-md:max-w-full"
