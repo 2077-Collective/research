@@ -53,10 +53,16 @@
 				summary="Chaos agent. Learning machine. Crazy genius. Ethernaut making Ethereum cool again."
 			/>
 			<TeamCard
+				twitter_username="losndu"
+				full_name="Chijindu Julian"
+				role="Engineering Lead"
+				summary="Software Engineer | Technical Writer"
+			/>
+			<TeamCard
 				twitter_username="lynettdoteth"
-				full_name="Lynett Simons"
+				full_name="lynett.eth"
 				role="Developer"
-				summary="i chase pigeons for fun"
+				summary="Crypto-anarchist developer and Ethereum maxi. In her free time, she buys more ETH."
 			/>
 			<TeamCard
 				twitter_username="lilfatfrank"
@@ -68,13 +74,19 @@
 				twitter_username="korayakpinarr"
 				full_name="Koray Akpınar"
 				role="Research Lead"
-				summary="Arise, you have nothing to lose but your barbed wire fences!"
+				summary="'Arise, you have nothing to lose but your barbed wire fences!'"
 			/>
 			<TeamCard
-				twitter_username="losndu"
-				full_name="ndu"
-				role="Engineering Lead"
-				summary="Software Engineer | Technical Writer"
+				twitter_username="alexhooketh"
+				full_name="Alex Hook"
+				role="Researcher"
+				summary="Founder @ Untron. Change the world. Start with the money."
+			/>
+			<TeamCard
+				twitter_username="0x_zhev"
+				full_name="Zhev"
+				role="Researcher"
+				summary="pursuing perpetually orthogonal interests. resident lemur @ west ham gc"
 			/>
 		</div>
 	</section>
@@ -87,9 +99,17 @@
 		</h2>
 
 		<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-			{#each authors as author}
-				<ContributorCard {...author} />
-			{/each}
+			<ContributorCard full_name="Fikunmi" twitter_username="fikunmi_ap" />
+			<ContributorCard full_name="sm-stack" twitter_username="stackdigest" />
+			<ContributorCard full_name="Seongwan Park" twitter_username="seongwan_eth" />
+			<ContributorCard full_name="Sankritsan" twitter_username="sankritsan" />
+			<ContributorCard full_name="Arbnom" twitter_username="arbnom" />
+			<ContributorCard full_name="BTC Penguin" twitter_username="btc_penguin" />
+			<ContributorCard full_name="Pavel Paramonov" twitter_username="paramonoww" />
+			<ContributorCard full_name="Yayya" twitter_username="yayya_ahd" />
+			<ContributorCard full_name="Yiğit Yektin" twitter_username="yigityektin" />
+			<ContributorCard full_name="Nikhil" />
+			<ContributorCard full_name="Annie" />
 		</div>
 	</section>
 </div>
