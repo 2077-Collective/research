@@ -78,7 +78,8 @@
 		@apply tracking-normal;
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
-		font-family: 'ABC Favorit Variable', serif;
+		font-family: 'Space Grotesk Variable', sans-serif;
+		/* font-family: 'ABC Favorit Variable', sans-serif; */
 		font-weight: 300;
 	}
 
