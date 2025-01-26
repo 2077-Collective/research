@@ -295,7 +295,7 @@
 			const headerIndicator = document.createElement('span');
 			headerIndicator.innerText = '#';
 			headerIndicator.className =
-				'hidden sm:inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic absolute left-0';
+				'hidden sm:inline-block ml-2 text-primary/0 group-hover:text-primary/80 transition-colors italic absolute';
 			headerIndicator.setAttribute('data-header-indicator', 'true');
 			header.appendChild(headerIndicator);
 		});
