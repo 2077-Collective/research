@@ -21,14 +21,20 @@
 		</h1>
 		<div class="md:text-lg leading-relaxed max-w-screen-lg space-y-4 text-pretty">
 			<p>
-				2077 Research is a research group dedicated to producing in-depth analysis and insights on
-				decentralized tech and cryptocurrency. We help people understand and make sense of Ethereum
-				by crafting insightful, technically accurate, and accessible content on DeFi and other
-				topics.
+				2077 Research is dedicated to helping people navigate the frontier of Ethereum's research
+				and development (R&D). We explore cutting-edge topics across scaling, interoperability,
+				Ethereum standards, DeFi, staking, MEV, UX, privacy, and more. By simplifying complex ideas
+				and providing actionable insights, we empower our audience to make informed decisions in the
+				evolving Ethereum ecosystem.
 			</p>
 			<p class="text-base text-white/50">
-				Are you seeking a report about your project? {' '}
-				<a href="/work-with-us" class="text-blue-500 hover:underline">Get in touch.</a>
+				Are you looking to work with us? <a
+					href="mailto://research@2077.xyz"
+					class="text-blue-500 hover:underline">Get in touch</a
+				>
+				or check out our
+				<a href="/work-with-us" class="text-blue-500 hover:underline">service page</a> for more info
+				on our approach to working with partner projects.
 			</p>
 		</div>
 	</section>
