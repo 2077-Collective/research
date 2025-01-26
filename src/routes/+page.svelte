@@ -28,7 +28,7 @@
 
 <BaseHead />
 
-<div class="px-3 md:px-12 flex flex-col gap-10">
+<div class="px-3 md:px-12">
 	<div
 		class="h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
 	>
@@ -56,12 +56,15 @@
 		/>
 		-->
 	</div>
+
 	<!-- These heights are arbitrary and never repeated throughout the website, that's why they're not in tailwind config -->
 	{#if articles[0]}
+		<h2 class="text-2xl md:text-5xl font-soehne my-8">Featured</h2>
 		<ArticleSpotlight article={articles[0]} />
 	{/if}
 
 	<!-- <ArticleList {articles} {articleCategories} displayLoadMore={false} /> -->
+	<h2 class="text-5xl font-soehne my-8">Most recent</h2>
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
