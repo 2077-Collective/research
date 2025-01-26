@@ -55,35 +55,26 @@
 						alt={article.title}
 						class="w-full h-full object-cover rounded-sm transition-transform duration-300 group-hover:scale-105"
 					/>
-				</a>
 
-				<!-- Content -->
-				<div class="p-4">
-					<h2
-						class="font-soehne text-lg font-medium leading-tight tracking-tight line-clamp-2 text-ellipsis overflow-hidden"
-					>
-						{article.title}
-					</h2>
-					<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-						By {#each article.authors as author, index}
-							<a
-								href={author.twitterUsername
-									? `https://twitter.com/${author.twitterUsername}`
-									: null}
-								target="_blank"
-								rel="noopener noreferrer nofollower"
-								class={author.twitterUsername ? 'border-b hover:text-primary/50' : ''}
-							>
-								{author.fullName}
-							</a>
-							{#if index < article.authors.length - 2}
-								<span>,&nbsp;</span>
-							{:else if index < article.authors.length - 1}
-								<span>and&nbsp;</span>
-							{/if}
-						{/each}
-					</p>
-				</div>
+					<!-- Content -->
+					<div class="p-4">
+						<h2
+							class="font-soehne text-lg font-medium leading-tight tracking-tight line-clamp-2 text-ellipsis overflow-hidden"
+						>
+							{article.title}
+						</h2>
+						<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+							By {#each article.authors as author, index}
+								<span>{author.fullName}</span>
+								{#if index < article.authors.length - 2}
+									<span>,&nbsp;</span>
+								{:else if index < article.authors.length - 1}
+									<span>and&nbsp;</span>
+								{/if}
+							{/each}
+						</p>
+					</div>
+				</a>
 			</span>
 		</div>
 	</div>
