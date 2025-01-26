@@ -53,6 +53,12 @@
 				summary="Chaos agent. Learning machine. Crazy genius. Ethernaut making Ethereum cool again."
 			/>
 			<TeamCard
+				twitter_username="korayakpinarr"
+				full_name="Koray Akpınar"
+				role="Research Lead"
+				summary="'Arise, you have nothing to lose but your barbed wire fences!'"
+			/>
+			<TeamCard
 				twitter_username="losndu"
 				full_name="Chijindu Julian"
 				role="Engineering Lead"
@@ -69,12 +75,6 @@
 				full_name="Karan"
 				role="Developer"
 				summary="frontend specialist, backend aware. part-time degen."
-			/>
-			<TeamCard
-				twitter_username="korayakpinarr"
-				full_name="Koray Akpınar"
-				role="Research Lead"
-				summary="'Arise, you have nothing to lose but your barbed wire fences!'"
 			/>
 			<TeamCard
 				twitter_username="alexhooketh"
