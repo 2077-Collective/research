@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { ArrowUpRightIcon, InboxIcon, MailIcon, type Icon as IconType } from 'lucide-svelte';
+	import {
+		ArrowUpRightIcon,
+		Briefcase,
+		InboxIcon,
+		MailIcon,
+		type Icon as IconType
+	} from 'lucide-svelte';
 	import X from '$lib/components/ui/icons/X.svelte';
 	import type { Component } from 'svelte';
 
@@ -11,6 +17,7 @@
 	};
 	const links: Link[] = [
 		{ href: '/reports', text: 'Latest research', isExternal: false },
+		{ href: '/about', text: 'About', isExternal: false },
 		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
 		{ href: 'https://2077.xyz', text: '2077.xyz', isExternal: true },
 		{
@@ -19,6 +26,7 @@
 			isExternal: false,
 			icon: MailIcon
 		},
+		{ href: '/work-with-us', text: 'Work with us', isExternal: false, icon: Briefcase },
 		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X }
 	];
 </script>

@@ -696,7 +696,7 @@
 									>
 										<Link2 class="w-5 h-5" />
 										{#if copySuccess}
-											<span class="text-[#07BEBF] text-sm">Link Copied</span>
+											<span class="text-special-blue text-sm">Link Copied</span>
 										{:else}
 											<span class="text-sm">Copy Link</span>
 										{/if}

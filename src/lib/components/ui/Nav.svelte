@@ -14,7 +14,7 @@
 
 	<div class="items-center gap-4 hidden md:flex">
 		<Button
-			class="flex items-center gap-1 justify-center w-fit px-8 bg-[#07BEBF] rounded-full"
+			class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
 			onclick={() => {
 				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 			}}
@@ -50,12 +50,11 @@
 					</Button>
 				</div>
 
-				<div class="flex gap-2 items-center">
-				</div>
+				<div class="flex gap-2 items-center"></div>
 
 				<Button
 					href="#subscribe"
-					class="mt-4 flex items-center gap-1 justify-center  px-8 bg-[#07BEBF]"
+					class="mt-4 flex items-center gap-1 justify-center px-8 bg-special-blue"
 					onclick={() => {
 						mobileMenuOpen = false;
 						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
