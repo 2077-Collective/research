@@ -17,7 +17,6 @@
             .join(' ')
     );
 
-    // Filter articles to only include those that match the formattedCategory
     const filteredArticles = $derived(
         articles.filter(article =>
             article.categories.some(cat =>
@@ -26,11 +25,11 @@
         )
     );
 
-    let currentPage = 1;
+    let currentPage = $state(1);
     const articlesPerPage = 30;
     const paginatedArticles = $derived(filteredArticles.slice(0, currentPage * articlesPerPage));
 
-    let isLoading = false;
+    let isLoading = $state(false);
     let observer: IntersectionObserver;
     let loadMoreMarker: HTMLElement;
 
@@ -41,10 +40,13 @@
             (entries) => {
                 if (entries[0].isIntersecting && !isLoading && currentPage * articlesPerPage < filteredArticles.length) {
                     isLoading = true;
-                    setTimeout(() => {
+                    try {
                         currentPage += 1;
+                    } catch (error) {
+                        console.error('Failed to load more articles:', error);
+                    } finally {
                         isLoading = false;
-                    }, 1000);
+                    }
                 }
             },
             { threshold: 1.0 }

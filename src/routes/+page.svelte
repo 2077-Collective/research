@@ -19,7 +19,7 @@
 <BaseHead />
 
 <div class="px-3 md:px-12">
-    <div class="h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent">
+    <div aria-label="Hero" class="h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent">
         <h1 class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10">
             Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
         </h1>

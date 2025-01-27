@@ -5,7 +5,6 @@
     import Badge from './badge/badge.svelte';
 
     const {
-        maxCategories = 7,
         articlesPerCategory = 1,
         excludeCategory = ''
     }: {
@@ -26,15 +25,12 @@
 
     let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
 
-    // Helper function to validate dates
     const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
 
-    // Function to get recent articles by category
     function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
         const categoryMap = new Map<string, ArticleMetadata[]>();
 
-        // Pre-sort articles by scheduledPublishTime
-        const sortedArticles = articles.sort((a, b) => {
+        const sortedArticles = [...articles].sort((a, b) => {
             if (!isValidDate(a.scheduledPublishTime) || !isValidDate(b.scheduledPublishTime)) {
                 console.warn('Invalid date found in article:',
                     !isValidDate(a.scheduledPublishTime) ? a.slug : b.slug);
@@ -46,7 +42,6 @@
         for (const categoryName of categoryOrder) {
             if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
 
-            // Filter articles for the current category
             const articlesForCategory = sortedArticles.filter(article =>
                 article.categories.some(cat => cat.name === categoryName)
             );
@@ -64,7 +59,6 @@
             .filter(category => category.articles.length > 0);
     }
 
-    // Effect to fetch and process articles
     $effect(() => {
         const articles = getArticles();
         if (articles.length > 0) {

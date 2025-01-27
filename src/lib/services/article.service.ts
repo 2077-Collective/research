@@ -7,20 +7,24 @@ import {
 
 const baseURL = 'https://cms.2077.xyz/api';
 
-// Cache for storing fetched articles
-const cache = new Map();
+const cache = new Map<string, { data: ArticleMetadata[]; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; 
 
-export const fetchArticles = async (category?: string, page: number = 1, limit: number = 10): Promise<ArticleMetadata[]> => {
-    // Generate a unique cache key based on category, page, and limit
+const isCacheValid = (timestamp: number): boolean => {
+    return Date.now() - timestamp < CACHE_TTL;
+};
+
+export const fetchArticles = async (category?: string, page = 1, limit = 10) => {
     const cacheKey = `${category || 'all'}-${page}-${limit}`;
 
-    // Return cached data if available
     if (cache.has(cacheKey)) {
-        return cache.get(cacheKey);
+        const cached = cache.get(cacheKey);
+        if (cached && isCacheValid(cached.timestamp)) {
+            return cached.data;
+        }
     }
 
     try {
-        // Build the URL with optional category filtering and pagination
         const url = new URL(`${baseURL}/articles/`);
         if (category) {
             url.searchParams.append('category', category.toLowerCase());
@@ -44,11 +48,9 @@ export const fetchArticles = async (category?: string, page: number = 1, limit: 
             throw new Error('Unexpected response structure from the CMS backend');
         }
 
-        // Parse and validate the articles
         const parsedArticles = ArticleMetadataArraySchema.parse(articles);
 
-        // Cache the fetched articles
-        cache.set(cacheKey, parsedArticles);
+        cache.set(cacheKey, { data: parsedArticles, timestamp: Date.now() });
 
         return parsedArticles;
     } catch (error) {
