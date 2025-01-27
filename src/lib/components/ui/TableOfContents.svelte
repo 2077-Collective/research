@@ -142,7 +142,7 @@
 			</div>
 		{/if}
 		{#if isOpen}
-			<ul class="flex flex-col gap-3 bg-secondary p-3 grow">
+			<ul class="flex font-hubot flex-col gap-3 bg-secondary p-3 grow">
 				{#each tableOfContents as item, index}
 					<li>
 						<a

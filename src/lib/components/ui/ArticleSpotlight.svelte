@@ -16,6 +16,12 @@
 		if (!authors?.length) return 'Unknown';
 		return authors.map(getAuthorDisplayName).join(', ');
 	}
+
+	// Function to handle category click
+	function handleCategoryClick(event: Event, categoryName: string) {
+		event.preventDefault(); // Prevent the default link behavior
+		window.location.href = `/category/${categoryName.toLowerCase()}`; // Navigate to the category page
+	}
 </script>
 
 <a href={`/${article.slug}`}>
@@ -33,7 +39,17 @@
 		>
 			<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide">
 				{#if primaryCategory}
-					<Badge variant="rectangular" class="text-white border-white/20 text-xs lg:text-sm">{primaryCategory.name}</Badge>
+					<a
+						href={`/category/${primaryCategory.name.toLowerCase()}`}
+						on:click={(event) => handleCategoryClick(event, primaryCategory.name)}
+					>
+						<Badge
+							variant="rectangularFilled"
+							class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer"
+						>
+							{primaryCategory.name}
+						</Badge>
+					</a>
 				{/if}
 			</div>
 

@@ -31,6 +31,4 @@
         title={`Latest ${formattedCategory}`}
         disableCategory={true}
     />
-    <hr class="my-6 md:my-12" />
-    <RelatedCategories currentCategory={category} />
 </div>
