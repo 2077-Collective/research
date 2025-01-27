@@ -1,17 +1,11 @@
-// import adapter from '@sveltejs/adapter-auto';
 import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import adapter from '@sveltejs/adapter-vercel';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	// Consult https://kit.svelte.dev/docs/integrations#preprocessors
-	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 
 	kit: {
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported, or you settled on a specific environment, switch out the adapter.
-		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
 			maxDuration: 300
 		}),
@@ -24,16 +18,17 @@ const config = {
 					'https://vercel.live',
 					'https://va.vercel-scripts.com',
 					'https://elevenlabs.io',
-					'https://fonts.googleapis.com'
+					'https://fonts.googleapis.com',
+					'https://embeds.beehiiv.com'
 				],
 				'img-src': ['self', 'data:', 'https:'],
 				'style-src': ['self', 'unsafe-inline', 'https://fonts.googleapis.com'],
 				'font-src': ['self', 'https://fonts.gstatic.com'],
-				'connect-src': ['self', 'https:'],
+				'connect-src': ['self', 'https:', 'https://embeds.beehiiv.com'],
 				'default-src': ['self'],
 				'frame-ancestors': ['self'],
 				'base-uri': ['self'],
-				'frame-src': ['https://elevenlabs.io']
+				'frame-src': ['self', 'https://elevenlabs.io', 'https://embeds.beehiiv.com']
 			}
 		}
 	}

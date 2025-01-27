@@ -33,6 +33,7 @@
 		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
 }
 
+
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {

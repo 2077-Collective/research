@@ -62,7 +62,9 @@ const config: Config = {
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
-				mono: ['Kode Mono Variable', 'monospace']
+				mono: ['Kode Mono Variable', 'monospace'],
+				powerGroteskBold: ['PowerGroteskBold', 'sans-serif'],
+				powerGroteskMedium: ['PowerGroteskMedium', 'sans-serif']
 			},
 			letterSpacing: {
 				tightest: '-.075em',
