@@ -33,7 +33,7 @@
 			loading="eager"
 			fetchpriority="high"
 			decoding="async"
-			class="w-full object-contain"
+			class="!w-full lg:!w-4/6 object-contain"
 		/>
 	</a>
 	<div
