@@ -33,7 +33,7 @@
 		>
 			<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide">
 				{#if primaryCategory}
-					<Badge variant="outline">{primaryCategory.name}</Badge>
+					<Badge variant="rectangular" class="text-white border-white/20 text-xs lg:text-sm">{primaryCategory.name}</Badge>
 				{/if}
 			</div>
 
