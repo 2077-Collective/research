@@ -10,9 +10,16 @@
 <div
 	class="sticky top-0 z-50 flex justify-between items-center px-3 md:px-12 py-4 md:py-6 max-w-screen-2xl mx-auto bg-background"
 >
+	<!-- Logo -->
 	<a href="/" class="ml-1"><Research /></a>
 
+	<!-- Desktop Navigation -->
 	<div class="items-center gap-4 hidden md:flex">
+		<!-- About and Work With Us Links -->
+		<a href="/about" class="text-gray-200 hover:text-gray-500 transition-colors">About us</a>
+		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors">Work With Us</a>
+
+		<!-- Subscribe Button -->
 		<Button
 			class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
 			onclick={() => {
@@ -24,11 +31,13 @@
 		</Button>
 	</div>
 
+	<!-- Mobile Menu Toggle -->
 	<div class="md:hidden">
 		{@render mobileMenu()}
 	</div>
 </div>
 
+<!-- Mobile Menu Snippet -->
 {#snippet mobileMenu()}
 	<div class="md:hidden">
 		<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = true)}>
@@ -36,6 +45,7 @@
 		</Button>
 	</div>
 
+	<!-- Mobile Menu Overlay -->
 	{#if mobileMenuOpen}
 		<div
 			class="fixed inset-0 bg-background/90 backdrop-blur-sm z-50"
@@ -43,6 +53,7 @@
 			out:fade={{ duration: 150 }}
 		>
 			<div class="flex flex-col gap-4 p-4">
+				<!-- Header with Close Button -->
 				<div class="flex justify-between items-center">
 					<a href="/"><Research /></a>
 					<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = false)}>
@@ -50,6 +61,7 @@
 					</Button>
 				</div>
 
+				<!-- Mobile Menu Links -->
 				<div class="flex flex-col gap-2 items-center">
 					<a
 						href="/about"

@@ -7,9 +7,32 @@ import {
 
 const baseURL = 'https://cms.2077.xyz/api';
 
-export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
+const cache = new Map<string, { data: ArticleMetadata[]; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000; 
+
+const isCacheValid = (timestamp: number): boolean => {
+    return Date.now() - timestamp < CACHE_TTL;
+};
+
+export const fetchArticles = async (category?: string, page = 1, limit = 10) => {
+    const cacheKey = `${category || 'all'}-${page}-${limit}`;
+
+    if (cache.has(cacheKey)) {
+        const cached = cache.get(cacheKey);
+        if (cached && isCacheValid(cached.timestamp)) {
+            return cached.data;
+        }
+    }
+
     try {
-        const res = await fetch(`${baseURL}/articles/`);
+        const url = new URL(`${baseURL}/articles/`);
+        if (category) {
+            url.searchParams.append('category', category.toLowerCase());
+        }
+        url.searchParams.append('page', page.toString());
+        url.searchParams.append('limit', limit.toString());
+
+        const res = await fetch(url.toString());
         if (!res.ok) {
             throw new Error(`Failed to fetch articles: ${res.status} ${res.statusText}`);
         }
@@ -25,7 +48,11 @@ export const fetchArticles = async (): Promise<ArticleMetadata[]> => {
             throw new Error('Unexpected response structure from the CMS backend');
         }
 
-        return ArticleMetadataArraySchema.parse(articles);
+        const parsedArticles = ArticleMetadataArraySchema.parse(articles);
+
+        cache.set(cacheKey, { data: parsedArticles, timestamp: Date.now() });
+
+        return parsedArticles;
     } catch (error) {
         console.error('Error fetching articles:', error);
         throw error;

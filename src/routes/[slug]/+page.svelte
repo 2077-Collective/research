@@ -98,7 +98,6 @@
 		const articleHeight = article.offsetHeight;
 		const scrollTop = window.scrollY;
 
-		// Calculate progress percentage
 		const totalHeight = articleHeight - windowHeight;
 		const currentProgress = (scrollTop / totalHeight) * 100;
 		progress = Math.min(Math.max(currentProgress, 0), 100);
@@ -553,7 +552,6 @@
 		{@render header(data.article)}
 	{/if}
 	{@render body(data.article)}
-	<!-- Only show toggle button when not in reading mode -->
 	{#if !isReadingMode}
 		{@render floatingButtons()}
 	{/if}
@@ -565,7 +563,6 @@
 
 {#snippet header(article: Article)}
 	<div class="relative">
-		<!-- Background Cover Image -->
 		<div class="absolute inset-0 w-full">
 			<img src={article.thumb} alt={article.title} class="w-full h-full object-cover" />
 			<div
@@ -573,7 +570,6 @@
 			></div>
 		</div>
 
-		<!-- Header Content -->
 		<div class="relative px-3 md:px-12">
 			<header class="flex justify-between flex-col p-10 max-md:px-5">
 				<a
@@ -585,7 +581,6 @@
 				</a>
 				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
 					<section class="flex flex-col w-full">
-						<!-- Add categories here -->
 						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
 								<Badge

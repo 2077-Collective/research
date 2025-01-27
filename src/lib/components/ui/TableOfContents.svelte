@@ -102,7 +102,7 @@
 </script>
 
 <ul
-	class="hidden lg:block pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto"
+	class="hidden lg:block pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
 >
 	{#each tableOfContents as item, index}
 		<li>
@@ -142,7 +142,7 @@
 			</div>
 		{/if}
 		{#if isOpen}
-			<ul class="flex flex-col gap-3 bg-secondary p-3 grow">
+			<ul class="flex font-hubot flex-col gap-3 bg-secondary p-3 grow">
 				{#each tableOfContents as item, index}
 					<li>
 						<a
