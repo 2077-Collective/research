@@ -34,7 +34,7 @@
 	>
 		<!-- leading-[69px] and max-w-[928px] are arbitrary and never repeated throughout the website, that's why it's not in tailwind config -->
 		<h1
-			class="font-soehne text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10"
+			class="font-powerGroteskBold text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10"
 		>
 			Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
 		</h1>

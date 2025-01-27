@@ -24,7 +24,7 @@
 	<div
 		class="flex flex-col grow items-center px-3 md:px-12 py-4 md:py-6 mt-8 max-w-screen-2xl mx-auto"
 	>
-		<Beehiiv />
+		<Beehiiv variant="home" />
 		<Footer />
 		<Toaster />
 	</div>
