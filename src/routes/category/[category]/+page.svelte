@@ -1,6 +1,5 @@
 <script lang="ts">
     import ArticleList from '$lib/components/ui/ArticleList.svelte';
-    import RelatedCategories from '$lib/components/ui/RelatedCategories.svelte';
     import type { PageData } from './$types';
     import { setArticles } from '$lib/stores/articles.svelte';
     import { onMount } from 'svelte';
@@ -10,7 +9,7 @@
 
     const articles = $derived(data.articles);
     const category = $derived(data.category);
-    
+
     const formattedCategory = $derived(
         category
             .split('-')
@@ -18,17 +17,73 @@
             .join(' ')
     );
 
+    // Filter articles to only include those that match the formattedCategory
+    const filteredArticles = $derived(
+        articles.filter(article =>
+            article.categories.some(cat =>
+                cat.name.toLowerCase() === formattedCategory.toLowerCase()
+            )
+        )
+    );
+
+    let currentPage = 1;
+    const articlesPerPage = 30;
+    const paginatedArticles = $derived(filteredArticles.slice(0, currentPage * articlesPerPage));
+
+    let isLoading = false;
+    let observer: IntersectionObserver;
+    let loadMoreMarker: HTMLElement;
+
     onMount(() => {
-        setArticles(data.articles);
+        setArticles(filteredArticles);
+
+        observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && !isLoading && currentPage * articlesPerPage < filteredArticles.length) {
+                    isLoading = true;
+                    setTimeout(() => {
+                        currentPage += 1;
+                        isLoading = false;
+                    }, 1000);
+                }
+            },
+            { threshold: 1.0 }
+        );
+        if (loadMoreMarker) {
+            observer.observe(loadMoreMarker);
+        }
+        return () => {
+            if (observer) {
+                observer.disconnect();
+            }
+        };
     });
 </script>
 
 <BaseHead />
+
 <div class="px-3 md:px-12 flex flex-col gap-10">
     <ArticleList 
-        {articles} 
-        articlesPerPage={100}
+        articles={paginatedArticles} 
+        articlesPerPage={articlesPerPage}
         title={`Latest ${formattedCategory}`}
         disableCategory={true}
     />
+
+    <div
+        bind:this={loadMoreMarker}
+        class="h-10"
+    >
+        {#if isLoading}
+            <div class="flex justify-center py-4">
+                <span class="text-gray-500">Loading...</span>
+            </div>
+        {/if}
+    </div>
+
+    {#if currentPage * articlesPerPage >= filteredArticles.length && filteredArticles.length > 0}
+        <div class="flex justify-center py-4">
+            <span class="text-gray-500">No more articles to load.</span>
+        </div>
+    {/if}
 </div>

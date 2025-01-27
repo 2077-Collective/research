@@ -12,13 +12,11 @@
 
     const {
         articles,
-        articleCategories,
         articlesPerPage = ARTICLES_PER_PAGE,
         displayLoadMore = true,
         title = 'Latest Research'
     }: {
         articles: ArticleMetadata[];
-        articleCategories: string[];
         articlesPerPage?: number;
         displayLoadMore?: boolean;
         title?: string;
@@ -28,7 +26,6 @@
     let selectedCategory = $state('');
     let visibleArticles = $state(articlesPerPage);
     let previousVisibleCount = $state(articlesPerPage);
-    let newArticleRef: HTMLElement | null = $state(null);
     let loading = $state(false);
 
     const filteredArticles = $derived(

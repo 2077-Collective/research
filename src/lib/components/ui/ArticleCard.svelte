@@ -7,12 +7,8 @@
 
     const { article }: { article: ArticleMetadata } = $props();
 
-    // Get the current category from the URL when on a category page
-    const currentPageCategory = $derived($page.url.pathname.includes('/category/') ? 
-        $page.url.pathname.split('/').pop() : null
-    );
+    const currentPageCategory = $derived($page.url.pathname.match(/\/category\/([^/]+)/)?.[1] ?? null);
 
-    // If we're on a category page, show that category. Otherwise, show primary or first category
     const displayCategory = $derived(
         currentPageCategory 
             ? article.categories.find(cat => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()) 
@@ -21,7 +17,6 @@
             : article.categories.find(cat => cat.is_primary) || article.categories[0]
     );
 
-    // Check if we're on a category page
     const isOnCategoryPage = $derived($page.url.pathname.includes('/category/'));
 
     const handleCategoryClick = (categoryName: string) => {
@@ -37,7 +32,6 @@
         class="flex flex-col h-fit rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-gray-800"
         style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
     >
-        <!-- Image -->
         <div class="flex flex-col w-full">
             <img 
                 src={article.thumb} 
@@ -46,9 +40,7 @@
             />
         </div>
 
-        <!-- Content -->
         <div class="flex flex-col p-3 w-full">
-            <!-- Category Badge -->
             <div class="flex gap-1 items-start w-full text-xs tracking-wide">
                 {#if displayCategory}
                     <Badge
@@ -68,7 +60,6 @@
                 {/if}
             </div>
 
-            <!-- Title -->
             <p class="font-soehne mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2">
                 {article.title}
             </p>

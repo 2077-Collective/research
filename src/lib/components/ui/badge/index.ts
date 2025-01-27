@@ -11,8 +11,8 @@ export const badgeVariants = tv({
 				'bg-destructive text-destructive-foreground hover:bg-destructive/80 border-transparent',
 			outline: 'text-foreground',
 			rectangular: 'rounded-none border-t-0 border-r-0 ',
-			rectangularFull: 'rounded-none border-2',
-			rectangularFilled: 'rounded-none border-2 bg-white text-black',
+			rectangularFull: 'rounded-none border-2 hover:bg-foreground hover:text-background dark:hover:bg-white dark:hover:text-black',
+			rectangularFilled: 'rounded-none border-2 bg-white text-black hover:bg-black hover:text-white dark:bg-white dark:text-black dark:hover:bg-black dark:hover:text-white',
 		}
 	},
 	defaultVariants: {

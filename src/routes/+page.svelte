@@ -1,6 +1,5 @@
 <script lang="ts">
     import ArticleSpotlight from '$lib/components/ui/ArticleSpotlight.svelte';
-    import ArticleList from '$lib/components/ui/ArticleList.svelte';
     import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
     import type { PageData } from './$types';
     import { setArticles } from '$lib/stores/articles.svelte';
@@ -41,7 +40,7 @@
     </div>
 
     <div class="flex justify-center py-4 md:py-10">
-        <a href="/reports" class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group">
+        <a href="/reports" class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group" aria-label="View all research articles">
             See all research
             <div class="border rounded-full p-2 h-10 w-10 flex items-center justify-center group-hover:bg-primary group-hover:text-accent group-hover:translate-y-1 transition-transform duration-300">
                 <ArrowRight class="h-10 w-10 rounded-full" style="stroke-width: 1.4" />

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
+	import { goto } from '$app/navigation';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
@@ -17,11 +18,10 @@
 		return authors.map(getAuthorDisplayName).join(', ');
 	}
 
-	// Function to handle category click
 	function handleCategoryClick(event: Event, categoryName: string) {
-		event.preventDefault(); // Prevent the default link behavior
-		event.stopPropagation(); // Stop event propagation to avoid conflicting with the parent link
-		window.location.href = `/category/${categoryName.toLowerCase()}`; // Navigate to the category page
+		event.preventDefault();
+		event.stopPropagation();
+		goto(`/category/${categoryName.toLowerCase()}`);
 	}
 </script>
 
@@ -29,7 +29,7 @@
 	<a href={`/${article.slug}`} class="!w-full lg:!w-4/6">
 		<img
 			src={article.thumb}
-			alt=""
+			alt={`Thumbnail for article: ${article.title}`}
 			loading="eager"
 			fetchpriority="high"
 			decoding="async"
@@ -43,8 +43,11 @@
 			{#if primaryCategory}
 				<Badge
 					variant="rectangularFilled"
-					class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer"
+					class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer focus:ring-2 focus:ring-offset-2"
+					role="link"
+					tabindex="0"
 					on:click={(event) => handleCategoryClick(event, primaryCategory.name)}
+					on:keydown={(event) => event.key === 'Enter' && handleCategoryClick(event, primaryCategory.name)}
 				>
 					{primaryCategory.name}
 				</Badge>

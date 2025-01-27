@@ -1,15 +1,14 @@
 <script lang="ts">
-    import type { Article, ArticleMetadata } from '$lib/types/article';
+    import type { ArticleMetadata } from '$lib/types/article';
     import { getArticles } from '$lib/stores/articles.svelte';
-    import { onMount } from 'svelte';
     import { ArrowRight } from 'lucide-svelte';
     import Badge from './badge/badge.svelte';
-    
-    const { 
+
+    const {
         maxCategories = 7,
         articlesPerCategory = 1,
         excludeCategory = ''
-    }: { 
+    }: {
         maxCategories?: number;
         articlesPerCategory?: number;
         excludeCategory?: string;
@@ -27,23 +26,33 @@
 
     let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
 
+    // Helper function to validate dates
+    const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
+
+    // Function to get recent articles by category
     function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
         const categoryMap = new Map<string, ArticleMetadata[]>();
 
+        // Pre-sort articles by scheduledPublishTime
+        const sortedArticles = articles.sort((a, b) => {
+            if (!isValidDate(a.scheduledPublishTime) || !isValidDate(b.scheduledPublishTime)) {
+                console.warn('Invalid date found in article:',
+                    !isValidDate(a.scheduledPublishTime) ? a.slug : b.slug);
+                return 0;
+            }
+            return new Date(b.scheduledPublishTime).getTime() - new Date(a.scheduledPublishTime).getTime();
+        });
+
         for (const categoryName of categoryOrder) {
             if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
-            
-            const articlesForCategory = articles.filter(article => 
+
+            // Filter articles for the current category
+            const articlesForCategory = sortedArticles.filter(article =>
                 article.categories.some(cat => cat.name === categoryName)
             );
 
-            const sortedArticles = articlesForCategory.sort((a, b) => 
-                new Date(b.scheduledPublishTime).getTime() - 
-                new Date(a.scheduledPublishTime).getTime()
-            );
-
-            if (sortedArticles.length > 0) {
-                categoryMap.set(categoryName, sortedArticles.slice(0, articlesPerCategory));
+            if (articlesForCategory.length > 0) {
+                categoryMap.set(categoryName, articlesForCategory.slice(0, articlesPerCategory));
             }
         }
 
@@ -55,6 +64,7 @@
             .filter(category => category.articles.length > 0);
     }
 
+    // Effect to fetch and process articles
     $effect(() => {
         const articles = getArticles();
         if (articles.length > 0) {
@@ -69,13 +79,13 @@
         {#each categoryArticles as { category, articles }}
             <div class="flex flex-col">
                 <div class="flex items-center justify-between">
-                    <Badge 
-                        variant="rectangularFilled" 
+                    <Badge
+                        variant="rectangularFilled"
                         class="font-mono font-bold border-white/20 text-xs lg:text-sm"
                     >
                         {category}
                     </Badge>
-                    <a 
+                    <a
                         href={`/category/${category.toLowerCase()}`}
                         class="flex font-mono items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
                     >
@@ -85,7 +95,7 @@
                 </div>
                 <div class="flex flex-col gap-3">
                     {#each articles as article}
-                        <a 
+                        <a
                             href={`/${article.slug}`}
                             class="group flex flex-col gap-2"
                         >
@@ -94,7 +104,10 @@
                                     src={article.thumb}
                                     alt={article.title}
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    width="400"
+                                    height="300"
                                     loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <h3 class="font-powerGroteskBold text-base leading-tight tracking-tight line-clamp-2">

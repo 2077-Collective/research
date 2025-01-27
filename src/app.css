@@ -34,33 +34,6 @@
 }
 
 @font-face {
-	font-family: 'PowerGroteskLight';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('PowerGroteskLight'),
-		url('/fonts/PowerGroteskTrial-Light.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'PowerGroteskRegular';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('PowerGroteskRegular'),
-		url('/fonts/PowerGroteskTrial-Regular.woff2') format('woff2');
-}
-
-@font-face {
-	font-family: 'PowerGroteskBold';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('PowerGroteskBold'),
-		url('/fonts/PowerGroteskTrial-Bold.woff2') format('woff2');
-}
-
-@font-face {
 	font-family: 'HubotSans';
 	font-style: normal;
 	font-weight: normal;
@@ -72,6 +45,9 @@
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {
+		--font-primary: 'HubotSans', sans-serif;
+		--font-mono: 'Kode-Mono', sans-serif;
+
 		--background: 240 4% 5%;
 		--background-lighter: 240 4% 10%;
 		--foreground: 210 40% 98%;
@@ -114,18 +90,18 @@
 		@apply tracking-normal;
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
-		font-family: 'HubotSans', sans-serif;
+		font-family: var(--font-primary);
 		font-weight: 300;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
 		@apply tracking-tight;
-		font-family: 'Kobe-Mono', sans-serif;
+		font-family: var(--font-mono);
 	}
 
 	p {
 		@apply tracking-normal;
-		font-family: 'HubotSans', sans-serif;
+		font-family: var(--font-primary);
 	}
 
 	button, a {
