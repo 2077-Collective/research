@@ -33,22 +33,6 @@
 		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
 }
 
-@font-face {
-	font-family: 'PowerGroteskBold';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('ABC Favorit Variable'),
-		url('/fonts/PowerGroteskTrial-Bold.woff2') format('woff2');
-}
-@font-face {
-	font-family: 'PowerGroteskMedium';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('ABC Favorit Variable'),
-		url('/fonts/PowerGroteskTrial-Medium.woff2') format('woff2');
-}
 
 @layer base {
 	/* Define dark mode variables in :root */

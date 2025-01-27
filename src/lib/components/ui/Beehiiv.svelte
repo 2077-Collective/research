@@ -1,39 +1,21 @@
 <script lang="ts">
-
 	const { variant = 'home' }: { variant?: 'home' | 'article' } = $props();
+	const variantStyles = {
+		article: 'px-20 py-4 mt-6 -mb-8',
+		home: 'px-40 py-32'
+	};
 </script>
 
-{#if variant === 'article'}
-	{@render article()}
-{:else}
-	{@render home()}
-{/if}
-
-{#snippet article()}
+<div
+	id="subscribe"
+	class="flex gap-6 justify-center items-center max-md:px-5 max-md:py-4 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full {variantStyles[variant]}"
+>
 	<div
-		id="subscribe"
-		class="flex gap-6 justify-center items-center px-20 py-4 max-md:px-5 max-md:py-4 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full mt-6 -mb-8"
+		class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
 	>
-		<div
-			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
-		>
-			{@render beehiivEmbed()}
-		</div>
+		{@render beehiivEmbed()}
 	</div>
-{/snippet}
-
-{#snippet home()}
-	<div
-		id="subscribe"
-		class="flex gap-6 justify-center items-center px-40 py-32 max-md:px-5 max-md:py-24 bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent w-full"
-	>
-		<div
-			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
-		>
-			{@render beehiivEmbed()}
-		</div>
-	</div>
-{/snippet}
+</div>
 
 {#snippet beehiivEmbed()}
 <iframe 
