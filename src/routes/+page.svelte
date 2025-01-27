@@ -32,7 +32,7 @@
     </div>
 
     {#if articles[0]}
-        <h2 class="text-2xl md:text-5xl font-soehne my-8 px-3 md:px-12">Featured</h2>
+        <h2 class="text-2xl md:text-5xl font-soehne my-8">Featured</h2>
         <ArticleSpotlight article={articles[0]} />
     {/if}
 

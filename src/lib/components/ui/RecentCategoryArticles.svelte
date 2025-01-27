@@ -64,7 +64,7 @@
 </script>
 
 <div class="flex flex-col gap-6">
-    <h2 class="text-2xl md:text-4xl font-soehne px-3 md:px-12">Most recent</h2>
+    <h2 class="text-2xl md:text-4xl font-soehne">Most recent</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {#each categoryArticles as { category, articles }}
             <div class="flex flex-col">
