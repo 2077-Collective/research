@@ -29,6 +29,7 @@
 
     function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
         const categoryMap = new Map<string, ArticleMetadata[]>();
+        const displayedArticles = new Set<string>();
 
         const sortedArticles = [...articles].sort((a, b) => {
             if (!isValidDate(a.scheduledPublishTime) || !isValidDate(b.scheduledPublishTime)) {
@@ -39,15 +40,24 @@
             return new Date(b.scheduledPublishTime).getTime() - new Date(a.scheduledPublishTime).getTime();
         });
 
-        for (const categoryName of categoryOrder) {
-            if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
+        for (const article of sortedArticles) {
+            for (const categoryName of categoryOrder) {
+                if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
 
-            const articlesForCategory = sortedArticles.filter(article =>
-                article.categories.some(cat => cat.name === categoryName)
-            );
+                const belongsToCategory = article.categories.some(cat => cat.name === categoryName);
+                if (!belongsToCategory) continue;
 
-            if (articlesForCategory.length > 0) {
-                categoryMap.set(categoryName, articlesForCategory.slice(0, articlesPerCategory));
+                if (displayedArticles.has(article.slug)) continue;
+
+                if (!categoryMap.has(categoryName)) {
+                    categoryMap.set(categoryName, []);
+                }
+
+                const articlesForCategory = categoryMap.get(categoryName)!;
+                if (articlesForCategory.length < articlesPerCategory) {
+                    articlesForCategory.push(article);
+                    displayedArticles.add(article.slug); 
+                }
             }
         }
 
