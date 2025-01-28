@@ -63,12 +63,12 @@
 		</a>
 
 		<a href={`/${article.slug}`}>
-			<p class="text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed">
+			<p class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed">
 				{article.summary}
 			</p>
 		</a>
 
-		<p class="font-medium text-gray-300 text-xs sm:text-sm lg:text-base">
+		<p class="font-mono text-gray-300 text-xs sm:text-sm lg:text-base">
 			By {getAuthorsText(article.authors)}
 		</p>
 	</div>
