@@ -779,7 +779,9 @@
 					</p>
 					<div class="flex flex-col gap-3 text-base text-gray-400">
 						<div class="">
-							By {#each article.authors as author, index}
+							By
+							{#each article.authors as author, index}
+								{' '}
 								<a
 									href={author.twitterUsername
 										? `https://twitter.com/${author.twitterUsername}`
