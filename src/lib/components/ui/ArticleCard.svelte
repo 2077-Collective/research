@@ -44,7 +44,7 @@
             <div class="flex gap-1 items-start w-full text-xs tracking-wide">
                 {#if displayCategory}
                     <Badge
-                        variant="outline"
+                        variant="rectangularFilled"
                         {...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
                         onclick={(e: MouseEvent) => {
                             if (!isOnCategoryPage) {
