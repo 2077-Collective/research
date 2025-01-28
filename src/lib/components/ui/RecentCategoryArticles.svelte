@@ -31,6 +31,7 @@
         const categoryMap = new Map<string, ArticleMetadata[]>();
         const displayedArticles = new Set<string>();
 
+        // Sort all articles by date (most recent first)
         const sortedArticles = [...articles].sort((a, b) => {
             if (!isValidDate(a.scheduledPublishTime) || !isValidDate(b.scheduledPublishTime)) {
                 console.warn('Invalid date found in article:',
