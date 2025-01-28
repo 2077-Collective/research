@@ -115,7 +115,7 @@
                                     decoding="async"
                                 />
                             </div>
-                            <h3 class="font-soehne text-base leading-tight tracking-tight line-clamp-2">
+                            <h3 class="font-soehne font-medium text-base leading-tight tracking-tight line-clamp-2">
                                 {article.title}
                             </h3>
                             <p class="text-xs font-mono text-gray-600 dark:text-gray-400">
