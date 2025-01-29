@@ -26,10 +26,10 @@ export async function downloadPDF(article: Article) {
 			const pageCount = pdf.internal.pages.length;
 			const footerHeight = 20;
 			const footerLogoSize = 10; // Slightly smaller logo
-			
+
 			const footerLogo = new Image();
 			footerLogo.src = '/favicon.svg';
-			
+
 			return new Promise((resolve) => {
 				footerLogo.onload = () => {
 					const logoCanvas = document.createElement('canvas');
@@ -48,25 +48,25 @@ export async function downloadPDF(article: Article) {
 						pdf.setPage(i);
 						const pageWidth = pdf.internal.pageSize.getWidth();
 						const pageHeight = pdf.internal.pageSize.getHeight();
-						
+
 						// Center logo and text
 						const logoWidth = (footerLogo.width / footerLogo.height) * footerLogoSize;
 						const footerY = pageHeight - footerHeight;
-						
+
 						pdf.setFontSize(10);
 						pdf.setTextColor(102, 102, 102);
 						const footerText = '2077 Research';
 						const textWidth = pdf.getTextWidth(footerText);
 						const combinedWidth = logoWidth + 8 + textWidth; // Increased spacing between logo and text
 						const startX = (pageWidth - combinedWidth) / 2;
-						
+
 						// Align logo vertically with text
 						const textBaselineY = footerY;
-						const logoY = textBaselineY - (footerLogoSize * 0.8); // Adjust logo position to align with text
-						
+						const logoY = textBaselineY - footerLogoSize * 0.8; // Adjust logo position to align with text
+
 						pdf.addImage(footerLogoData, 'PNG', startX, logoY, logoWidth, footerLogoSize);
 						pdf.text(footerText, startX + logoWidth + 8, textBaselineY);
-						
+
 						// Simpler page number
 						pdf.text(`${i}`, pageWidth - margin - 10, textBaselineY);
 					}
@@ -80,7 +80,7 @@ export async function downloadPDF(article: Article) {
 		const pageHeight = pdf.internal.pageSize.getHeight();
 		const margin = 72; // 1 inch margin
 		const footerMargin = 40; // Space reserved for footer
-		const contentWidth = pageWidth - (2 * margin);
+		const contentWidth = pageWidth - 2 * margin;
 
 		// Add header with logo
 		const logoImg = new Image();
@@ -112,14 +112,14 @@ export async function downloadPDF(article: Article) {
 		const title = article.title;
 		const titleLines = pdf.splitTextToSize(title, contentWidth);
 		pdf.text(titleLines, margin, currentY);
-		currentY += (titleLines.length * 40) - 8; // Reduced spacing after title by 28px (from +20 to -8)
+		currentY += titleLines.length * 40 - 8; // Reduced spacing after title by 28px (from +20 to -8)
 
 		// Add metadata (authors and date)
 		pdf.setFont('helvetica', 'normal');
 		pdf.setFontSize(13);
-		
+
 		pdf.setTextColor(75, 75, 75); // Set lighter shade of black (RGB: 75,75,75)
-		const authors = `By ${article.authors.map(a => a.fullName).join(', ')}`;
+		const authors = `By ${article.authors.map((a) => a.fullName).join(', ')}`;
 		pdf.text(authors, margin, currentY);
 		currentY += 20;
 
@@ -138,7 +138,7 @@ export async function downloadPDF(article: Article) {
 		const sections = content.children;
 		for (let i = 0; i < sections.length; i++) {
 			const section = sections[i];
-			
+
 			// Check if we need a new page
 			if (currentY > pageHeight - margin - footerMargin) {
 				pdf.addPage();
@@ -149,27 +149,31 @@ export async function downloadPDF(article: Article) {
 			if (section instanceof HTMLHeadingElement) {
 				pdf.setFont('helvetica', 'bold');
 				let fontSize, marginTop, marginBottom;
-				
+
 				// Optimized heading styles for PDF reading
-				const style = headingStyles[section.tagName as keyof typeof headingStyles] || headingStyles.default;
+				const style =
+					headingStyles[section.tagName as keyof typeof headingStyles] || headingStyles.default;
 				fontSize = style.fontSize;
 				marginTop = style.marginTop;
 				marginBottom = style.marginBottom;
 
 				// Add top margin
 				currentY += marginTop;
-				
+
 				pdf.setFontSize(fontSize);
-				const headingLines = pdf.splitTextToSize(section.textContent || '', contentWidth);
-				
+				const headingLines = pdf.splitTextToSize(
+					section.textContent?.replace(/#$/, '') || '',
+					contentWidth
+				);
+
 				// Check if heading needs a new page
-				if (currentY + (headingLines.length * (fontSize + 5)) > pageHeight - margin - footerMargin) {
+				if (currentY + headingLines.length * (fontSize + 5) > pageHeight - margin - footerMargin) {
 					pdf.addPage();
 					currentY = margin;
 				}
-				
+
 				pdf.text(headingLines, margin, currentY);
-				currentY += (headingLines.length * (fontSize + 5)) + marginBottom;
+				currentY += headingLines.length * (fontSize + 5) + marginBottom;
 			} else if (section instanceof HTMLParagraphElement) {
 				// Check if paragraph contains an image
 				const img = section.querySelector('img');
@@ -177,11 +181,11 @@ export async function downloadPDF(article: Article) {
 					try {
 						// Add reduced spacing before image (from 10 to -2)
 						currentY -= 2;
-						
+
 						// Temporarily remove padding for capture
 						const originalPadding = img.style.paddingBottom;
 						img.style.paddingBottom = '0';
-						
+
 						// Use html2canvas to capture the image element
 						const canvas = await html2canvas(img, {
 							logging: false,
@@ -191,7 +195,7 @@ export async function downloadPDF(article: Article) {
 							removeContainer: true,
 							scale: 2 // Increase quality
 						});
-						
+
 						// Restore original padding
 						img.style.paddingBottom = originalPadding;
 
@@ -201,7 +205,7 @@ export async function downloadPDF(article: Article) {
 						let imgHeight = imgWidth * aspectRatio;
 
 						// Check if image height exceeds half page height and resize if necessary
-						const maxHeight = (pageHeight - (2 * margin) - footerMargin) / 2;
+						const maxHeight = (pageHeight - 2 * margin - footerMargin) / 2;
 						if (imgHeight > maxHeight) {
 							const scale = maxHeight / imgHeight;
 							imgWidth *= scale;
@@ -216,7 +220,7 @@ export async function downloadPDF(article: Article) {
 
 						// Center the image horizontally
 						const xOffset = margin + (contentWidth - imgWidth) / 2;
-						
+
 						// Add image to PDF
 						pdf.addImage(imgData, 'JPEG', xOffset, currentY, imgWidth, imgHeight);
 						currentY += imgHeight;
@@ -229,12 +233,12 @@ export async function downloadPDF(article: Article) {
 							pdf.setFontSize(10);
 							pdf.setTextColor(100);
 							const captionLines = pdf.splitTextToSize(caption, contentWidth);
-							
+
 							// Center the caption
 							const captionWidth = pdf.getTextWidth(captionLines[0]);
 							const captionX = margin + (contentWidth - captionWidth) / 2;
 							pdf.text(captionLines, captionX, currentY);
-							currentY += (captionLines.length * 12);
+							currentY += captionLines.length * 12;
 							pdf.setTextColor(0);
 						}
 
@@ -272,7 +276,7 @@ export async function downloadPDF(article: Article) {
 						// Add lines that fit on current page
 						const pageLines = lines.slice(currentLine, currentLine + remainingLines);
 						pdf.text(pageLines, margin, currentY);
-						
+
 						currentLine += remainingLines;
 						currentY += remainingLines * lineHeight;
 
@@ -291,14 +295,14 @@ export async function downloadPDF(article: Article) {
 				pdf.setFontSize(12); // Slightly smaller for code
 				const code = section.textContent || '';
 				const lines = pdf.splitTextToSize(code, contentWidth);
-				
+
 				// Add code block background
 				const codeHeight = lines.length * 16;
 				if (currentY + codeHeight > pageHeight - margin - footerMargin) {
 					pdf.addPage();
 					currentY = margin;
 				}
-				
+
 				pdf.setFillColor(245, 245, 245);
 				pdf.rect(margin - 5, currentY - 5, contentWidth + 10, codeHeight + 10, 'F');
 				pdf.setTextColor(0, 0, 0);
