@@ -11,15 +11,21 @@
 		$page.url.pathname.match(/\/category\/([^/]+)/)?.[1] ?? null
 	);
 
-	const displayCategory = $derived(
-		currentPageCategory
-			? article.categories.find(
-					(cat) => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
-				) ||
-					article.categories.find((cat) => cat.is_primary) ||
-					article.categories[0]
-			: article.categories.find((cat) => cat.is_primary) || article.categories[0]
-	);
+	const displayCategory = $derived(() => {
+		// Handle empty categories array
+		if (!article.categories.length) return null;
+
+		// If we're on a category page, try to find the matching category
+		if (currentPageCategory) {
+			const matchingCategory = article.categories.find(
+				(cat) => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
+			);
+			if (matchingCategory) return matchingCategory;
+		}
+
+		// Otherwise, return primary category or first available
+		return article.categories.find((cat) => cat.is_primary) || article.categories[0];
+	});
 
 	const isOnCategoryPage = $derived($page.url.pathname.includes('/category/'));
 
