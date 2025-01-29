@@ -28,7 +28,6 @@
     let visibleArticles = $state(articlesPerPage);
     let previousVisibleCount = $state(articlesPerPage);
     let loading = $state(false);
-    let newArticleRef: HTMLElement | null = null;
 
     const filteredArticles = $derived(
         articles
