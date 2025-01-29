@@ -1,6 +1,7 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { browser } from '$app/environment';
+    import { goto } from '$app/navigation';
     import type { ArticleMetadata } from '$lib/types/article';
     import { Search, ArrowDown, ArrowLeft } from 'lucide-svelte';
     import Input from './input/input.svelte';
@@ -73,15 +74,8 @@
     });
 
     function handleCategoryClick(category: string) {
-        selectedCategory = category;
         if (browser) {
-            const url = new URL(window.location.href);
-            if (category) {
-                url.searchParams.set('highlight', category);
-            } else {
-                url.searchParams.delete('highlight');
-            }
-            window.history.replaceState({}, '', url.toString());
+            goto(`/category/${category}`);
         }
     }
 
@@ -99,7 +93,6 @@
         }
     }
 </script>
-
 
 {#snippet cardSkeleton()}
     <div class="flex flex-col justify-center h-fit animate-pulse">
@@ -121,22 +114,22 @@
 
 <div>
     <div>
-		<div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
-			
-				<a href="/"
-				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
-			>
-				<ArrowLeft class="w-6 h-6" />
-			</a>
-			<h2
-				id="latest-research"
-				class="text-3xl md:text-5xl font-medium leading-9 font-soehne tracking-tight"
-			>
-				{title}
-			</h2>
-		</div>
-	</div>
+        <div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
+            <a
+                href="/"
+                aria-label="Back to Home"
+                class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
+            >
+                <ArrowLeft class="w-6 h-6" />
+            </a>
+            <h2
+                id="latest-research"
+                class="text-3xl md:text-5xl font-medium leading-9 font-soehne tracking-tight"
+            >
+                {title}
+            </h2>
+        </div>
+    </div>
 
     <div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
         <Input
@@ -160,8 +153,7 @@
                 <ArticleCard
                     {article}
                     onBadgeClick={(category) => {
-                        selectedCategory = category;
-                        scrollToLatestResearch();
+                        handleCategoryClick(category);
                     }}
                 />
             </div>
