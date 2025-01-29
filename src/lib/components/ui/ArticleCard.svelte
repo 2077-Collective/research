@@ -5,13 +5,18 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 
-	const { article }: { article: ArticleMetadata } = $props();
+	interface $$Props {
+		article: ArticleMetadata;
+		onBadgeClick?: (category: string) => void;
+	}
+
+	const { article, onBadgeClick }: $$Props = $props();
 
 	const currentPageCategory = $derived(
 		$page.url.pathname.match(/\/category\/([^/]+)/)?.[1] ?? null
 	);
 
-	const displayCategory = $derived(() => {
+	const displayCategory = $derived.by(() => {
 		// Handle empty categories array
 		if (!article.categories.length) return null;
 
@@ -29,9 +34,15 @@
 
 	const isOnCategoryPage = $derived($page.url.pathname.includes('/category/'));
 
-	const handleCategoryClick = (categoryName: string) => {
+	const handleCategoryClick = (categoryName: string, e: MouseEvent) => {
 		if (!isOnCategoryPage) {
-			goto(`/category/${categoryName.toLowerCase()}`);
+			e.stopPropagation();
+			e.preventDefault();
+			if (onBadgeClick) {
+				onBadgeClick(categoryName);
+			} else {
+				goto(`/category/${categoryName.toLowerCase()}`);
+			}
 		}
 	};
 </script>
@@ -54,9 +65,7 @@
 						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
 						onclick={(e: MouseEvent) => {
 							if (!isOnCategoryPage) {
-								e.stopPropagation();
-								e.preventDefault();
-								handleCategoryClick(displayCategory.name);
+								handleCategoryClick(displayCategory.name, e);
 							}
 						}}
 						class={isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'}

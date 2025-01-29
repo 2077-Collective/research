@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { Search, ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import Input from './input/input.svelte';
 	import ArticleCard from './ArticleCard.svelte';
 	import { slide } from 'svelte/transition';
 	import { tick } from 'svelte';
-
-	let newArticleRef = $state<HTMLElement | null>(null);
+	let newArticleRef: HTMLElement | null = null;
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -25,7 +25,6 @@
 		title?: string;
 		disableCategory?: boolean;
 	} = $props();
-
 	let search = $state('');
 	let selectedCategory = $state('');
 	let visibleArticles = $state(articlesPerPage);
@@ -70,7 +69,6 @@
 		}
 	});
 
-	// Initialize selectedCategory from URL
 	$effect(() => {
 		const highlightParam = $page.url.searchParams.get('highlight');
 		selectedCategory = highlightParam || '';
