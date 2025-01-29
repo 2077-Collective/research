@@ -48,7 +48,7 @@
 			<div class="flex gap-1 items-start w-full text-xs tracking-wide">
 				{#if displayCategory}
 					<Badge
-						variant="rectangular"
+						variant="rectangularFilled"
 						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
 						onclick={(e: MouseEvent) => {
 							if (!isOnCategoryPage) {
@@ -62,8 +62,7 @@
 						{displayCategory.name}
 					</Badge>
 				{/if}
-			</div>
-
+      </div>
 			<p class="font-soehne mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2">
 				{article.title}
 			</p>
