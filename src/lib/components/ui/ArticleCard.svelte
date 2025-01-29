@@ -43,11 +43,7 @@
 		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
 	>
 		<div class="flex flex-col w-full">
-			<img
-				src={article.thumb}
-				alt={article.title}
-				class="aspect-[4/3] w-full object-cover rounded-t-lg"
-			/>
+			<img src={article.thumb} alt="" class="aspect-[4/3] w-full object-cover rounded-t-lg" />
 		</div>
 
 		<div class="flex flex-col p-3 w-full">
@@ -68,7 +64,7 @@
 						{displayCategory.name}
 					</Badge>
 				{/if}
-      </div>
+			</div>
 			<p class="font-soehne mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2">
 				{article.title}
 			</p>
