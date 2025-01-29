@@ -27,6 +27,7 @@
     let visibleArticles = $state(articlesPerPage);
     let previousVisibleCount = $state(articlesPerPage);
     let loading = $state(false);
+    let newArticleRef: HTMLElement | null = null;
 
     const filteredArticles = $derived(
         articles
@@ -66,13 +67,11 @@
         }
     });
 
-    // Initialize selectedCategory from URL
     $effect(() => {
         const highlightParam = $page.url.searchParams.get('highlight');
         selectedCategory = highlightParam || '';
     });
 
-    // Update URL when category changes
     function handleCategoryClick(category: string) {
         selectedCategory = category;
         if (browser) {
@@ -100,6 +99,7 @@
         }
     }
 </script>
+
 
 {#snippet cardSkeleton()}
     <div class="flex flex-col justify-center h-fit animate-pulse">

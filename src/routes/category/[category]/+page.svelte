@@ -68,7 +68,7 @@
     <ArticleList 
         articles={paginatedArticles} 
         articlesPerPage={articlesPerPage}
-        title={`Latest ${formattedCategory}`}
+        title={`${formattedCategory}`}
         disableCategory={true}
     />
 
