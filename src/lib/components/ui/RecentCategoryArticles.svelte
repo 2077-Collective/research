@@ -13,15 +13,26 @@
 		excludeCategory?: string;
 	} = $props();
 
-	const categoryOrder = [
-		'Layer 1',
-		'Layer 2',
-		'Interoperability',
-		'DeFi',
-		'Privacy',
-		'DePIN',
-		'Infrastructure'
-	];
+	const {
+		articlesPerCategory = 1,
+		excludeCategory = '',
+		customCategoryOrder = [
+			'Layer 1',
+			'Layer 2',
+			'Interoperability',
+			'DeFi',
+			'Privacy',
+			'DePIN',
+			'Infrastructure'
+		]
+	}: {
+		maxCategories?: number;
+		articlesPerCategory?: number;
+		excludeCategory?: string;
+		customCategoryOrder?: string[];
+	} = $props();
+
+	const categoryOrder = customCategoryOrder;
 
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
 
