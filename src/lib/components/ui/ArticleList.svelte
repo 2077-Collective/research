@@ -8,6 +8,8 @@
 	import { slide } from 'svelte/transition';
 	import { tick } from 'svelte';
 
+	let newArticleRef = $state<HTMLElement | null>(null);
+
 	const ARTICLES_PER_PAGE = 9;
 
 	const {
