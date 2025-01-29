@@ -35,16 +35,11 @@
 
 		// Sort all articles by date (most recent first)
 		const sortedArticles = [...articles].sort((a, b) => {
-			if (!isValidDate(a.scheduledPublishTime) || !isValidDate(b.scheduledPublishTime)) {
-				console.warn(
-					'Invalid date found in article:',
-					!isValidDate(a.scheduledPublishTime) ? a.slug : b.slug
-				);
+			if (!isValidDate(a.updatedAt) || !isValidDate(b.updatedAt)) {
+				console.warn('Invalid date found in article:', !isValidDate(a.updatedAt) ? a.slug : b.slug);
 				return 0;
 			}
-			return (
-				new Date(b.scheduledPublishTime).getTime() - new Date(a.scheduledPublishTime).getTime()
-			);
+			return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
 		});
 
 		for (const article of sortedArticles) {

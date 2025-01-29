@@ -42,7 +42,6 @@ export const ArticleMetadataSchema = CommonArticleFields.extend({
 	content: z.string().optional(),
 	views: z.number().optional(),
 	is_sponsored: z.boolean().optional(),
-	scheduled_publish_time: z.string(),
 	sponsor_color: z
 		.string()
 		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
@@ -58,23 +57,15 @@ export const ArticleMetadataSchema = CommonArticleFields.extend({
 });
 
 export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform((article) => {
-	const {
-		is_sponsored,
-		sponsor_color,
-		sponsor_text_color,
-		related_articles,
-		updated_at,
-		scheduled_publish_time,
-		...rest
-	} = article;
+	const { is_sponsored, sponsor_color, sponsor_text_color, related_articles, updated_at, ...rest } =
+		article;
 	return {
 		...rest,
 		isSponsored: is_sponsored,
 		sponsorColor: sponsor_color,
 		sponsorTextColor: sponsor_text_color,
 		relatedArticles: related_articles || [],
-		updatedAt: updated_at,
-		scheduledPublishTime: scheduled_publish_time
+		updatedAt: updated_at
 	};
 });
 
