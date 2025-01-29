@@ -583,12 +583,14 @@
 					<section class="flex flex-col w-full">
 						<div class="flex flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
-								<Badge
-									variant="rectangular"
-									class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
+								<a href={'/category/' + category.name.toLowerCase()}
+									><Badge
+										variant="rectangular"
+										class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
+									>
+										{category.name}
+									</Badge></a
 								>
-									{category.name}
-								</Badge>
 							{/each}
 						</div>
 
@@ -779,7 +781,9 @@
 					</p>
 					<div class="flex flex-col gap-3 text-base text-gray-400">
 						<div class="">
-							By {#each article.authors as author, index}
+							By
+							{#each article.authors as author, index}
+								{' '}
 								<a
 									href={author.twitterUsername
 										? `https://twitter.com/${author.twitterUsername}`

@@ -52,7 +52,7 @@
 				<a href={`/${article.slug}`}>
 					<img
 						src={article.thumb}
-						alt={article.title}
+						alt=""
 						class="w-full h-full object-cover rounded-sm transition-transform duration-300 group-hover:scale-105"
 					/>
 
