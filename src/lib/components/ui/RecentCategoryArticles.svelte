@@ -6,15 +6,6 @@
 
 	const {
 		articlesPerCategory = 1,
-		excludeCategory = ''
-	}: {
-		maxCategories?: number;
-		articlesPerCategory?: number;
-		excludeCategory?: string;
-	} = $props();
-
-	const {
-		articlesPerCategory = 1,
 		excludeCategory = '',
 		customCategoryOrder = [
 			'Layer 1',
