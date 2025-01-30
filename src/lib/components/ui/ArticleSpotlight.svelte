@@ -2,27 +2,24 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
 	import { goto } from '$app/navigation';
+	import { getAuthorsText } from '$lib/utils/authors';
+	import { toTitleCase } from '$lib/utils/titleCase';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
 	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 
-	function getAuthorDisplayName(author: { full_name?: string | null; username: string }): string {
-		return author.full_name || author.username;
+	function handleCategoryClick(categoryName: string) {
+		goto(`/category/${categoryName}`);
 	}
 
-	function getAuthorsText(
-		authors: { full_name?: string | null; username: string }[] | null | undefined
-	): string {
-		if (!authors?.length) return 'Unknown';
-		return authors.map(getAuthorDisplayName).join(', ');
+	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
+		if (event.detail.key === 'Enter') {
+			handleCategoryClick(categoryName);
+		}
 	}
 
-	function handleCategoryClick(event: Event, categoryName: string) {
-		event.preventDefault();
-		event.stopPropagation();
-		goto(`/category/${categoryName.toLowerCase()}`);
-	}
+	
 </script>
 
 <div class="flex flex-col lg:flex-row w-full">
@@ -36,6 +33,7 @@
 			class="!w-full lg:w-4/6 object-contain"
 		/>
 	</a>
+
 	<div
 		class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 p-6 md:p-10 text-base bg-secondary max-md:px-5 max-md:max-w-full"
 	>
@@ -46,8 +44,8 @@
 					class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer focus:ring-2 focus:ring-offset-2"
 					role="link"
 					tabindex="0"
-					on:click={(event) => handleCategoryClick(event, primaryCategory.name)}
-					on:keydown={(event) => event.key === 'Enter' && handleCategoryClick(event, primaryCategory.name)}
+					on:click={() => handleCategoryClick(primaryCategory.name)}
+					on:keydown={(event) => handleKeydown(event, primaryCategory.name)}
 				>
 					{primaryCategory.name}
 				</Badge>
@@ -58,7 +56,7 @@
 			<h1
 				class="font-soehne text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
 			>
-				{article.title}
+				{toTitleCase(article.title)}
 			</h1>
 		</a>
 

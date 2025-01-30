@@ -3,6 +3,7 @@
 	import { getArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
+	import { getAuthorsText } from '$lib/utils/authors';
 
 	const {
 		articlesPerCategory = 1,
@@ -33,7 +34,6 @@
 		const categoryMap = new Map<string, ArticleMetadata[]>();
 		const displayedArticles = new Set<string>();
 
-		// Sort all articles by date (most recent first)
 		const sortedArticles = [...articles].sort((a, b) => {
 			if (!isValidDate(a.updatedAt) || !isValidDate(b.updatedAt)) {
 				console.warn('Invalid date found in article:', !isValidDate(a.updatedAt) ? a.slug : b.slug);
@@ -119,14 +119,7 @@
 								{article.title}
 							</h3>
 							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
-								By {#each article.authors as author, index}
-									<span>{author.full_name}</span>
-									{#if index < article.authors.length - 2}
-										<span>,&nbsp;</span>
-									{:else if index < article.authors.length - 1}
-										<span>&nbsp;and&nbsp;</span>
-									{/if}
-								{/each}
+								By {getAuthorsText(article.authors)}
 							</p>
 						</a>
 					{/each}
