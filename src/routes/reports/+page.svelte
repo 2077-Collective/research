@@ -5,10 +5,12 @@
 	import { onMount } from 'svelte';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 
+	// Get data from props
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 	const articleCategories = $derived(data.articleCategories);
 
+	// Set articles in the store on mount
 	onMount(() => {
 		setArticles(data.articles);
 	});

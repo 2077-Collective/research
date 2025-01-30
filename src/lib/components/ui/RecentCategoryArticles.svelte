@@ -4,6 +4,13 @@
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
+	type Author = {
+		id: string;
+		username: string;
+		full_name: string | null;
+		twitter_username: string | null;
+	};
+
 	const {
 		articlesPerCategory = 1,
 		excludeCategory = '',
@@ -119,12 +126,14 @@
 								{article.title}
 							</h3>
 							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
-								By {#each article.authors as author, index}
+								By {#each article.authors ?? [] as author}
 									<span>{author.full_name}</span>
-									{#if index < article.authors.length - 2}
-										<span>,&nbsp;</span>
-									{:else if index < article.authors.length - 1}
-										<span>&nbsp;and&nbsp;</span>
+									{#if author !== article.authors?.at(-1)}
+										{#if author !== article.authors?.at(-2)}
+											<span>,&nbsp;</span>
+										{:else}
+											<span>&nbsp;and&nbsp;</span>
+										{/if}
 									{/if}
 								{/each}
 							</p>
