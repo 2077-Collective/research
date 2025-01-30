@@ -12,6 +12,7 @@ export interface Author {
    * @returns The author's display name
    */
   export function getAuthorDisplayName(author: Author): string {
+    if (!author) return 'Unknown';
     return author.full_name || author.username;
   }
   

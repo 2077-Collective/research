@@ -2,7 +2,8 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
 	import { goto } from '$app/navigation';
-	import { getAuthorDisplayName, getAuthorsText } from '$lib/utils/authors';
+	import { getAuthorsText } from '$lib/utils/authors';
+	import { toTitleCase } from '$lib/utils/titleCase';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
@@ -18,15 +19,7 @@
 		}
 	}
 
-	function toTitleCase(str: string): string {
-		const minorWords = new Set(['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'with', 'in']);
-		return str.split(' ').map((word, index) => {
-			if (index === 0 || !minorWords.has(word.toLowerCase())) {
-				return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-			}
-			return word.toLowerCase();
-		}).join(' ');
-	}
+	
 </script>
 
 <div class="flex flex-col lg:flex-row w-full">

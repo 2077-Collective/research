@@ -3,14 +3,7 @@
 	import { getArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
-	import { getAuthorDisplayName, getAuthorsText } from '$lib/utils/authors';
-
-	type Author = {
-		id: string;
-		username: string;
-		full_name: string | null;
-		twitter_username: string | null;
-	};
+	import { getAuthorsText } from '$lib/utils/authors';
 
 	const {
 		articlesPerCategory = 1,
