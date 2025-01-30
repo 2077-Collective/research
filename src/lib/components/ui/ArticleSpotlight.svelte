@@ -2,21 +2,11 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import Badge from './badge/badge.svelte';
 	import { goto } from '$app/navigation';
+	import { getAuthorDisplayName, getAuthorsText } from '$lib/utils/authors';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
 	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
-
-	function getAuthorDisplayName(author: { full_name?: string | null; username: string }): string {
-		return author.full_name || author.username;
-	}
-
-	function getAuthorsText(
-		authors: { full_name?: string | null; username: string }[] | null | undefined
-	): string {
-		if (!authors?.length) return 'Unknown';
-		return authors.map(getAuthorDisplayName).join(', ');
-	}
 
 	function handleCategoryClick(categoryName: string) {
 		goto(`/category/${categoryName}`);
@@ -29,7 +19,7 @@
 	}
 
 	function toTitleCase(str: string): string {
-		const minorWords = new Set(['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'for', 'with', 'in']);
+		const minorWords = new Set(['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'with', 'in']);
 		return str.split(' ').map((word, index) => {
 			if (index === 0 || !minorWords.has(word.toLowerCase())) {
 				return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();

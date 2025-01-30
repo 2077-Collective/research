@@ -3,6 +3,7 @@
 	import { getArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
+	import { getAuthorDisplayName, getAuthorsText } from '$lib/utils/authors';
 
 	type Author = {
 		id: string;
@@ -36,22 +37,10 @@
 
 	const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
 
-	function getAuthorDisplayName(author: { full_name?: string | null; username: string }): string {
-		return author.full_name || author.username;
-	}
-
-	function getAuthorsText(
-		authors: { full_name?: string | null; username: string }[] | null | undefined
-	): string {
-		if (!authors?.length) return 'Unknown';
-		return authors.map(getAuthorDisplayName).join(', ');
-	}
-
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
 		const categoryMap = new Map<string, ArticleMetadata[]>();
 		const displayedArticles = new Set<string>();
 
-		// Sort all articles by date (most recent first)
 		const sortedArticles = [...articles].sort((a, b) => {
 			if (!isValidDate(a.updatedAt) || !isValidDate(b.updatedAt)) {
 				console.warn('Invalid date found in article:', !isValidDate(a.updatedAt) ? a.slug : b.slug);
