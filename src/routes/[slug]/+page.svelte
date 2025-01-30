@@ -595,7 +595,7 @@
 						</div>
 
 						<h1
-							class="font-soehne text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+							class="font-soehne  capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
 						>
 							{article.title}
 						</h1>
