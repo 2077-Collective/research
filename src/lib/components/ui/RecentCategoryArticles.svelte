@@ -36,6 +36,17 @@
 
 	const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
 
+	function getAuthorDisplayName(author: { full_name?: string | null; username: string }): string {
+		return author.full_name || author.username;
+	}
+
+	function getAuthorsText(
+		authors: { full_name?: string | null; username: string }[] | null | undefined
+	): string {
+		if (!authors?.length) return 'Unknown';
+		return authors.map(getAuthorDisplayName).join(', ');
+	}
+
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
 		const categoryMap = new Map<string, ArticleMetadata[]>();
 		const displayedArticles = new Set<string>();
@@ -126,16 +137,7 @@
 								{article.title}
 							</h3>
 							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
-								By {#each article.authors ?? [] as author}
-									<span>{author.full_name}</span>
-									{#if author !== article.authors?.at(-1)}
-										{#if author !== article.authors?.at(-2)}
-											<span>,&nbsp;</span>
-										{:else}
-											<span>&nbsp;and&nbsp;</span>
-										{/if}
-									{/if}
-								{/each}
+								By {getAuthorsText(article.authors)}
 							</p>
 						</a>
 					{/each}

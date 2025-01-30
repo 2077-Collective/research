@@ -27,6 +27,16 @@
 			handleCategoryClick(categoryName);
 		}
 	}
+
+	function toTitleCase(str: string): string {
+		const minorWords = new Set(['a', 'an', 'the', 'and', 'but', 'or', 'for', 'nor', 'on', 'at', 'to', 'for', 'with', 'in']);
+		return str.split(' ').map((word, index) => {
+			if (index === 0 || !minorWords.has(word.toLowerCase())) {
+				return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+			}
+			return word.toLowerCase();
+		}).join(' ');
+	}
 </script>
 
 <div class="flex flex-col lg:flex-row w-full">
@@ -61,9 +71,9 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-soehne capitalize text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+				class="font-soehne text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
 			>
-				{article.title}
+				{toTitleCase(article.title)}
 			</h1>
 		</a>
 
