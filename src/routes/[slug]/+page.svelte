@@ -357,12 +357,11 @@
 
 	function getDropdownPosition(button: HTMLElement) {
 		const buttonRect = button.getBoundingClientRect();
-		const dropdownHeight = 280; // Approximate height of dropdown
+		const dropdownHeight = 280;
 		const windowHeight = window.innerHeight;
 		const spaceBelow = windowHeight - buttonRect.bottom;
 		const spaceAbove = buttonRect.top;
 
-		// Check if there's enough space below, otherwise show above
 		return spaceBelow >= dropdownHeight || spaceBelow >= spaceAbove ? 'bottom' : 'top';
 	}
 
@@ -377,7 +376,6 @@
 		showShareDropdown = true;
 	}
 
-	// Update sanitization function
 	function sanitizeContent(content: string) {
 		// The following line causes a desync between server & client, resulting in
 		// massive fuckery. Do not uncomment without a very good reason.
@@ -512,7 +510,6 @@
 		localStorage.setItem('readingMode', isReadingMode.toString());
 	}
 
-	// Call processHeaderIds when reading mode changes
 	$effect(() => {
 		if (isReadingMode !== undefined) {
 			// Wait for DOM update
@@ -761,8 +758,8 @@
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
-			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg  [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg  [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
