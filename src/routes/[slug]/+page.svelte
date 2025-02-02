@@ -814,7 +814,7 @@
 			{/if}
 
 			<div
-				class="mb-8 bg-white h-24 sticky z-50 top-24 rounded-lg shadow-lg shadow-special-blue/20 overflow-clip"
+				class="mb-8 bg-zinc-950 border-special-blue/20 border h-24 sticky z-10 top-32 md:top-24 rounded-lg shadow-lg shadow-special-blue/20 overflow-clip"
 			>
 				<iframe
 					id="AudioNativeElevenLabsPlayer"
@@ -824,7 +824,6 @@
 					frameborder="no"
 					scrolling="no"
 					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-					class="h-24"
 				></iframe>
 			</div>
 
@@ -865,7 +864,7 @@
 {#snippet summaryPanel()}
 	{#if data?.article?.gpt_summary}
 		<div
-			class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center"
+			class="fixed inset-y-0 right-0 pointer-events-none z-40 flex items-center"
 			class:overflow-hidden={summaryOpen}
 		>
 			<div
