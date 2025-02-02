@@ -592,7 +592,7 @@
 						</div>
 
 						<h1
-							class="font-soehne  capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+							class="font-soehne capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
 						>
 							{article.title}
 						</h1>
@@ -745,7 +745,7 @@
 
 		<div
 			id="content-container"
-			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
+			class="relative px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
@@ -758,8 +758,8 @@
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
-			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg  [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg  [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
@@ -771,7 +771,7 @@
 		>
 			<!-- Update the metadata section -->
 			{#if isReadingMode}
-				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
+				<div class="mb-10 font-eb-garamond border-b border-gray-800 pb-8">
 					<h1 class="text-4xl mb-6 tracking-tight">{article.title}</h1>
 					<p class="text-xl mb-8 text-gray-500 dark:text-gray-300 leading-relaxed tracking-tight">
 						{article.summary}
@@ -813,16 +813,20 @@
 				</div>
 			{/if}
 
-			<iframe
-				id="AudioNativeElevenLabsPlayer"
-				title="AudioNative ElevenLabs Player"
-				width="100%"
-				height="90"
-				frameborder="no"
-				scrolling="no"
-				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-				style="max-height: 90px;"
-			></iframe>
+			<div
+				class="mb-8 bg-white h-24 sticky z-50 top-24 rounded-lg shadow-lg shadow-special-blue/20 overflow-clip"
+			>
+				<iframe
+					id="AudioNativeElevenLabsPlayer"
+					title="AudioNative ElevenLabs Player"
+					width="100%"
+					height="96"
+					frameborder="no"
+					scrolling="no"
+					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+					class="h-24"
+				></iframe>
+			</div>
 
 			{@html sanitizeContent(article.content)}
 		</div>
