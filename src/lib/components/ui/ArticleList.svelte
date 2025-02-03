@@ -1,4 +1,81 @@
 <script lang="ts">
+    import type { ArticleMetadata } from '$lib/types/article';
+    import { getAuthorsText } from '$lib/utils/authors'; 
+   import { Badge } from '$lib/components/ui/badge';
+    
+    const {
+        articles,
+        showCategories = true
+    }: {
+        articles: ArticleMetadata[];
+        showCategories?: boolean;
+    } = $props();
+
+    function isValidCategory(category: any): boolean {
+        return category && typeof category.name === 'string';
+    }
+
+    const validArticles = $derived(
+        articles?.filter(article => 
+            article && 
+            article.title && 
+            article.slug && 
+            (!showCategories || (Array.isArray(article.categories) && article.categories.some(isValidCategory)))
+        ) ?? []
+    );
+</script>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {#each validArticles as article (article.id)}
+        <article class="flex flex-col gap-4">
+            {#if article.thumb}
+                <a href="/{article.slug}" class="aspect-[4/3] overflow-hidden rounded-sm">
+                    <img
+                        src={article.thumb}
+                        alt=""
+                        class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </a>
+            {/if}
+
+            <div class="flex flex-col gap-2">
+                {#if showCategories && article.categories?.length > 0}
+                    <div class="flex gap-2 flex-wrap">
+                        {#each article.categories.filter(isValidCategory) as category}
+                            <Badge
+                                variant="rectangularFilled"
+                                class="font-mono font-bold border-white/20 text-xs"
+                            >
+                                {category.name}
+                            </Badge>
+                        {/each}
+                    </div>
+                {/if}
+
+                <h2 class="font-soehne text-xl font-medium">
+                    <a href="/{article.slug}" class="hover:text-primary transition-colors">
+                        {article.title}
+                    </a>
+                </h2>
+
+                <p class="text-sm text-muted-foreground line-clamp-2">
+                    {article.summary}
+                </p>
+
+                {#if article.authors?.length}
+                    <p class="text-xs font-mono text-muted-foreground">
+                        By {getAuthorsText(article.authors)}
+                    </p>
+                {/if}
+            </div>
+        </article>
+    {/each}
+</div>
+
+
+<!-- <script lang="ts">
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
@@ -181,4 +258,4 @@
 			<div class="h-4 bg-gray-200 w-1/2 rounded-md tracking-normal"></div>
 		</div>
 	</div>
-{/snippet}
+{/snippet} -->
