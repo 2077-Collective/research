@@ -1,0 +1,105 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article",
+    "description": "Create your blog content"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "authors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::author.author",
+      "inversedBy": "articles"
+    },
+    "primary_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "external_id": {
+      "type": "uid",
+      "required": false
+    },
+    "summary": {
+      "type": "text"
+    },
+    "sponsor_color": {
+      "type": "string"
+    },
+    "sponsor_text_color": {
+      "type": "string"
+    },
+    "thumb": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files"
+      ]
+    },
+    "categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::category.category",
+      "inversedBy": "articles"
+    },
+    "is_sponsored": {
+      "type": "boolean"
+    },
+    "content": {
+      "type": "richtext",
+      "maxLength": 10000000
+    },
+    "gpt_summary": {
+      "type": "text"
+    },
+    "acknowledgement": {
+      "type": "text"
+    },
+    "slug": {
+      "type": "uid"
+    },
+    "views": {
+      "type": "integer"
+    },
+    "scheduled_publish_time": {
+      "type": "datetime"
+    },
+    "table_of_contents": {
+      "type": "json"
+    },
+    "related_articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "inversedBy": "articles"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "related_articles"
+    },
+    "article_status": {
+      "type": "enumeration",
+      "enum": [
+        "draft",
+        "ready"
+      ]
+    },
+    "min_read": {
+      "type": "integer"
+    }
+  }
+}
