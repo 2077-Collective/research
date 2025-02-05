@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
 	import { getArticles } from '$lib/stores/articles.svelte';
+	import type { ArticleMetadata } from '$lib/types/article';
+	import { getAuthorsText } from '$lib/utils/authors';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
-	import { getAuthorsText } from '$lib/utils/authors';
 
 	const {
 		articlesPerCategory = 1,
@@ -79,21 +79,21 @@
 	});
 </script>
 
-<div class="flex flex-col gap-6">
-	<h2 class="text-2xl md:text-4xl font-soehne">Most recent</h2>
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex flex-col gap-8">
+	<h2 class="text-2xl md:text-[32px] font-powerGroteskBold font-bold">Most Recent</h2>
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-16">
 		{#each categoryArticles as { category, articles }}
 			<div class="flex flex-col">
 				<div class="flex items-center justify-between">
 					<Badge
 						variant="rectangularFilled"
-						class="font-mono font-bold border-white/20 text-xs lg:text-sm"
+						class="font-mono font-bold border-white/20 text-xs lg:text-sm pointer-events-none"
 					>
 						{category}
 					</Badge>
 					<a
 						href={`/category/${category.toLowerCase()}`}
-						class="flex font-mono items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
+						class="flex font-mono items-center gap-1 text-xs text-neutral-20 hover:text-primary/60 transition-colors group"
 					>
 						View all
 						<ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
@@ -114,11 +114,12 @@
 								/>
 							</div>
 							<h3
-								class="font-soehne font-medium text-base leading-tight tracking-tight line-clamp-2"
+								class="font-powerGroteskBold font-medium text-[18px] leading-tight -tracking-[0.54px] line-clamp-2 text-neutral-20"
 							>
 								{article.title}
 							</h3>
-							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
+
+							<p class="text-xs font-mono text-neutral-40 dark:text-neutral-40 -tracking-[0.6px]">
 								By {getAuthorsText(article.authors)}
 							</p>
 						</a>

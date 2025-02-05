@@ -10,7 +10,7 @@
 	<section>
 		<h1
 			id="work-with-us"
-			class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+			class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold tracking-tight"
 		>
 			Work with us
 		</h1>
@@ -37,7 +37,7 @@
 	<section>
 		<h2
 			id="faq"
-			class="text-2xl md:text-4xl font-medium leading-9 mb-2 md:md-4 font-soehne tracking-tight"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-2 md:md-4 font-powerGroteskBold tracking-tight"
 		>
 			FAQ
 		</h2>

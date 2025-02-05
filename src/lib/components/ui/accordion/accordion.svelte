@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Accordion } from 'bits-ui';
-	import { slide } from 'svelte/transition';
 	import { ArrowDown } from 'lucide-svelte';
-	import type { Component, Snippet } from 'svelte';
+	import type { Snippet } from 'svelte';
+	import { slide } from 'svelte/transition';
 	const {
 		class: className,
 		items

@@ -1,11 +1,14 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
-	import Badge from './badge/badge.svelte';
 	import { goto } from '$app/navigation';
+	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { toTitleCase } from '$lib/utils/titleCase';
+	import { format } from 'date-fns';
+	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
+
+	let formattedDate = format(article.updatedAt, 'dd MMM yyyy');
 
 	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 
@@ -18,12 +21,10 @@
 			handleCategoryClick(categoryName);
 		}
 	}
-
-	
 </script>
 
-<div class="flex flex-col lg:flex-row w-full">
-	<a href={`/${article.slug}`} class="!w-full lg:!w-4/6">
+<div class="flex flex-col lg:flex-row w-full relative">
+	<a href={`/${article.slug}`} class="w-full">
 		<img
 			src={article.thumb}
 			alt={`Thumbnail for article: ${article.title}`}
@@ -35,13 +36,13 @@
 	</a>
 
 	<div
-		class="flex flex-col gap-3 md:gap-6 w-full lg:w-2/6 p-6 md:p-10 text-base bg-secondary max-md:px-5 max-md:max-w-full"
+		class="flex flex-col text-base bg-secondary max-md:px-5 max-w-[376px] max-md:max-w-full absolute left-20 bottom-0 p-6 pb-0 rounded-[8px]"
 	>
-		<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide">
+		<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide mb-4">
 			{#if primaryCategory}
 				<Badge
 					variant="rectangularFilled"
-					class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer focus:ring-2 focus:ring-offset-2"
+					class="font-mono font-bold border-white/20 text-xs lg:text-sm cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px]"
 					role="link"
 					tabindex="0"
 					on:click={() => handleCategoryClick(primaryCategory.name)}
@@ -54,21 +55,25 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-soehne text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-[32px] font-medium text-white leading-tight tracking-tight"
 			>
 				{toTitleCase(article.title)}
 			</h1>
 		</a>
 
-		<a href={`/${article.slug}`}>
-			<p class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed">
-				{article.summary}
-			</p>
-		</a>
+		<div
+			class="text-xs flex items-center divide-x divide-[#333] space-x-2 py-[10px] text-neutral-40"
+		>
+			<a href={`/${article.slug}`}>
+				<p class="font-hubot line-clamp-2 leading-relaxed">
+					{formattedDate}
+				</p>
+			</a>
 
-		<p class="font-mono text-gray-300 text-xs sm:text-sm lg:text-base">
-			By {getAuthorsText(article.authors)}
-		</p>
+			<p class="font-mono pl-2">
+				By {getAuthorsText(article.authors)}
+			</p>
+		</div>
 	</div>
 </div>
 

@@ -1,39 +1,48 @@
 <script>
-	import { ArrowUpRight, Menu, Mail, X } from 'lucide-svelte';
-	import Button from './button/button.svelte';
+	import { Mail, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
+	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
 
 	let mobileMenuOpen = $state(false);
 </script>
 
-<div
-	class="sticky top-0 z-50 flex justify-between items-center px-3 md:px-12 py-4 md:py-6 max-w-screen-2xl mx-auto bg-background"
->
-	<!-- Logo -->
-	<a href="/" class="ml-1"><Research /></a>
+<div class="sticky top-0 z-50 py-4 md:py-6 bg-background">
+	<div class="container flex justify-between items-center">
+		<div class="flex items-center gap-[45px]">
+			<!-- Logo -->
+			<a href="/" class="ml-1"><Research /></a>
 
-	<!-- Desktop Navigation -->
-	<div class="items-center gap-4 hidden md:flex">
-		<!-- About and Work With Us Links -->
-		<a href="/about" class="text-gray-200 hover:text-gray-500 transition-colors">About us</a>
-		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors">Work With Us</a>
+			<!-- Desktop Navigation -->
+			<div class="items-center gap-10 hidden md:flex font-mono">
+				<!-- About and Work With Us Links -->
+				<a
+					href="/about"
+					class="text-gray-200 hover:text-gray-500 transition-colors -tracking-[0.48px]">About Us</a
+				>
+				<a
+					href="/work-with-us"
+					class="text-gray-200 hover:text-gray-500 transition-colors -tracking-[0.48px]"
+					>Work With Us</a
+				>
 
-		<!-- Subscribe Button -->
-		<Button
-			class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
-			onclick={() => {
-				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
-			}}
-		>
-			Subscribe
-			<Mail class="w-4 h-4 ml-1" />
-		</Button>
-	</div>
+				<!-- Subscribe Button
+				<Button
+					class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
+					onclick={() => {
+						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
+					}}
+				>
+					Subscribe
+					<Mail class="w-4 h-4 ml-1" />
+				</Button> -->
+			</div>
+		</div>
 
-	<!-- Mobile Menu Toggle -->
-	<div class="md:hidden">
-		{@render mobileMenu()}
+		<!-- Mobile Menu Toggle -->
+		<div class="md:hidden">
+			{@render mobileMenu()}
+		</div>
 	</div>
 </div>
 

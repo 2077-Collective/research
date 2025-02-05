@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { Search, ArrowDown, ArrowLeft } from 'lucide-svelte';
-	import Input from './input/input.svelte';
-	import ArticleCard from './ArticleCard.svelte';
-	import { slide } from 'svelte/transition';
+	import { ArrowDown, ArrowLeft, Search } from 'lucide-svelte';
 	import { tick } from 'svelte';
+	import { slide } from 'svelte/transition';
+	import ArticleCard from './ArticleCard.svelte';
+	import Input from './input/input.svelte';
 	let newArticleRef: HTMLElement | null = null;
 
 	const ARTICLES_PER_PAGE = 9;
@@ -107,7 +106,7 @@
 			</a>
 			<h2
 				id="latest-research"
-				class="text-3xl md:text-5xl font-medium leading-9 font-soehne tracking-tight"
+				class="text-3xl md:text-5xl font-medium leading-9 font-powerGroteskBold tracking-tight"
 			>
 				{title}
 			</h2>
@@ -133,10 +132,7 @@
 	>
 		{#each filteredArticles.slice(0, visibleArticles) as article, index}
 			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard
-					{article}
-					onBadgeClick={(category) => handleCategoryClick(category)}
-				/>
+				<ArticleCard {article} onBadgeClick={(category) => handleCategoryClick(category)} />
 			</div>
 		{/each}
 

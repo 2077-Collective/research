@@ -8,9 +8,15 @@ const config: Config = {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '16px',
+				sm: '2rem',
+				lg: '2rem',
+				xl: '2rem',
+				'2xl': '2rem'
+			},
 			screens: {
-				'2xl': '1400px'
+				'2xl': '1440px'
 			}
 		},
 		extend: {
@@ -50,7 +56,11 @@ const config: Config = {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
 				},
-				'special-blue': '#07BEBF'
+				'special-blue': '#07BEBF',
+				neutral: {
+					20: 'var(--Neutral-20)',
+					40: 'var(--Neutral-40)'
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -62,8 +72,8 @@ const config: Config = {
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
-				mono: ['Kode Mono Variable', 'monospace'],
-				powerGroteskBold: ['PowerGroteskBold', 'sans-serif'],
+				mono: 'var(--font-mono)',
+				powerGroteskBold: 'var(--font-power)',
 				hubot: ['HubotSans', 'sans-serif']
 			},
 			letterSpacing: {
