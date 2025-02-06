@@ -58,8 +58,11 @@ const config: Config = {
 				},
 				'special-blue': '#07BEBF',
 				neutral: {
+					10: 'var(--Neutral-10)',
 					20: 'var(--Neutral-20)',
-					40: 'var(--Neutral-40)'
+					40: 'var(--Neutral-40)',
+					60: 'var(--Neutral-60)',
+					80: 'var(--Neutral-80)'
 				}
 			},
 			borderRadius: {

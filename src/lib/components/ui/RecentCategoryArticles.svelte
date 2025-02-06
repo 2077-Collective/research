@@ -95,7 +95,7 @@
 						href={`/category/${category.toLowerCase()}`}
 						class="flex font-mono items-center gap-1 text-xs text-neutral-20 hover:text-primary/60 transition-colors group"
 					>
-						View all
+						View All
 						<ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
 					</a>
 				</div>

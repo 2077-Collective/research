@@ -23,9 +23,9 @@
 		<div class="hero-content pb-28">
 			<div class="container">
 				<h1
-					class="!font-powerGroteskBold text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6"
+					class="!font-powerGroteskBold text-3xl md:leading-[52px] md:text-5xl font-bold max-w-[737px] mb-6 -tracking-[0.96px]"
 				>
-					Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
+					Cutting-edge Ethereum <br />research for enthusiasts, <br /> builders, and decision-makers.
 				</h1>
 				<p
 					class="text-[14px] leading-[18px] md:text-[16px] md:leading-[20px] max-w-[686px] text-neutral-40 font-light tracking-[0.16px]"

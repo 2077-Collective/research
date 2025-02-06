@@ -3,6 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
+	import Search from './Search.svelte';
 
 	let mobileMenuOpen = $state(false);
 </script>
@@ -14,7 +15,7 @@
 			<a href="/" class="ml-1"><Research /></a>
 
 			<!-- Desktop Navigation -->
-			<div class="items-center gap-10 hidden md:flex font-mono">
+			<div class="items-center gap-10 hidden md:flex font-mono text-sm">
 				<!-- About and Work With Us Links -->
 				<a
 					href="/about"
@@ -38,6 +39,8 @@
 				</Button> -->
 			</div>
 		</div>
+
+		<Search />
 
 		<!-- Mobile Menu Toggle -->
 		<div class="md:hidden">

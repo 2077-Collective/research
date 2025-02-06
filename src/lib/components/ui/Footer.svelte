@@ -1,22 +1,32 @@
 <script lang="ts">
-	import X from '$lib/components/ui/icons/X.svelte';
-	import { ArrowUpRightIcon, Briefcase, MailIcon, type Icon as IconType } from 'lucide-svelte';
-	import type { Component } from 'svelte';
+	import { ArrowUp, ArrowUpRightIcon } from 'lucide-svelte';
+
+	function goTop() {
+		document.body.scrollIntoView();
+	}
 
 	type Link = {
 		href: string;
 		text: string;
 		isExternal: boolean;
-		icon?: typeof IconType | Component<{ size: '16px' | '20px' | '24px' }>;
 	};
 
 	const linkGroups = {
 		Navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
-			{ href: '/about', text: 'About us', isExternal: false }
+			{ href: '/about', text: 'About Us', isExternal: false }
 		],
 
-		Read: [{ href: 'https://x.com/2077research', text: 'Researxh', isExternal: true, icon: X }]
+		Read: [
+			{ href: 'https://x.com/2077research', text: 'Research', isExternal: true },
+			{ href: 'https://x.com/2077research', text: 'The Bazaar', isExternal: true }
+		],
+
+		Socials: [
+			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
+			{ href: 'https://x.com/2077research', text: 'Discord', isExternal: true },
+			{ href: 'https://x.com/2077research', text: 'Telegram', isExternal: true }
+		]
 	};
 
 	const links: Link[] = [
@@ -27,16 +37,28 @@
 		{
 			href: 'mailto:research@2077.xyz',
 			text: 'Contact',
-			isExternal: false,
-			icon: MailIcon
+			isExternal: false
 		},
-		{ href: '/work-with-us', text: 'Work with us', isExternal: false, icon: Briefcase },
-		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X }
+		{ href: '/work-with-us', text: 'Work with us', isExternal: false },
+		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true }
 	];
 </script>
 
-<footer class="bg-[#040405] w-full">
-	<div class="py-6 flex flex-col md:flex-row gap-6 justify-between w-full container">
+<footer class="bg-[#040405] w-full relative">
+	<button
+		class="flex items-center gap-3 px-3 py-2 text-2xl transition-colors duration-300 group text-[12.667px] h-10 bg-[#19191A] rounded-[3.167px] text-[#B4B4B4] group absolute left-1/2 -translate-x-1/2 -translate-y-5"
+		aria-label="View all research articles"
+		on:click={goTop}
+	>
+		Back to the Top
+
+		<ArrowUp
+			class="size-5 rounded-full group-hover:-translate-y-[2px] transition"
+			style="stroke-width: 1.4"
+		/>
+	</button>
+
+	<div class="py-16 flex flex-col md:flex-row gap-6 justify-between w-full container">
 		<svg
 			width="53"
 			height="105"
@@ -64,16 +86,20 @@
 			/>
 		</svg>
 
-		<div>
-			<p class="self-stretch my-auto md:hidden text-center tracking-normal">©2077 Research</p>
-			<div
-				class="flex flex-wrap gap-6 justify-center md:justify-between items-center text-base w-full"
-			>
-				<p class="self-stretch my-auto hidden md:block tracking-normal">©2077 Research</p>
-				{#each links as link}
-					{@render linkComp(link)}
-				{/each}
-			</div>
+		<div class="flex gap-16">
+			{#each Object.keys(linkGroups) as group}
+				<div>
+					<div>
+						<p class="uppercase text-sm text-neutral-40">{group}</p>
+					</div>
+
+					<div class="mt-4 space-y-3 text-sm font-inter">
+						{#each linkGroups[group] as link}
+							{@render linkComp(link)}
+						{/each}
+					</div>
+				</div>
+			{/each}
 		</div>
 	</div>
 </footer>
@@ -81,16 +107,13 @@
 {#snippet linkComp(link: Link)}
 	<a
 		href={link.href}
-		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2"
+		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-10 font-light"
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
 	>
-		{#if link.icon}
-			<link.icon size="16px" />
-		{/if}
-		<span class="self-stretch my-auto">{link.text}</span>
+		<span class="self-stretch my-auto -tracking-[0.28px]">{link.text}</span>
 		{#if link.isExternal}
-			<ArrowUpRightIcon class="w-4 h-4" />
+			<ArrowUpRightIcon class="size-4" />
 		{/if}
 	</a>
 {/snippet}

@@ -5,7 +5,7 @@
 
 <BaseHead />
 
-<div class="container">
+<div class="container py-10">
 	<p>Polynomials are a special class of algebraic expressions of the form:</p>
 
 	<ul>

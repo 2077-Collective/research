@@ -60,6 +60,7 @@
 		"@sveltejs/adapter-vercel": "^5.4.8",
 		"@vercel/analytics": "^1.4.1",
 		"@vercel/functions": "^1.5.0",
+		"algoliasearch": "^5.20.1",
 		"carta-md": "^4.6.7",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",

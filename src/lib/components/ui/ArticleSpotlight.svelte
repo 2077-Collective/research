@@ -36,7 +36,7 @@
 	</a>
 
 	<div
-		class="flex flex-col text-base bg-secondary max-md:px-5 max-w-[376px] max-md:max-w-full absolute left-20 bottom-0 p-6 pb-0 rounded-[8px]"
+		class="flex flex-col text-base bg-secondary max-md:px-5 max-w-[400px] max-md:max-w-full absolute left-20 bottom-0 p-6 pb-0 rounded-[8px]"
 	>
 		<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide mb-4">
 			{#if primaryCategory}
@@ -55,7 +55,7 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-[32px] font-medium text-white leading-tight tracking-tight"
+				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-[32px] font-bold text-white leading-tight tracking-tight"
 			>
 				{toTitleCase(article.title)}
 			</h1>

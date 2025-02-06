@@ -51,6 +51,24 @@
 		url('/fonts/PowerGrotesk-Variable.woff2') format('woff');
 }
 
+::-webkit-scrollbar-track {
+	@apply bg-transparent;
+	/* border-radius: 32px; */
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 30px;
+	border: 0px solid #333 !important;
+	@apply bg-transparent;
+}
+
+/* For Firefox */
+& {
+	scrollbar-width: thin;
+	scrollbar-color: #333 transparent;
+	border-radius: 30px;
+}
+
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {
@@ -91,12 +109,19 @@
 
 		--subtle: 210 3% 31%;
 
+		--Neutral-10: #e6e6e6;
 		--Neutral-20: #ccc;
 		--Neutral-40: #999;
+		--Neutral-60: #666;
+		--Neutral-80: #333;
 	}
 
 	* {
 		border-color: hsl(var(--border));
+	}
+
+	html {
+		scroll-behavior: smooth;
 	}
 
 	body {
@@ -131,7 +156,7 @@
 
 		.hero-content {
 			background-image: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
-			background-repeat: no-repeat;
+			background-repeat: no-repeat !important;
 			background-size: cover;
 			background-position: center;
 		}
