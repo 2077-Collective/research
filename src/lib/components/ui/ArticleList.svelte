@@ -3,18 +3,13 @@
 	import { ArrowLeft } from 'lucide-svelte';
 	import { algoliasearch } from 'algoliasearch';
 	import instantsearch from 'instantsearch.js';
-	import {
-		searchBox,
-		hits,
-		configure,
-		pagination
-	} from 'instantsearch.js/es/widgets';
+	import { searchBox, hits, configure, pagination } from 'instantsearch.js/es/widgets';
 	import type { Widget } from 'instantsearch.js';
 
 	// Initialize the search client properly
 	const searchClient = algoliasearch(
-		"99IEWD8Z0K",
-		"c6f824db1a70a8523780908459090a48"
+		import.meta.env.VITE_ALGOLIA_APP_ID,
+		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
 	);
 
 	// Create the InstantSearch instance
@@ -30,9 +25,7 @@
 			if (status === 'loading') {
 				const hitsContainer = document.querySelector('#hits');
 				if (hitsContainer) {
-					hitsContainer.innerHTML = Array(6)
-						.fill(cardSkeleton())
-						.join('');
+					hitsContainer.innerHTML = Array(6).fill(cardSkeleton()).join('');
 				}
 			}
 		}
@@ -47,7 +40,7 @@
 					placeholder: 'Search...',
 					cssClasses: {
 						input: 'placeholder:text-gray-500 text-white',
-						form: 'relative',
+						form: 'relative'
 					}
 				}),
 				hits({
@@ -76,8 +69,12 @@
 												${instantsearch.highlight({ hit, attribute: 'title' })}
 											</p>
 											<p class="font-mono mt-2 text-sm text-gray-600 dark:text-gray-400 font-medium tracking-normal">
-												By ${hit.authors?.map((author: { full_name?: string; username: string }) => 
-													author.full_name || author.username).join(', ')}
+												By ${hit.authors
+													?.map(
+														(author: { full_name?: string; username: string }) =>
+															author.full_name || author.username
+													)
+													.join(', ')}
 											</p>
 											<p class="text-gray-600 font-soehne mt-3 md:mt-4 text-sm font-medium leading-relaxed tracking-tight line-clamp-8 md:line-clamp-4">
 												${instantsearch.snippet({ hit, attribute: 'content_excerpt' })}
