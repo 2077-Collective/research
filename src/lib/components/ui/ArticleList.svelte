@@ -13,8 +13,8 @@
 
 	// Initialize the search client properly
 	const searchClient = algoliasearch(
-		import.meta.env.PUBLIC_ALGOLIA_APP_ID,
-		import.meta.env.PUBLIC_ALGOLIA_API_KEY
+		"99IEWD8Z0K",
+		"c6f824db1a70a8523780908459090a48"
 	);
 
 	// Create the InstantSearch instance
@@ -53,35 +53,34 @@
 				hits({
 					container: '#hits',
 					cssClasses: {
-						list: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center',
+						list: '!flex !flex-col gap-8 max-w-7xl mx-auto',
 						item: 'h-full'
 					},
 					templates: {
 						empty: 'No results found',
 						item(hit) {
-							console.log(hit)
 							return `
 								<a href="/${hit.slug}" class="block h-full">
-									<div class="flex flex-col h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-										<div class="flex flex-col w-full">
-											<img src="${hit.thumb_url}" alt="" class="aspect-[4/3] w-full object-cover rounded-t-lg" loading="lazy" />
+									<div class="flex flex-col md:flex-row gap-4 md:gap-8 h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow p-4 md:p-6 rounded-lg">
+										<div class="w-full md:w-80 h-48 md:h-56 flex-shrink-0">
+											<img src="${hit.thumb_url}" alt="" class="w-full h-full object-cover rounded-lg" loading="lazy" />
 										</div>
 
-										<div class="flex flex-col p-3 md:p-4 w-full">
-											<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide">
+										<div class="flex flex-col flex-grow">
+											<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide mb-4">
 												<span class="font-mono font-bold text-xs border-white/20 px-2 py-1 rounded-md bg-primary/10 text-primary ring-1 ring-inset ring-primary/20 cursor-pointer hover:bg-primary hover:text-accent transition-colors duration-200">
 													${hit.categories[0]?.name || ''}
 												</span>
 											</div>
-											<p class="font-soehne mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
+											<p class="font-soehne text-xl md:text-2xl font-medium leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
 												${instantsearch.highlight({ hit, attribute: 'title' })}
 											</p>
-											<p class="font-mono mt-1 text-xs text-gray-600 dark:text-gray-400 font-medium tracking-normal">
+											<p class="font-mono mt-2 text-sm text-gray-600 dark:text-gray-400 font-medium tracking-normal">
 												By ${hit.authors?.map((author: { full_name?: string; username: string }) => 
 													author.full_name || author.username).join(', ')}
 											</p>
-											<p class=" text-gray-600  font-soehne mt-2 text-xs font-medium leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
-												${instantsearch.highlight({ hit, attribute: 'summary' })}
+											<p class="text-gray-600 font-soehne mt-3 md:mt-4 text-sm font-medium leading-relaxed tracking-tight line-clamp-8 md:line-clamp-4">
+												${instantsearch.snippet({ hit, attribute: 'content_excerpt' })}
 											</p>
 										</div>
 									</div>
