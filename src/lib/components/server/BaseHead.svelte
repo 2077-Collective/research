@@ -3,7 +3,7 @@
 	import { sanitizeTitle } from '$lib/utils/sanitise'; // Import the utility function
 
 	const pageUrl = $page.url.origin;
-	const image = `${pageUrl}/preview-image.jpg`;
+	const image = `${pageUrl}/preview-image.webp`;
 	const title = '2077 Research';
 	const description = '2077 Research: Cutting-Edge Ethereum Research';
 
