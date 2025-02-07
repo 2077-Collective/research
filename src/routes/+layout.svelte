@@ -47,7 +47,7 @@
 		{#if showButton}
 			<button
 				class="flex items-center gap-1 px-4 py-2 text-2xl transition-colors duration-300 group text-[12.667px] h-10 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed bottom-12 md:bottom-11 right-3 md:right-11 font-semibold shadow-2xl border border-[#333] z-[999999]"
-				aria-label="View all research articles"
+				aria-label="Scroll back to the top of the page"
 				onclick={handleScrollToTop}
 			>
 				<span class="max-md:hidden">Back to the Top</span>
