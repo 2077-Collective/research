@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
 
 	interface $$Props {
 		article: ArticleMetadata;
@@ -74,7 +74,9 @@
 					</Badge>
 				{/if}
 			</div>
-			<p class="font-soehne mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2">
+			<p
+				class="font-powerGroteskBold mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2"
+			>
 				{article.title}
 			</p>
 			<p class="mt-1 text-xs text-gray-600 dark:text-gray-400 font-medium tracking-normal">

@@ -63,7 +63,7 @@ const config: Config = {
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
 				mono: ['Kode Mono Variable', 'monospace'],
-				powerGroteskBold: ['PowerGroteskBold', 'sans-serif'],
+				powerGroteskBold: 'var(--font-power)',
 				hubot: ['HubotSans', 'sans-serif']
 			},
 			letterSpacing: {
