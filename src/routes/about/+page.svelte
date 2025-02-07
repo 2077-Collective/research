@@ -15,7 +15,7 @@
 	<section>
 		<h1
 			id="about-us"
-			class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+			class="text-3xl md:text-5xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold tracking-tight"
 		>
 			About us
 		</h1>
@@ -41,7 +41,7 @@
 	<section>
 		<h2
 			id="team"
-			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold tracking-tight"
 		>
 			Core
 		</h2>
@@ -93,7 +93,7 @@
 	<section>
 		<h2
 			id="contributors"
-			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-soehne tracking-tight"
+			class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold tracking-tight"
 		>
 			Contributors
 		</h2>
