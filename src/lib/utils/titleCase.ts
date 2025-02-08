@@ -7,7 +7,7 @@ export function toTitleCase(str: string): string {
     return str.split(' ').map((word, index) => {
         const eipMatch = word.match(hyphenatedEipPattern);
         if (eipMatch) {
-            const [_, eipPart, numberPart] = eipMatch;
+            const [, eipPart, numberPart] = eipMatch;
             return `${eipPart.toUpperCase()}-${numberPart}`;
         }
 
