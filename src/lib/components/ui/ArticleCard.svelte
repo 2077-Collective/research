@@ -17,10 +17,8 @@
 	);
 
 	const displayCategory = $derived.by(() => {
-		// Handle empty categories array
 		if (!article.categories.length) return null;
 
-		// If we're on a category page, try to find the matching category
 		if (currentPageCategory) {
 			const matchingCategory = article.categories.find(
 				(cat) => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
@@ -28,7 +26,6 @@
 			if (matchingCategory) return matchingCategory;
 		}
 
-		// Otherwise, return primary category or first available
 		return article.categories.find((cat) => cat.is_primary) || article.categories[0];
 	});
 
