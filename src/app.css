@@ -123,7 +123,15 @@
 		@apply tracking-wide;
 	}
 
-	.ldJQvz {
-		font-family: var(--font-primary) !important;
+	.hero {
+		background: url('/hero.png');
+		background-repeat: no-repeat;
+		background-position: center;
+		/* background-size: cover; */
+		@apply pt-20 pb-20 md:pb-40;
+
+		.hero-mask {
+			background: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
+		}
 	}
 }

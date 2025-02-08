@@ -34,12 +34,10 @@
 
 <div>
 	<Nav />
-	<div class="transition-colors duration-300 max-w-screen-2xl mx-auto">
+	<div class="transition-colors duration-300">
 		{@render children()}
 	</div>
-	<div
-		class="flex flex-col grow items-center px-3 md:px-12 py-4 md:py-6 mt-8 max-w-screen-2xl mx-auto"
-	>
+	<div class="flex flex-col grow items-center py-4 md:py-6 mt-8">
 		<Beehiiv variant="home" />
 		<Footer />
 		<Toaster />

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cn } from '$lib/utils/ui-components';
 	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
@@ -41,47 +42,64 @@
 			isExternal: true
 		}
 	];
+
+	let addBackgroundColor = $state(false);
+
+	function scrollContainer() {
+		return document.documentElement || document.body;
+	}
+
+	function handleScroll() {
+		addBackgroundColor = scrollContainer().scrollTop > 50;
+	}
 </script>
 
+<svelte:window on:scroll={handleScroll} />
+
 <div
-	class="sticky top-0 z-50 flex items-center justify-between container py-4 md:py-6 max-w-screen-2xl mx-auto bg-background"
+	class={cn(
+		'fixed top-0 pt-4 pb-4 md:pt-4 w-full z-[999] transition',
+		addBackgroundColor && 'bg-background'
+	)}
 >
-	<div class="flex items-center gap-[45px]">
-		<!-- Logo -->
-		<a href="/" class="ml-1"><Research /></a>
+	<div class="container flex items-center justify-between">
+		<div class="flex items-center gap-[45px]">
+			<!-- Logo -->
+			<a href="/" class="ml-1"><Research /></a>
 
-		<!-- Desktop Navigation -->
-		<div class="items-center gap-10 hidden md:flex font-mono text-sm">
-			{#each links as link}
-				<a
-					href={link.href}
-					class="text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group"
+			<!-- Desktop Navigation -->
+			<div class="items-center gap-10 hidden md:flex font-mono text-sm">
+				{#each links as link}
+					<a
+						href={link.href}
+						class="text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group"
+					>
+						{link.name}
+						{#if link.isExternal}
+							<ArrowUpRight
+								class="size-4 group-hover:-translate-y-px group-hover:translate-x-px transition will-change-transform"
+							/>
+						{/if}
+					</a>
+				{/each}
+
+				<!-- Subscribe Button
+				<Button
+					class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
+					onclick={() => {
+						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
+					}}
 				>
-					{link.name}
-					{#if link.isExternal}
-						<ArrowUpRight
-							class="size-4 group-hover:-translate-y-px group-hover:translate-x-px transition will-change-transform"
-						/>
-					{/if}
-				</a>
-			{/each}
-
-			<!-- Subscribe Button
-			<Button
-				class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
-				onclick={() => {
-					document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
-				}}
-			>
-				Subscribe
-				<Mail class="w-4 h-4 ml-1" />
-			</Button> -->
+					Subscribe
+					<Mail class="w-4 h-4 ml-1" />
+				</Button> -->
+			</div>
 		</div>
-	</div>
 
-	<!-- Mobile Menu Toggle -->
-	<div class="md:hidden">
-		{@render mobileMenu()}
+		<!-- Mobile Menu Toggle -->
+		<div class="md:hidden">
+			{@render mobileMenu()}
+		</div>
 	</div>
 </div>
 
