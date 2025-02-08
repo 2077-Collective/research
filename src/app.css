@@ -122,4 +122,8 @@
 	a {
 		@apply tracking-wide;
 	}
+
+	.ldJQvz {
+		font-family: var(--font-primary) !important;
+	}
 }

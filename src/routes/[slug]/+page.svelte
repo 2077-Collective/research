@@ -832,7 +832,7 @@
 {#snippet floatingButtons()}
 	{#if showFloatingButtons || isReadingMode}
 		<div
-			class="fixed bottom-10 right-10 flex gap-3 transition-all duration-300"
+			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>

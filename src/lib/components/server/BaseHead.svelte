@@ -4,10 +4,10 @@
 	// Import the utility function
 
 	const pageUrl = $page.url.origin;
-	const image = `${pageUrl}/preview-image.png`;
+	const image = `${pageUrl}/preview-image.jpg`;
 	const title = '2077 Research';
 	const description =
-		'Cutting-edge Ethereum research for enthusiasts, builders, and industry leaders';
+		'2077 Research delivers cutting-edge Ethereum research and actionable insights on core infrastructure, interoperability, scaling, privacy, DePIN, and DeFi';
 
 	// Use the imported utility function
 	const sanitizedTitle = sanitizeTitle(title ?? '');
