@@ -277,7 +277,7 @@
 	}
 </script>
 
-<div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
+<div class="py-6 md:py-14 flex flex-col gap-8 md:gap-10">
 	<h2 class="text-3xl md:text-5xl font-medium font-powerGroteskBold">
 		See what industry leaders say about us.
 	</h2>

@@ -79,9 +79,10 @@
 	});
 </script>
 
-<div class="flex flex-col gap-6">
-	<h2 class="text-2xl md:text-4xl font-powerGroteskBold">Most recent</h2>
-	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex flex-col gap-8">
+	<h2 class="text-2xl md:text-[32px] font-powerGroteskBold font-bold">Most recent</h2>
+
+	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 md:gap-y-16">
 		{#each categoryArticles as { category, articles }}
 			<div class="flex flex-col">
 				<div class="flex items-center justify-between">
@@ -91,18 +92,20 @@
 					>
 						{category}
 					</Badge>
+
 					<a
 						href={`/category/${category.toLowerCase()}`}
-						class="flex font-mono items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
+						class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
 					>
 						View all
 						<ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
 					</a>
 				</div>
+
 				<div class="flex flex-col gap-3">
 					{#each articles as article}
 						<a href={`/${article.slug}`} class="group flex flex-col gap-2">
-							<div class="aspect-[4/3] overflow-hidden rounded-sm">
+							<div class="aspect-[1/0.5] overflow-hidden rounded-sm">
 								<img
 									src={article.thumb}
 									alt=""
@@ -114,11 +117,11 @@
 								/>
 							</div>
 							<h3
-								class="font-powerGroteskBold font-medium text-base leading-tight tracking-tight line-clamp-2"
+								class="font-powerGroteskBold font-medium text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20"
 							>
 								{article.title}
 							</h3>
-							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
+							<p class="text-xs font-mono text-neutral-40">
 								By {getAuthorsText(article.authors)}
 							</p>
 						</a>
