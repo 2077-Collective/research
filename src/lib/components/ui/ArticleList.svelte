@@ -2,11 +2,14 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { ArrowDown, ArrowLeft, Search } from 'lucide-svelte';
+	import { getAuthorsText } from '$lib/utils/authors';
+	import { toTitleCase } from '$lib/utils/titleCase';
+	import { format } from 'date-fns';
+	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
-	import Input from './input/input.svelte';
+	import Badge from './badge/badge.svelte';
 	let newArticleRef: HTMLElement | null = null;
 
 	const ARTICLES_PER_PAGE = 9;
@@ -92,28 +95,118 @@
 			});
 		}
 	}
+
+	const firstArticle = $derived(filteredArticles[0]);
+
+	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
+		if (event.detail.key === 'Enter') {
+			handleCategoryClick(categoryName);
+		}
+	}
+
+	function getPrimaryCategory(article: ArticleMetadata) {
+		return article.categories.find((category) => category.is_primary);
+	}
 </script>
 
 <div>
-	<div>
-		<div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
-			<a
-				href="/"
-				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
-			>
-				<ArrowLeft class="w-6 h-6" />
-			</a>
-			<h2
-				id="latest-research"
-				class="text-3xl md:text-5xl font-medium leading-9 font-powerGroteskBold tracking-tight"
-			>
-				{title}
-			</h2>
-		</div>
-	</div>
+	<section class="pt-32 bg-[#0C0C0D] relative overflow-hidden pb-40">
+		<div class="container relative z-20">
+			<div class="flex items-center gap-3 mb-4 md:mb-9">
+				<a
+					href="/"
+					aria-label="Back to Home"
+					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full bg-[#19191A] group"
+				>
+					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
+				</a>
+			</div>
 
-	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
+			<div>
+				<h2
+					id="latest-research"
+					class="text-3xl md:text-[40px] font-bold leading-9 font-powerGroteskBold tracking-wide"
+				>
+					{title}
+				</h2>
+
+				<p class="max-w-[485px] text-sm font-hubot mt-3">
+					The news around making Ethereum faster, cheaper, and more efficient with Layer 2s,
+					rollups, and sharding—paving the way for mass adoption.
+				</p>
+			</div>
+		</div>
+
+		<img
+			class="absolute top-0 pointer-events-none opacity-10 w-full"
+			src="/category-header-bg.png"
+			alt="Header mesh"
+		/>
+	</section>
+
+	<section class="bg-[#010102] pb-[98px]">
+		<div class="container relative -mt-28">
+			{#if firstArticle}
+				{@const primaryCategory = getPrimaryCategory(firstArticle)?.name}
+				{@const formattedDate = format(firstArticle.updatedAt, 'dd MMM yyyy')}
+
+				<div class="relative border border-[#171717] rounded-2xl overflow-hidden">
+					<div class="flex md:aspect-[1/0.5] items-center justify-center overflow-hidden">
+						<a href={`/${firstArticle.slug}`} class="!size-full">
+							<img
+								src={firstArticle.thumb}
+								alt={`Thumbnail for article: ${firstArticle.title}`}
+								loading="eager"
+								fetchpriority="high"
+								decoding="async"
+								class="w-full object-cover"
+							/>
+						</a>
+					</div>
+
+					<div
+						class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-[8px] rounded-b-none max-md:rounded-t-none pt-6"
+					>
+						{#if primaryCategory}
+							<div class="px-6">
+								<Badge
+									variant="rectangularFilled"
+									class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
+									role="link"
+									tabindex="0"
+									on:click={() => handleCategoryClick(primaryCategory)}
+									on:keydown={(event) => handleKeydown(event, primaryCategory)}
+								>
+									{primaryCategory}
+								</Badge>
+							</div>
+						{/if}
+
+						<a href={`/${firstArticle.slug}`} class="px-6 max-md:pb-6 block">
+							<h3
+								class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-3 mt-4"
+							>
+								{toTitleCase(firstArticle.title)}
+							</h3>
+
+							<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">
+								{firstArticle.summary}
+							</p>
+
+							<div
+								class="flex items-center gap-2 text-xs py-2.5 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
+							>
+								<p>{formattedDate}</p>
+								<p class="pl-2 line-clamp-1">By {getAuthorsText(firstArticle.authors)}</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			{/if}
+		</div>
+	</section>
+
+	<!-- <div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
 		<Input
 			class="grow-0 max-md:w-full tracking-normal"
 			type="text"
@@ -125,14 +218,18 @@
 				<Search class="w-4 h-4" />
 			{/snippet}
 		</Input>
-	</div>
+	</div> -->
 
 	<div
-		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
+		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-[67px] gap-x-6 justify-center container pt-14 bg-[#0C0C0D]"
 	>
-		{#each filteredArticles.slice(0, visibleArticles) as article, index}
+		{#each filteredArticles.slice(1, visibleArticles) as article, index}
 			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard {article} onBadgeClick={(category) => handleCategoryClick(category)} />
+				<ArticleCard
+					{article}
+					onBadgeClick={(category) => handleCategoryClick(category)}
+					hideCategory
+				/>
 			</div>
 		{/each}
 
