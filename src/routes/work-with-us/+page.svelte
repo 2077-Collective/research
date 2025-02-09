@@ -61,11 +61,11 @@
 			<div class="space-y-1.5">
 				<p>
 					Our expertise lies in producing in-depth reports packed with thorough explanations and
-					research-driven insights on crypto infrastructure and products. Want to work with us? Get
-					in touch via email: <a href="mailto://research@2077.xyz">research@2077.xyz</a>.
+					research-driven insights on crypto infrastructure and products. <br />Want to work with
+					us?
 				</p>
-				<p class="text-base text-white/50 flex items-center gap-1.5">
-					To learn more about us, {' '}
+				<p class="text-base flex items-center gap-1.5">
+					Send an e-mail to {' '}
 					<a href="mailto://research@2077.xyz" class="text-[#0BC8D2] hover:underline"
 						>research@2077.xyz
 					</a>
