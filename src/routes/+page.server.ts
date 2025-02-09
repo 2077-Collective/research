@@ -46,45 +46,15 @@
 //             cause: err instanceof Error ? err.message : 'Unknown error'
 //         });
 //     }
-// };
-import { getArticleBySlug } from '$lib/services/strapi.service';
-import type { PageServerLoad } from './$types';
+// };import { error } from '@sveltejs/kit';
+import { fetchArticles } from '$lib/services/article.service';
 import { error } from '@sveltejs/kit';
-
-export const load: PageServerLoad = async ({ params }) => {
+export async function load() {
     try {
-        // Validate slug parameter
-        if (!params.slug || params.slug === '404') {
-            throw error(404, 'Invalid article slug');
-        }
-
-        console.log('Loading article with slug:', params.slug);
-        const article = await getArticleBySlug(params.slug);
-
-        if (!article) {
-            console.log('Article not found:', params.slug);
-            throw error(404, 'Article not found');
-        }
-
-        // Validate required article fields
-        if (!article.title || !article.content) {
-            console.error('Invalid article data:', article);
-            throw error(500, 'Invalid article data');
-        }
-
-        // Log success
-        console.log('Successfully loaded article:', article.title);
-
-        return {
-            article,
-            meta: {
-                title: article.title,
-                description: article.summary,
-                image: article.thumb
-            }
-        };
+        const articles = await fetchArticles();
+        return { articles };
     } catch (err) {
-        console.error('Error loading article:', err);
-        throw error(500, 'Failed to load article');
+        console.error('Error loading articles:', err);
+        throw error(500, { message: 'Failed to load articles' });
     }
-};
+}

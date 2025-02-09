@@ -18,43 +18,32 @@
 import { AuthorArraySchema, type Author } from '$lib/types/article';
 import { env } from '$env/dynamic/public';
 
-const baseURL = env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const baseURL = env.PUBLIC_STRAPI_URL || 'https://honest-chickens-78ad1f61fe.strapiapp.com';
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
 
 const headers = {
     Authorization: `Bearer ${apiToken}`,
     'Content-Type': 'application/json',
 };
-
 export const fetchAuthors = async (): Promise<Author[]> => {
     try {
         const res = await fetch(`${baseURL}/api/authors?populate=*`, { headers });
         if (!res.ok) {
-            throw new Error(`Failed to fetch authors: ${res.status} ${res.statusText}`);
+            throw new Error(`Failed to fetch authors: ${res.status}`);
         }
 
         const response = await res.json();
-        
-        // Log the response to help with debugging
-        console.log('Strapi authors response:', response);
 
-        if (!response.data) {
-            console.error('No data property in Strapi response');
-            return [];
-        }
+        if (!response.data) return [];
 
-        // Transform Strapi's response format to match your schema
         const transformedAuthors = response.data.map((author: any) => ({
-            username: author.attributes?.username || '',
+            username: author.username || '',
             id: author.id.toString(),
-            full_name: author.attributes?.full_name || null,
-            twitter_username: author.attributes?.twitter_username || null
+            full_name: author.full_name || null,
+            twitter_username: author.twitter_username || null
         }));
 
-        // Log the transformed data
-        console.log('Transformed authors:', transformedAuthors);
-
-        return AuthorArraySchema.parse(transformedAuthors);
+        return transformedAuthors;
     } catch (err) {
         console.error('Author fetch or parse error:', err);
         return [];

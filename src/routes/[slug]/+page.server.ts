@@ -25,34 +25,18 @@
 //   return { article };
 // };
 
-import { getArticleBySlug } from '$lib/services/article.service';
-import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import { getArticleBySlug } from '$lib/services/article.service';
 
-export const load = (async ({ params }) => {
+export async function load({ params }) {
     try {
-        // Validate slug
-        if (!params.slug) {
-            throw error(404, 'Invalid article slug');
-        }
-
-        console.log('Loading article:', params.slug);
-
         const article = await getArticleBySlug(params.slug);
-        
         if (!article) {
-            console.log('Article not found:', params.slug);
-            throw error(404, 'Article not found');
+            throw error(404, { message: 'Article not found' });
         }
-
-        return {
-            article
-        };
+        return { article };
     } catch (err) {
         console.error('Error loading article:', err);
-        if (err instanceof Error && 'status' in err) {
-            throw err;
-        }
-        throw error(500, 'Failed to load article');
+        throw error(500, { message: 'Failed to load article' });
     }
-}) satisfies PageServerLoad;
+}
