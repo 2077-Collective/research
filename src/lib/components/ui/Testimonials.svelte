@@ -1,7 +1,20 @@
 <script lang="ts">
-	import AutoScroll from 'embla-carousel-auto-scroll';
-	import emblaCarouselSvelte from 'embla-carousel-svelte';
+	import * as Carousel from '$lib/components/ui/carousel/index.js';
+	import type { CarouselAPI } from './carousel/context';
 	import Icon from './icons/Icon.svelte';
+
+	let api: CarouselAPI | undefined;
+	let current = 0;
+	let count = 0;
+
+	$: if (api) {
+		count = api.scrollSnapList()?.length ?? 0;
+		current = (api.selectedScrollSnap?.() ?? 0) + 1;
+
+		api.on?.('select', () => {
+			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
+		});
+	}
 
 	interface Testimonial {
 		text: string;
@@ -12,7 +25,7 @@
 		company?: string;
 	}
 
-	const upperRow: Testimonial[] = [
+	const testimonials: Testimonial[] = [
 		{
 			text: '<p>Very well written explanation of the topic.</p>',
 			author: 'Akaki Mamageishvili',
@@ -132,10 +145,7 @@
 			platform: 'x',
 			avatar: 'https://res.cloudinary.com/dc2iz5j1c/image/upload/v1737295105/12_oats8e.webp',
 			company: 'Intersend'
-		}
-	];
-
-	const lowerRow: Testimonial[] = [
+		},
 		{
 			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer nofollow">@fikunmi_ap</a> and <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
             <p>Here is the full tweet / report:</p>`,
@@ -266,62 +276,52 @@
 			company: 'Nethermind'
 		}
 	];
-
-	function getAutoscroll() {
-		return AutoScroll({
-			stopOnInteraction: false,
-			stopOnMouseEnter: true,
-			startDelay: 200,
-			speed: 1
-		});
-	}
 </script>
 
-<div class="py-6 md:py-14 flex flex-col gap-8 md:gap-10">
-	<h2 class="text-3xl md:text-5xl font-medium font-powerGroteskBold">
-		See what industry leaders say about us.
-	</h2>
+<div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-20 md:pb-28">
+	<div class="min-h-[300px] text-center pt-12 md:pt-28">
+		<h2 class="text-3xl md:text-[32px] font-bold font-powerGroteskBold">
+			See what industry
+			<br /> leaders say about us.
+		</h2>
 
-	<div class="relative">
-		<div
-			class="bg-gradient-to-r from-background to-transparent absolute left-0 w-10 md:w-20 z-10 h-full top-0"
-		></div>
-
-		<div class="gap-4 hidden md:flex flex-col relative">
-			{@render autoscroll(upperRow, 'ltr')}
-			{@render autoscroll(lowerRow, 'rtl')}
-		</div>
-
-		<div class="md:hidden">
-			{@render autoscroll([...upperRow, ...lowerRow], 'ltr')}
-		</div>
-
-		<div
-			class="bg-gradient-to-l from-background to-transparent absolute right-0 w-10 md:w-20 z-10 h-full top-0"
-		></div>
-	</div>
-</div>
-
-{#snippet autoscroll(rows: Testimonial[], direction: 'ltr' | 'rtl')}
-	<div
-		class="embla"
-		use:emblaCarouselSvelte={{
-			options: { direction },
-			plugins: [getAutoscroll()]
-		}}
-	>
-		<div class="embla__container flex gap-4" dir={direction}>
-			{#each [...rows, ...rows, ...rows, ...rows] as testimonial}
-				{@render card(testimonial)}
+		<div class="mt-7 flex items-center justify-center flex-wrap gap-3 container">
+			{#each testimonials as testimonial}
+				<div class="size-8 rounded-full overflow-hidden">
+					<img src={testimonial.avatar} alt={testimonial.author} class="size-8 object-cover" />
+				</div>
 			{/each}
 		</div>
 	</div>
-{/snippet}
+
+	<div class="relative">
+		<Carousel.Root bind:api class="w-full relative">
+			<Carousel.Content class="gap-30 -mx-20 md:-mx-[121px]">
+				{#each testimonials as testimonial}
+					<Carousel.Item class="flex-none w-[271px] md:w-[330px]">
+						{@render card(testimonial)}
+					</Carousel.Item>
+				{/each}
+			</Carousel.Content>
+
+			<div
+				class="md:hidden max-md:absolute max-md:-bottom-14 flex items-center md:-top-[64px] absolute md:right-24 text-black max-md:left-1/2 max-md:-translate-x-1/2 max-md:mt-8 w-6"
+			>
+				<Carousel.Previous
+					class="bg-transparent border-none size-12 bg-white [&_svg]:size-6 md:[&_svg]:size-8 text-neutral-60 hover:bg-white hover:text-black"
+				/>
+
+				<Carousel.Next
+					class="bg-transparent border-none size-12 bg-white [&_svg]:size-6 md:[&_svg]:size-8 hover:bg-white hover:text-black"
+				/>
+			</div>
+		</Carousel.Root>
+	</div>
+</div>
 
 {#snippet card(testimonial: Testimonial)}
 	<div
-		class="embla__slide container border border-subtle p-6 w-full h-[232px] md:w-[432px] md:h-[232px]"
-		dir="ltr"
+		class="container p-5 md:px-[30px] md:py-6 w-full bg-[#19191A] rounded-[4px] border border-[#383838]"
 	>
 		<a
 			href={testimonial.link}
@@ -329,6 +329,8 @@
 			rel="noopener noreferrer nofollow"
 			class="flex flex-col gap-4"
 		>
+			<span class="text-sm md:text-base">{@html testimonial.text}</span>
+
 			<div class="flex gap-2">
 				<div class="flex gap-2 justify-between w-full">
 					<div class="flex gap-2 items-center">
@@ -349,22 +351,6 @@
 					</div>
 				</div>
 			</div>
-
-			<span class="text-sm md:text-base">{@html testimonial.text}</span>
 		</a>
 	</div>
 {/snippet}
-
-<style scoped>
-	.embla {
-		overflow: hidden;
-	}
-	.embla__container {
-		display: flex;
-	}
-	.embla__slide {
-		flex: 0 0 433px;
-		min-width: 0;
-		max-width: 100%;
-	}
-</style>

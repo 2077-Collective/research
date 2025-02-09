@@ -67,7 +67,7 @@
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
 						{@const formattedDate = format(article.updatedAt, 'dd MMM yyyy')}
 
-						<Carousel.Item class="relative md:flex-none md:w-[453px]">
+						<Carousel.Item class="relative md:flex-none md:w-[453px] group overflow-hidden">
 							<div class="flex md:aspect-[1/0.4] items-center justify-center">
 								<a href={`/${article.slug}`} class="!size-full">
 									<img
@@ -76,7 +76,7 @@
 										loading="eager"
 										fetchpriority="high"
 										decoding="async"
-										class="!w-full lg:w-4/6 object-cover"
+										class="!w-full lg:w-4/6 object-cover group-hover:scale-105 transition will-change-transform"
 									/>
 								</a>
 							</div>

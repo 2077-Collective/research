@@ -140,4 +140,10 @@
 			background: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
 		}
 	}
+
+	.testimonial-bg {
+		background-image: url('/testimonial-bg.png');
+		background-repeat: no-repeat;
+		background-position: center;
+	}
 }

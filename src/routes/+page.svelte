@@ -96,7 +96,7 @@
 		></div>
 	</div>
 
-	<section class="max-md:mt-14 max-md:mb-36 my-[90px]">
+	<section class="max-md:mt-14">
 		{#if featuredArticles}
 			<PopularReads articles={featuredArticles} />
 		{/if}
