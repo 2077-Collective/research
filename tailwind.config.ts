@@ -59,6 +59,7 @@ const config: Config = {
 				'special-blue': '#07BEBF',
 				neutral: {
 					5: 'var(--neutral-05)',
+					10: 'var(--neutral-10)',
 					20: 'var(--neutral-20)',
 					40: 'var(--neutral-40)',
 					60: 'var(--neutral-60)',

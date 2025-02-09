@@ -37,7 +37,7 @@
 	<div class="transition-colors duration-300">
 		{@render children()}
 	</div>
-	<div class="flex flex-col grow items-center mt-8">
+	<div class="flex flex-col grow items-center">
 		<Beehiiv variant="home" />
 		<Footer />
 		<Toaster />
