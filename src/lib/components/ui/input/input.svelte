@@ -20,8 +20,7 @@
 		disabled = false,
 		variant = 'regular',
 		icon,
-		button,
-		onchange = (value: string) => {}
+		button
 	}: {
 		value?: string;
 		class?: string;
@@ -35,13 +34,7 @@
 		variant?: keyof typeof Variant;
 		icon?: Snippet;
 		button?: Snippet;
-		onchange?: (value: string) => void;
 	} = $props();
-
-	function handleChange(event: Event) {
-		const target = event.target as HTMLInputElement;
-		onchange(target.value);
-	}
 </script>
 
 {#if icon || button}
@@ -66,7 +59,6 @@
 			{placeholder}
 			{min}
 			{disabled}
-			on:input={handleChange}
 			class="w-full min-w-0 focus:outline-none placeholder-gray-400 disabled:text-gray bg-transparent text-primary"
 		/>
 		{#if button}
@@ -83,7 +75,6 @@
 		{placeholder}
 		{min}
 		{disabled}
-		on:input={handleChange}
 		class={cn(
 			`${disabled ? 'text-gray-400' : 'text-primary'} flex-grow ${Variant[variant]} border border-default rounded-lg bg-transparent`,
 			className
