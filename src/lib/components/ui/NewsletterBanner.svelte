@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Input from './input/input.svelte';
-	import Button from './button/button.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	import Button from './button/button.svelte';
+	import Input from './input/input.svelte';
 
 	const { variant = 'home' }: { variant?: 'home' | 'article' } = $props();
 
@@ -69,7 +69,9 @@
 		<div
 			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
 		>
-			<h1 class="font-soehne text-2xl md:text-3xl font-medium max-lg:max-w-full text-center">
+			<h1
+				class="font-powerGroteskBold text-2xl md:text-3xl font-medium max-lg:max-w-full text-center"
+			>
 				Your Ethereum Edge
 			</h1>
 
@@ -91,7 +93,7 @@
 			class="flex flex-col justify-center items-center flex-1 shrink self-stretch my-auto w-full basis-0 min-w-[240px] max-md:max-w-full"
 		>
 			<p
-				class="font-soehne text-5xl font-medium leading-tight max-lg:max-w-full max-lg:text-3xl text-center"
+				class="font-powerGroteskBold text-5xl font-medium leading-tight max-lg:max-w-full max-lg:text-3xl text-center"
 			>
 				Your Ethereum Edge
 			</p>

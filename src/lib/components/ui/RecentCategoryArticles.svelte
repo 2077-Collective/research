@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
 	import { getArticles } from '$lib/stores/articles.svelte';
+	import type { ArticleMetadata } from '$lib/types/article';
+	import { getAuthorsText } from '$lib/utils/authors';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
-	import { getAuthorsText } from '$lib/utils/authors';
 
 	const {
 		articlesPerCategory = 1,
@@ -80,7 +80,7 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	<h2 class="text-2xl md:text-4xl font-soehne">Most recent</h2>
+	<h2 class="text-2xl md:text-4xl font-powerGroteskBold">Most recent</h2>
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 		{#each categoryArticles as { category, articles }}
 			<div class="flex flex-col">
@@ -114,7 +114,7 @@
 								/>
 							</div>
 							<h3
-								class="font-soehne font-medium text-base leading-tight tracking-tight line-clamp-2"
+								class="font-powerGroteskBold font-medium text-base leading-tight tracking-tight line-clamp-2"
 							>
 								{article.title}
 							</h3>

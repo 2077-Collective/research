@@ -8,7 +8,7 @@
 	<div class="flex flex-col bg-zinc-900 rounded-xl w-full">
 		<div class="flex md:flex-col gap-4 p-4">
 			<div class="flex flex-row w-full justify-between items-center">
-				<p class="font-soehne text-xl md:text-2xl font-medium leading-9 tracking-tight">
+				<p class="font-powerGroteskBold text-xl md:text-2xl font-medium leading-9 tracking-tight">
 					{fullName}
 				</p>
 				{#if hasTwitter}

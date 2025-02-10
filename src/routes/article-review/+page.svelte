@@ -1,19 +1,15 @@
-<svelte:head>
-	<title>2077 Research - Submit your article for review</title>
-</svelte:head>
-
 <script lang="ts">
-	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
-	import Label from '$lib/components/ui/label/label.svelte';
-	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
-	import MarkdownEditor from '$lib/components/ui/MarkdownEditor.svelte';
-	import { ArrowLeft, LoaderCircle } from 'lucide-svelte';
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
-	import { toast } from 'svelte-sonner';
-	import type { SubmitFunction } from '@sveltejs/kit';
+	import Button from '$lib/components/ui/button/button.svelte';
+	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
+	import Label from '$lib/components/ui/label/label.svelte';
+	import MarkdownEditor from '$lib/components/ui/MarkdownEditor.svelte';
 	import * as Select from '$lib/components/ui/select';
+	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
+	import type { SubmitFunction } from '@sveltejs/kit';
+	import { ArrowLeft, LoaderCircle } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
 
 	const isRepostOptions = [
 		{ value: false, label: 'No' },
@@ -49,6 +45,10 @@
 	};
 </script>
 
+<svelte:head>
+	<title>2077 Research - Submit your article for review</title>
+</svelte:head>
+
 <div class="flex flex-col gap-1 mb-8 px-20">
 	<a
 		href="/"
@@ -57,7 +57,7 @@
 	>
 		<ArrowLeft class="w-6 h-6" />
 	</a>
-	<h1 class="font-soehne text-xl mb-3 md:text-4xl font-medium">
+	<h1 class="font-powerGroteskBold text-xl mb-3 md:text-4xl font-medium">
 		Publish your article on 2077 Research
 	</h1>
 	<p class="text-lg">
@@ -72,7 +72,7 @@
 	use:enhance={handleSubmit}
 >
 	<div class="flex flex-col gap-1">
-		<h3 class="font-soehne text-xl">About the author</h3>
+		<h3 class="font-powerGroteskBold text-xl">About the author</h3>
 		<p class="text-muted-foreground">
 			Provide your information so we can get back to you with the review.
 		</p>
@@ -106,7 +106,7 @@
 	</div>
 
 	<div class="flex flex-col gap-1">
-		<h3 class="font-soehne text-xl mt-6">About the article</h3>
+		<h3 class="font-powerGroteskBold text-xl mt-6">About the article</h3>
 		<p class="text-muted-foreground">
 			You can submit the article using a <b>public link</b> to <b>Google Docs</b> or pasting the
 			content below using <b>Markdown</b> format.

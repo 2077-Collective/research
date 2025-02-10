@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
-	import { getArticles, setArticles } from '$lib/stores/articles.svelte';
-	import ArticleCard from './ArticleCard.svelte';
-	import { onMount } from 'svelte';
 	import { fetchArticles } from '$lib/services/article.service';
+	import { getArticles, setArticles } from '$lib/stores/articles.svelte';
+	import type { ArticleMetadata } from '$lib/types/article';
+	import { onMount } from 'svelte';
+	import ArticleCard from './ArticleCard.svelte';
 
 	const {
 		categories,
@@ -67,7 +67,7 @@
 </script>
 
 <div class="flex flex-col">
-	<h2 class="text-3xl md:text-5xl font-medium leading-9 mb-6 md:mb-12 font-soehne">
+	<h2 class="text-3xl md:text-5xl font-medium leading-9 mb-6 md:mb-12 font-powerGroteskBold">
 		Related research
 	</h2>
 	<div

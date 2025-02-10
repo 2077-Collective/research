@@ -1,45 +1,44 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
-	import type { Article } from '$lib/types/article';
-	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
-	import FileDown from 'lucide-svelte/icons/file-down';
-	import XIcon from 'lucide-svelte/icons/x';
-	import BrainCog from 'lucide-svelte/icons/brain-cog';
-	import ScrollText from 'lucide-svelte/icons/scroll-text';
-	import Twitter from 'lucide-svelte/icons/twitter';
-	import Link2 from 'lucide-svelte/icons/link-2';
-	import Share from 'lucide-svelte/icons/share';
-	import Linkedin from 'lucide-svelte/icons/linkedin';
-	import Mail from 'lucide-svelte/icons/mail';
-	import type { PageData } from './$types';
-	import { onMount, tick, type Component } from 'svelte';
-	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
-	import Prism from 'prismjs';
-	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import { page } from '$app/stores';
-	import { fly } from 'svelte/transition';
-	import { downloadPDF } from '$lib/utils/pdf-generator';
-	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
+	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
+	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
+	import type { Article } from '$lib/types/article';
+	import { downloadPDF } from '$lib/utils/pdf-generator';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import BrainCog from 'lucide-svelte/icons/brain-cog';
+	import FileDown from 'lucide-svelte/icons/file-down';
+	import Link2 from 'lucide-svelte/icons/link-2';
+	import Linkedin from 'lucide-svelte/icons/linkedin';
+	import Mail from 'lucide-svelte/icons/mail';
+	import ScrollText from 'lucide-svelte/icons/scroll-text';
+	import Share from 'lucide-svelte/icons/share';
+	import Twitter from 'lucide-svelte/icons/twitter';
+	import XIcon from 'lucide-svelte/icons/x';
+	import Prism from 'prismjs';
+	import { onMount, tick, type Component } from 'svelte';
+	import { fly } from 'svelte/transition';
+	import type { PageData } from './$types';
 
-	import 'prismjs/components/prism-python';
-	import 'prismjs/components/prism-json';
-	import 'prismjs/components/prism-rust';
-	import 'prismjs/components/prism-javascript';
-	import 'prismjs/components/prism-typescript';
-	import 'prismjs/components/prism-latex';
-	import 'prismjs/components/prism-sql';
-	import 'prismjs/components/prism-c';
-	import 'prismjs/components/prism-markup';
-	import 'prismjs/components/prism-solidity';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { error } from '@sveltejs/kit';
-	import { browser } from '$app/environment';
 	import DOMPurify from 'isomorphic-dompurify';
 	import type { Icon } from 'lucide-svelte';
+	import 'prismjs/components/prism-c';
+	import 'prismjs/components/prism-javascript';
+	import 'prismjs/components/prism-json';
+	import 'prismjs/components/prism-latex';
+	import 'prismjs/components/prism-markup';
+	import 'prismjs/components/prism-python';
+	import 'prismjs/components/prism-rust';
+	import 'prismjs/components/prism-solidity';
+	import 'prismjs/components/prism-sql';
+	import 'prismjs/components/prism-typescript';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -592,7 +591,7 @@
 						</div>
 
 						<h1
-							class="font-soehne  capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+							class="font-powerGroteskBold capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
 						>
 							{article.title}
 						</h1>
@@ -758,8 +757,8 @@
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
-			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg  [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg  [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
@@ -833,7 +832,7 @@
 {#snippet floatingButtons()}
 	{#if showFloatingButtons || isReadingMode}
 		<div
-			class="fixed bottom-10 right-10 flex gap-3 transition-all duration-300"
+			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>

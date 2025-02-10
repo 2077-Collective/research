@@ -1,6 +1,6 @@
 <script lang="ts">
-	import emblaCarouselSvelte from 'embla-carousel-svelte';
 	import AutoScroll from 'embla-carousel-auto-scroll';
+	import emblaCarouselSvelte from 'embla-carousel-svelte';
 	import Icon from './icons/Icon.svelte';
 
 	interface Testimonial {
@@ -278,7 +278,7 @@
 </script>
 
 <div class="border-y py-6 md:py-14 flex flex-col gap-8 md:gap-10">
-	<h2 class="text-3xl md:text-5xl font-medium font-soehne">
+	<h2 class="text-3xl md:text-5xl font-medium font-powerGroteskBold">
 		See what industry leaders say about us.
 	</h2>
 
