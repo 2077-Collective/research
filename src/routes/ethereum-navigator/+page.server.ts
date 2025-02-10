@@ -33,6 +33,40 @@ interface BeehiivResponse {
     total_pages: number;
 }
 
+interface BeehiivErrorResponse {
+    errors?: Array<{ message: string }>;
+}
+
+const EXCLUDED_TITLES = ['welcome to ethereum navigator'];
+
+const isValidPost = (post: BeehiivPost): boolean => {
+    return (
+        post.status === 'confirmed' &&
+        !post.hidden_from_feed &&
+        post.publish_date !== null &&
+        !EXCLUDED_TITLES.some(title => 
+            post.title.toLowerCase().includes(title.toLowerCase())
+        )
+    );
+};
+
+const comparePosts = (a: BeehiivPost, b: BeehiivPost): number => {
+    const dateA = a.publish_date ?? 0;
+    const dateB = b.publish_date ?? 0;
+    return dateB - dateA;
+};
+
+const logError = (context: string, error: unknown, additionalInfo?: Record<string, unknown>) => {
+    const err = error instanceof Error ? error : new Error(String(error));
+    console.error(`Error in ${context}:`, {
+        message: err.message,
+        stack: err.stack,
+        timestamp: new Date().toISOString(),
+        ...additionalInfo
+    });
+    return err;
+};
+
 export const load: PageServerLoad = async () => {
     try {
         const response = await fetch(
@@ -42,43 +76,38 @@ export const load: PageServerLoad = async () => {
                     'Authorization': `Bearer ${BEEHIIV_API_KEY}`,
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
+                signal: AbortSignal.timeout(5000)
             }
         );
 
         if (!response.ok) {
-            const errorData = await response.json();
-            console.error('Beehiiv API Error:', {
+            const errorData = await response.json() as BeehiivErrorResponse;
+            const apiError = logError('Beehiiv API', new Error('API request failed'), {
                 status: response.status,
                 statusText: response.statusText,
                 errors: errorData.errors
             });
             
-            throw error(response.status, {
-                message: errorData.errors?.[0]?.message || 'Failed to fetch posts'
-            });
+            throw error(response.status, 
+                errorData.errors?.[0]?.message || 'Failed to fetch posts'
+            );
         }
 
         const data: BeehiivResponse = await response.json();
         
-        // Filter and sort posts
         const filteredAndSortedPosts = data.data
-            .filter(post => 
-                post.status === 'confirmed' && 
-                !post.hidden_from_feed &&
-                post.publish_date &&
-                !post.title.toLowerCase().includes('welcome to ethereum navigator'))
-            .sort((a, b) => {
-                if (!a.publish_date || !b.publish_date) return 0;
-                return b.publish_date - a.publish_date;
-            });
+            .filter(isValidPost)
+            .sort(comparePosts);
 
         return { posts: filteredAndSortedPosts };
         
     } catch (err) {
-        console.error('Error fetching posts:', err);
-        throw error(500, {
-            message: 'Failed to load newsletter content'
+        const handledError = logError('newsletter content fetch', err, {
+            endpoint: 'posts',
+            publicationId: BEEHIIV_PUBLICATION_ID
         });
+
+        throw error(500, 'Failed to load newsletter content');
     }
 };

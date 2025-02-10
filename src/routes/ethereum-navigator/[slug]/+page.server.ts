@@ -76,7 +76,6 @@ export const load: PageServerLoad = async ({ params }) => {
         );
 
         if (!postResponse.ok) {
-            console.error('Post API call failed:', postResponse.status, postResponse.statusText);
             throw error(postResponse.status, 'Failed to fetch post content');
         }
 

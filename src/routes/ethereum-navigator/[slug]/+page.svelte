@@ -1,8 +1,10 @@
 <script lang="ts">
     import type { PageData } from './$types';
+    import DOMPurify from 'dompurify';
 
     export let data: PageData;
     const { post } = data;
+    const sanitizedContent = post.content ? DOMPurify.sanitize(post.content) : '';
 
     function formatDate(timestamp: number | null): string {
         if (!timestamp) return '';
@@ -52,7 +54,7 @@
                     <div class="flex items-center gap-2">
                         <img 
                             src="https://beehiiv-images-production.s3.amazonaws.com/uploads/user/profile_picture/5b0c5e78-b7a5-4966-afb6-572c8f3304c8/2077_.png"
-                            alt=""
+                            alt={`${author}'s profile picture`}
                             class="w-6 h-6 rounded-full" />
                         <span class="text-sm text-zinc-400">{author}</span>
                     </div>
@@ -62,7 +64,7 @@
 
         <div class="prose prose-invert prose-lg max-w-none">
             {#if post.content}
-                {@html post.content}
+                {@html sanitizedContent}
             {:else}
                 <div class="p-8 text-center bg-zinc-900 rounded-lg">
                     <p class="text-zinc-400 mb-4">Content currently unavailable.</p>

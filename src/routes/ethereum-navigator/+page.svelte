@@ -1,19 +1,34 @@
 <script lang="ts">
     import type { PageData } from './$types';
-    import { Menu } from 'lucide-svelte';
+    import { onMount } from 'svelte';
     
     export let data: PageData;
     const { posts } = data;
 
-    // Add search functionality
     let searchQuery = '';
+    let filteredPosts: typeof posts = [];
+    let searchTimeout: ReturnType<typeof setTimeout>;
     
-    // Filter posts based on search query
-    $: filteredPosts = posts?.filter(post => 
-        !searchQuery || 
-        post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.preview_text.toLowerCase().includes(searchQuery.toLowerCase())
-    ) ?? [];
+    // Initialize filtered posts
+    onMount(() => {
+        filteredPosts = posts ?? [];
+    });
+
+    // Custom debounced search function
+    function handleSearch(query: string) {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            const searchLower = query.toLowerCase();
+            filteredPosts = posts?.filter(post => 
+                !query || 
+                post.title.toLowerCase().includes(searchLower) ||
+                post.preview_text.toLowerCase().includes(searchLower)
+            ) ?? [];
+        }, 300);
+    }
+
+    // Reactive statement to trigger search
+    $: searchQuery && handleSearch(searchQuery);
 
     function formatDate(timestamp: number | null): string {
         if (!timestamp) return '';
@@ -66,7 +81,8 @@
                 height="320"
                 frameborder="0"
                 scrolling="no"
-                sandbox="allow-scripts allow-same-origin allow-forms"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                referrerpolicy="no-referrer-when-downgrade"
                 loading="lazy"
                 aria-label="Newsletter signup form"
             ></iframe>
