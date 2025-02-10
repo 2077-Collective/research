@@ -5,7 +5,7 @@ import {
     type ArticleMetadata
 } from '$lib/types/article';
 
-const baseURL = 'http://localhost:8000/api';
+const baseURL = 'https://cms.2077.xyz/api';
 
 const cache = new Map<string, { data: ArticleMetadata[]; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000; 
