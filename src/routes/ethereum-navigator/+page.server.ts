@@ -83,7 +83,7 @@ export const load: PageServerLoad = async () => {
 
         if (!response.ok) {
             const errorData = await response.json() as BeehiivErrorResponse;
-            const apiError = logError('Beehiiv API', new Error('API request failed'), {
+            logError('Beehiiv API', new Error('API request failed'), {
                 status: response.status,
                 statusText: response.statusText,
                 errors: errorData.errors
@@ -103,7 +103,7 @@ export const load: PageServerLoad = async () => {
         return { posts: filteredAndSortedPosts };
         
     } catch (err) {
-        const handledError = logError('newsletter content fetch', err, {
+        logError('newsletter content fetch', err, {
             endpoint: 'posts',
             publicationId: BEEHIIV_PUBLICATION_ID
         });

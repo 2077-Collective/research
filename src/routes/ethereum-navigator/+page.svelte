@@ -9,12 +9,10 @@
     let filteredPosts: typeof posts = [];
     let searchTimeout: ReturnType<typeof setTimeout>;
     
-    // Initialize filtered posts
     onMount(() => {
         filteredPosts = posts ?? [];
     });
 
-    // Custom debounced search function
     function handleSearch(query: string) {
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(() => {
@@ -27,8 +25,7 @@
         }, 300);
     }
 
-    // Reactive statement to trigger search
-    $: searchQuery && handleSearch(searchQuery);
+    $: if (searchQuery) handleSearch(searchQuery);
 
     function formatDate(timestamp: number | null): string {
         if (!timestamp) return '';
@@ -103,6 +100,7 @@
                     type="search"
                     placeholder="Search posts..."
                     bind:value={searchQuery}
+                    aria-label="Search posts"
                     class="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg px-4 py-2 text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-transparent"
                 />
                 <svg 
