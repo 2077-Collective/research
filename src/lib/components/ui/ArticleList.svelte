@@ -1,165 +1,128 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import type { ArticleMetadata } from '$lib/types/article';
-	import { ArrowDown, ArrowLeft, Search } from 'lucide-svelte';
-	import { tick } from 'svelte';
-	import { slide } from 'svelte/transition';
-	import ArticleCard from './ArticleCard.svelte';
-	import Input from './input/input.svelte';
-	let newArticleRef: HTMLElement | null = null;
+	import { browser } from '$app/environment';
+	import { ArrowLeft } from 'lucide-svelte';
+	import { algoliasearch } from 'algoliasearch';
+	import instantsearch from 'instantsearch.js';
+	import { searchBox, hits, configure, pagination } from 'instantsearch.js/es/widgets';
+	import type { Widget } from 'instantsearch.js';
 
-	const ARTICLES_PER_PAGE = 9;
-
-	const {
-		articles,
-		articleCategories = [],
-		articlesPerPage = ARTICLES_PER_PAGE,
-		displayLoadMore = true,
-		title = 'Latest Research',
-		disableCategory = false
-	}: {
-		articles: ArticleMetadata[];
-		articleCategories?: string[];
-		articlesPerPage?: number;
-		displayLoadMore?: boolean;
-		title?: string;
-		disableCategory?: boolean;
-	} = $props();
-	let search = $state('');
-	let selectedCategory = $state('');
-	let visibleArticles = $state(articlesPerPage);
-	let previousVisibleCount = $state(articlesPerPage);
-	let loading = $state(false);
-
-	const filteredArticles = $derived(
-		articles
-			.filter((article) => {
-				const categoryMatch = selectedCategory
-					? article.categories.some((category) => category.name === selectedCategory)
-					: true;
-				return categoryMatch;
-			})
-			.filter((article) => {
-				const titleMatch = article.title.toLowerCase().includes(search.toLowerCase());
-				const summaryMatch = article.summary.toLowerCase().includes(search.toLowerCase());
-				return titleMatch || summaryMatch;
-			})
+	// Initialize the search client properly
+	const searchClient = algoliasearch(
+		import.meta.env.VITE_ALGOLIA_APP_ID,
+		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
 	);
 
-	async function loadMore() {
-		if (loading) return;
-		loading = true;
-		await tick();
-
-		try {
-			previousVisibleCount = visibleArticles;
-			visibleArticles += articlesPerPage;
-		} finally {
-			loading = false;
-		}
-	}
-
-	$effect(() => {
-		visibleArticles = selectedCategory ? Number.MAX_SAFE_INTEGER : articlesPerPage;
+	// Create the InstantSearch instance
+	const instantSearch = instantsearch({
+		indexName: 'Article',
+		searchClient
 	});
 
+	const loadingWidget: Widget = {
+		$$type: 'loading',
+		$$widgetType: 'loading',
+		render({ status }) {
+			if (status === 'loading') {
+				const hitsContainer = document.querySelector('#hits');
+				if (hitsContainer) {
+					hitsContainer.innerHTML = Array(6).fill(cardSkeleton()).join('');
+				}
+			}
+		}
+	};
+
+	// Start InstantSearch when the component mounts
 	$effect(() => {
-		if (filteredArticles.length > previousVisibleCount) {
-			newArticleRef = document.getElementById(`article-${previousVisibleCount}`);
+		if (browser) {
+			instantSearch.addWidgets([
+				searchBox({
+					container: '#searchbox',
+					placeholder: 'Search...',
+					cssClasses: {
+						input: 'placeholder:text-gray-500 text-white',
+						form: 'relative'
+					}
+				}),
+				hits({
+					container: '#hits',
+					cssClasses: {
+						list: '!flex !flex-col gap-8 max-w-7xl mx-auto',
+						item: 'h-full'
+					},
+					templates: {
+						empty: 'No results found',
+						item(hit) {
+							return `
+								<a href="/${hit.slug}" class="block h-full">
+									<div class="flex flex-col md:flex-row gap-4 md:gap-8 h-full overflow-hidden shadow-sm hover:shadow-md transition-shadow p-4 md:p-6 rounded-lg">
+										<div class="w-full md:w-80 h-48 md:h-56 flex-shrink-0">
+											<img src="${hit.thumb_url}" alt="" class="w-full h-full object-cover rounded-lg" loading="lazy" />
+										</div>
+
+										<div class="flex flex-col flex-grow">
+											<div class="flex gap-1 items-start w-full text-sm leading-none tracking-wide mb-4">
+												<span class="font-mono font-bold text-xs border-white/20 px-2 py-1 rounded-md bg-primary/10 text-primary ring-1 ring-inset ring-primary/20 cursor-pointer hover:bg-primary hover:text-accent transition-colors duration-200">
+													${hit.categories[0]?.name || ''}
+												</span>
+											</div>
+											<p class="font-soehne text-xl md:text-2xl font-medium leading-tight tracking-tight line-clamp-2 group-hover:text-primary transition-colors duration-200">
+												${instantsearch.highlight({ hit, attribute: 'title' })}
+											</p>
+											<p class="font-mono mt-2 text-sm text-gray-600 dark:text-gray-400 font-medium tracking-normal">
+												By ${hit.authors
+													?.map(
+														(author: { full_name?: string; username: string }) =>
+															author.full_name || author.username
+													)
+													.join(', ')}
+											</p>
+											<p class="text-gray-600 font-soehne mt-3 md:mt-4 text-sm font-medium leading-relaxed tracking-tight line-clamp-8 md:line-clamp-4">
+												${instantsearch.snippet({ hit, attribute: 'content_excerpt' })}
+											</p>
+										</div>
+									</div>
+								</a>
+							`;
+						}
+					}
+				}),
+				configure({
+					hitsPerPage: 8
+				}),
+				pagination({
+					container: '#pagination'
+				}),
+				loadingWidget
+			]);
+
+			instantSearch.start();
 		}
 	});
-
-	$effect(() => {
-		const highlightParam = $page.url.searchParams.get('highlight');
-		selectedCategory = highlightParam || '';
-	});
-
-	function handleCategoryClick(category: string) {
-		goto(`/category/${category.toLowerCase()}`);
-	}
-
-	function scrollToLatestResearch() {
-		const element = document.getElementById('latest-research');
-		if (element) {
-			const elementHeight = element.getBoundingClientRect().height;
-			const elementPosition = element.getBoundingClientRect().top;
-			const offsetPosition = elementPosition + window.pageYOffset - (elementHeight + 40);
-
-			window.scrollTo({
-				top: offsetPosition,
-				behavior: 'smooth'
-			});
-		}
-	}
 </script>
 
 <div>
-	<div>
-		<div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
-			<a
-				href="/"
-				aria-label="Back to Home"
-				class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
-			>
-				<ArrowLeft class="w-6 h-6" />
-			</a>
-			<h2
-				id="latest-research"
-				class="text-3xl md:text-5xl font-medium leading-9 font-powerGroteskBold tracking-tight"
-			>
-				{title}
-			</h2>
-		</div>
-	</div>
-
-	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input
-			class="grow-0 max-md:w-full tracking-normal"
-			type="text"
-			placeholder="Search"
-			bind:value={search}
-			variant="small"
+	<div class="flex items-center gap-3 mb-4 md:mb-8 mt-6">
+		<a
+			href="/"
+			aria-label="Back to Home"
+			class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full bg-background/80 hover:bg-background"
 		>
-			{#snippet icon()}
-				<Search class="w-4 h-4" />
-			{/snippet}
-		</Input>
+			<ArrowLeft class="w-6 h-6" />
+		</a>
+		<h2
+			id="latest-research"
+			class="text-3xl md:text-5xl font-medium leading-9 font-soehne tracking-tight"
+		>
+			Latest Research
+		</h2>
 	</div>
-
-	<div
-		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
-	>
-		{#each filteredArticles.slice(0, visibleArticles) as article, index}
-			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard {article} onBadgeClick={(category) => handleCategoryClick(category)} />
-			</div>
-		{/each}
-
-		{#if loading}
-			{#each Array(articlesPerPage) as _}
-				{@render cardSkeleton()}
-			{/each}
-		{/if}
-	</div>
-
-	{#if visibleArticles < filteredArticles.length && displayLoadMore}
-		<div class="flex justify-center py-4 md:py-10">
-			<button
-				onclick={loadMore}
-				class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group disabled:opacity-50 disabled:cursor-not-allowed"
-				disabled={loading}
-			>
-				Load more
-				<div
-					class="border rounded-full p-2 h-10 w-10 flex items-center justify-center group-hover:bg-primary group-hover:text-accent group-hover:translate-y-1 transition-transform duration-300"
-				>
-					<ArrowDown class="h-10 w-10 rounded-full" style="stroke-width: 1.4" />
-				</div>
-			</button>
-		</div>
-	{/if}
 </div>
+
+<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
+	<div id="searchbox" class="w-full max-w-md"></div>
+</div>
+<div id="hits" class="mb-6"></div>
+<div id="pagination" class="mb-8"></div>
 
 {#snippet cardSkeleton()}
 	<div class="flex flex-col justify-center h-fit animate-pulse">
@@ -178,3 +141,76 @@
 		</div>
 	</div>
 {/snippet}
+
+<style>
+	/* Search box styling */
+	:global(.ais-SearchBox-form) {
+		@apply relative flex w-full max-w-md;
+	}
+
+	:global(.ais-SearchBox-input) {
+		@apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary;
+	}
+
+	/* Search box styling */
+	:global(.ais-SearchBox-submit),
+	:global(.ais-SearchBox-reset) {
+		@apply hidden;
+	}
+
+	/* Hits (results) styling */
+	:global(.ais-Hits-list) {
+		@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center;
+	}
+
+	:global(.ais-Hits-item) {
+		@apply h-full transition-all hover:scale-[1.02] duration-300;
+	}
+
+	:global(.ais-Hits-item img) {
+		@apply transition-transform duration-300;
+	}
+
+	:global(.ais-Hits-item:hover img) {
+		@apply scale-105;
+	}
+
+	/* Highlight styling */
+	:global(.ais-Highlight-highlighted) {
+		@apply bg-primary/20 text-primary font-medium;
+	}
+
+	/* Pagination styling */
+	:global(.ais-Pagination) {
+		@apply flex justify-center mt-8;
+	}
+
+	:global(.ais-Pagination-list) {
+		@apply flex gap-2;
+	}
+
+	:global(.ais-Pagination-item) {
+		@apply px-3 py-1 border rounded-lg hover:bg-primary hover:text-black transition-colors duration-200;
+	}
+
+	:global(.ais-Pagination-link) {
+		@apply block w-full h-full;
+	}
+
+	:global(.ais-Pagination-item--selected) {
+		@apply bg-primary text-black border-primary;
+	}
+
+	:global(.ais-Pagination-item--disabled) {
+		@apply opacity-50 cursor-not-allowed;
+	}
+
+	/* Update skeleton styles */
+	:global(.ais-Hits-list--empty) {
+		@apply text-center py-8 text-gray-500;
+	}
+
+	:global(.ais-Hits--loading) {
+		@apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center;
+	}
+</style>
