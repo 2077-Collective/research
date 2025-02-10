@@ -21,10 +21,8 @@
 
 		<!-- Subscribe Button -->
 		<Button
+			href="/ethereum-navigator"
 			class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
-			onclick={() => {
-				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
-			}}
 		>
 			Subscribe
 			<Mail class="w-4 h-4 ml-1" />
@@ -78,11 +76,10 @@
 				</div>
 
 				<Button
-					href="#subscribe"
+					href="/ethereum-navigator"
 					class="mt-4 flex items-center gap-1 justify-center px-8 bg-special-blue"
 					onclick={() => {
 						mobileMenuOpen = false;
-						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 					}}
 				>
 					Subscribe to our newsletter
