@@ -10,9 +10,12 @@
 	let current = 0;
 	let count = 0;
 
+	let handleJump: (index: number) => void;
+
 	$: if (api) {
 		count = api.scrollSnapList()?.length ?? 0;
 		current = (api.selectedScrollSnap?.() ?? 0) + 1;
+		handleJump = api.scrollTo;
 
 		api.on?.('select', () => {
 			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
@@ -281,6 +284,12 @@
 	];
 </script>
 
+<!-- plugins={[
+	Autoplay({
+		delay: 3500
+	})
+]} -->
+
 <div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-40 md:pb-28 bg-black">
 	<div class="min-h-[300px] text-center pt-12 md:pt-28">
 		<h2 class="text-3xl md:text-[32px] font-bold font-powerGroteskBold">
@@ -292,7 +301,7 @@
 			<AnimateSharedLayout>
 				{#each testimonials as testimonial, i}
 					<Popover.Root open={current === i + 1} onOutsideClick={() => console.log('HELLO')}>
-						<Popover.Trigger>
+						<Popover.Trigger onclick={() => handleJump(i)}>
 							<div class="relative">
 								{#if current === i + 1}
 									<Motion let:motion layoutId="outline-select">
@@ -358,12 +367,28 @@
 			current !== i + 1 && 'bg-[#0F0F10] border-transparent opacity-60 select-none cursor-default'
 		)}
 	>
-		<a
-			href={testimonial.link}
-			target="_blank"
-			rel="noopener noreferrer nofollow"
-			class={cn('flex flex-col gap-4', current !== i + 1 && 'pointer-events-none')}
-		>
+		{#if current === i + 1}
+			<a
+				href={testimonial.link}
+				target="_blank"
+				rel="noopener noreferrer nofollow"
+				class={cn('absolute inset-0 z-50')}
+				aria-label="Tweet link"
+			>
+			</a>
+		{/if}
+
+		{#if current !== i + 1}
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_no_static_element_interactions -->
+			<div
+				class={cn('absolute inset-0 z-50')}
+				aria-label="Go to item"
+				onclick={() => handleJump(i)}
+			></div>
+		{/if}
+
+		<div class="flex flex-col gap-4">
 			<span class="text-sm md:text-base">{@html testimonial.text}</span>
 
 			<div class="flex gap-2">
@@ -386,11 +411,11 @@
 					</div>
 				</div>
 			</div>
-		</a>
+		</div>
 
 		{#if current === i + 1}
 			<Motion let:motion layoutId="outline">
-				<div class="absolute -inset-1 rounded-[4px] z-50" use:motion>
+				<div class="absolute -inset-1 rounded-[4px] pointer-events-none" use:motion>
 					<div class="size-full relative">
 						<svg
 							width="17"
