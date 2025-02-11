@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
+	import { cn } from '$lib/utils/ui-components';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
@@ -70,7 +71,10 @@
 								handleCategoryClick(displayCategory.name, e);
 							}
 						}}
-						class={isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'}
+						class={cn(
+							'text-xs px-2 py-1.5 h-7 font-bold font-mono',
+							isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'
+						)}
 					>
 						{displayCategory.name}
 					</Badge>

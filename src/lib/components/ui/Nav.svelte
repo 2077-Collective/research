@@ -63,7 +63,7 @@
 	)}
 >
 	<div class="container flex items-center justify-between">
-		<div class="flex items-center gap-[45px]">
+		<div class="flex items-center gap-[45px] max-md:justify-between w-full">
 			<!-- Logo -->
 			<a href="/" class="ml-1"><Research /></a>
 

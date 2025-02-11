@@ -10,26 +10,29 @@
 	const linkGroups: any = {
 		navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
-			{ href: '/about', text: 'About', isExternal: false }
+			{ href: '/about', text: 'Research', isExternal: true },
+			{ href: '/about', text: 'Newsletter', isExternal: false },
+			{ href: '/about', text: 'About', isExternal: false },
+			{ href: '/work-with-us', text: 'Work with us', isExternal: false }
 		],
 
-		read: [
-			{
-				href: 'https://2077.xyz',
-				text: `Research`,
-				isExternal: true
-			},
-			{
-				href: 'https://2077.xyz',
-				text: `The Bazaar`,
-				isExternal: true
-			}
-		],
+		// read: [
+		// 	{
+		// 		href: 'https://2077.xyz',
+		// 		text: `Research`,
+		// 		isExternal: true
+		// 	},
+		// 	{
+		// 		href: 'https://2077.xyz',
+		// 		text: `The Bazaar`,
+		// 		isExternal: true
+		// 	}
+		// ],
 
 		socials: [
 			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
 			{ href: 'https://x.com/2077research', text: 'Discord', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Telegram', isExternal: true }
+			{ href: 'https://x.com/2077research', text: 'Farcaster', isExternal: true }
 		]
 	};
 </script>

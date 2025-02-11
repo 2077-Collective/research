@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { TableOfContents, TableOfContentsItem } from '$lib/types/article';
-	import { ChevronDown } from 'lucide-svelte';
+	import { cn } from '$lib/utils/ui-components';
+	import { ArrowDown, ChevronDown } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	const { tableOfContents }: { tableOfContents: TableOfContents } = $props();
@@ -11,7 +12,7 @@
 
 	onMount(() => {
 		currentHash = window.location.hash.slice(1);
-		
+
 		// Observe all headings, regardless of reading mode
 		const headingObserver = getHeadingObserver();
 		document.querySelectorAll('h1[id], h2[id]').forEach((heading) => {
@@ -88,38 +89,51 @@
 		e.preventDefault();
 		const targetId = href.substring(1); // Remove the # from href
 		const targetElement = document.getElementById(targetId);
-		
+
 		if (targetElement) {
 			targetElement.scrollIntoView({
 				behavior: 'smooth',
 				block: 'start'
 			});
-			
+
 			// Optionally update URL without jumping
 			history.pushState(null, '', href);
 		}
 	}
 </script>
 
-<ul
-	class="hidden lg:block pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
+<div
+	class="hidden lg:block w-1/5 sticky top-24 space-y-5 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
 >
-	{#each tableOfContents as item, index}
-		<li>
-			<a
-				href={`#${item.id}`}
-				class={`hover:underline hover:text-primary block transition-colors duration-200 ${selectedItemIndex === index ? 'font-medium' : 'font-normal'}`}
-				style="opacity: {calculateItemOpacity(index)}"
-				onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
-				onmouseleave={(e) => (e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
-				onclick={(e) => handleClick(e, `#${item.id}`)}
-			>
-				{item.title}
-			</a>
-			{@render subItem(item)}
-		</li>
-	{/each}
-</ul>
+	<div class="text-neutral-40 flex items-center gap-[3px]">
+		<p class="font-mono">Table of Contents</p>
+		<ArrowDown class="size-4" />
+	</div>
+
+	<ul class="space-y-4">
+		{#each tableOfContents as item, index}
+			<li>
+				<a
+					href={`#${item.id}`}
+					class={cn(
+						`hover:underline text-neutral-60 block transition-colors duration-200`,
+						selectedItemIndex === index && 'text-[#0CDEE9]'
+					)}
+					onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+					onmouseleave={(e) =>
+						(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
+					onclick={(e) => handleClick(e, `#${item.id}`)}
+				>
+					{item.title}
+				</a>
+
+				<div class="text-neutral-60">
+					{@render subItem(item)}
+				</div>
+			</li>
+		{/each}
+	</ul>
+</div>
 
 <!-- This prevent the TOC to be visible before the user scroll past the first heading element-->
 {#if showMobileTOC}

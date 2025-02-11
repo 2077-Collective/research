@@ -1,7 +1,6 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Badge from '$lib/components/ui/badge/badge.svelte';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
@@ -12,12 +11,9 @@
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
-	import FileDown from 'lucide-svelte/icons/file-down';
-	import Link2 from 'lucide-svelte/icons/link-2';
 	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import Mail from 'lucide-svelte/icons/mail';
 	import ScrollText from 'lucide-svelte/icons/scroll-text';
-	import Share from 'lucide-svelte/icons/share';
 	import Twitter from 'lucide-svelte/icons/twitter';
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
@@ -26,9 +22,11 @@
 	import type { PageData } from './$types';
 
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
+	import { Badge } from '$lib/components/ui/badge';
+	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
-	import type { Icon } from 'lucide-svelte';
+	import { FileDown, Link2, Share, type Icon } from 'lucide-svelte';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -531,9 +529,9 @@
 
 <ArticleHead article={data.article} />
 
-<div class="fixed top-0 left-0 w-full h-1 bg-gray-200 dark:bg-gray-800 z-50" aria-hidden="true">
+<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
 	<div
-		class="h-full bg-primary transition-all duration-150 ease-out"
+		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
 		style="width: {progress}%"
 	></div>
 </div>
@@ -542,61 +540,59 @@
 	{#if !isReadingMode}
 		{@render header(data.article)}
 	{/if}
+
 	{@render body(data.article)}
+
 	{#if !isReadingMode}
 		{@render floatingButtons()}
 	{/if}
-	<div class="px-3 md:px-12 {isReadingMode ? 'hidden' : ''}">
-		<hr class="mb-6 md:mb-12" />
+
+	<div class={isReadingMode ? 'hidden' : 'container mb-12'}>
 		<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
 	</div>
 </div>
 
 {#snippet header(article: Article)}
-	<div class="relative">
-		<div class="absolute inset-0 w-full">
-			<img src={article.thumb} alt={article.title} class="w-full h-full object-cover" />
-			<div
-				class="absolute inset-0 bg-gradient-to-b from-black/70 to-white dark:from-black/70 dark:to-background"
-			></div>
-		</div>
-
-		<div class="relative px-3 md:px-12">
-			<header class="flex justify-between flex-col p-10 max-md:px-5">
+	<div class="relative pt-32 container">
+		<div class="relative">
+			<header class="flex justify-between flex-col">
 				<a
 					href="/"
 					aria-label="Back to Home"
-					class="flex gap-2 justify-center items-center px-2 w-10 h-10 border border-solid rounded-full mb-32 md:mb-44 bg-background/80 hover:bg-background"
+					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full mb-[38.5px] bg-[#19191A] group"
 				>
-					<ArrowLeft class="w-6 h-6" />
+					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
 				</a>
-				<div class="flex flex-col max-w-full tracking-tight w-[888px]">
+
+				<div class="flex flex-col max-w-full tracking-tight w-[794px]">
 					<section class="flex flex-col w-full">
-						<div class="flex flex-wrap gap-2 font-mono">
-							{#each article.categories as category}
-								<a href={'/category/' + category.name.toLowerCase()}
-									><Badge
-										variant="rectangular"
-										class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
-									>
-										{category.name}
-									</Badge></a
-								>
-							{/each}
+						<div class="flex items-center gap-2 text-neutral-40 font-mono text-sm">
+							<time datetime={article.scheduledPublishTime}>
+								{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+									year: 'numeric',
+									month: 'long',
+									day: 'numeric'
+								})}
+							</time>
+							<span class="inline">|</span>
+							<span>{readingTime}</span>
 						</div>
 
 						<h1
-							class="font-powerGroteskBold capitalize text-6xl font-medium leading-[70px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words"
+							class="font-powerGroteskBold capitalize text-5xl font-bold leading-[50px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words mt-[22px]"
 						>
 							{article.title}
 						</h1>
 
-						<p class="text-xl max-md:max-w-full">
+						<p class="text-base max-md:max-w-full mt-4 text-neutral-40">
 							{article.summary}
 						</p>
 					</section>
-					<div class="self-start pb-6 mt-4 font-mono">
-						<span>By</span>
+				</div>
+
+				<div class="flex max-md:flex-col max-md:gap-4 md:items-center justify-between mt-11">
+					<div class="font-mono">
+						<span class="text-neutral-40">By</span>
 						{#each article.authors as author, index}
 							<a
 								href={author.twitterUsername
@@ -615,109 +611,47 @@
 							{/if}
 						{/each}
 					</div>
-				</div>
 
-				<div
-					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start tracking-tight max-md:max-w-full"
-				>
-					<div class="flex items-center gap-2 text-gray-500 font-mono">
-						<time datetime={article.scheduledPublishTime}>
-							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
-								year: 'numeric',
-								month: 'long',
-								day: 'numeric'
-							})}
-						</time>
-						<span class="inline">|</span>
-						<span>{readingTime}</span>
-					</div>
-					<nav class="flex gap-1.5 items-center font-mono">
-						<div
-							class="relative"
-							onmouseenter={handleMouseEnter}
-							onmouseleave={handleMouseLeave}
-							role="menu"
-							tabindex="0"
-						>
-							<button
-								onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
-								class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
-								aria-label="Share article"
-								aria-expanded={showShareDropdown}
-								aria-haspopup="true"
-								data-share-toggle
-							>
-								<Share class="w-5 h-5" />
-								<span class="border-b">Share</span>
-							</button>
-
-							{#if showShareDropdown}
-								<div
-									class="share-dropdown absolute {dropdownPosition === 'bottom'
-										? 'mt-2 top-full'
-										: 'bottom-full mb-2'} 
-									left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+					<div class="flex items-center gap-2 font-mono">
+						{#each article.categories as category}
+							<a href={'/category/' + category.name.toLowerCase()}
+								><Badge
+									class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-neutral-80 hover:!text-neutral-10"
 								>
-									{#each shareOptions as option}
-										<a
-											href={option.url}
-											target="_blank"
-											rel="noopener noreferrer"
-											role="menuitem"
-											class="block px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
-										>
-											{#if option.isSvg}
-												{@html option.icon}
-											{:else}
-												{@const IconComponent = option.icon}
-												<IconComponent class="w-5 h-5" />
-											{/if}
-											<span class="text-sm">{option.name}</span>
-										</a>
-									{/each}
-									<button
-										onclick={copyShareLink}
-										role="menuitem"
-										class="block w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
-									>
-										<Link2 class="w-5 h-5" />
-										{#if copySuccess}
-											<span class="text-special-blue text-sm">Link Copied</span>
-										{:else}
-											<span class="text-sm">Copy Link</span>
-										{/if}
-									</button>
-								</div>
-							{/if}
-						</div>
-
-						<!-- PDF Download Button -->
-						<span class="self-stretch my-auto mx-1">|</span>
-						<button
-							onclick={() => handlePdfDownload(article)}
-							class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
-							aria-label="Download as PDF"
-							disabled={isDownloading}
-						>
-							{#if isDownloading}
-								<div
-									class="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-								></div>
-							{:else}
-								<FileDown class="w-5 h-5" />
-							{/if}
-							<span class="border-b">PDF</span>
-						</button>
-					</nav>
+									{category.name}
+								</Badge></a
+							>
+						{/each}
+					</div>
 				</div>
 			</header>
+		</div>
+
+		<div class="mt-8 rounded-[8px] overflow-hidden relative">
+			<img
+				src={article.thumb}
+				alt={article.title}
+				class="w-full h-full object-cover pointer-events-none select-none"
+			/>
+
+			<iframe
+				id="AudioNativeElevenLabsPlayer"
+				title="AudioNative ElevenLabs Player"
+				width="377"
+				height="98"
+				frameborder="no"
+				scrolling="no"
+				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+				style="max-height: 90px;"
+				class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+			></iframe>
 		</div>
 	</div>
 {/snippet}
 
 {#snippet body(article: Article)}
 	<article
-		class="lg:flex lg:gap-14 relative {isReadingMode ? 'reading-mode' : ''}"
+		class={cn('lg:flex lg:gap-14 relative container', isReadingMode && 'reading-mode mt-32')}
 		class:overflow-hidden={summaryOpen}
 	>
 		<!-- Hide TOC in reading mode -->
@@ -730,25 +664,25 @@
 		{#if isReadingMode}
 			<a
 				href="/"
-				class="absolute left-[20px] top-0 p-2 hover:bg-secondary rounded-full transition-colors"
+				class="absolute left-8 top-0 size-[42px] hover:bg-secondary rounded-full transition-colors flex items-center justify-center bg-[#19191A] group"
 				aria-label="Back to home"
 			>
-				<ArrowLeft class="w-5 h-5" />
+				<ArrowLeft class="group-hover:-translate-x-px transition will-change-transform" />
 			</a>
 		{/if}
 
 		<div
 			id="content-container"
-			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
+			class="lg:px-0 pb-20 text-primary w-full lg:max-w-[632px] mx-auto leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
-			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
-			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
-			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
-			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
-			[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10 [&_h1]:tracking-tighter
+			[&>h2]:text-3xl [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10 [&_h2]:tracking-tight
+			[&>h3]:text-2xl [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10 [&_h3]:tracking-tight
+			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
+			[&>p]:text-base [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-cyan-400
+			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
@@ -765,11 +699,14 @@
 		>
 			{#if isReadingMode}
 				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
-					<h1 class="text-4xl mb-6 tracking-tight">{article.title}</h1>
-					<p class="text-xl mb-8 text-gray-500 dark:text-gray-300 leading-relaxed tracking-tight">
+					<h1 class="text-5xl mb-6 tracking-tight font-powerGroteskBold !leading-11 font-bold">
+						{article.title}
+					</h1>
+
+					<p class="text-base mb-8 text-neutral-5 leading-relaxed tracking-tight">
 						{article.summary}
 					</p>
-					<div class="flex flex-col gap-3 text-base text-gray-400">
+					<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">
 						<div class="">
 							By
 							{#each article.authors as author, index}
@@ -806,19 +743,91 @@
 				</div>
 			{/if}
 
-			<iframe
-				id="AudioNativeElevenLabsPlayer"
-				title="AudioNative ElevenLabs Player"
-				width="100%"
-				height="90"
-				frameborder="no"
-				scrolling="no"
-				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-				style="max-height: 90px;"
-			></iframe>
-
 			{@html sanitizeContent(article.content)}
 		</div>
+
+		{#if !isReadingMode}
+			<div
+				class="font-mono max-lg:hidden sticky top-24 space-y-5 text-sm flex-1 pr-10 overflow-hidden"
+			>
+				<div class="flex items-center gap-4 justify-end">
+					<div
+						class="relative"
+						onmouseenter={handleMouseEnter}
+						onmouseleave={handleMouseLeave}
+						role="menu"
+						tabindex="0"
+					>
+						<button
+							onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+							class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
+							aria-label="Share article"
+							aria-expanded={showShareDropdown}
+							aria-haspopup="true"
+							data-share-toggle
+						>
+							<Share class="size-5" />
+							<span class="border-b">Share</span>
+						</button>
+
+						{#if showShareDropdown}
+							<div
+								class="share-dropdown absolute {dropdownPosition === 'bottom'
+									? 'mt-2 top-full'
+									: 'bottom-full mb-2'} 
+						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+							>
+								{#each shareOptions as option}
+									<a
+										href={option.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										role="menuitem"
+										class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+									>
+										{#if option.isSvg}
+											{@html option.icon}
+										{:else}
+											{@const IconComponent = option.icon}
+											<IconComponent class="w-5 h-5" />
+										{/if}
+										<span class="text-sm">{option.name}</span>
+									</a>
+								{/each}
+								<button
+									onclick={copyShareLink}
+									role="menuitem"
+									class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+								>
+									<Link2 class="w-5 h-5" />
+									{#if copySuccess}
+										<span class="text-special-blue text-sm">Link Copied</span>
+									{:else}
+										<span class="text-sm">Copy Link</span>
+									{/if}
+								</button>
+							</div>
+						{/if}
+					</div>
+
+					<button
+						onclick={() => handlePdfDownload(article)}
+						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
+						aria-label="Download as PDF"
+						disabled={isDownloading}
+					>
+						{#if isDownloading}
+							<div
+								class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+							></div>
+						{:else}
+							<FileDown class="size-5" />
+						{/if}
+						<span class="border-b">PDF</span>
+					</button>
+				</div>
+			</div>
+		{/if}
 		{@render floatingButtons()}
 	</article>
 {/snippet}
@@ -826,26 +835,27 @@
 {#snippet floatingButtons()}
 	{#if showFloatingButtons || isReadingMode}
 		<div
-			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300"
+			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300 z-[9999]"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>
 			{#if !isReadingMode && data?.article?.gpt_summary}
 				<button
 					onclick={toggleSummary}
-					class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-all duration-300"
+					class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
 					aria-label="Show AI Summary"
 					data-summary-toggle
 				>
-					<svelte:component this={BrainCog} class="w-6 h-6" />
+					<svelte:component this={BrainCog} class="size-5" />
 				</button>
 			{/if}
+
 			<button
 				onclick={toggleReadingMode}
-				class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-colors"
+				class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
 				aria-label="Toggle reading mode"
 			>
-				<svelte:component this={ScrollText} class="w-6 h-6" />
+				<svelte:component this={ScrollText} class="size-5" />
 			</button>
 		</div>
 	{/if}
