@@ -56,21 +56,21 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      dompurify:
-        specifier: ^3.2.4
-        version: 3.2.4
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      dompurify:
+        specifier: ^3.2.4
+        version: 3.2.4
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
       drizzle-orm:
         specifier: ^0.36.2
-        version: 0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(react@18.3.1)
+        version: 0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(@types/react@18.3.18)(react@18.3.1)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(react@18.3.1))(zod@3.23.8)
+        version: 0.5.1(drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(@types/react@18.3.18)(react@18.3.1))(zod@3.23.8)
       embla-carousel-auto-scroll:
         specifier: ^8.3.0
         version: 8.3.0(embla-carousel@8.3.0)
@@ -98,6 +98,9 @@ importers:
       svelte-carousel:
         specifier: ^1.0.25
         version: 1.0.25
+      svelte-motion:
+        specifier: ^0.12.2
+        version: 0.12.2(svelte@5.0.0-next.263)
       tailwind-merge:
         specifier: ^2.5.3
         version: 2.5.3
@@ -1153,8 +1156,14 @@ packages:
   '@types/prismjs@1.26.4':
     resolution: {integrity: sha512-rlAnzkW2sZOjbqZ743IHUhFcvzaGbqijwOu8QZnZCjfQzBqFE3s4lOTJEsxikImav9uzz/42I+O7YUs1mWgMlg==}
 
+  '@types/prop-types@15.7.14':
+    resolution: {integrity: sha512-gNMvNH49DJ7OJYv+KAKn0Xp45p8PLl6zo2YnvDIbTd4J6MER2BmWN49TG7n9LvkyihINxeKW8+3bfS2yDC9dzQ==}
+
   '@types/raf@3.4.3':
     resolution: {integrity: sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==}
+
+  '@types/react@18.3.18':
+    resolution: {integrity: sha512-t4yC+vtgnkYjNSKlFx1jkAhH8LgTo2N/7Qvi83kdEaUtMDiwpbLAktKDaAMlRcJ5eSxZkH74eEGt1ky31d7kfQ==}
 
   '@types/trusted-types@2.0.7':
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
@@ -1602,6 +1611,9 @@ packages:
   cssstyle@4.1.0:
     resolution: {integrity: sha512-h66W1URKpBS5YMI/V8PyXvTMFT8SupJ1IzoIV8IeBC/ji8WVmrO8dGlTi+2dh6whmdk6BiKJLD/ZBkhWbcg6nA==}
     engines: {node: '>=18'}
+
+  csstype@3.1.3:
+    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
   data-urls@5.0.0:
     resolution: {integrity: sha512-ZYP5VBHshaDAiVZxjbRVcFJpc+4xGgT0bK3vzy1HLN8jTO975HEbuYzZJcHoQEY5K1a0z8YayJkyVETa08eNTg==}
@@ -2057,6 +2069,9 @@ packages:
   fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
 
+  framesync@6.1.2:
+    resolution: {integrity: sha512-jBTqhX6KaQVDyus8muwZbBeGGP0XgujBRbQ7gM7BRdS3CadCZIHiawyzYLnafYcvZIh5j8WE7cxZKFn7dXhu9g==}
+
   fs-minipass@2.1.0:
     resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
     engines: {node: '>= 8'}
@@ -2212,6 +2227,9 @@ packages:
 
   hastscript@9.0.0:
     resolution: {integrity: sha512-jzaLBGavEDKHrc5EfFImKN7nZKKBdSLIdGvCwDZ9TfzbF2ffXiov8CKE445L2Z1Ek2t/m4SKQ2j6Ipv7NyUolw==}
+
+  hey-listen@1.0.8:
+    resolution: {integrity: sha512-COpmrF2NOg4TBWUJ5UVyaCU2A88wEMkUPK4hNqyCkqHbxT92BbvfjoSozkAIIm6XhicGlJHhFdullInrdhwU8Q==}
 
   html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
@@ -2852,6 +2870,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  popmotion@11.0.5:
+    resolution: {integrity: sha512-la8gPM1WYeFznb/JqF4GiTkRRPZsfaj2+kCxqQgr2MJylMmIKUwBfWW8Wa5fml/8gmtlD5yI01MP1QCZPWmppA==}
+
   postcss-import@15.1.0:
     resolution: {integrity: sha512-hpr+J05B2FVYUAXHeK1YyI267J/dDDhMU6B6civm8hSY1jYJnBXxzKDKDswzJmtLHryrjhnDjqqp/49t8FALew==}
     engines: {node: '>=14.0.0'}
@@ -3208,6 +3229,9 @@ packages:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
 
+  style-value-types@5.1.2:
+    resolution: {integrity: sha512-Vs9fNreYF9j6W2VvuDTP7kepALi7sk0xtk2Tu8Yxi9UoajJdEVpNpCov0HsLTqXvNGKX+Uv09pkozVITi1jf3Q==}
+
   sucrase@3.35.0:
     resolution: {integrity: sha512-8EbVDiu9iN/nESwxeSxDKe0dunta1GOlHufmSSXxMD2z2/tMZpDMpvXQGsc+ajGo8y2uYUmixaSRUc/QPoQ0GA==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -3245,6 +3269,11 @@ packages:
     resolution: {integrity: sha512-l9o3f+TYwnYdV44aGZ49M1eL5rbZdzXVRB1VgLBicqimvn9it8eTOZaG656Pcbro2KLHDeB+l2Ksk1/6K8vF9Q==}
     peerDependencies:
       svelte: ^3.25.0 || ^4.0.0
+
+  svelte-motion@0.12.2:
+    resolution: {integrity: sha512-7RrdRz9iVP55B9HT/C0hYW3pyrKlF61kAby/AkDtOAP0uHFQDrfd0qQetDC81cEsK9b40jt+jfcqSAXcA7LPEw==}
+    peerDependencies:
+      svelte: '>=3.35.0 || ^4.0.0 || ^5.0.0 || ^5.0.0-next.0'
 
   svelte-sonner@0.3.28:
     resolution: {integrity: sha512-K3AmlySeFifF/cKgsYNv5uXqMVNln0NBAacOYgmkQStLa/UoU0LhfAACU6Gr+YYC8bOCHdVmFNoKuDbMEsppJg==}
@@ -3371,6 +3400,9 @@ packages:
         optional: true
       '@swc/wasm':
         optional: true
+
+  tslib@2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
 
   tslib@2.7.0:
     resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
@@ -4365,8 +4397,15 @@ snapshots:
 
   '@types/prismjs@1.26.4': {}
 
+  '@types/prop-types@15.7.14': {}
+
   '@types/raf@3.4.3':
     optional: true
+
+  '@types/react@18.3.18':
+    dependencies:
+      '@types/prop-types': 15.7.14
+      csstype: 3.1.3
 
   '@types/trusted-types@2.0.7':
     optional: true
@@ -4811,6 +4850,8 @@ snapshots:
     dependencies:
       rrweb-cssom: 0.7.1
 
+  csstype@3.1.3: {}
+
   data-urls@5.0.0:
     dependencies:
       whatwg-mimetype: 4.0.0
@@ -4898,15 +4939,16 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(react@18.3.1):
+  drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(@types/react@18.3.18)(react@18.3.1):
     optionalDependencies:
       '@neondatabase/serverless': 0.10.3
       '@types/pg': 8.11.6
+      '@types/react': 18.3.18
       react: 18.3.1
 
-  drizzle-zod@0.5.1(drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(react@18.3.1))(zod@3.23.8):
+  drizzle-zod@0.5.1(drizzle-orm@0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(@types/react@18.3.18)(react@18.3.1))(zod@3.23.8):
     dependencies:
-      drizzle-orm: 0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(react@18.3.1)
+      drizzle-orm: 0.36.2(@neondatabase/serverless@0.10.3)(@types/pg@8.11.6)(@types/react@18.3.18)(react@18.3.1)
       zod: 3.23.8
 
   eastasianwidth@0.2.0: {}
@@ -5274,6 +5316,10 @@ snapshots:
 
   fraction.js@4.3.7: {}
 
+  framesync@6.1.2:
+    dependencies:
+      tslib: 2.4.0
+
   fs-minipass@2.1.0:
     dependencies:
       minipass: 3.3.6
@@ -5512,6 +5558,8 @@ snapshots:
       hast-util-parse-selector: 4.0.0
       property-information: 6.5.0
       space-separated-tokens: 2.0.2
+
+  hey-listen@1.0.8: {}
 
   html-encoding-sniffer@4.0.0:
     dependencies:
@@ -6331,6 +6379,13 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.2
 
+  popmotion@11.0.5:
+    dependencies:
+      framesync: 6.1.2
+      hey-listen: 1.0.8
+      style-value-types: 5.1.2
+      tslib: 2.4.0
+
   postcss-import@15.1.0(postcss@8.4.47):
     dependencies:
       postcss: 8.4.47
@@ -6724,6 +6779,11 @@ snapshots:
 
   strip-json-comments@3.1.1: {}
 
+  style-value-types@5.1.2:
+    dependencies:
+      hey-listen: 1.0.8
+      tslib: 2.4.0
+
   sucrase@3.35.0:
     dependencies:
       '@jridgewell/gen-mapping': 0.3.5
@@ -6769,6 +6829,15 @@ snapshots:
   svelte-lightbox@1.1.5(svelte@5.0.0-next.263):
     dependencies:
       svelte: 5.0.0-next.263
+
+  svelte-motion@0.12.2(svelte@5.0.0-next.263):
+    dependencies:
+      '@types/react': 18.3.18
+      framesync: 6.1.2
+      popmotion: 11.0.5
+      style-value-types: 5.1.2
+      svelte: 5.0.0-next.263
+      tslib: 2.7.0
 
   svelte-sonner@0.3.28(svelte@5.0.0-next.263):
     dependencies:
@@ -6918,6 +6987,8 @@ snapshots:
       typescript: 5.6.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+
+  tslib@2.4.0: {}
 
   tslib@2.7.0: {}
 

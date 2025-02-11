@@ -145,7 +145,7 @@
 					<div
 						class={cn(
 							'h-[295px] md:h-[379px] bg-[#19191A] p-4 rounded-[8px] flex flex-col gap-8 md:gap-12 transition will-change-transform',
-							current !== i + 1 && 'opacity-30 md:opacity-70 pointer-events-none select-none',
+							current !== i + 1 && 'opacity-30 md:opacity-40 pointer-events-none select-none',
 							i + 1 === isLeft && 'md:[transform:rotateY(38deg)_scale(0.75)]',
 							i + 1 === isRight && 'md:[transform:rotateY(-38deg)_scale(0.75)]'
 						)}

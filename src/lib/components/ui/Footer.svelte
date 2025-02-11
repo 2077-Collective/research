@@ -38,35 +38,48 @@
 </script>
 
 <footer class="w-full bg-[#040405] py-16">
-	<div class="flex flex-col md:flex-row gap-6 justify-between container">
-		<svg
-			width="53"
-			height="105"
-			viewBox="0 0 53 105"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M0.34082 96.1688L8.46301 104.14L52.9997 59.5552L44.8696 51.5923L0.34082 96.1688Z"
-				fill="#333333"
-			/>
-			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M0.34082 70.2104L8.46301 78.1734L52.9997 33.5889L44.8696 25.626L0.34082 70.2104Z"
-				fill="#333333"
-			/>
-			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M0 44.5845L8.12219 52.5474L52.6589 7.96293L44.5367 0L0 44.5845Z"
-				fill="#333333"
-			/>
-		</svg>
+	<div class="flex flex-col md:flex-row gap-6 justify-between md:container max-md:pl-6">
+		<div class="flex items-center justify-between gap-12">
+			<svg
+				viewBox="0 0 53 105"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				class="w-[32.002px] h-[62.88px] md:w-[53px] md:h-[105px]"
+			>
+				<path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M0.34082 96.1688L8.46301 104.14L52.9997 59.5552L44.8696 51.5923L0.34082 96.1688Z"
+					fill="#333333"
+				/>
+				<path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M0.34082 70.2104L8.46301 78.1734L52.9997 33.5889L44.8696 25.626L0.34082 70.2104Z"
+					fill="#333333"
+				/>
+				<path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M0 44.5845L8.12219 52.5474L52.6589 7.96293L44.5367 0L0 44.5845Z"
+					fill="#333333"
+				/>
+			</svg>
 
-		<div class="flex justify-between md:gap-16 max-md:mt-14">
+			<svg
+				width="321"
+				height="29"
+				viewBox="0 0 321 29"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+				class="md:hidden"
+			>
+				<line y1="14.5" x2="321" y2="14.5" stroke="#333333" />
+				<line x1="0.5" y1="2.18561e-08" x2="0.499999" y2="29" stroke="#333333" />
+			</svg>
+		</div>
+
+		<div class="flex md:justify-between gap-[50px] md:gap-16 max-md:mt-[35px]">
 			{#each Object.keys(linkGroups) as groupTitle}
 				<div>
 					<p class="text-sm uppercase text-neutral-40">{groupTitle}</p>

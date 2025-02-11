@@ -146,12 +146,6 @@
 		}
 	}
 
-	.testimonial-bg {
-		background-image: url('/testimonial-bg.png');
-		background-repeat: no-repeat;
-		background-position: center;
-	}
-
 	.ldJQvz {
 		font-family: var(--font-primary) !important;
 	}

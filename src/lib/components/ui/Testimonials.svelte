@@ -1,5 +1,8 @@
 <script lang="ts">
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
+	import * as Popover from '$lib/components/ui/popover';
+	import { cn } from '$lib/utils/ui-components';
+	import { AnimateSharedLayout, Motion } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
 	import Icon from './icons/Icon.svelte';
 
@@ -286,23 +289,52 @@
 		</h2>
 
 		<div class="mt-7 flex items-center justify-center flex-wrap gap-3 container">
-			{#each testimonials as testimonial}
-				<div class="size-8 rounded-full overflow-hidden">
-					<img src={testimonial.avatar} alt={testimonial.author} class="size-8 object-cover" />
-				</div>
-			{/each}
+			<AnimateSharedLayout>
+				{#each testimonials as testimonial, i}
+					<Popover.Root open={current === i + 1} onOutsideClick={() => console.log('HELLO')}>
+						<Popover.Trigger>
+							<div class="relative">
+								{#if current === i + 1}
+									<Motion let:motion layoutId="outline-select">
+										<div
+											class="absolute -inset-[2px] border border-[#0CDEE9] rounded-full"
+											use:motion
+										></div>
+									</Motion>
+								{/if}
+
+								<div class="size-8 rounded-full overflow-hidden">
+									<img
+										src={testimonial.avatar}
+										alt={testimonial.author}
+										class="size-8 object-cover"
+									/>
+								</div>
+							</div>
+						</Popover.Trigger>
+
+						<Popover.Content
+							sideOffset={12}
+							class="h-[22px] bg-[#0CDEE9] text-xs font-mono text-neutral-80 flex items-center justify-center py-1 px-1.5 rounded-[4px] w-fit border border-neutral-80 shadow-xl"
+							>{testimonial.author}</Popover.Content
+						>
+					</Popover.Root>
+				{/each}
+			</AnimateSharedLayout>
 		</div>
 	</div>
 
 	<div class="relative">
-		<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
-			<Carousel.Content class="gap-30 -mx-20 md:-mx-[121px]">
-				{#each testimonials as testimonial}
-					<Carousel.Item class="flex-none w-[271px] md:w-[330px]">
-						{@render card(testimonial)}
-					</Carousel.Item>
-				{/each}
-			</Carousel.Content>
+		<Carousel.Root bind:api class="w-full relative" opts={{ loop: true, align: 'center' }}>
+			<AnimateSharedLayout>
+				<Carousel.Content class="gap-30 -mx-20 md:-mx-[121px]">
+					{#each testimonials as testimonial, i}
+						<Carousel.Item class="flex-none w-[271px] md:w-[330px] p-1">
+							{@render card(testimonial, i)}
+						</Carousel.Item>
+					{/each}
+				</Carousel.Content>
+			</AnimateSharedLayout>
 
 			<div
 				class="md:hidden max-md:absolute max-md:-bottom-14 flex items-center md:-top-[64px] absolute md:right-24 text-black max-md:left-1/2 max-md:-translate-x-1/2 max-md:mt-8 w-6"
@@ -319,15 +351,18 @@
 	</div>
 </div>
 
-{#snippet card(testimonial: Testimonial)}
+{#snippet card(testimonial: Testimonial, i: number)}
 	<div
-		class="container p-5 md:px-[30px] md:py-6 w-full bg-[#19191A] rounded-[4px] border border-[#383838]"
+		class={cn(
+			'p-5 md:px-[30px] md:py-6 w-full bg-[#19191A] rounded-[4px] border border-[#383838] relative transition',
+			current !== i + 1 && 'bg-[#0F0F10] border-transparent opacity-60 select-none cursor-default'
+		)}
 	>
 		<a
 			href={testimonial.link}
 			target="_blank"
 			rel="noopener noreferrer nofollow"
-			class="flex flex-col gap-4"
+			class={cn('flex flex-col gap-4', current !== i + 1 && 'pointer-events-none')}
 		>
 			<span class="text-sm md:text-base">{@html testimonial.text}</span>
 
@@ -352,5 +387,66 @@
 				</div>
 			</div>
 		</a>
+
+		{#if current === i + 1}
+			<Motion let:motion layoutId="outline">
+				<div class="absolute -inset-1 rounded-[4px] z-50" use:motion>
+					<div class="size-full relative">
+						<svg
+							width="17"
+							height="19"
+							class="absolute top-0 left-0"
+							viewBox="0 0 17 19"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path d="M17 1H5C2.79086 1 1 2.79086 1 5V18.5" stroke="#0CDEE9" />
+						</svg>
+
+						<svg
+							width="17"
+							height="19"
+							viewBox="0 0 17 19"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="absolute bottom-0 right-0"
+						>
+							<path d="M0 18H12C14.2091 18 16 16.2091 16 14V0.5" stroke="#0CDEE9" />
+						</svg>
+
+						<svg
+							width="17"
+							height="19"
+							viewBox="0 0 17 19"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="absolute bottom-0 left-0"
+						>
+							<path d="M17 18H5C2.79086 18 1 16.2091 1 14V0.5" stroke="#0CDEE9" />
+						</svg>
+
+						<svg
+							width="17"
+							height="19"
+							viewBox="0 0 17 19"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+							class="absolute top-0 right-0"
+						>
+							<path d="M0 1H12C14.2091 1 16 2.79086 16 5V18.5" stroke="#0CDEE9" />
+						</svg>
+					</div>
+				</div>
+			</Motion>
+		{/if}
 	</div>
 {/snippet}
+
+<style>
+	.testimonial-bg {
+		background-image: url('/testimonial-bg.png');
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
+	}
+</style>

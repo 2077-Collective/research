@@ -6,53 +6,55 @@
 
 {#snippet card(fullName: string | null, hasTwitter: boolean)}
 	<div class="flex flex-col bg-[#0E0E0E] rounded-[8px] w-full relative group">
-		<div class="absolute -inset-1 rounded-[8px] opacity-0 group-hover:opacity-100 transition">
-			<div class="size-full relative">
-				<svg
-					width="17"
-					height="19"
-					viewBox="0 0 17 19"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					class="absolute top-0 left-0"
-				>
-					<path d="M17 1H9C4.58172 1 1 4.58172 1 9V18.5" stroke="#0CDEE9" />
-				</svg>
+		{#if hasTwitter}
+			<div class="absolute -inset-1 rounded-[8px] opacity-0 group-hover:opacity-100 transition">
+				<div class="size-full relative">
+					<svg
+						width="17"
+						height="19"
+						viewBox="0 0 17 19"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						class="absolute top-0 left-0"
+					>
+						<path d="M17 1H9C4.58172 1 1 4.58172 1 9V18.5" stroke="#0CDEE9" />
+					</svg>
 
-				<svg
-					width="17"
-					height="19"
-					viewBox="0 0 17 19"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					class="absolute top-0 right-0"
-				>
-					<path d="M0 1H8C12.4183 1 16 4.58172 16 9V18.5" stroke="#0CDEE9" />
-				</svg>
+					<svg
+						width="17"
+						height="19"
+						viewBox="0 0 17 19"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						class="absolute top-0 right-0"
+					>
+						<path d="M0 1H8C12.4183 1 16 4.58172 16 9V18.5" stroke="#0CDEE9" />
+					</svg>
 
-				<svg
-					width="17"
-					height="19"
-					viewBox="0 0 17 19"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					class="absolute bottom-0 left-0"
-				>
-					<path d="M17 18H9C4.58172 18 1 14.4183 1 10V0.5" stroke="#0CDEE9" />
-				</svg>
+					<svg
+						width="17"
+						height="19"
+						viewBox="0 0 17 19"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						class="absolute bottom-0 left-0"
+					>
+						<path d="M17 18H9C4.58172 18 1 14.4183 1 10V0.5" stroke="#0CDEE9" />
+					</svg>
 
-				<svg
-					width="17"
-					height="19"
-					viewBox="0 0 17 19"
-					fill="none"
-					xmlns="http://www.w3.org/2000/svg"
-					class="absolute bottom-0 right-0"
-				>
-					<path d="M0 18H8C12.4183 18 16 14.4183 16 10V0.5" stroke="#0CDEE9" />
-				</svg>
+					<svg
+						width="17"
+						height="19"
+						viewBox="0 0 17 19"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+						class="absolute bottom-0 right-0"
+					>
+						<path d="M0 18H8C12.4183 18 16 14.4183 16 10V0.5" stroke="#0CDEE9" />
+					</svg>
+				</div>
 			</div>
-		</div>
+		{/if}
 
 		<div class="flex md:flex-col gap-4 p-4">
 			<div class="flex flex-row w-full justify-between items-center">
