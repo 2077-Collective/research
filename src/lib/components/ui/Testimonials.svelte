@@ -2,6 +2,7 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import * as Popover from '$lib/components/ui/popover';
 	import { cn } from '$lib/utils/ui-components';
+	// import Autoplay from 'embla-carousel-autoplay';
 	import { AnimateSharedLayout, Motion } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
 	import Icon from './icons/Icon.svelte';
@@ -10,12 +11,13 @@
 	let current = 0;
 	let count = 0;
 
-	let handleJump: (index: number) => void;
+	// let handleJump: (index: number) => void;
 
 	$: if (api) {
 		count = api.scrollSnapList()?.length ?? 0;
 		current = (api.selectedScrollSnap?.() ?? 0) + 1;
-		handleJump = api.scrollTo;
+		// Properly bind `handleJump` to avoid incorrect reassignments
+		// handleJump = (index: number) => api?.scrollTo(index);
 
 		api.on?.('select', () => {
 			current = (api?.selectedScrollSnap?.() ?? 0) + 1;
@@ -300,16 +302,11 @@
 		<div class="mt-7 flex items-center justify-center flex-wrap gap-3 container">
 			<AnimateSharedLayout>
 				{#each testimonials as testimonial, i}
-					<Popover.Root open={current === i + 1} onOutsideClick={() => console.log('HELLO')}>
-						<Popover.Trigger onclick={() => handleJump(i)}>
+					<Popover.Root open={current === i + 1}>
+						<Popover.Trigger asChild>
 							<div class="relative">
 								{#if current === i + 1}
-									<Motion let:motion layoutId="outline-select">
-										<div
-											class="absolute -inset-[2px] border border-[#0CDEE9] rounded-full"
-											use:motion
-										></div>
-									</Motion>
+									<div class="absolute -inset-[2px] border border-[#0CDEE9] rounded-full"></div>
 								{/if}
 
 								<div class="size-8 rounded-full overflow-hidden">
@@ -379,13 +376,7 @@
 		{/if}
 
 		{#if current !== i + 1}
-			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_no_static_element_interactions -->
-			<div
-				class={cn('absolute inset-0 z-50')}
-				aria-label="Go to item"
-				onclick={() => handleJump(i)}
-			></div>
+			<div class={cn('absolute inset-0 z-50')} aria-label="Go to item"></div>
 		{/if}
 
 		<div class="flex flex-col gap-4">

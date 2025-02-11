@@ -40,7 +40,7 @@
 
 <h2 class="text-2xl md:text-[32px] font-powerGroteskBold mb-4 md:mb-8">Featured Research</h2>
 
-<Carousel.Root bind:api class="w-full relative">
+<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
 	<Carousel.Content>
 		{#each articles as article}
 			{@const primaryCategory = getPrimaryCategory(article)?.name}
