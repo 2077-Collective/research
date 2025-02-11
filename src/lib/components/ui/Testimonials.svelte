@@ -278,7 +278,7 @@
 	];
 </script>
 
-<div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-20 md:pb-28">
+<div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-40 md:pb-28 bg-black">
 	<div class="min-h-[300px] text-center pt-12 md:pt-28">
 		<h2 class="text-3xl md:text-[32px] font-bold font-powerGroteskBold">
 			See what industry
@@ -295,7 +295,7 @@
 	</div>
 
 	<div class="relative">
-		<Carousel.Root bind:api class="w-full relative">
+		<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
 			<Carousel.Content class="gap-30 -mx-20 md:-mx-[121px]">
 				{#each testimonials as testimonial}
 					<Carousel.Item class="flex-none w-[271px] md:w-[330px]">

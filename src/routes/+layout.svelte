@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Beehiiv from '$lib/components/ui/Beehiiv.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
+	import JoinSection from '$lib/components/ui/JoinSection.svelte';
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -38,7 +38,8 @@
 		{@render children()}
 	</div>
 	<div class="flex flex-col grow items-center">
-		<Beehiiv variant="home" />
+		<!-- <Beehiiv variant="home" /> -->
+		<JoinSection />
 		<Footer />
 		<Toaster />
 
