@@ -13,12 +13,20 @@
 		goto(href);
 	  }
 	}
+  
+	function handleKeyDown(event: KeyboardEvent) {
+	  if (href && (event.key === 'Enter' || event.key === ' ')) {
+		event.preventDefault();
+		goto(href);
+	  }
+	}
   </script>
   
   <span
-  	role="button"
-  	tabindex="0"
+	role="button"
+	tabindex="0"
 	on:click={handleClick}
+	on:keydown={handleKeyDown}
 	class={cn(badgeVariants({ variant, className }), href && 'cursor-pointer')}
 	{...$$restProps}
   >
