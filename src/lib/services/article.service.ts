@@ -65,7 +65,6 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
         const res = await fetch(`${baseURL}/articles/${slug}`);
         
         const text = await res.text();
-        console.log('Raw response:', text);
         
         if (!res.ok) {
             return null;

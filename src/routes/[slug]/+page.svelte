@@ -435,12 +435,11 @@
 		}
 
 		window.addEventListener('scroll', handleScroll);
-		handleScroll(); // Initial check
+		handleScroll();
 
 		const urlParams = new URLSearchParams(window.location.search);
 		summaryOpen = urlParams.get('summary') === 'true';
 
-		// Add click outside listener
 		const handleOutsideClick = (event: MouseEvent | TouchEvent) => {
 			handleClickOutside(event, {
 				isOpen: summaryOpen,
@@ -461,10 +460,8 @@
 
 		addHeaderClickListeners();
 
-		// Add keyboard shortcut listener
 		window.addEventListener('keydown', handleKeyPress);
 
-		// Handle browser's print event
 		window.addEventListener('beforeprint', handleBeforePrint);
 
 		return () => {
@@ -511,15 +508,13 @@
 
 	$effect(() => {
 		if (isReadingMode !== undefined) {
-			// Wait for DOM update
 			setTimeout(processHeaderIds, 0);
 		}
 	});
 
 	function handleKeyPress(event: KeyboardEvent) {
-		// Check for cmd+p (Mac) or ctrl+p (Windows)
 		if ((event.metaKey || event.ctrlKey) && event.key === 'p') {
-			event.preventDefault(); // Prevent default print dialog
+			event.preventDefault();
 			if (data.article) {
 				handlePdfDownload(data.article);
 			}
@@ -768,7 +763,6 @@
 			"
 			class:copied={copiedHeaderId}
 		>
-			<!-- Update the metadata section -->
 			{#if isReadingMode}
 				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
 					<h1 class="text-4xl mb-6 tracking-tight">{article.title}</h1>

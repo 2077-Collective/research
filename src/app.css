@@ -118,6 +118,10 @@
 		font-family: var(--font-primary);
 	}
 
+	code {
+		font-family: var(--font-power);
+	}
+
 	button,
 	a {
 		@apply tracking-wide;

@@ -25,9 +25,7 @@
 	} = $props();
 
 	const categoryOrder = customCategoryOrder;
-
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
-
 	const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
 
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
@@ -45,10 +43,8 @@
 		for (const article of sortedArticles) {
 			for (const categoryName of categoryOrder) {
 				if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
-
 				const belongsToCategory = article.categories.some((cat) => cat.name === categoryName);
 				if (!belongsToCategory) continue;
-
 				if (displayedArticles.has(article.slug)) continue;
 
 				if (!categoryMap.has(categoryName)) {
@@ -87,6 +83,7 @@
 				<div class="flex items-center justify-between">
 					<Badge
 						variant="rectangularFilled"
+						href={`/category/${category.toLowerCase()}`}
 						class="font-mono font-bold border-white/20 text-xs lg:text-sm"
 					>
 						{category}
@@ -113,9 +110,7 @@
 									decoding="async"
 								/>
 							</div>
-							<h3
-								class="font-powerGroteskBold font-medium text-base leading-tight tracking-tight line-clamp-2"
-							>
+							<h3 class="font-powerGroteskBold font-medium text-base leading-tight tracking-tight line-clamp-2">
 								{article.title}
 							</h3>
 							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">
