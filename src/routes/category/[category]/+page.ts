@@ -1,13 +1,14 @@
 import type { PageLoad } from './$types';
 import { fetchArticles } from '$lib/services/article.service';
-import { error } from '@sveltejs/kit'; 
+import { error } from '@sveltejs/kit';
+import { unformatCategorySlug } from '$lib/utils/format'; 
 
 export const load: PageLoad = async ({ params }) => {
     if (!params.category) {
         throw error(404, 'Category not found');
     }
 
-    const category = params.category;
+    const category = unformatCategorySlug(params.category);
 
     const page = 1;
     const limit = 10;
