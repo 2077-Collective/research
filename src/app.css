@@ -125,6 +125,10 @@
 		font-family: var(--font-primary);
 	}
 
+	code {
+		font-family: var(--font-power);
+	}
+
 	button,
 	a {
 		@apply tracking-wide;
@@ -146,5 +150,9 @@
 		background-image: url('/testimonial-bg.png');
 		background-repeat: no-repeat;
 		background-position: center;
+	}
+
+	.ldJQvz {
+		font-family: var(--font-primary) !important;
 	}
 }

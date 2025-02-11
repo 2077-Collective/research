@@ -1,37 +1,32 @@
 <script lang="ts">
-	import { ArrowUpRightIcon } from 'lucide-svelte';
+	import X from '$lib/components/ui/icons/X.svelte';
+	import { ArrowUpRightIcon, Briefcase, MailIcon, type Icon as IconType } from 'lucide-svelte';
+	import type { Component } from 'svelte';
 
 	type Link = {
 		href: string;
 		text: string;
 		isExternal: boolean;
+		icon?: typeof IconType | Component<{ size: '16px' | '20px' | '24px' }>;
 	};
-
-	const linkGroups: any = {
-		navigation: [
-			{ href: '/', text: 'Home', isExternal: false },
-			{ href: '/about', text: 'About', isExternal: false }
-		],
-
-		read: [
-			{
-				href: 'https://2077.xyz',
-				text: `Research`,
-				isExternal: true
-			},
-			{
-				href: 'https://2077.xyz',
-				text: `The Bazaar`,
-				isExternal: true
-			}
-		],
-
-		socials: [
-			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Discord', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Telegram', isExternal: true }
-		]
-	};
+	const links: Link[] = [
+		{ href: '/reports', text: 'Latest research', isExternal: false },
+		{ href: '/about', text: 'About', isExternal: false },
+		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
+		{
+			href: 'https://2077.xyz',
+			text: `<p>2<span class="!font-inter">0</span>77.xyz<p>`,
+			isExternal: true
+		},
+		{
+			href: 'mailto:research@2077.xyz',
+			text: 'Contact',
+			isExternal: false,
+			icon: MailIcon
+		},
+		{ href: '/work-with-us', text: 'Work with us', isExternal: false, icon: Briefcase },
+		{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true, icon: X }
+	];
 </script>
 
 <footer class="w-full bg-[#040405] py-16">
@@ -86,7 +81,7 @@
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
 	>
-		<span class="self-stretch my-auto">{@html link.text}</span>
+		<span class="self-stretch my-auto">{@html @html link.text}</span>
 		{#if link.isExternal}
 			<ArrowUpRightIcon class="w-4 h-4" />
 		{/if}

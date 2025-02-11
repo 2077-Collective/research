@@ -61,14 +61,17 @@ export const fetchArticles = async (category?: string, page = 1, limit = 10) => 
 
 export const getArticleBySlug = async (slug: string): Promise<Article | null> => {
     try {
-        const res = await fetch(`${baseURL}/articles/${slug}/`);
+        console.log('Fetching article:', `${baseURL}/articles/${slug}`);
+        const res = await fetch(`${baseURL}/articles/${slug}`);
+        
+        const text = await res.text();
+        
         if (!res.ok) {
-            throw new Error(`Failed to fetch article: ${res.status} ${res.statusText}`);
+            return null;
         }
 
-        const body = await res.json();
-
-        return FullArticleSchema.parse(body.data);
+        const body = JSON.parse(text);
+        return FullArticleSchema.parse(body);
     } catch (error) {
         console.error(`Error fetching article ${slug}:`, error);
         return null;
