@@ -14,7 +14,6 @@
 	import EmptySearch from './icons/EmptySearch.svelte';
 	import Input from './input/input.svelte';
 
-	// const client = algoliasearch('99IEWD8Z0K', 'c6f824db1a70a8523780908459090a48');
 	const client = algoliasearch(
 		import.meta.env.VITE_ALGOLIA_APP_ID,
 		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
@@ -44,7 +43,7 @@
 
 	let query = '';
 
-	let debounceTimeout: NodeJS.Timeout;
+	let debounceTimeout: ReturnType<typeof setTimeout>;
 
 	async function handleSearch(): Promise<void> {
 		clearTimeout(debounceTimeout);
@@ -68,9 +67,9 @@
 
 				results.set(response.hits as SearchResult[]);
 			} catch (error) {
-				console.error('Algolia search error:', error);
 				results.set([]);
 				const errorMessage = error instanceof Error ? error.message : 'Search failed';
+				console.error(`Algolia search error: ${errorMessage}`);
 			} finally {
 				loading.set(false);
 			}
@@ -131,11 +130,11 @@
 								{#if highlight?.content_excerpt.matchedWords.length > 0}
 									<li class="group cursor-pointer hover:opacity-70 transition">
 										<a href={`/${article.slug}`} class="px-3 py-2.5">
-											{#if highlight.title.matchedWords.length > 0}
+											{#if highlight && highlight.title.matchedWords.length > 0}
 												<p
 													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
 												>
-													{@html DOMPurify(highlight.title.value)}
+													{@html DOMPurify.sanitize(highlight.title.value)}
 												</p>
 											{:else}
 												<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
@@ -146,20 +145,20 @@
 											<p
 												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
 											>
-												{@html DOMPurify(
+												{@html DOMPurify.sanitize(
 													article?._snippetResult
 														? article?._snippetResult.content_excerpt.value
 														: ''
 												)}
 											</p>
 
-											<div
+											<!-- <div
 												class="flex items-center gap-2 divide-x divide-neutral-[#666] text-xs mt-1.5 font-mono transition text-[#666]"
 											>
 												<p>20 Jan 2024</p>
 												<p class="pl-2">5 min read</p>
-											</div></a
-										>
+											</div> -->
+										</a>
 									</li>
 								{/if}
 							{/each}
