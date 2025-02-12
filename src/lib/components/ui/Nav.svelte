@@ -3,7 +3,6 @@
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
-	import Search from './Search.svelte';
 
 	let mobileMenuOpen = $state(false);
 </script>
@@ -30,8 +29,6 @@
 			Subscribe
 			<Mail class="w-4 h-4 ml-1" />
 		</Button>
-
-		<Search />
 	</div>
 
 	<!-- Mobile Menu Toggle -->

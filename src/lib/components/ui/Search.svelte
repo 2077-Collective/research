@@ -14,12 +14,16 @@
 	import Input from './input/input.svelte';
 
 	const client = algoliasearch('99IEWD8Z0K', 'c6f824db1a70a8523780908459090a48');
+	// const client = algoliasearch(
+	// 	import.meta.env.VITE_ALGOLIA_APP_ID,
+	// 	import.meta.env.VITE_ALGOLIA_SEARCH_KEY
+	// );
 
 	type SearchResult = {
 		objectID: string;
 		title: string;
-		_highlightResult?: { [key: string]: HighlightResult } | undefined;
-		_snippetResult?: { [key: string]: SnippetResult } | undefined;
+		_highlightResult?: HighlightResult & { content_excerpt: any };
+		_snippetResult?: SnippetResult & { content_excerpt: any };
 		_rankingInfo?: RankingInfo | undefined;
 		_distinctSeqID?: number | undefined;
 	};
@@ -29,29 +33,35 @@
 
 	let query = '';
 
+	let debounceTimeout: NodeJS.Timeout;
+
 	async function handleSearch(): Promise<void> {
-		if (!query) {
-			results.set([]);
-			loading.set(false);
-			return;
-		}
+		clearTimeout(debounceTimeout);
 
-		loading.set(true);
+		debounceTimeout = setTimeout(async () => {
+			if (!query) {
+				results.set([]);
+				loading.set(false);
+				return;
+			}
 
-		try {
-			const response = await client.searchSingleIndex({
-				indexName: 'Article',
-				searchParams: { query }
-			});
+			loading.set(true);
 
-			console.log({ result: response.hits });
+			try {
+				const response = await client.searchSingleIndex({
+					indexName: 'Article',
+					searchParams: { query }
+				});
 
-			results.set(response.hits as SearchResult[]);
-		} catch (error) {
-			console.error('Search error:', error);
-		} finally {
-			loading.set(false);
-		}
+				// console.log(response.hits);
+
+				results.set(response.hits as SearchResult[]);
+			} catch (error) {
+				console.error('Search error:', error);
+			} finally {
+				loading.set(false);
+			}
+		}, 300); // Adjust the debounce delay (300ms) as needed
 	}
 </script>
 
@@ -97,79 +107,42 @@
 
 				{#if !$loading && $results.length > 0}
 					<div class="space-y-6 h-full px-5 pt-6 pb-10 overflow-y-auto">
-						<!-- <div class="w-full text-left">
-							<p class="text-[#0CDEE9] font-bold text-xs px-3">Infrastructure</p>
-
-							<ul class="mt-2 border-b pb-px border-[#343434]">
-								<li class="px-3 py-2.5 group cursor-pointer hover:bg-[#0CDEE9] transition">
-									<p
-										class="font-powerGroteskBold font-bold line-clamp-1 group-hover:text-[#022C2F] transition"
-									>
-										The Hitchhiker's Guide To Dark Pools In DeFi: Part One
-									</p>
-
-									<div
-										class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono transition"
-									>
-										<p>20 Jan 2024</p>
-										<p class="pl-2">5 min read</p>
-									</div>
-								</li>
-
-								<li class="px-3 py-2.5 group cursor-pointer hover:bg-[#0CDEE9] transition">
-									<p
-										class="font-powerGroteskBold font-bold line-clamp-1 group-hover:text-[#022C2F] transition"
-									>
-										The Hitchhiker's Guide To Dark Pools In DeFi: Part One
-									</p>
-
-									<div
-										class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono"
-									>
-										<p>20 Jan 2024</p>
-										<p class="pl-2">5 min read</p>
-									</div>
-								</li>
-							</ul>
-						</div> -->
-
 						<ul class="mt-2 text-left">
 							{#each $results as article}
-								{@const highlight = article?._highlightResult?.content_excerpt as any}
-								{#if highlight?.matchedWords.length > 0}
+								{@const highlight = article?._highlightResult}
+								{#if highlight?.content_excerpt.matchedWords.length > 0}
 									<li class="px-3 py-2.5 group cursor-pointer transition">
-										<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
-											{article.title}
-										</p>
+										<a href={`/${article.slug}`}>
+											{#if highlight.title.matchedWords.length > 0}
+												<p
+													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
+												>
+													{@html highlight.title.value}
+												</p>
+											{:else}
+												<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
+													{article.title}
+												</p>
+											{/if}
 
-										<p class="text-neutral-40 [&>em]:text-red-500">
-											{@html article?._snippetResult.content_excerpt.value}
-										</p>
+											<p
+												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
+											>
+												{@html article?._snippetResult
+													? article?._snippetResult.content_excerpt.value
+													: ''}
+											</p>
 
-										<div
-											class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono transition"
+											<div
+												class="flex items-center gap-2 divide-x divide-neutral-[#666] text-xs mt-1.5 font-mono transition text-[#666]"
+											>
+												<p>20 Jan 2024</p>
+												<p class="pl-2">5 min read</p>
+											</div></a
 										>
-											<p>20 Jan 2024</p>
-											<p class="pl-2">5 min read</p>
-										</div>
 									</li>
 								{/if}
 							{/each}
-
-							<!-- <li class="px-3 py-2.5 group cursor-pointer hover:bg-[#0CDEE9] transition">
-								<p
-									class="font-powerGroteskBold font-bold line-clamp-1 group-hover:text-[#022C2F] transition"
-								>
-									The Hitchhiker's Guide To Dark Pools In DeFi: Part One
-								</p>
-
-								<div
-									class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono"
-								>
-									<p>20 Jan 2024</p>
-									<p class="pl-2">5 min read</p>
-								</div>
-							</li> -->
 						</ul>
 					</div>
 				{/if}
