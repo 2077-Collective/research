@@ -135,20 +135,25 @@
 
 						<ul class="mt-2 text-left">
 							{#each $results as article}
-								<li class="px-3 py-2.5 group cursor-pointer hover:bg-[#0CDEE9] transition">
-									<p
-										class="font-powerGroteskBold font-bold line-clamp-1 group-hover:text-[#022C2F] transition"
-									>
-										{article.title}
-									</p>
+								{@const highlight = article._highlightResult.content_excerpt}
+								{#if highlight.matchedWords.length > 0}
+									<li class="px-3 py-2.5 group cursor-pointer transition">
+										<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
+											{article.title}
+										</p>
 
-									<div
-										class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono transition"
-									>
-										<p>20 Jan 2024</p>
-										<p class="pl-2">5 min read</p>
-									</div>
-								</li>
+										<p class="text-neutral-40 [&>em]:text-red-500">
+											{@html article._snippetResult.content_excerpt.value}
+										</p>
+
+										<div
+											class="flex items-center gap-2 divide-x divide-neutral-40 group-hover:divide-neutral-80 text-xs mt-1.5 text-neutral-40 group-hover:text-neutral-80 font-mono transition"
+										>
+											<p>20 Jan 2024</p>
+											<p class="pl-2">5 min read</p>
+										</div>
+									</li>
+								{/if}
 							{/each}
 
 							<!-- <li class="px-3 py-2.5 group cursor-pointer hover:bg-[#0CDEE9] transition">
