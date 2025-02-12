@@ -94,5 +94,9 @@
 			</div>
 		</div>
 	</div>
-	<p class="leading-6 tracking-normal font-hubot text-neutral-10 mt-px">{summary}</p>
+	<p class="leading-6 tracking-normal font-hubot text-neutral-10 mt-px font-light">{summary}</p>
+
+	<!-- <p class="text-xs flex items-center gap-1 mt-2 transition group-hover:h-10">
+		View profile on X <ArrowUpRight class="size-4" />
+	</p> -->
 {/snippet}
