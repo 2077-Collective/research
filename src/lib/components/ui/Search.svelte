@@ -63,9 +63,14 @@
 			}
 		}, 300); // Adjust the debounce delay (300ms) as needed
 	}
+
+	const handleCloseSearch = () => {
+		results.set([]);
+		query = '';
+	};
 </script>
 
-<Dialog.Root>
+<Dialog.Root onOpenChange={handleCloseSearch}>
 	<Dialog.Trigger
 		><div class="relative w-[353px]">
 			<Input
@@ -111,8 +116,8 @@
 							{#each $results as article}
 								{@const highlight = article?._highlightResult}
 								{#if highlight?.content_excerpt.matchedWords.length > 0}
-									<li class="px-3 py-2.5 group cursor-pointer transition">
-										<a href={`/${article.slug}`}>
+									<li class="group cursor-pointer hover:opacity-70 transition">
+										<a href={`/${article.slug}`} class="px-3 py-2.5">
 											{#if highlight.title.matchedWords.length > 0}
 												<p
 													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
