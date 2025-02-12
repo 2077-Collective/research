@@ -55,7 +55,7 @@
 	}
 </script>
 
-<Dialog.Root open>
+<Dialog.Root>
 	<Dialog.Trigger
 		><div class="relative w-[353px]">
 			<Input
