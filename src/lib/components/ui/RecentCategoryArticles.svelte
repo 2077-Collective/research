@@ -80,7 +80,7 @@
 
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 md:gap-y-16">
 		{#each categoryArticles as { category, articles }}
-			<div class="flex flex-col">
+			<div class="flex flex-col group">
 				<div class="flex items-center justify-between">
 					<Badge
 						variant="rectangularFilled"
@@ -115,7 +115,7 @@
 							</div>
 
 							<h3
-								class="font-powerGroteskBold font-medium text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20"
+								class="font-powerGroteskBold font-medium text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 							>
 								{article.title}
 							</h3>

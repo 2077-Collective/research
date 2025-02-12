@@ -2,7 +2,7 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import * as Popover from '$lib/components/ui/popover';
 	import { cn } from '$lib/utils/ui-components';
-	// import Autoplay from 'embla-carousel-autoplay';
+	import Autoplay from 'embla-carousel-autoplay';
 	import { AnimateSharedLayout, Motion } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
 	import Icon from './icons/Icon.svelte';
@@ -286,12 +286,6 @@
 	];
 </script>
 
-<!-- plugins={[
-	Autoplay({
-		delay: 3500
-	})
-]} -->
-
 <div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-40 md:pb-28 bg-black">
 	<div class="min-h-[300px] text-center pt-12 md:pt-28">
 		<h2 class="text-3xl md:text-[32px] font-bold font-powerGroteskBold">
@@ -302,7 +296,7 @@
 		<div class="mt-7 flex items-center justify-center flex-wrap gap-3 container">
 			<AnimateSharedLayout>
 				{#each testimonials as testimonial, i}
-					<Popover.Root open={current === i + 1}>
+					<Popover.Root open={true}>
 						<Popover.Trigger asChild>
 							<div class="relative">
 								{#if current === i + 1}
@@ -321,7 +315,7 @@
 
 						<Popover.Content
 							sideOffset={12}
-							class="h-[22px] bg-[#0CDEE9] text-xs font-mono text-neutral-80 flex items-center justify-center py-1 px-1.5 rounded-[4px] w-fit border border-neutral-80 shadow-xl"
+							class="h-[22px] bg-[#0CDEE9] text-xs font-mono text-neutral-80 flex items-center justify-center py-1 px-1.5 rounded-[4px] w-fit border border-neutral-80 shadow-xl z-[99999]"
 							>{testimonial.author}</Popover.Content
 						>
 					</Popover.Root>
@@ -331,11 +325,20 @@
 	</div>
 
 	<div class="relative">
-		<Carousel.Root bind:api class="w-full relative" opts={{ loop: true, align: 'center' }}>
+		<Carousel.Root
+			bind:api
+			class="w-full relative"
+			opts={{ loop: true, align: 'center' }}
+			plugins={[
+				Autoplay({
+					delay: 3500
+				})
+			]}
+		>
 			<AnimateSharedLayout>
 				<Carousel.Content class="gap-30 -mx-20 md:-mx-[121px]">
 					{#each testimonials as testimonial, i}
-						<Carousel.Item class="flex-none w-[271px] md:w-[330px] p-1">
+						<Carousel.Item class="flex-none w-[271px] md:w-[330px] p-2">
 							{@render card(testimonial, i)}
 						</Carousel.Item>
 					{/each}
@@ -406,7 +409,7 @@
 
 		{#if current === i + 1}
 			<Motion let:motion layoutId="outline">
-				<div class="absolute -inset-1 rounded-[4px] pointer-events-none" use:motion>
+				<div class="absolute -inset-2 rounded-[4px] pointer-events-none" use:motion>
 					<div class="size-full relative">
 						<svg
 							width="17"
