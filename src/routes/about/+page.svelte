@@ -61,8 +61,14 @@
 						class="mt-4 border-y border-[#222] divide-y-[1px] divide-[#222] text-sm text-neutral-20 font-mono"
 					>
 						<li>
-							<a href="mailto://research@2077.xyz" class="px-5 flex items-center gap-1 py-3 group"
-								>Get in touch
+							<a
+								href="mailto://research@2077.xyz"
+								class="px-5 flex items-center gap-1 py-3 group relative hover:text-white"
+							>
+								<span
+									class="block absolute inset-0 bg-[#001213] scale-x-0 group-hover:scale-x-100 transition origin-left"
+								></span>
+								<span class="z-10 relative">Get in touch</span>
 								<ArrowUpRight
 									class="size-4 group-hover:-translate-y-[2px] group-hover:translate-x-[2px] transition will-change-transform"
 								/>
@@ -70,8 +76,15 @@
 						</li>
 
 						<li>
-							<a href="/work-with-us" class="px-5 flex items-center gap-1 py-3 group"
-								>View our Services Page <ArrowUpRight
+							<a
+								href="/work-with-us"
+								class="px-5 flex items-center gap-1 py-3 group relative hover:text-white"
+							>
+								<span
+									class="block absolute inset-0 bg-[#001213] scale-x-0 group-hover:scale-x-100 transition origin-left"
+								></span>
+								<span class="z-10 relative">View our Services Page</span>
+								<ArrowUpRight
 									class="size-4 group-hover:-translate-y-[2px] group-hover:translate-x-[2px] transition will-change-transform"
 								/></a
 							>

@@ -87,7 +87,7 @@
 			</p>
 			<div class="mb-2 md:mt-1 flex gap-2">
 				<div
-					class="h-[22px] bg-neutral-80 rounded-[2px] px-1.5 py-1 flex items-center justify-center text-xs text-neutral-10"
+					class="h-[22px] bg-neutral-80 rounded-[2px] px-1.5 py-1 flex items-center justify-center text-xs text-neutral-10 group-hover:bg-[#0CDEE9] group-hover:text-black transition"
 				>
 					{role}
 				</div>
