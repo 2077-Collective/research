@@ -6,6 +6,7 @@
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
+	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
 	export let articles: ArticleMetadata[];
@@ -36,6 +37,21 @@
 	function getPrimaryCategory(article: ArticleMetadata) {
 		return article.categories.find((category) => category.is_primary);
 	}
+
+	console.log({ articles });
+
+	// let readingTime = $state('');
+
+	// function calculateReadingTime(data) {
+	// 	if (!data || !data.article || !data.article.content) return '';
+
+	// 	const wordsPerMinute = 200;
+	// 	const textContent = data.article.content.replace(/<[^>]*>/g, '');
+	// 	const wordCount = textContent.split(/\s+/).length;
+	// 	const minutes = Math.ceil(wordCount / wordsPerMinute);
+
+	// 	return `${minutes} min read`;
+	// }
 </script>
 
 <h2 class="text-2xl md:text-[32px] font-powerGroteskBold mb-4 md:mb-8">Featured Research</h2>
@@ -46,8 +62,8 @@
 			{@const primaryCategory = getPrimaryCategory(article)?.name}
 			{@const formattedDate = format(article.updatedAt, 'dd MMM yyyy')}
 
-			<Carousel.Item class="relative">
-				<div class="flex md:aspect-[1/0.5] items-center justify-center">
+			<Carousel.Item class="relative group md:rounded-[16px] overflow-hidden">
+				<div class="flex md:aspect-[1/0.45] items-center justify-center">
 					<a href={`/${article.slug}`} class="!size-full">
 						<img
 							src={article.thumb}
@@ -60,8 +76,17 @@
 					</a>
 				</div>
 
+				<button
+					class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden"
+					style="box-shadow: 0px 0px 28px 0px rgba(12, 222, 233, 0.50)"
+				>
+					Read Article
+
+					<ArrowRight class="size-5 group-hover:translate-x-1 transition" />
+				</button>
+
 				<div
-					class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-[8px] max-md:rounded-t-none pt-6"
+					class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] max-md:pt-6 md:py-6 md:translate-y-[134px] group-hover:translate-y-0 transition duration-300 will-change-transform"
 				>
 					{#if primaryCategory}
 						<div class="px-6">
@@ -87,12 +112,20 @@
 
 						<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">{article.summary}</p>
 
-						<div
-							class="flex items-center gap-2 text-xs py-2.5 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
-						>
+						<div class="flex items-center gap-2 text-xs text-neutral-40 font-mono mt-5 md:mt-2.5">
 							<p>{formattedDate}</p>
-							<p class="pl-2 line-clamp-1">By {getAuthorsText(article.authors)}</p>
+							<!-- <p class="pl-2 line-clamp-1">By {getAuthorsText(article.authors)}</p> -->
 						</div>
+
+						<p class="max-md:hidden text-sm text-neutral-40 line-clamp-3 mt-2.5">
+							{article.summary}
+						</p>
+
+						<hr class="my-4 border-[#262626]" />
+
+						<p class="text-sm font-mono line-clamp-1">
+							By {getAuthorsText(article.authors)}
+						</p>
 					</a>
 				</div>
 			</Carousel.Item>

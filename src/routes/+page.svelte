@@ -32,7 +32,7 @@
 				</h1>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px]"
 				>
 					Navigate Ethereum’s evolving landscape confidently with in-depth research and insights on
 					core infrastructure and blockchain protocols. Understand the latest trends in Layer 1 and
@@ -40,7 +40,9 @@
 					research that cuts through the noise.
 				</p>
 
-				<p class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5">
+				<p
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px]"
+				>
 					Ready to get <span class="text-[#0BC8D2]">nerdsniped</span> and
 					<span class="text-[#0BC8D2]">Ethereum-pilled</span>? Dive into our extensive library of
 					Ethereum-focused articles and reports.
