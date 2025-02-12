@@ -616,7 +616,7 @@
 						{#each article.categories as category}
 							<a href={'/category/' + category.name.toLowerCase()}
 								><Badge
-									class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-neutral-80 hover:!text-neutral-10"
+									class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-white hover:border-white hover:!text-black"
 								>
 									{category.name}
 								</Badge></a

@@ -46,14 +46,14 @@
 
 		{#if showButton}
 			<button
-				class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition-colors duration-300 group text-[12.667px] max-md:size-14 md:h-10 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed bottom-8 md:bottom-11 right-3 md:right-11 font-semibold shadow-2xl border border-[#333] z-[999999]"
+				class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] max-md:size-14 md:h-10 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed bottom-8 md:bottom-11 right-3 md:right-11 font-semibold border border-[#333] z-[999999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover"
 				aria-label="Scroll back to the top of the page"
 				onclick={handleScrollToTop}
 			>
 				<span class="max-md:hidden">Back to the Top</span>
 
 				<ArrowUp
-					class="size-5 rounded-full group-hover:-translate-y-[2px] transition"
+					class="size-5 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black"
 					style="stroke-width: 1.4"
 				/>
 			</button>

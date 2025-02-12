@@ -84,7 +84,7 @@
 		<div class="z-10 px-5 bg-background">
 			<a
 				href="/reports"
-				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-[0px_0px_28px_0px_rgba(12_222_233_0.50)]"
+				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-hover"
 				aria-label="View all research articles"
 			>
 				View all articles

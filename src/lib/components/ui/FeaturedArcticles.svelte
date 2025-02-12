@@ -77,12 +77,11 @@
 				</div>
 
 				<button
-					class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden"
-					style="box-shadow: 0px 0px 28px 0px rgba(12, 222, 233, 0.50)"
+					class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover"
 				>
 					Read Article
 
-					<ArrowRight class="size-5 group-hover:translate-x-1 transition" />
+					<ArrowRight class="size-5 group-hover/button:translate-x-1 transition" />
 				</button>
 
 				<div
