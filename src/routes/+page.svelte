@@ -48,12 +48,14 @@
 					Ethereum-focused articles and reports.
 				</p>
 
-				<button
-					class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group"
-					aria-label="Read Research"
-					>Read Research
-					<ArrowRight class="group-hover:translate-x-1 transition will-change-transform" />
-				</button>
+				<a href="/reports">
+					<button
+						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group"
+						aria-label="Read Research"
+						>Read Research
+						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform" />
+					</button></a
+				>
 			</div>
 
 			<img
