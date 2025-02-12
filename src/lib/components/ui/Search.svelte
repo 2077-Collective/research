@@ -151,13 +151,6 @@
 														: ''
 												)}
 											</p>
-
-											<!-- <div
-												class="flex items-center gap-2 divide-x divide-neutral-[#666] text-xs mt-1.5 font-mono transition text-[#666]"
-											>
-												<p>20 Jan 2024</p>
-												<p class="pl-2">5 min read</p>
-											</div> -->
 										</a>
 									</li>
 								{/if}
