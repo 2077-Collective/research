@@ -7,28 +7,39 @@
 		type RankingInfo,
 		type SnippetResult
 	} from 'algoliasearch';
+	import DOMPurify from 'dompurify';
 	import { Loader2, Search } from 'lucide-svelte';
 	import { writable } from 'svelte/store';
 	import Algolia from './icons/Algolia.svelte';
 	import EmptySearch from './icons/EmptySearch.svelte';
 	import Input from './input/input.svelte';
 
-	const client = algoliasearch('99IEWD8Z0K', 'c6f824db1a70a8523780908459090a48');
-	// const client = algoliasearch(
-	// 	import.meta.env.VITE_ALGOLIA_APP_ID,
-	// 	import.meta.env.VITE_ALGOLIA_SEARCH_KEY
-	// );
+	// const client = algoliasearch('99IEWD8Z0K', 'c6f824db1a70a8523780908459090a48');
+	const client = algoliasearch(
+		import.meta.env.VITE_ALGOLIA_APP_ID,
+		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
+	);
 
 	type SearchResult = {
 		objectID: string;
 		title: string;
-		_highlightResult?: HighlightResult & { content_excerpt: any };
-		_snippetResult?: SnippetResult & { content_excerpt: any };
+		slug: string;
+		_highlightResult?: HighlightResult & {
+			content_excerpt: {
+				value: string;
+				matchedWords: string[];
+			};
+		};
+		_snippetResult?: SnippetResult & {
+			content_excerpt: {
+				value: string;
+			};
+		};
 		_rankingInfo?: RankingInfo | undefined;
 		_distinctSeqID?: number | undefined;
 	};
 
-	const results = writable<any[]>([]);
+	const results = writable<SearchResult[]>([]);
 	const loading = writable<boolean>(false);
 
 	let query = '';
@@ -57,7 +68,9 @@
 
 				results.set(response.hits as SearchResult[]);
 			} catch (error) {
-				console.error('Search error:', error);
+				console.error('Algolia search error:', error);
+				results.set([]);
+				const errorMessage = error instanceof Error ? error.message : 'Search failed';
 			} finally {
 				loading.set(false);
 			}
@@ -122,7 +135,7 @@
 												<p
 													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
 												>
-													{@html highlight.title.value}
+													{@html DOMPurify(highlight.title.value)}
 												</p>
 											{:else}
 												<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
@@ -133,9 +146,11 @@
 											<p
 												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
 											>
-												{@html article?._snippetResult
-													? article?._snippetResult.content_excerpt.value
-													: ''}
+												{@html DOMPurify(
+													article?._snippetResult
+														? article?._snippetResult.content_excerpt.value
+														: ''
+												)}
 											</p>
 
 											<div
