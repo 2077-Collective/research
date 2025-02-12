@@ -135,15 +135,15 @@
 
 						<ul class="mt-2 text-left">
 							{#each $results as article}
-								{@const highlight = article._highlightResult.content_excerpt}
-								{#if highlight.matchedWords.length > 0}
+								{@const highlight = article?._highlightResult?.content_excerpt as any}
+								{#if highlight?.matchedWords.length > 0}
 									<li class="px-3 py-2.5 group cursor-pointer transition">
 										<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
 											{article.title}
 										</p>
 
 										<p class="text-neutral-40 [&>em]:text-red-500">
-											{@html article._snippetResult.content_excerpt.value}
+											{@html article?._snippetResult.content_excerpt.value}
 										</p>
 
 										<div
