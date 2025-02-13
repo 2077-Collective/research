@@ -1,7 +1,7 @@
 <script>
-	import { ArrowUpRight, Menu, Mail, X } from 'lucide-svelte';
-	import Button from './button/button.svelte';
+	import { Mail, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
+	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
 
 	let mobileMenuOpen = $state(false);
@@ -17,14 +17,14 @@
 	<div class="items-center gap-4 hidden md:flex">
 		<!-- About and Work With Us Links -->
 		<a href="/about" class="text-gray-200 hover:text-gray-500 transition-colors">About us</a>
-		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors">Work With Us</a>
+		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors"
+			>Work With Us</a
+		>
 
 		<!-- Subscribe Button -->
 		<Button
+			href="/ethereum-navigator"
 			class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
-			onclick={() => {
-				document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
-			}}
 		>
 			Subscribe
 			<Mail class="w-4 h-4 ml-1" />
@@ -78,11 +78,10 @@
 				</div>
 
 				<Button
-					href="#subscribe"
+					href="/ethereum-navigator"
 					class="mt-4 flex items-center gap-1 justify-center px-8 bg-special-blue"
 					onclick={() => {
 						mobileMenuOpen = false;
-						document.querySelector('#subscribe')?.scrollIntoView({ behavior: 'smooth' });
 					}}
 				>
 					Subscribe to our newsletter
