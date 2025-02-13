@@ -64,20 +64,14 @@
 	</Carousel.Content>
 
 	<div
-		class="flex items-center gap-[13px] md:-top-[64px] absolute md:right-12 text-neutral-60 max-md:left-1/2 max-md:-translate-x-1/2 max-md:mt-8"
+		class="flex items-center gap-[18px] md:-top-[64px] absolute md:right-12 text-neutral-60 max-md:left-1/2 max-md:-translate-x-1/2 max-md:mt-8"
 	>
 		<Carousel.Previous
-			class="bg-transparent border-none [&_svg]:size-6 md:[&_svg]:size-8 text-neutral-60 hover:bg-transparent"
+			class="bg-transparent border-none [&_svg]:size-6 md:[&_svg]:size-8 !text-neutral-40 hover:!text-neutral-60 hover:bg-transparent relative left-0 translate-y-0"
 		/>
 
-		<div
-			class="text-center text-sm !text-[24px] md:!text-[32px] font-powerGroteskBold font-bold w-16"
-		>
-			<span class="text-white">{current}</span>/{count}
-		</div>
-
 		<Carousel.Next
-			class="bg-transparent border-none [&_svg]:size-6 md:[&_svg]:size-8 hover:bg-transparent"
+			class="bg-transparent border-none [&_svg]:size-6 md:[&_svg]:size-8 !text-neutral-40 hover:!text-neutral-60 hover:bg-transparent relative left-0 translate-y-0"
 		/>
 	</div>
 </Carousel.Root>
