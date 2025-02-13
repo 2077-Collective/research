@@ -5,7 +5,7 @@
 
 	const pageUrl = $page.url.origin;
 	const image = `${pageUrl}/preview-image.jpg`;
-	const title = '2077 Research: Cutting-edge Ethereum Research';
+	const title = '2077 Research: Cutting-Edge Ethereum Research';
 	const description =
 		'2077 Research delivers top-tier research and insights on blockchain protocols and emerging trends in Ethereum scaling, interoperability, privacy, DeFi, and more';
 
