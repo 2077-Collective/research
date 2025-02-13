@@ -566,16 +566,16 @@
 
 				<div class="flex flex-col max-w-full tracking-tight w-[794px]">
 					<section class="flex flex-col w-full">
-						<div class="flex items-center gap-2 text-neutral-40 font-mono text-sm">
-							<time datetime={article.scheduledPublishTime}>
-								{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric'
-								})}
-							</time>
-							<span class="inline">|</span>
-							<span>{readingTime}</span>
+						<div class="flex items-center gap-2 font-mono">
+							{#each article.categories as category}
+								<a href={'/category/' + category.name.toLowerCase()}
+									><Badge
+										class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-white hover:border-white hover:!text-black"
+									>
+										{category.name}
+									</Badge></a
+								>
+							{/each}
 						</div>
 
 						<h1
@@ -587,41 +587,41 @@
 						<p class="text-base max-md:max-w-full mt-4 text-neutral-40">
 							{article.summary}
 						</p>
+
+						<div class="font-mono mt-4">
+							<span class="text-neutral-40">By</span>
+							{#each article.authors as author, index}
+								<a
+									href={author.twitterUsername
+										? `https://twitter.com/${author.twitterUsername}`
+										: null}
+									target="_blank"
+									rel="noopener noreferrer"
+									class={author.twitterUsername ? 'border-b' : ''}
+								>
+									{author.fullName}
+								</a>
+								{#if index < article.authors.length - 2}
+									<span>, </span>
+								{:else if index < article.authors.length - 1}
+									<span>{' '}and{' '}</span>
+								{/if}
+							{/each}
+						</div>
 					</section>
 				</div>
 
 				<div class="flex max-md:flex-col max-md:gap-4 md:items-center justify-between mt-11">
-					<div class="font-mono">
-						<span class="text-neutral-40">By</span>
-						{#each article.authors as author, index}
-							<a
-								href={author.twitterUsername
-									? `https://twitter.com/${author.twitterUsername}`
-									: null}
-								target="_blank"
-								rel="noopener noreferrer"
-								class={author.twitterUsername ? 'border-b' : ''}
-							>
-								{author.fullName}
-							</a>
-							{#if index < article.authors.length - 2}
-								<span>, </span>
-							{:else if index < article.authors.length - 1}
-								<span>{' '}and{' '}</span>
-							{/if}
-						{/each}
-					</div>
-
-					<div class="flex items-center gap-2 font-mono">
-						{#each article.categories as category}
-							<a href={'/category/' + category.name.toLowerCase()}
-								><Badge
-									class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-white hover:border-white hover:!text-black"
-								>
-									{category.name}
-								</Badge></a
-							>
-						{/each}
+					<div class="flex items-center gap-2 text-neutral-40 font-mono text-sm">
+						<time datetime={article.scheduledPublishTime}>
+							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+								year: 'numeric',
+								month: 'long',
+								day: 'numeric'
+							})}
+						</time>
+						<span class="inline">|</span>
+						<span>{readingTime}</span>
 					</div>
 				</div>
 			</header>
@@ -643,7 +643,7 @@
 				scrolling="no"
 				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
 				style="max-height: 90px;"
-				class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50"
+				class="fixed left-1/2 -translate-x-1/2 bottom-8 z-[99999]"
 			></iframe>
 		</div>
 	</div>
@@ -747,84 +747,84 @@
 		</div>
 
 		{#if !isReadingMode}
-			<div
-				class="font-mono max-lg:hidden sticky top-24 space-y-5 text-sm flex-1 pr-10 overflow-hidden"
-			>
-				<div class="flex items-center gap-4 justify-end">
-					<div
-						class="relative"
-						onmouseenter={handleMouseEnter}
-						onmouseleave={handleMouseLeave}
-						role="menu"
-						tabindex="0"
-					>
-						<button
-							onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
-							class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
-							aria-label="Share article"
-							aria-expanded={showShareDropdown}
-							aria-haspopup="true"
-							data-share-toggle
+			<div class="max-lg:hidden">
+				<div class="font-mono sticky top-24 space-y-5 text-sm flex-1 pr-10">
+					<div class="flex items-center gap-4 justify-end">
+						<div
+							class="relative"
+							onmouseenter={handleMouseEnter}
+							onmouseleave={handleMouseLeave}
+							role="menu"
+							tabindex="0"
 						>
-							<Share class="size-5" />
-							<span class="border-b">Share</span>
-						</button>
-
-						{#if showShareDropdown}
-							<div
-								class="share-dropdown absolute {dropdownPosition === 'bottom'
-									? 'mt-2 top-full'
-									: 'bottom-full mb-2'} 
-						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+							<button
+								onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+								class="flex items-center gap-1 rounded-full hover:text-primary/50 cursor-pointer"
+								aria-label="Share article"
+								aria-expanded={showShareDropdown}
+								aria-haspopup="true"
+								data-share-toggle
 							>
-								{#each shareOptions as option}
-									<a
-										href={option.url}
-										target="_blank"
-										rel="noopener noreferrer"
-										role="menuitem"
-										class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
-									>
-										{#if option.isSvg}
-											{@html option.icon}
-										{:else}
-											{@const IconComponent = option.icon}
-											<IconComponent class="w-5 h-5" />
-										{/if}
-										<span class="text-sm">{option.name}</span>
-									</a>
-								{/each}
-								<button
-									onclick={copyShareLink}
-									role="menuitem"
-									class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
-								>
-									<Link2 class="w-5 h-5" />
-									{#if copySuccess}
-										<span class="text-special-blue text-sm">Link Copied</span>
-									{:else}
-										<span class="text-sm">Copy Link</span>
-									{/if}
-								</button>
-							</div>
-						{/if}
-					</div>
+								<Share class="size-5" />
+								<span class="border-b">Share</span>
+							</button>
 
-					<button
-						onclick={() => handlePdfDownload(article)}
-						class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
-						aria-label="Download as PDF"
-						disabled={isDownloading}
-					>
-						{#if isDownloading}
-							<div
-								class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-							></div>
-						{:else}
-							<FileDown class="size-5" />
-						{/if}
-						<span class="border-b">PDF</span>
-					</button>
+							{#if showShareDropdown}
+								<div
+									class="share-dropdown absolute {dropdownPosition === 'bottom'
+										? 'mt-2 top-full'
+										: 'bottom-full mb-2'} 
+						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0"
+								>
+									{#each shareOptions as option}
+										<a
+											href={option.url}
+											target="_blank"
+											rel="noopener noreferrer"
+											role="menuitem"
+											class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+										>
+											{#if option.isSvg}
+												{@html option.icon}
+											{:else}
+												{@const IconComponent = option.icon}
+												<IconComponent class="w-5 h-5" />
+											{/if}
+											<span class="text-sm">{option.name}</span>
+										</a>
+									{/each}
+									<button
+										onclick={copyShareLink}
+										role="menuitem"
+										class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+									>
+										<Link2 class="w-5 h-5" />
+										{#if copySuccess}
+											<span class="text-special-blue text-sm">Link Copied</span>
+										{:else}
+											<span class="text-sm">Copy Link</span>
+										{/if}
+									</button>
+								</div>
+							{/if}
+						</div>
+
+						<button
+							onclick={() => handlePdfDownload(article)}
+							class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
+							aria-label="Download as PDF"
+							disabled={isDownloading}
+						>
+							{#if isDownloading}
+								<div
+									class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+								></div>
+							{:else}
+								<FileDown class="size-5" />
+							{/if}
+							<span class="border-b">PDF</span>
+						</button>
+					</div>
 				</div>
 			</div>
 		{/if}

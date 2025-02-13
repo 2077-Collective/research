@@ -57,15 +57,23 @@ export const ArticleMetadataSchema = CommonArticleFields.extend({
 });
 
 export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform((article) => {
-	const { is_sponsored, sponsor_color, sponsor_text_color, related_articles, updated_at, ...rest } =
-		article;
+	const {
+		is_sponsored,
+		sponsor_color,
+		sponsor_text_color,
+		related_articles,
+		updated_at,
+		content,
+		...rest
+	} = article;
 	return {
 		...rest,
 		isSponsored: is_sponsored,
 		sponsorColor: sponsor_color,
 		sponsorTextColor: sponsor_text_color,
 		relatedArticles: related_articles || [],
-		updatedAt: updated_at
+		updatedAt: updated_at,
+		content
 	};
 });
 
