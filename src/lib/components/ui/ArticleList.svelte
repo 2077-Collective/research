@@ -2,11 +2,11 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { ArrowDown, ArrowLeft, Search } from 'lucide-svelte';
+	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
-	import Input from './input/input.svelte';
+	import Search from './Search.svelte';
 	let newArticleRef: HTMLElement | null = null;
 
 	const ARTICLES_PER_PAGE = 9;
@@ -114,7 +114,8 @@
 	</div>
 
 	<div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input
+		<Search />
+		<!-- <Input
 			class="grow-0 max-md:w-full tracking-normal"
 			type="text"
 			placeholder="Search"
@@ -124,7 +125,7 @@
 			{#snippet icon()}
 				<Search class="w-4 h-4" />
 			{/snippet}
-		</Input>
+		</Input> -->
 	</div>
 
 	<div

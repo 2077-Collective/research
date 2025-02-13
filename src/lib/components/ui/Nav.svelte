@@ -1,7 +1,7 @@
 <script>
-	import { ArrowUpRight, Menu, Mail, X } from 'lucide-svelte';
-	import Button from './button/button.svelte';
+	import { Mail, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
+	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
 
 	let mobileMenuOpen = $state(false);
@@ -17,7 +17,9 @@
 	<div class="items-center gap-4 hidden md:flex">
 		<!-- About and Work With Us Links -->
 		<a href="/about" class="text-gray-200 hover:text-gray-500 transition-colors">About us</a>
-		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors">Work With Us</a>
+		<a href="/work-with-us" class="text-gray-200 hover:text-gray-500 transition-colors"
+			>Work With Us</a
+		>
 
 		<!-- Subscribe Button -->
 		<Button
