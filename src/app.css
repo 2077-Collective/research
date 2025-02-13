@@ -42,11 +42,21 @@
 		url('/fonts/HubotSans.woff2') format('woff2');
 }
 
+@font-face {
+	font-family: 'PowerGrotesk';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('PowerGrotesk'),
+		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
+}
+
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {
 		--font-primary: 'HubotSans', sans-serif;
 		--font-mono: 'Kode Mono Variable', sans-serif;
+		--font-power: 'PowerGrotesk';
 
 		--background: 240 4% 5%;
 		--background-lighter: 240 4% 10%;
@@ -94,7 +104,12 @@
 		font-weight: 300;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		@apply tracking-tight;
 	}
 
@@ -103,7 +118,16 @@
 		font-family: var(--font-primary);
 	}
 
-	button, a {
+	code {
+		font-family: var(--font-power);
+	}
+
+	button,
+	a {
 		@apply tracking-wide;
+	}
+
+	.ldJQvz {
+		font-family: var(--font-primary) !important;
 	}
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
 	import { getArticles } from '$lib/stores/articles.svelte';
+	import type { ArticleMetadata } from '$lib/types/article';
+	import { getAuthorsText } from '$lib/utils/authors';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
-	import { getAuthorsText } from '$lib/utils/authors';
 
 	const {
 		articlesPerCategory = 1,
@@ -25,9 +25,7 @@
 	} = $props();
 
 	const categoryOrder = customCategoryOrder;
-
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
-
 	const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
 
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
@@ -45,10 +43,8 @@
 		for (const article of sortedArticles) {
 			for (const categoryName of categoryOrder) {
 				if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
-
 				const belongsToCategory = article.categories.some((cat) => cat.name === categoryName);
 				if (!belongsToCategory) continue;
-
 				if (displayedArticles.has(article.slug)) continue;
 
 				if (!categoryMap.has(categoryName)) {
@@ -80,13 +76,14 @@
 </script>
 
 <div class="flex flex-col gap-6">
-	<h2 class="text-2xl md:text-4xl font-soehne">Most recent</h2>
+	<h2 class="text-2xl md:text-4xl font-powerGroteskBold">Most recent</h2>
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 		{#each categoryArticles as { category, articles }}
 			<div class="flex flex-col">
 				<div class="flex items-center justify-between">
 					<Badge
 						variant="rectangularFilled"
+						href={`/category/${category.toLowerCase()}`}
 						class="font-mono font-bold border-white/20 text-xs lg:text-sm"
 					>
 						{category}
@@ -113,9 +110,7 @@
 									decoding="async"
 								/>
 							</div>
-							<h3
-								class="font-soehne font-medium text-base leading-tight tracking-tight line-clamp-2"
-							>
+							<h3 class="font-powerGroteskBold font-medium text-base leading-tight tracking-tight line-clamp-2">
 								{article.title}
 							</h3>
 							<p class="text-xs font-mono text-gray-600 dark:text-gray-400">

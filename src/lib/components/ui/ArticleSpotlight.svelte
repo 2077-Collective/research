@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ArticleMetadata } from '$lib/types/article';
-	import Badge from './badge/badge.svelte';
 	import { goto } from '$app/navigation';
+	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { toTitleCase } from '$lib/utils/titleCase';
+	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
@@ -18,8 +18,6 @@
 			handleCategoryClick(categoryName);
 		}
 	}
-
-	
 </script>
 
 <div class="flex flex-col lg:flex-row w-full">
@@ -54,14 +52,16 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-soehne text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
 			>
 				{toTitleCase(article.title)}
 			</h1>
 		</a>
 
 		<a href={`/${article.slug}`}>
-			<p class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed">
+			<p
+				class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed"
+			>
 				{article.summary}
 			</p>
 		</a>
