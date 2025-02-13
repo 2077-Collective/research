@@ -59,11 +59,29 @@
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
 
-	const { data }: { data: PageData } = $props();
+	//const { data }: { data: PageData } = $props();
+	const { data } = $props<{ data: PageData }>();
 
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
+
+	const sanitizedContent = $derived(
+        data.article?.content 
+            ? DOMPurify.sanitize(data.article.content, {
+                ALLOWED_TAGS: [
+                    'h1', 'h2', 'h3', 'h4', 'p', 'a', 'strong',
+                    'em', 'ul', 'ol', 'li', 'img', 'pre', 'code',
+                    'blockquote', 'table', 'tr', 'td', 'th'
+                ],
+                ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+            }) 
+            : ''
+    );
+
+    const tableOfContents = $derived(data.article?.table_of_contents || []);
+
+
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
