@@ -1,9 +1,9 @@
 <script lang="ts">
+	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
-	import type { PageData } from './$types';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { onMount } from 'svelte';
-	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import type { PageData } from './$types';
 
 	// Get data from props
 	const { data }: { data: PageData } = $props();
@@ -18,10 +18,6 @@
 
 <BaseHead />
 
-<div class="px-3 md:px-12 flex flex-col gap-10">
-	<ArticleList 
-		{articles} 
-		{articleCategories} 
-		articlesPerPage={100}
-	/>
+<div class="flex flex-col gap-10">
+	<ArticleList {articles} {articleCategories} articlesPerPage={100} />
 </div>

@@ -2,14 +2,11 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { getAuthorsText } from '$lib/utils/authors';
-	import { toTitleCase } from '$lib/utils/titleCase';
-	import { format } from 'date-fns';
 	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
-	import Badge from './badge/badge.svelte';
+	import FeaturedCard from './FeaturedCard.svelte';
 	let newArticleRef: HTMLElement | null = null;
 
 	const ARTICLES_PER_PAGE = 9;
@@ -147,61 +144,7 @@
 	<section class="bg-[#010102] pb-[98px]">
 		<div class="container relative -mt-28">
 			{#if firstArticle}
-				{@const primaryCategory = getPrimaryCategory(firstArticle)?.name}
-				{@const formattedDate = format(firstArticle.updatedAt, 'dd MMM yyyy')}
-
-				<div class="relative border border-[#171717] rounded-2xl overflow-hidden">
-					<div class="flex md:aspect-[1/0.5] items-center justify-center overflow-hidden">
-						<a href={`/${firstArticle.slug}`} class="!size-full">
-							<img
-								src={firstArticle.thumb}
-								alt={`Thumbnail for article: ${firstArticle.title}`}
-								loading="eager"
-								fetchpriority="high"
-								decoding="async"
-								class="w-full object-cover"
-							/>
-						</a>
-					</div>
-
-					<div
-						class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-[8px] rounded-b-none max-md:rounded-t-none pt-6"
-					>
-						{#if primaryCategory}
-							<div class="px-6">
-								<Badge
-									variant="rectangularFilled"
-									class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
-									role="link"
-									tabindex="0"
-									on:click={() => handleCategoryClick(primaryCategory)}
-									on:keydown={(event) => handleKeydown(event, primaryCategory)}
-								>
-									{primaryCategory}
-								</Badge>
-							</div>
-						{/if}
-
-						<a href={`/${firstArticle.slug}`} class="px-6 max-md:pb-6 block">
-							<h3
-								class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-3 mt-4"
-							>
-								{toTitleCase(firstArticle.title)}
-							</h3>
-
-							<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">
-								{firstArticle.summary}
-							</p>
-
-							<div
-								class="flex items-center gap-2 text-xs py-2.5 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
-							>
-								<p>{formattedDate}</p>
-								<p class="pl-2 line-clamp-1">By {getAuthorsText(firstArticle.authors)}</p>
-							</div>
-						</a>
-					</div>
-				</div>
+				<FeaturedCard article={firstArticle} />
 			{/if}
 		</div>
 	</section>

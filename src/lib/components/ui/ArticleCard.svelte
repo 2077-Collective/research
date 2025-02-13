@@ -49,7 +49,7 @@
 <a href={`/${article.slug}`} class="block group">
 	<div
 		transition:slide={{ duration: 300 }}
-		class="flex flex-col h-fit rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-gray-800"
+		class="flex flex-col h-fit rounded-lg overflow-hidden bg-white dark:bg-gray-800 group"
 		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
 	>
 		<div class="flex flex-col w-full overflow-hidden">
@@ -81,7 +81,7 @@
 				{/if}
 			</div>
 			<p
-				class="font-powerGroteskBold mt-2 text-lg font-bold text-neutral-20 leading-tight tracking-tight line-clamp-2"
+				class="font-powerGroteskBold mt-2 text-lg font-bold text-neutral-20 leading-tight line-clamp-2 group-hover:underline underline-offset-[3px]"
 			>
 				{article.title}
 			</p>

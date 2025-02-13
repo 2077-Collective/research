@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/ui-components';
-	import { ArrowUpRight, Mail, Menu, X } from 'lucide-svelte';
+	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
@@ -16,6 +16,21 @@
 	// Links
 	const links: LinkType[] = [
 		{
+			name: 'Home',
+			href: '/'
+		},
+
+		{
+			name: 'Research',
+			href: '/reports'
+		},
+
+		{
+			name: 'Newletter',
+			href: '/ethereum-navigator'
+		},
+
+		{
 			name: 'About',
 			href: '/about'
 		},
@@ -23,24 +38,18 @@
 		{
 			name: 'Work with Us',
 			href: '/work-with-us'
-		},
-
-		{
-			name: 'Metrics',
-			href: '/metrics'
-		},
-
-		{
-			name: 'Twitter',
-			href: '/metrics',
-			isExternal: true
-		},
-
-		{
-			name: 'Newletter',
-			href: '/metrics',
-			isExternal: true
 		}
+
+		// {
+		// 	name: 'Metrics',
+		// 	href: '/metrics'
+		// },
+
+		// {
+		// 	name: 'Twitter',
+		// 	href: '/metrics',
+		// 	isExternal: true
+		// },
 	];
 
 	let addBackgroundColor = $state(false);
@@ -83,13 +92,13 @@
 					</a>
 				{/each}
 
-				<Button
+				<!-- <Button
 					href="/ethereum-navigator"
 					class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
 				>
 					Subscribe
 					<Mail class="w-4 h-4 ml-1" />
-				</Button>
+				</Button> -->
 			</div>
 
 			<!-- Mobile Menu Toggle -->
