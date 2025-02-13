@@ -2,7 +2,7 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ContributorCard from '$lib/components/ui/ContributorCard.svelte';
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
-	import { ArrowUpRight } from 'lucide-svelte';
+	import { ArrowRight } from 'lucide-svelte';
 
 	import type { PageData } from './$types';
 
@@ -54,7 +54,7 @@
 					{/each}
 				</div>
 
-				<div class="mt-[53px] relative max-w-[352px]">
+				<!-- <div class="mt-[53px] relative max-w-[352px]">
 					<p class="text-neutral-40 font-mono">Looking to work with us?</p>
 
 					<ul
@@ -112,6 +112,39 @@
 					>
 						<line x1="0.5" y1="68" x2="0.500003" y2="-2.18557e-08" stroke="#222222" />
 					</svg>
+				</div> -->
+
+				<div
+					class="rounded-[100px] bg-[#0F0F10] pl-[50px] py-[18px] pr-5 mt-[56px] h-[102px] flex items-center relative group overflow-hidden"
+				>
+					<p
+						class="text-2xl font-powerGroteskBold text-neutral-20 group-hover:opacity-0 transition duration-300"
+					>
+						Looking to work with us?
+					</p>
+
+					<div
+						class="size-[66px] bg-white rounded-full flex items-center justify-center text-black absolute right-5 group-hover:right-[92%] z-50"
+					>
+						<ArrowRight class="group-hover:rotate-180 transition duration-300" />
+					</div>
+
+					<div
+						class="absolute inset-0 white items-center pl-[131px] py-[18px] pr-5 grid grid-cols-2 gap-5 group-hover:opacity-100 opacity-0 transition duration-300 translate-y-full group-hover:translate-y-0"
+					>
+						<button
+							class="bg-[#252526] h-full rounded-[50px] text-[#979797] text-xl font-powerGroteskBold !font-normal hover:bg-white hover:text-black transition duration-300"
+							>Contact us</button
+						>
+
+						<div
+							class="bg-[#252526] h-full rounded-[50px] text-[#979797] text-xl font-powerGroteskBold !font-normal hover:bg-white hover:text-black transition duration-300"
+						>
+							<a href="/work-with-us" class="size-full flex items-center justify-center"
+								>View our Services Page</a
+							>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -129,7 +162,7 @@
 				id="team"
 				class="text-2xl md:text-[32px] leading-9 mb-4 md:mb-7 font-powerGroteskBold tracking-tight font-bold"
 			>
-				Core team
+				Core Team
 			</h2>
 
 			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-6">
