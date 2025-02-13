@@ -144,7 +144,7 @@
 	}
 
 	.font-powerGroteskBold {
-		letter-spacing: 1px !important;
+		letter-spacing: 0.8px !important;
 		font-weight: 700 !important;
 	}
 }
