@@ -38,10 +38,10 @@
 				<p
 					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
 				>
-					Navigate Ethereum’s evolving landscape confidently with original research and insights
-					that cut through the noise. At 2<span class="font-inter">0</span>77 Research, we explore
-					the ideas, innovations, and breakthroughs shaping the future of Ethereum and crypto—so you
-					can stay ahead in an industry that never stands still
+					Navigate Ethereum’s evolving landscape <em>confidently</em> with original research and
+					insights that cut through the noise. At 2<span class="font-inter">0</span>77 Research, we
+					explore the ideas, innovations, and breakthroughs shaping the future of Ethereum and
+					crypto—so you can stay ahead in an industry that never stands still
 				</p>
 
 				<p
