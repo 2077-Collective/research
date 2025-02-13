@@ -289,8 +289,8 @@
 <div class="flex flex-col gap-8 md:gap-10 testimonial-bg pb-40 md:pb-28 bg-black">
 	<div class="min-h-[300px] text-center pt-12 md:pt-28">
 		<h2 class="text-3xl md:text-[32px] font-bold font-powerGroteskBold">
-			See what industry
-			<br /> leaders say about us.
+			See what the people
+			<br /> are saying about us
 		</h2>
 
 		<div class="mt-7 flex items-center justify-center flex-wrap gap-3 container">

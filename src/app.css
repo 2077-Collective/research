@@ -1,6 +1,7 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
+/* @import '@fontsource-variable/space-grotesk'; */
 @import '@fontsource-variable/kode-mono';
+@import '@fontsource-variable/hubot-sans';
 
 @tailwind base;
 @tailwind components;
@@ -34,15 +35,6 @@
 }
 
 @font-face {
-	font-family: 'HubotSans';
-	font-style: normal;
-	font-weight: normal;
-	src:
-		local('HubotSans'),
-		url('/fonts/HubotSans.woff2') format('woff2');
-}
-
-@font-face {
 	font-family: 'PowerGrotesk';
 	font-style: normal;
 	font-weight: normal;
@@ -54,9 +46,10 @@
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {
-		--font-primary: 'HubotSans', sans-serif;
-		--font-mono: 'Kode Mono Variable', sans-serif;
+		--font-primary: 'Hubot Sans Variable', sans-serif;
+		--font-mono: 'Kode Mono Variable', monospace;
 		--font-power: 'PowerGrotesk';
+		--font-hubot: 'Hubot Sans Variable', sans-serif;
 
 		--background: 240 4% 5%;
 		--background-lighter: 240 4% 10%;
@@ -148,5 +141,10 @@
 
 	.ldJQvz {
 		font-family: var(--font-primary) !important;
+	}
+
+	.font-powerGroteskBold {
+		letter-spacing: 1px !important;
+		font-weight: 700 !important;
 	}
 }

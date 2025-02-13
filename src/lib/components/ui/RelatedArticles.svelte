@@ -68,7 +68,7 @@
 
 <div class="flex flex-col">
 	<h2 class="text-3xl md:text-[32px] font-bold leading-9 mb-6 md:mb-12 font-powerGroteskBold">
-		Related research
+		Related
 	</h2>
 
 	<div

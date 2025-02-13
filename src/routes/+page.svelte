@@ -12,7 +12,7 @@
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 
-	const featuredArticles = $derived(articles.slice(0, 5));
+	const featuredArticles = $derived(articles.slice(0, 10));
 
 	onMount(() => {
 		setArticles(data.articles);
@@ -26,31 +26,33 @@
 		<div class="flex items-end justify-between max-lg:flex-wrap-reverse container relative">
 			<div class="z-10">
 				<h1
-					class="font-powerGroteskBold text-3xl md:leading-[69px] md:text-6xl font-bold mb-3 -tracking-[0.96px]"
+					class="font-powerGroteskBold text-[32px] leading-9 md:leading-[48px] md:text-[48px] font-bold mb-3 -tracking-[0.96px] text-white"
 				>
-					Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
+					Cutting-Edge <br class="md:hidden" /> Ethereum <br class="max-md:hidden" /> research for
+					<br />
+
+					enthusiasts, builders, <br /> and industry leaders
 				</h1>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px]"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
 				>
-					Navigate Ethereum’s evolving landscape confidently with in-depth research and insights on
-					core infrastructure and blockchain protocols. Understand the latest trends in Layer 1 and
-					Layer 2 R&D, DeFi, DePIN, interoperability, privacy, developer tooling, and more, with
-					research that cuts through the noise.
+					Navigate Ethereum’s evolving landscape confidently with original research and insights
+					that cut through the noise. At 2<span class="font-inter">0</span>77 Research, we explore
+					the ideas, innovations, and breakthroughs shaping the future of Ethereum and crypto—so you
+					can stay ahead in an industry that never stands still
 				</p>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px]"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
 				>
-					Ready to get <span class="text-[#0BC8D2]">nerdsniped</span> and
-					<span class="text-[#0BC8D2]">Ethereum-pilled</span>? Dive into our extensive library of
-					Ethereum-focused articles and reports.
+					Ready to level up your knowledge? Explore our library of original research, articles, and
+					reports on the cutting edge of Ethereum tech
 				</p>
 
 				<a href="/reports">
 					<button
-						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group"
+						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-hubot tracking-[0.18px]"
 						aria-label="Read Research"
 						>Read Research
 						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform" />
@@ -76,11 +78,11 @@
 		{/if}
 	</section>
 
-	<section class="my-16 container">
+	<section class="mt-16 mb-10 container">
 		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
 	</section>
 
-	<div class="flex justify-center relative md:my-20 max-md:mb-10">
+	<div class="flex justify-center relative mb-14 max-md:mb-10">
 		<div class="z-10 px-5 bg-background">
 			<a
 				href="/reports"
@@ -94,10 +96,6 @@
 				/>
 			</a>
 		</div>
-
-		<div
-			class="absolute w-full h-px bg-[#2F2F2F] top-1/2 -translate-y-1/2 pointer-events-none"
-		></div>
 	</div>
 
 	<section class="max-md:mt-14">

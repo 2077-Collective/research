@@ -94,7 +94,7 @@
 						href={`/category/${category.toLowerCase()}`}
 						class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
 					>
-						View all
+						View All
 						<ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
 					</a>
 				</div>
@@ -115,10 +115,11 @@
 							</div>
 
 							<h3
-								class="font-powerGroteskBold font-medium text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+								class="font-powerGroteskBold text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 							>
 								{article.title}
 							</h3>
+
 							<p class="text-xs font-mono text-neutral-40">
 								By {getAuthorsText(article.authors)}
 							</p>

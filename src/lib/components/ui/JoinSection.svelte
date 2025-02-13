@@ -122,9 +122,9 @@
 <section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 pb-40">
 	<div class="container">
 		<h2
-			class="text-[24px] md:text-[32px] font-powerGroteskBold font-bold max-w-[257px] md:max-w-[400px] text-center mx-auto leading-8"
+			class="text-[24px] md:text-[32px] font-powerGroteskBold font-bold max-md:max-w-[257px] text-center mx-auto leading-8"
 		>
-			Join the movement shaping the decentralized future.
+			Join the movement shaping <br class="max-md:hidden" /> the decentralized future
 		</h2>
 	</div>
 

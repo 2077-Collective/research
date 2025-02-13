@@ -79,9 +79,9 @@ const config: Config = {
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
-				mono: ['Kode Mono Variable', 'monospace'],
+				mono: 'var(--font-mono)',
 				powerGroteskBold: 'var(--font-power)',
-				hubot: ['HubotSans', 'sans-serif']
+				hubot: 'var(--font-hubot)'
 			},
 			letterSpacing: {
 				tightest: '-.075em',

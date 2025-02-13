@@ -38,8 +38,6 @@
 		return article.categories.find((category) => category.is_primary);
 	}
 
-	console.log({ articles });
-
 	// let readingTime = $state('');
 
 	// function calculateReadingTime(data) {
@@ -54,7 +52,7 @@
 	// }
 </script>
 
-<h2 class="text-2xl md:text-[32px] font-powerGroteskBold mb-4 md:mb-8">Featured Research</h2>
+<h2 class="text-2xl md:text-[32px] font-powerGroteskBold mb-4 md:mb-8">Featured</h2>
 
 <Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
 	<Carousel.Content>
@@ -77,7 +75,7 @@
 				</div>
 
 				<button
-					class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover"
+					class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover font-semibold"
 				>
 					Read Article
 
