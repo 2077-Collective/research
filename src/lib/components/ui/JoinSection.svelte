@@ -2,7 +2,7 @@
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { cn } from '$lib/utils/ui-components';
 	import type { CarouselAPI } from './carousel/context';
-	import Discord from './icons/Discord.svelte';
+	import EthNavigator from './icons/EthNavigator.svelte';
 	import Telegram from './icons/Telegram.svelte';
 	import X from './icons/X.svelte';
 
@@ -93,12 +93,12 @@
 
 	const socials = [
 		{
-			name: 'Telegram',
-			icon: Telegram,
+			name: 'Ethereum Navigator',
+			icon: EthNavigator,
 			number: '20K+',
-			subtitle: 'Members',
-			ctaText: 'Join Telegram',
-			href: '/'
+			subtitle: 'Subscribers',
+			ctaText: 'Subscribe',
+			href: '/ethereum-naviagtor'
 		},
 		{
 			name: 'Twitter/X',
@@ -109,17 +109,17 @@
 			href: '/'
 		},
 		{
-			name: 'Discord',
-			icon: Discord,
-			number: '12K+',
+			name: 'Telegram',
+			icon: Telegram,
+			number: '20K+',
 			subtitle: 'Members',
-			ctaText: 'Follow us',
+			ctaText: 'Join Telegram',
 			href: '/'
 		}
 	];
 </script>
 
-<section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 pb-40">
+<section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 md:pb-52 pb-40">
 	<div class="container">
 		<h2
 			class="text-[24px] md:text-[32px] font-powerGroteskBold font-bold max-md:max-w-[257px] text-center mx-auto leading-8"
