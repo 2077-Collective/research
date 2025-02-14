@@ -15,37 +15,37 @@
 //     return []; // or handle appropriately
 //   }
 // };
-import { AuthorArraySchema, type Author } from '$lib/types/article';
 import { env } from '$env/dynamic/public';
+import { type Author } from '$lib/types/article';
 
-const baseURL = env.PUBLIC_STRAPI_URL || 'https://honest-chickens-78ad1f61fe.strapiapp.com';
+const baseURL = env.PUBLIC_STRAPI_URL;
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
 
 const headers = {
-    Authorization: `Bearer ${apiToken}`,
-    'Content-Type': 'application/json',
+	Authorization: `Bearer ${apiToken}`,
+	'Content-Type': 'application/json'
 };
 export const fetchAuthors = async (): Promise<Author[]> => {
-    try {
-        const res = await fetch(`${baseURL}/api/authors?populate=*`, { headers });
-        if (!res.ok) {
-            throw new Error(`Failed to fetch authors: ${res.status}`);
-        }
+	try {
+		const res = await fetch(`${baseURL}/api/authors?populate=*`, { headers });
+		if (!res.ok) {
+			throw new Error(`Failed to fetch authors: ${res.status}`);
+		}
 
-        const response = await res.json();
+		const response = await res.json();
 
-        if (!response.data) return [];
+		if (!response.data) return [];
 
-        const transformedAuthors = response.data.map((author: any) => ({
-            username: author.username || '',
-            id: author.id.toString(),
-            full_name: author.full_name || null,
-            twitter_username: author.twitter_username || null
-        }));
+		const transformedAuthors = response.data.map((author: any) => ({
+			username: author.username || '',
+			id: author.id.toString(),
+			full_name: author.full_name || null,
+			twitter_username: author.twitter_username || null
+		}));
 
-        return transformedAuthors;
-    } catch (err) {
-        console.error('Author fetch or parse error:', err);
-        return [];
-    }
+		return transformedAuthors;
+	} catch (err) {
+		console.error('Author fetch or parse error:', err);
+		return [];
+	}
 };

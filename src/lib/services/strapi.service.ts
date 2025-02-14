@@ -1,90 +1,118 @@
-
 import { env } from '$env/dynamic/public';
-import type { Article, ArticleMetadata } from '$lib/types/article';
-import { ArticleMetadataArraySchema, FullArticleSchema } from '$lib/types/article';
+import { ArticleMetadataArraySchema, type ArticleMetadata } from '$lib/types/article';
 
-const baseURL = env.PUBLIC_STRAPI_URL || 'https://honest-chickens-78ad1f61fe.strapiapp.com';
+const baseURL = env.PUBLIC_STRAPI_URL;
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
 
 const headers = {
-    Authorization: `Bearer ${apiToken}`,
-    'Content-Type': 'application/json',
+	Authorization: `Bearer ${apiToken}`,
+	'Content-Type': 'application/json'
+};
+
+const cache = new Map<string, { data: ArticleMetadata[]; timestamp: number }>();
+const CACHE_TTL = 5 * 60 * 1000;
+
+const isCacheValid = (timestamp: number): boolean => {
+	return Date.now() - timestamp < CACHE_TTL;
 };
 
 export const fetchArticles = async (category?: string, page = 1, limit = 10) => {
-    try {
-        if (!baseURL) {
-            throw new Error('STRAPI_URL is not configured');
-        }
+	const cacheKey = `${category || 'all'}-${page}-${limit}`;
 
-        const queryParams = new URLSearchParams({
-            'populate': '*'  
-        });
+	if (cache.has(cacheKey)) {
+		const cached = cache.get(cacheKey);
+		if (cached && isCacheValid(cached.timestamp)) {
+			return cached.data;
+		}
+	}
 
-        if (category) {
-            queryParams.append('filters[categories][name][$eq]', category.toLowerCase());
-        }
+	try {
+		if (!baseURL) {
+			throw new Error('STRAPI_URL is not configured');
+		}
 
-        const res = await fetch(
-            `${baseURL}/api/articles?${queryParams.toString()}`,
-            { headers }
-        );
+		const queryParams = new URLSearchParams({
+			populate: '*'
+		});
 
-        if (!res.ok) {
-            const errorText = await res.text();
-            console.error('Error response:', {
-                status: res.status,
-                statusText: res.statusText,
-                body: errorText
-            });
-            throw new Error(`Failed to fetch articles: ${res.status} ${res.statusText}`);
-        }
+		if (category) {
+			queryParams.append('filters[categories][name][$eq]', category.toLowerCase());
+		}
 
-        const body = await res.json();
-        
-        // Add validation
-        if (!body || !body.data) {
-            console.error('Invalid response structure:', body);
-            throw new Error('Invalid response structure from Strapi');
-        }
+		const res = await fetch(`${baseURL}/api/articles?${queryParams.toString()}`, { headers });
 
-        if (!Array.isArray(body.data)) {
-            console.error('Response data is not an array:', body.data);
-            throw new Error('Invalid response data format from Strapi');
-        }
+		if (!res.ok) {
+			const errorText = await res.text();
+			console.error('Error response:', {
+				status: res.status,
+				statusText: res.statusText,
+				body: errorText
+			});
+			throw new Error(`Failed to fetch articles: ${res.status} ${res.statusText}`);
+		}
 
-        // Transform and validate the data
-        const articles = body.data.map((article: any) => {
-            if (!article || !article.attributes) {
-                console.warn('Invalid article structure:', article);
-                return null;
-            }
+		const body = await res.json();
 
-            return {
-                id: article.id?.toString() || '',
-                slug: article.attributes?.slug || '',
-                title: article.attributes?.title || '',
-                thumb: article.attributes?.thumb?.data?.attributes?.url || '',
-                summary: article.attributes?.summary || '',
-                content: article.attributes?.content || '',
-                categories: (article.attributes?.categories?.data || []).map((cat: any) => ({
-                    name: cat.attributes?.name || '',
-                    is_primary: cat.attributes?.is_primary || false
-                })),
-                authors: (article.attributes?.categories?.data || []).map((author: any) => ({
-                    username: author.attributes?.username || '',
-                    id: author.id?.toString() || '',
-                    full_name: author.attributes?.full_name || '',
-                    twitter_username: author.attributes?.twitter_username || null
-                })),
-                created_at: article.attributes?.createdAt || new Date().toISOString(),
-                updated_at: article.attributes?.updatedAt || new Date().toISOString()
-            };
-        }).filter(Boolean); // Remove any null entries
+		// Add validation
+		if (!body || !body.data) {
+			console.error('Invalid response structure:', body);
+			throw new Error('Invalid response structure from Strapi');
+		}
 
-        return ArticleMetadataArraySchema.parse(articles);
-    } catch (error) {
-        console.error('Error in fetchArticles:', error);
-        throw error;
-    }
+		if (!Array.isArray(body.data)) {
+			console.error('Response data is not an array:', body.data);
+			throw new Error('Invalid response data format from Strapi');
+		}
+
+		// Transform and validate the data
+		const articles = body.data
+			.map((article: any) => {
+				if (!article) {
+					console.warn('Invalid article structure:', article);
+					return null;
+				}
+
+				return {
+					id: article.id?.toString() || '',
+					slug: article?.slug || '',
+					title: article?.title || '',
+					thumb_url: article.thumb.url,
+					thumb: {
+						data: {
+							attributes: {
+								url: article.thumb.url
+							}
+						}
+					},
+					summary: article?.summary || '',
+					content: article?.content || '',
+					categories: (article?.categories || []).map((cat: any) => ({
+						name: cat?.name || '',
+						is_primary: cat?.is_primary || false
+					})),
+					authors: (article?.authors || []).map((author: any) => ({
+						username: author?.username || '',
+						id: author.id?.toString() || '',
+						full_name: author?.full_name || '',
+						twitter_username: author?.twitter_username || null
+					})),
+					created_at: article?.createdAt || new Date().toISOString(),
+					updated_at: article?.updatedAt || new Date().toISOString(),
+					min_read: article?.min_read || null,
+					views: article?.views || 0,
+					isSponsored: article?.is_sponsored || false,
+					sponsorColor: article?.sponsor_color || '',
+					sponsorTextColor: article?.sponsor_text_color || ''
+				};
+			})
+			.filter(Boolean);
+
+		const parsedArticles = ArticleMetadataArraySchema.parse(articles);
+		cache.set(cacheKey, { data: parsedArticles, timestamp: Date.now() });
+
+		return parsedArticles;
+	} catch (error) {
+		console.error('Error in fetchArticles:', error);
+		throw error;
+	}
 };
