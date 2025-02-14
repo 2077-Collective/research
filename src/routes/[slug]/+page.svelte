@@ -67,21 +67,35 @@
 	}
 
 	const sanitizedContent = $derived(
-        data.article?.content 
-            ? DOMPurify.sanitize(data.article.content, {
-                ALLOWED_TAGS: [
-                    'h1', 'h2', 'h3', 'h4', 'p', 'a', 'strong',
-                    'em', 'ul', 'ol', 'li', 'img', 'pre', 'code',
-                    'blockquote', 'table', 'tr', 'td', 'th'
-                ],
-                ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
-            }) 
-            : ''
-    );
+		data.article?.content
+			? DOMPurify.sanitize(data.article.content, {
+					ALLOWED_TAGS: [
+						'h1',
+						'h2',
+						'h3',
+						'h4',
+						'p',
+						'a',
+						'strong',
+						'em',
+						'ul',
+						'ol',
+						'li',
+						'img',
+						'pre',
+						'code',
+						'blockquote',
+						'table',
+						'tr',
+						'td',
+						'th'
+					],
+					ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+				})
+			: ''
+	);
 
-    const tableOfContents = $derived(data.article?.table_of_contents || []);
-
-
+	const tableOfContents = $derived(data.article?.table_of_contents || []);
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
@@ -573,7 +587,7 @@
 {#snippet header(article: Article)}
 	<div class="relative">
 		<div class="absolute inset-0 w-full">
-			<img src={article.thumb} alt={article.title} class="w-full h-full object-cover" />
+			<img src={article.thumb_url} alt={article.title} class="w-full h-full object-cover" />
 			<div
 				class="absolute inset-0 bg-gradient-to-b from-black/70 to-white dark:from-black/70 dark:to-background"
 			></div>
@@ -594,7 +608,7 @@
 							{#each article.categories as category}
 								<a href={'/category/' + category.name.toLowerCase()}
 									><Badge
-										variant="rectangular"
+										variant="default"
 										class="bg-black/50 text-white border-white/20 text-xs lg:text-sm"
 									>
 										{category.name}
@@ -613,34 +627,34 @@
 							{article.summary}
 						</p>
 					</section>
-					<div class="self-start pb-6 mt-4 font-mono">
-						<span>By</span>
-						{#each article.authors as author, index}
-							<a
-								href={author.twitterUsername
-									? `https://twitter.com/${author.twitterUsername}`
-									: null}
-								target="_blank"
-								rel="noopener noreferrer"
-								class={author.twitterUsername ? 'border-b' : ''}
-							>
-								{author.fullName}
-							</a>
-							{#if index < article.authors.length - 2}
-								<span>, </span>
-							{:else if index < article.authors.length - 1}
-								<span>{' '}and{' '}</span>
-							{/if}
-						{/each}
-					</div>
+					{#if article.authors}
+						<div class="self-start pb-6 mt-4 font-mono">
+							<span>By</span>
+							{#each article.authors as author, index}
+								<a
+									href={author ? `https://twitter.com/${author.twitter_username}` : null}
+									target="_blank"
+									rel="noopener noreferrer"
+									class={author.twitter_username ? 'border-b' : ''}
+								>
+									{author.full_name}
+								</a>
+								{#if index < article.authors.length - 2}
+									<span>, </span>
+								{:else if index < article.authors.length - 1}
+									<span>{' '}and{' '}</span>
+								{/if}
+							{/each}
+						</div>
+					{/if}
 				</div>
 
 				<div
 					class="flex flex-wrap gap-2 md:gap-10 w-full justify-between items-start tracking-tight max-md:max-w-full"
 				>
 					<div class="flex items-center gap-2 text-gray-500 font-mono">
-						<time datetime={article.scheduledPublishTime}>
-							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+						<time datetime={article.created_at}>
+							{new Date(article.created_at).toLocaleDateString('en-GB', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'
@@ -740,7 +754,7 @@
 	>
 		<!-- Hide TOC in reading mode -->
 		{#if !isReadingMode}
-			<TableOfContents tableOfContents={article.tableOfContents} />
+			<TableOfContents tableOfContents={article.table_of_contents} />
 			<div id="toc" class="block lg:hidden"></div>
 		{/if}
 
@@ -788,30 +802,32 @@
 						{article.summary}
 					</p>
 					<div class="flex flex-col gap-3 text-base text-gray-400">
-						<div class="">
-							By
-							{#each article.authors as author, index}
-								{' '}
-								<a
-									href={author.twitterUsername
-										? `https://twitter.com/${author.twitterUsername}`
-										: null}
-									target="_blank"
-									rel="noopener noreferrer"
-									class={author.twitterUsername ? 'reading-mode-link' : ''}
-								>
-									{author.fullName}
-								</a>
-								{#if index < article.authors.length - 2}
-									<span>,</span>
-								{:else if index < article.authors.length - 1}
-									<span>and</span>
-								{/if}
-							{/each}
-						</div>
+						{#if article.authors}
+							<div class="">
+								By
+								{#each article.authors as author, index}
+									{' '}
+									<a
+										href={author.twitter_username
+											? `https://twitter.com/${author.twitter_username}`
+											: null}
+										target="_blank"
+										rel="noopener noreferrer"
+										class={author.twitter_username ? 'reading-mode-link' : ''}
+									>
+										{author.full_name}
+									</a>
+									{#if index < article.authors.length - 2}
+										<span>,</span>
+									{:else if index < article.authors.length - 1}
+										<span>and</span>
+									{/if}
+								{/each}
+							</div>
+						{/if}
 						<div class="flex items-center gap-2">
-							<time datetime={article.scheduledPublishTime}>
-								{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+							<time datetime={article.created_at}>
+								{new Date(article.created_at).toLocaleDateString('en-GB', {
 									year: 'numeric',
 									month: 'long',
 									day: 'numeric'

@@ -36,10 +36,12 @@ export const fetchArticles = async (category?: string, page = 1, limit = 10) => 
 		});
 
 		if (category) {
-			queryParams.append('filters[categories][name][$eq]', category.toLowerCase());
+			queryParams.append('filters[categories][slug][$eq]', category.toLowerCase());
 		}
 
-		const res = await fetch(`${baseURL}/api/articles?${queryParams.toString()}`, { headers });
+		const FETCH_URL = `${baseURL}/api/articles?${queryParams.toString()}`;
+
+		const res = await fetch(FETCH_URL, { headers });
 
 		if (!res.ok) {
 			const errorText = await res.text();
@@ -85,7 +87,6 @@ export const fetchArticles = async (category?: string, page = 1, limit = 10) => 
 						}
 					},
 					summary: article?.summary || '',
-					content: article?.content || '',
 					categories: (article?.categories || []).map((cat: any) => ({
 						name: cat?.name || '',
 						is_primary: cat?.is_primary || false

@@ -1,6 +1,6 @@
 import { dev } from '$app/environment';
-import { fetchArticles } from '$lib/services/article.service';
-import { unformatCategorySlug } from '$lib/utils/format';
+import { fetchArticles } from '$lib/services/strapi.service';
+import { formatCategorySlug, unformatCategorySlug } from '$lib/utils/format';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
@@ -21,7 +21,7 @@ export const load: PageLoad = async ({ params }) => {
 	const limit = 10;
 
 	try {
-		const articles = await fetchArticles(category, page, limit);
+		const articles = await fetchArticles(formatCategorySlug(category), page, limit);
 
 		if (!articles.length) {
 			if (dev) console.error(`No articles found for category: ${category}`);

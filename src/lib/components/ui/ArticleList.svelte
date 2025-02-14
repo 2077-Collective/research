@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
@@ -76,7 +77,7 @@
 	});
 
 	function handleCategoryClick(category: string) {
-		goto(`/category/${category.toLowerCase()}`);
+		goto(`/category/${formatCategorySlug(category)}`);
 	}
 
 	function scrollToLatestResearch() {

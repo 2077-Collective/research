@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
@@ -44,7 +45,7 @@
 			if (onBadgeClick) {
 				onBadgeClick(categoryName);
 			} else {
-				goto(`/category/${categoryName.toLowerCase()}`);
+				goto(`/category/${formatCategorySlug(categoryName)}`);
 			}
 		}
 	};

@@ -23,80 +23,99 @@ const isCacheValid = (timestamp: number): boolean => {
 	return Date.now() - timestamp < CACHE_TTL;
 };
 
-const transformStrapiArticle = (articleData: {
-	id: number;
-	attributes?: StrapiArticle;
-}): ArticleMetadata | null => {
-	if (!articleData?.id || !articleData?.attributes) {
+const transformStrapiArticle = (articleData: any): ArticleMetadata | null => {
+	if (!articleData?.id) {
 		console.warn('Invalid article data received:', articleData);
 		return null;
 	}
 
-	const { id, attributes } = articleData;
+	const { id } = articleData;
 
 	try {
-		console.log('Transforming article:', {
-			id,
-			slug: attributes.slug,
-			hasCategories: !!attributes.categories?.data,
-			categoriesCount: attributes.categories?.data?.length
-		});
-
 		return {
-			id: id.toString(),
-			slug: attributes.slug || '',
-			title: attributes.title || '',
-			summary: attributes.summary || '',
-			created_at: attributes.createdAt || new Date().toISOString(),
-			updated_at: attributes.updatedAt || new Date().toISOString(),
-			thumb_url: attributes.thumb?.data?.attributes?.url,
-			thumb: attributes.thumb,
-			categories:
-				attributes.categories?.data?.map((cat) => ({
-					name: cat.attributes?.name || '',
-					is_primary: cat.attributes?.is_primary || false
-				})) || [],
-			min_read: attributes.min_read || null,
-			views: attributes.views || 0,
-			isSponsored: attributes.isSponsored || false,
-			sponsorColor: attributes.sponsorColor,
-			sponsorTextColor: attributes.sponsorTextColor,
-			authors:
-				attributes.authors?.data?.map((author) => ({
-					username: author.attributes.username,
-					full_name: author.attributes.full_name
-				})) || []
+			id: articleData.id?.toString() || '',
+			slug: articleData?.slug || '',
+			title: articleData?.title || '',
+			thumb_url: articleData.thumb.url,
+			thumb: {
+				data: {
+					attributes: {
+						url: articleData.thumb.url
+					}
+				}
+			},
+			summary: articleData?.summary || '',
+			categories: (articleData?.categories || []).map((cat: any) => ({
+				name: cat?.name || '',
+				is_primary: cat?.is_primary || false
+			})),
+			authors: (articleData?.authors || []).map((author: any) => ({
+				username: author?.username || '',
+				id: author.id?.toString() || '',
+				full_name: author?.full_name || '',
+				twitter_username: author?.twitter_username || null
+			})),
+			created_at: articleData?.createdAt || new Date().toISOString(),
+			updated_at: articleData?.updatedAt || new Date().toISOString(),
+			min_read: articleData?.min_read || null,
+			views: articleData?.views || 0,
+			isSponsored: articleData?.is_sponsored || false,
+			sponsorColor: articleData?.sponsor_color || '',
+			sponsorTextColor: articleData?.sponsor_text_color || ''
 		};
 	} catch (error) {
 		console.error('Error transforming article:', {
 			error,
-			id,
-			attributes
+			id
 		});
 		return null;
 	}
 };
 
-const transformToFullArticle = (articleData: {
-	id: number;
-	attributes?: StrapiArticle;
-}): Article | null => {
-	const metadata = transformStrapiArticle(articleData);
+const transformToFullArticle = (articleData: any): Article | null => {
+	console.log(articleData.authors);
 
-	if (!metadata || !articleData.attributes) return null;
+	if (!articleData.id) return null;
 
 	try {
 		return {
-			...metadata,
-			content: articleData.attributes.content || '',
-			gpt_summary: articleData.attributes.gpt_summary,
-			table_of_contents: articleData.attributes.table_of_contents || []
+			id: articleData.id?.toString() || '',
+			slug: articleData?.slug || '',
+			title: articleData?.title || '',
+			thumb_url: articleData.thumb.url,
+			thumb: {
+				data: {
+					attributes: {
+						url: articleData.thumb.url
+					}
+				}
+			},
+			summary: articleData?.summary || '',
+			categories: (articleData?.categories || []).map((cat: any) => ({
+				name: cat?.name || '',
+				is_primary: cat?.is_primary || false
+			})),
+			authors: (articleData?.authors || []).map((author: any) => ({
+				username: author?.username || '',
+				id: author.id?.toString() || '',
+				full_name: author?.full_name || '',
+				twitter_username: author?.twitter_username || null
+			})),
+			created_at: articleData?.createdAt || new Date().toISOString(),
+			updated_at: articleData?.updatedAt || new Date().toISOString(),
+			min_read: articleData?.min_read || null,
+			views: articleData?.views || 0,
+			isSponsored: articleData?.is_sponsored || false,
+			sponsorColor: articleData?.sponsor_color || '',
+			sponsorTextColor: articleData?.sponsor_text_color || '',
+			content: articleData.content || '',
+			gpt_summary: articleData.gpt_summary,
+			table_of_contents: articleData.table_of_contents || []
 		};
 	} catch (error) {
 		console.error('Error transforming to full article:', {
 			error,
-			id: articleData.id,
-			attributes: articleData.attributes
+			id: articleData.id
 		});
 		return null;
 	}
@@ -121,7 +140,7 @@ export const fetchArticles = async (
 		url.searchParams.append('populate', '*');
 
 		if (category) {
-			url.searchParams.append('filters[categories][name][$eq]', category);
+			url.searchParams.append('filters[categories][slug][$eq]', category);
 		}
 
 		url.searchParams.append('pagination[page]', page.toString());
@@ -165,12 +184,11 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
 		return null;
 	}
 
-	try {
-		const url = new URL(`${baseURL}/api/articles`);
-		url.searchParams.append('populate', '*');
-		url.searchParams.append('filters[slug][$eq]', slug);
+	const url = new URL(`${baseURL}/api/articles`);
+	url.searchParams.append('populate', '*');
+	url.searchParams.append('filters[slug][$eq]', slug);
 
-		console.log('Fetching article by slug:', url.toString());
+	try {
 		const response = await fetch(url.toString(), { headers });
 
 		if (!response.ok) {
