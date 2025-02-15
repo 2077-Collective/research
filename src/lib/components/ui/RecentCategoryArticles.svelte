@@ -9,6 +9,7 @@
         articlesPerCategory?: number;
         excludeCategory?: string;
         customCategoryOrder?: string[];
+        maxCategories?: number;
     }
 
     const {
@@ -22,7 +23,8 @@
             'Privacy',
             'DePIN',
             'Infrastructure'
-        ]
+        ],
+        maxCategories = 6
     } = $props();
 
     const categoryOrder = customCategoryOrder;
@@ -67,7 +69,8 @@
                 category: categoryName,
                 articles: categoryMap.get(categoryName) || []
             }))
-            .filter(category => category.articles.length > 0);
+            .filter(category => category.articles.length > 0)
+            .slice(0, maxCategories);
     }
 
     $effect(() => {
@@ -126,4 +129,3 @@
         {/each}
     </div>
 </div>
-
