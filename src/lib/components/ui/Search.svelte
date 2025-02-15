@@ -19,30 +19,35 @@
 		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
 	);
 
+	interface HighlightResultWithContent {
+		title?: {
+			value: string;
+			matchedWords: string[] | undefined;
+		};
+		content_excerpt?: {
+			value: string;
+			matchedWords: string[] | undefined;
+		};
+	}
+
 	type SearchResult = {
 		objectID: string;
 		title: string;
 		slug: string;
-		_highlightResult?: HighlightResult & {
-			content_excerpt: {
-				value: string;
-				matchedWords: string[];
-			};
-		};
+		_highlightResult?: HighlightResultWithContent;
 		_snippetResult?: SnippetResult & {
 			content_excerpt: {
 				value: string;
 			};
 		};
-		_rankingInfo?: RankingInfo | undefined;
-		_distinctSeqID?: number | undefined;
+		_rankingInfo?: RankingInfo;
+		_distinctSeqID?: number;
 	};
 
 	const results = writable<SearchResult[]>([]);
 	const loading = writable<boolean>(false);
 
 	let query = '';
-
 	let debounceTimeout: ReturnType<typeof setTimeout>;
 
 	async function handleSearch(): Promise<void> {
@@ -63,8 +68,6 @@
 					searchParams: { query }
 				});
 
-				// console.log(response.hits);
-
 				results.set(response.hits as SearchResult[]);
 			} catch (error) {
 				results.set([]);
@@ -73,7 +76,7 @@
 			} finally {
 				loading.set(false);
 			}
-		}, 300); // Adjust the debounce delay (300ms) as needed
+		}, 300);
 	}
 
 	const handleCloseSearch = () => {
@@ -83,16 +86,15 @@
 </script>
 
 <Dialog.Root onOpenChange={handleCloseSearch}>
-	<Dialog.Trigger
-		><div class="relative w-[353px]">
+	<Dialog.Trigger>
+		<div class="relative w-[353px]">
 			<Input
 				class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 cursor-pointer w-full focus:outline-none"
 				placeholder="Search 2077Research"
 			/>
-
 			<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
-		</div></Dialog.Trigger
-	>
+		</div>
+	</Dialog.Trigger>
 	<Dialog.Content
 		class="sm:max-w-[590px] h-[726px] max-h-[80dvh] md:rounded-[48px] p-0 border-none bg-[#19191A]"
 	>
@@ -105,7 +107,6 @@
 						bind:value={query}
 						on:keyup={handleSearch}
 					/>
-
 					<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 				</div>
 			</div>
@@ -126,11 +127,11 @@
 					<div class="space-y-6 h-full px-5 pt-6 pb-10 overflow-y-auto">
 						<ul class="mt-2 text-left">
 							{#each $results as article}
-								{@const highlight = article?._highlightResult}
-								{#if highlight?.content_excerpt.matchedWords.length > 0}
+								{@const highlight = article._highlightResult}
+								{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
 									<li class="group cursor-pointer hover:opacity-70 transition">
 										<a href={`/${article.slug}`} class="px-3 py-2.5">
-											{#if highlight && highlight.title.matchedWords.length > 0}
+											{#if highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0}
 												<p
 													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
 												>
@@ -146,8 +147,8 @@
 												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
 											>
 												{@html DOMPurify.sanitize(
-													article?._snippetResult
-														? article?._snippetResult.content_excerpt.value
+													article._snippetResult
+														? article._snippetResult.content_excerpt.value
 														: ''
 												)}
 											</p>
@@ -162,7 +163,7 @@
 				{#if !$loading && $results.length === 0}
 					<div>
 						<EmptySearch className="mx-auto mb-6" />
-						<p class="max-w-[219px] mx-auto">Looks like you haven’t searched for anything yet.</p>
+						<p class="max-w-[219px] mx-auto">Looks like you haven't searched for anything yet.</p>
 					</div>
 				{/if}
 			</div>
@@ -182,7 +183,6 @@
 
 				<div class="flex items-center gap-1.5">
 					<p>Search by</p>
-
 					<Algolia />
 				</div>
 			</div>
