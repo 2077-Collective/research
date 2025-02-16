@@ -10,7 +10,7 @@
 	export let article: ArticleMetadata;
 
 	const primaryCategory = getPrimaryCategory(article)?.name;
-	const formattedDate = format(article.updatedAt, 'dd MMM yyyy');
+	const formattedDate = format(article.created_at, 'dd MMM yyyy');
 
 	function handleCategoryClick(categoryName: string) {
 		goto(`/category/${categoryName}`);
@@ -31,7 +31,7 @@
 	<div class="flex md:aspect-[1/0.45] items-center justify-center">
 		<a href={`/${article.slug}`} class="!size-full">
 			<img
-				src={article.thumb}
+				src={article.thumb_url}
 				alt={`Thumbnail for article: ${article.title}`}
 				loading="eager"
 				fetchpriority="high"

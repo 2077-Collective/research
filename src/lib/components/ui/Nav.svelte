@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
+	// import { Mail, Menu, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
@@ -15,10 +16,10 @@
 
 	// Links
 	const links: LinkType[] = [
-		{
-			name: 'Home',
-			href: '/'
-		},
+		// {
+		// 	name: 'Home',
+		// 	href: '/'
+		// },
 
 		{
 			name: 'Research',

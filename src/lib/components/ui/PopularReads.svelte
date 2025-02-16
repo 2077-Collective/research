@@ -66,7 +66,7 @@
 				<Carousel.Content>
 					{#each articles as article}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
-						{@const formattedDate = format(article.updatedAt, 'dd MMM yyyy')}
+						{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
 							class="relative md:flex-none md:w-[265px] group overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
@@ -95,7 +95,7 @@
 							>
 								<a href={`/${article.slug}`} class="!size-full">
 									<img
-										src={article.thumb}
+										src={article.thumb_url}
 										alt={`Thumbnail for article: ${article.title}`}
 										loading="eager"
 										fetchpriority="high"

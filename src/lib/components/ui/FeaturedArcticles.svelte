@@ -55,7 +55,7 @@
 	<Carousel.Content>
 		{#each articles as article}
 			{@const primaryCategory = getPrimaryCategory(article)?.name}
-			{@const formattedDate = format(article.updatedAt, 'dd MMM yyyy')}
+			{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
 
 			<Carousel.Item>
 				<FeaturedCard {article} />

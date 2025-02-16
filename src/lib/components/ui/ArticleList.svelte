@@ -2,6 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
+
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
 	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
@@ -36,7 +38,7 @@
 		articles
 			.filter((article) => {
 				const categoryMatch = selectedCategory
-					? article.categories.some((category) => category.name === selectedCategory)
+					? article.categories.some((category: any) => category.name === selectedCategory)
 					: true;
 				return categoryMatch;
 			})
@@ -76,7 +78,7 @@
 	});
 
 	function handleCategoryClick(category: string) {
-		goto(`/category/${category.toLowerCase()}`);
+		goto(`/category/${formatCategorySlug(category)}`);
 	}
 
 	function scrollToLatestResearch() {
@@ -102,7 +104,7 @@
 	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category) => category.is_primary);
+		return article.categories.find((category: any) => category.is_primary);
 	}
 </script>
 

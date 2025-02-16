@@ -57,11 +57,43 @@
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
 
-	const { data }: { data: PageData } = $props();
+	//const { data }: { data: PageData } = $props();
+	const { data } = $props<{ data: PageData }>();
 
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
+
+	const sanitizedContent = $derived(
+		data.article?.content
+			? DOMPurify.sanitize(data.article.content, {
+					ALLOWED_TAGS: [
+						'h1',
+						'h2',
+						'h3',
+						'h4',
+						'p',
+						'a',
+						'strong',
+						'em',
+						'ul',
+						'ol',
+						'li',
+						'img',
+						'pre',
+						'code',
+						'blockquote',
+						'table',
+						'tr',
+						'td',
+						'th'
+					],
+					ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+				})
+			: ''
+	);
+
+	const tableOfContents = $derived(data.article?.table_of_contents || []);
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
@@ -588,33 +620,35 @@
 							{article.summary}
 						</p>
 
-						<div class="font-mono mt-4">
-							<span class="text-neutral-40">By</span>
-							{#each article.authors as author, index}
-								<a
-									href={author.twitterUsername
-										? `https://twitter.com/${author.twitterUsername}`
-										: null}
-									target="_blank"
-									rel="noopener noreferrer"
-									class={author.twitterUsername ? 'border-b' : ''}
-								>
-									{author.fullName}
-								</a>
-								{#if index < article.authors.length - 2}
-									<span>, </span>
-								{:else if index < article.authors.length - 1}
-									<span>{' '}and{' '}</span>
-								{/if}
-							{/each}
-						</div>
+						{#if article.authors}
+							<div class="font-mono mt-4">
+								<span class="text-neutral-40">By</span>
+								{#each article.authors as author, index}
+									<a
+										href={author.twitter_username
+											? `https://twitter.com/${author.twitter_username}`
+											: null}
+										target="_blank"
+										rel="noopener noreferrer"
+										class={author.twitter_username ? 'border-b' : ''}
+									>
+										{author.full_name}
+									</a>
+									{#if index < article.authors.length - 2}
+										<span>, </span>
+									{:else if index < article.authors.length - 1}
+										<span>{' '}and{' '}</span>
+									{/if}
+								{/each}
+							</div>
+						{/if}
 					</section>
 				</div>
 
 				<div class="flex max-md:flex-col max-md:gap-4 md:items-center justify-between mt-11">
 					<div class="flex items-center gap-2 text-neutral-40 font-mono text-sm">
-						<time datetime={article.scheduledPublishTime}>
-							{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+						<time datetime={article.created_at}>
+							{new Date(article.created_at).toLocaleDateString('en-GB', {
 								year: 'numeric',
 								month: 'long',
 								day: 'numeric'
@@ -629,7 +663,7 @@
 
 		<div class="mt-8 rounded-[8px] overflow-hidden relative">
 			<img
-				src={article.thumb}
+				src={article.thumb_url}
 				alt={article.title}
 				class="w-full h-full object-cover pointer-events-none select-none"
 			/>
@@ -656,7 +690,7 @@
 	>
 		<!-- Hide TOC in reading mode -->
 		{#if !isReadingMode}
-			<TableOfContents tableOfContents={article.tableOfContents} />
+			<TableOfContents tableOfContents={article.table_of_contents} />
 			<div id="toc" class="block lg:hidden"></div>
 		{/if}
 
@@ -707,30 +741,32 @@
 						{article.summary}
 					</p>
 					<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">
-						<div class="">
-							By
-							{#each article.authors as author, index}
-								{' '}
-								<a
-									href={author.twitterUsername
-										? `https://twitter.com/${author.twitterUsername}`
-										: null}
-									target="_blank"
-									rel="noopener noreferrer"
-									class={author.twitterUsername ? 'reading-mode-link' : ''}
-								>
-									{author.fullName}
-								</a>
-								{#if index < article.authors.length - 2}
-									<span>,</span>
-								{:else if index < article.authors.length - 1}
-									<span>and</span>
-								{/if}
-							{/each}
-						</div>
+						{#if article.authors}
+							<div class="">
+								By
+								{#each article.authors as author, index}
+									{' '}
+									<a
+										href={author.twitter_username
+											? `https://twitter.com/${author.twitter_username}`
+											: null}
+										target="_blank"
+										rel="noopener noreferrer"
+										class={author.twitter_username ? 'reading-mode-link' : ''}
+									>
+										{author.full_name}
+									</a>
+									{#if index < article.authors.length - 2}
+										<span>,</span>
+									{:else if index < article.authors.length - 1}
+										<span>and</span>
+									{/if}
+								{/each}
+							</div>
+						{/if}
 						<div class="flex items-center gap-2">
-							<time datetime={article.scheduledPublishTime}>
-								{new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+							<time datetime={article.created_at}>
+								{new Date(article.created_at).toLocaleDateString('en-GB', {
 									year: 'numeric',
 									month: 'long',
 									day: 'numeric'

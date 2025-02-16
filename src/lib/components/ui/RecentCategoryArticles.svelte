@@ -5,6 +5,13 @@
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
+	interface $$Props {
+		articlesPerCategory?: number;
+		excludeCategory?: string;
+		customCategoryOrder?: string[];
+		maxCategories?: number;
+	}
+
 	const {
 		articlesPerCategory = 1,
 		excludeCategory = '',
@@ -16,42 +23,40 @@
 			'Privacy',
 			'DePIN',
 			'Infrastructure'
-		]
-	}: {
-		maxCategories?: number;
-		articlesPerCategory?: number;
-		excludeCategory?: string;
-		customCategoryOrder?: string[];
+		],
+		maxCategories = 6
 	} = $props();
 
 	const categoryOrder = customCategoryOrder;
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
-	const isValidDate = (date: string): boolean => !isNaN(new Date(date).getTime());
+
+	function getThumbnailUrl(article: ArticleMetadata): string {
+		return typeof article.thumb === 'string'
+			? article.thumb
+			: article.thumb?.data?.attributes?.url || article.thumb_url || '';
+	}
 
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
 		const categoryMap = new Map<string, ArticleMetadata[]>();
 		const displayedArticles = new Set<string>();
 
-		const sortedArticles = [...articles].sort((a, b) => {
-			if (!isValidDate(a.updatedAt) || !isValidDate(b.updatedAt)) {
-				console.warn('Invalid date found in article:', !isValidDate(a.updatedAt) ? a.slug : b.slug);
-				return 0;
-			}
-			return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-		});
+		const sortedArticles = [...articles].sort(
+			(a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+		);
 
 		for (const article of sortedArticles) {
 			for (const categoryName of categoryOrder) {
 				if (categoryName.toLowerCase() === excludeCategory.toLowerCase()) continue;
+
 				const belongsToCategory = article.categories.some((cat) => cat.name === categoryName);
-				if (!belongsToCategory) continue;
-				if (displayedArticles.has(article.slug)) continue;
+				if (!belongsToCategory || displayedArticles.has(article.slug)) continue;
 
 				if (!categoryMap.has(categoryName)) {
 					categoryMap.set(categoryName, []);
 				}
 
 				const articlesForCategory = categoryMap.get(categoryName)!;
+
 				if (articlesForCategory.length < articlesPerCategory) {
 					articlesForCategory.push(article);
 					displayedArticles.add(article.slug);
@@ -64,12 +69,13 @@
 				category: categoryName,
 				articles: categoryMap.get(categoryName) || []
 			}))
-			.filter((category) => category.articles.length > 0);
+			.filter((category) => category.articles.length > 0)
+			.slice(0, maxCategories);
 	}
 
 	$effect(() => {
 		const articles = getArticles();
-		if (articles.length > 0) {
+		if (articles?.length > 0) {
 			categoryArticles = getRecentArticlesByCategory(articles);
 		}
 	});
@@ -104,7 +110,7 @@
 						<a href={`/${article.slug}`} class="group flex flex-col gap-2">
 							<div class="aspect-[1/0.5] overflow-hidden rounded-sm">
 								<img
-									src={article.thumb}
+									src={article.thumb_url}
 									alt=""
 									class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
 									width="400"

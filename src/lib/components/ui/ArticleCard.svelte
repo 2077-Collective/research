@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { cn } from '$lib/utils/ui-components';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
@@ -23,15 +23,22 @@
 
 		if (currentPageCategory) {
 			const matchingCategory = article.categories.find(
-				(cat) => cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
+				(cat: any) =>
+					cat.name.toLowerCase() === decodeURIComponent(currentPageCategory).toLowerCase()
 			);
 			if (matchingCategory) return matchingCategory;
 		}
 
-		return article.categories.find((cat) => cat.is_primary) || article.categories[0];
+		return article.categories.find((cat: any) => cat.is_primary) || article.categories[0];
 	});
 
 	const isOnCategoryPage = $derived($page.url.pathname.includes('/category/'));
+
+	const thumbnailUrl = $derived(
+		typeof article.thumb === 'string'
+			? article.thumb
+			: article.thumb?.data?.attributes?.url || article.thumb_url || ''
+	);
 
 	const handleCategoryClick = (categoryName: string, e: MouseEvent) => {
 		if (!isOnCategoryPage) {
@@ -40,7 +47,7 @@
 			if (onBadgeClick) {
 				onBadgeClick(categoryName);
 			} else {
-				goto(`/category/${categoryName.toLowerCase()}`);
+				goto(`/category/${formatCategorySlug(categoryName)}`);
 			}
 		}
 	};
@@ -54,7 +61,7 @@
 	>
 		<div class="flex flex-col w-full overflow-hidden">
 			<img
-				src={article.thumb}
+				src={thumbnailUrl}
 				alt=""
 				class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
 			/>
@@ -62,7 +69,7 @@
 
 		<div class="flex flex-col p-3 w-full">
 			<div class="flex gap-1 items-start w-full text-xs tracking-wide">
-				{#if displayCategory && !hideCategory}
+				{#if displayCategory}
 					<Badge
 						variant="rectangularFilled"
 						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
@@ -71,22 +78,19 @@
 								handleCategoryClick(displayCategory.name, e);
 							}
 						}}
-						class={cn(
-							'text-xs px-2 py-1.5 h-7 font-bold font-mono',
-							isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'
-						)}
+						class={isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'}
 					>
 						{displayCategory.name}
 					</Badge>
 				{/if}
 			</div>
 			<p
-				class="font-powerGroteskBold mt-2 text-lg font-bold text-neutral-20 leading-tight line-clamp-2 group-hover:underline underline-offset-[3px]"
+				class="font-powerGroteskBold mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2"
 			>
 				{article.title}
 			</p>
-			<p class="mt-1 text-xs text-neutral-40 font-mono tracking-normal">
-				By {article.authors?.map((author) => author.full_name || author.username).join(', ')}
+			<p class="mt-1 text-xs text-gray-600 dark:text-gray-400 font-medium tracking-normal">
+				By {article.authors?.map((author: any) => author.full_name || author.username).join(', ')}
 			</p>
 		</div>
 	</div>

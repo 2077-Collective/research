@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchArticles } from '$lib/services/article.service';
+	import { fetchArticles } from '$lib/services/strapi.service';
 	import { getArticles, setArticles } from '$lib/stores/articles.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { onMount } from 'svelte';
