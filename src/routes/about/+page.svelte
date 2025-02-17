@@ -4,10 +4,10 @@
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 
-	import type { PageData } from './$types';
+	// import type { PageData } from './$types';
 
-	const { data }: { data: PageData } = $props();
-	const authors = $derived(data.authors);
+	// const { data }: { data: PageData } = $props();
+	// const authors = $derived(data.authors);
 
 	const metrics = [
 		{

@@ -86,7 +86,7 @@
 
 	<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-10 md:gap-y-16">
 		{#each categoryArticles as { category, articles }}
-			<div class="flex flex-col group">
+			<div class="flex flex-col">
 				<div class="flex items-center justify-between">
 					<Badge
 						variant="rectangularFilled"
@@ -107,7 +107,7 @@
 
 				<div class="flex flex-col gap-3">
 					{#each articles as article}
-						<a href={`/${article.slug}`} class="group flex flex-col gap-2">
+						<div class="space-y-2 group relative">
 							<div class="aspect-[1/0.5] overflow-hidden rounded-sm">
 								<img
 									src={article.thumb_url}
@@ -126,10 +126,12 @@
 								{article.title}
 							</h3>
 
-							<p class="text-xs font-mono text-neutral-40">
-								By {getAuthorsText(article.authors)}
-							</p>
-						</a>
+							<a href={`/${article.slug}`} class="absolute inset-0" aria-label="Go to article"></a>
+						</div>
+
+						<p class="text-xs font-mono text-neutral-40">
+							By {@html getAuthorsText(article.authors)}
+						</p>
 					{/each}
 				</div>
 			</div>

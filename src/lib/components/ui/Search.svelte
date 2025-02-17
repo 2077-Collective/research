@@ -84,7 +84,7 @@
 
 <Dialog.Root onOpenChange={handleCloseSearch}>
 	<Dialog.Trigger>
-		<div class="relative w-[353px]">
+		<div class="relative w-[353px] max-md:hidden">
 			<Input
 				class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 cursor-pointer w-full focus:outline-none"
 				placeholder="Search 2077Research"

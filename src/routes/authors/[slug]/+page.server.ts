@@ -1,13 +1,14 @@
-import { getArticleBySlug } from '$lib/services/article.service';
+import { getAuthor } from '$lib/services/author.service';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
 	try {
-		const article = await getArticleBySlug(params.slug);
-		if (!article) {
-			throw error(404, { message: 'Article not found' });
+		const author = await getAuthor(params.slug);
+		if (!author) {
+			throw error(404, { message: 'Author not found' });
 		}
-		return { article };
+
+		return { author };
 	} catch (err) {
 		console.error('Error loading article:', err);
 		throw error(500, { message: 'Failed to load article' });
