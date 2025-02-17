@@ -70,6 +70,9 @@
 				alt="hand-element"
 				width="689px"
 				height="608px"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
 			/>
 		</div>
 
