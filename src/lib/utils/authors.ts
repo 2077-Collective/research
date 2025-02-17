@@ -26,7 +26,7 @@ export function getAuthorsText(authors: Author[] | null | undefined): string {
 
 	const authorsWithHyperlink = authors
 		.map((author) => {
-			return `<a class="hover:underline underline-offset-[3px]" href="/authors/${author?.username}">${author?.full_name || author?.username}</a>`;
+			return `<a class="hover:underline underline-offset-[3px]" data-sveltekit-preload-data href="/authors/${author?.username}">${author?.full_name || author?.username}</a>`;
 		})
 		.join(', ');
 

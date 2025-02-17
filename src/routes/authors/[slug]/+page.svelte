@@ -71,10 +71,6 @@
 									<X size="16px" />
 								</a>
 							{/if}
-
-							<!-- <a href="/" class="hover:opacity-80 transition">
-							<Farcaster size="24px" />
-						</a> -->
 						</div>
 					</div>
 				{/if}
@@ -115,6 +111,7 @@
 							<a
 								href={`/category/${formatCategorySlug(category?.name || '')}`}
 								class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
+								data-sveltekit-preload-data
 							>
 								View All
 								<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />
@@ -122,7 +119,11 @@
 						</div>
 
 						<div class="relative group">
-							<a href={`/${article.slug}`} class="absolute inset-0 z-20" aria-label="Go to article"
+							<a
+								href={`/${article.slug}`}
+								data-sveltekit-preload-data
+								class="absolute inset-0 z-20"
+								aria-label="Go to article"
 							></a>
 
 							<div class="overflow-hidden">

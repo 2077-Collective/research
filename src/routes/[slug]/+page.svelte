@@ -57,7 +57,6 @@
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
 
-	//const { data }: { data: PageData } = $props();
 	const { data } = $props<{ data: PageData }>();
 
 	if (!data.article) {
@@ -92,8 +91,6 @@
 				})
 			: ''
 	);
-
-	const tableOfContents = $derived(data.article?.table_of_contents || []);
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
@@ -565,6 +562,7 @@
 	<div
 		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
 		style="width: {progress}%"
+		aria-label={`Progress ${progress}%`}
 	></div>
 </div>
 
@@ -592,6 +590,7 @@
 					href="/"
 					aria-label="Back to Home"
 					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full mb-[38.5px] bg-[#19191A] group"
+					data-sveltekit-preload-data
 				>
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
 				</a>
@@ -600,7 +599,7 @@
 					<section class="flex flex-col w-full">
 						<div class="flex items-center gap-2 font-mono">
 							{#each article.categories as category}
-								<a href={'/category/' + category.name.toLowerCase()}
+								<a href={'/category/' + category.name.toLowerCase()} data-sveltekit-preload-data
 									><Badge
 										class="h-[30px] py-2 px-2.5 uppercase text-sm bg-transparent text-neutral-10 border !border-neutral-80 hover:!bg-white hover:border-white hover:!text-black"
 									>
@@ -627,6 +626,7 @@
 									<a
 										class="underline underline-offset-[3px]"
 										href={author.twitter_username ? `/authors/${author.twitter_username}` : null}
+										data-sveltekit-preload-data
 									>
 										{author.full_name || author.twitter_username}
 									</a>
@@ -696,6 +696,7 @@
 				href="/"
 				class="absolute left-8 top-0 size-[42px] hover:bg-secondary rounded-full transition-colors flex items-center justify-center bg-[#19191A] group"
 				aria-label="Back to home"
+				data-sveltekit-preload-data
 			>
 				<ArrowLeft class="group-hover:-translate-x-px transition will-change-transform" />
 			</a>
@@ -815,6 +816,7 @@
 											rel="noopener noreferrer"
 											role="menuitem"
 											class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+											data-sveltekit-preload-data
 										>
 											{#if option.isSvg}
 												{@html option.icon}
@@ -850,6 +852,7 @@
 							{#if isDownloading}
 								<div
 									class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+									aria-busy="true"
 								></div>
 							{:else}
 								<FileDown class="size-5" />

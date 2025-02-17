@@ -4,11 +4,6 @@
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 
-	// import type { PageData } from './$types';
-
-	// const { data }: { data: PageData } = $props();
-	// const authors = $derived(data.authors);
-
 	const metrics = [
 		{
 			number: '120+',
@@ -53,66 +48,6 @@
 						</div>
 					{/each}
 				</div>
-
-				<!-- <div class="mt-[53px] relative max-w-[352px]">
-					<p class="text-neutral-40 font-mono">Looking to work with us?</p>
-
-					<ul
-						class="mt-4 border-y border-[#222] divide-y-[1px] divide-[#222] text-sm text-neutral-20 font-mono"
-					>
-						<li>
-							<a
-								href="mailto://research@2077.xyz"
-								class="px-5 flex items-center gap-1 py-3 group relative hover:text-white"
-							>
-								<span
-									class="block absolute inset-0 bg-[#001213] scale-x-0 group-hover:scale-x-100 transition origin-left"
-								></span>
-								<span class="z-10 relative">Get in touch</span>
-								<ArrowUpRight
-									class="size-4 group-hover:-translate-y-[2px] group-hover:translate-x-[2px] transition will-change-transform"
-								/>
-							</a>
-						</li>
-
-						<li>
-							<a
-								href="/work-with-us"
-								class="px-5 flex items-center gap-1 py-3 group relative hover:text-white"
-							>
-								<span
-									class="block absolute inset-0 bg-[#001213] scale-x-0 group-hover:scale-x-100 transition origin-left"
-								></span>
-								<span class="z-10 relative">View our Services Page</span>
-								<ArrowUpRight
-									class="size-4 group-hover:-translate-y-[2px] group-hover:translate-x-[2px] transition will-change-transform"
-								/></a
-							>
-						</li>
-					</ul>
-
-					<svg
-						width="1"
-						height="68"
-						viewBox="0 0 1 68"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						class="absolute bottom-0 right-14 pointer-events-none max-md:hidden"
-					>
-						<line x1="0.5" y1="68" x2="0.500003" y2="-2.18557e-08" stroke="#222222" />
-					</svg>
-
-					<svg
-						width="1"
-						height="68"
-						viewBox="0 0 1 68"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
-						class="absolute -bottom-8 right-1 pointer-events-none max-md:hidden"
-					>
-						<line x1="0.5" y1="68" x2="0.500003" y2="-2.18557e-08" stroke="#222222" />
-					</svg>
-				</div> -->
 
 				<div
 					class="rounded-[100px] bg-[#0F0F10] pl-[50px] py-[18px] pr-5 mt-[56px] h-[102px] flex items-center relative group overflow-hidden"

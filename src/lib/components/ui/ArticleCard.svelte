@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
+	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
 	import { slide } from 'svelte/transition';
@@ -52,9 +53,12 @@
 			}
 		}
 	};
+
+	const links = getAuthorsText(article.authors || []);
+	const formattedLinks = links === 'Unknown' ? '' : links;
 </script>
 
-<a href={`/${article.slug}`} class="block group">
+<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
 	<div
 		transition:slide={{ duration: 300 }}
 		class="flex flex-col h-fit rounded-lg overflow-hidden bg-white dark:bg-gray-800 group"
@@ -85,12 +89,16 @@
 					</Badge>
 				{/if}
 			</div>
-			<p class="font-powerGroteskBold text-lg font-bold leading-tight tracking-tight line-clamp-2">
+			<p
+				class="font-powerGroteskBold text-lg font-bold leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+			>
 				{article.title}
 			</p>
-			<p class="mt-1 text-xs font-mono text-neutral-40 tracking-normal">
-				By {article.authors?.map((author: any) => author.full_name || author.username).join(', ')}
-			</p>
+			{#if formattedLinks}
+				<p class="text-xs font-mono line-clamp-1 mt-1 text-neutral-40">
+					By {@html formattedLinks}
+				</p>
+			{/if}
 		</div>
 	</div>
 </a>

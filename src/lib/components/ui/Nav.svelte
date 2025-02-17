@@ -77,6 +77,7 @@
 							'text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group',
 							isActive && 'text-[#0CDEE9] hover:text-[#0CDEE9]'
 						)}
+						data-sveltekit-preload-data
 					>
 						{link.name}
 						{#if link.isExternal}
@@ -108,10 +109,10 @@
 
 <!-- Mobile Menu Snippet -->
 {#snippet mobileMenu()}
-	<div class="lg:hidden">
-		<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = true)}>
-			<Menu class="w-5 h-5" />
-		</Button>
+	<div class="lg:hidden ml-6">
+		<button class="flex items-center justify-center" onclick={() => (mobileMenuOpen = true)}>
+			<Menu class="w-6 h-6" />
+		</button>
 	</div>
 
 	<!-- Mobile Menu Overlay -->

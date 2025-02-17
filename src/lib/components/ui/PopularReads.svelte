@@ -69,7 +69,12 @@
 						<Carousel.Item
 							class="relative md:flex-none md:w-[265px] group overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
-							<a href={`/${article.slug}`} class="absolute inset-0" aria-label="View article"></a>
+							<a
+								href={`/${article.slug}`}
+								class="absolute inset-0"
+								aria-label="View article"
+								data-sveltekit-preload-data
+							></a>
 
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 
@@ -91,7 +96,7 @@
 							<div
 								class="flex max-md:aspect-[1/0.85] md:aspect-[15/17] items-center justify-center overflow-hidden"
 							>
-								<a href={`/${article.slug}`} class="!size-full">
+								<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 									<img
 										src={article.thumb_url}
 										alt={`Thumbnail for article: ${article.title}`}

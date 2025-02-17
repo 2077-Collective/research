@@ -32,7 +32,7 @@
 
 <div class="relative group md:rounded-[16px] overflow-hidden">
 	<div class="flex md:aspect-[1/0.45] items-center justify-center">
-		<a href={`/${article.slug}`} class="!size-full">
+		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 			<img
 				src={article.thumb_url}
 				alt={`Thumbnail for article: ${article.title}`}
@@ -44,7 +44,7 @@
 		</a>
 	</div>
 
-	<a href={`/${article.slug}`} class="!size-full">
+	<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 		<button
 			class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover font-semibold"
 		>
@@ -72,7 +72,7 @@
 			</div>
 		{/if}
 
-		<a href={`/${article.slug}`} class="px-6 max-md:pb-6 block">
+		<a href={`/${article.slug}`} class="px-6 max-md:pb-6 block" data-sveltekit-preload-data>
 			<h3
 				class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-3 mt-4"
 			>

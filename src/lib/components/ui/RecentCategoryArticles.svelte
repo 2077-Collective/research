@@ -14,7 +14,7 @@
 
 	const {
 		articlesPerCategory = 1,
-		excludeCategory = 'Infrastructure',
+		excludeCategory = '',
 		customCategoryOrder = [
 			'Layer 1',
 			'Layer 2',
@@ -22,7 +22,7 @@
 			'DeFi',
 			'Privacy',
 			'DePIN',
-			'Layer 1'
+			'Infrastructure'
 		],
 		maxCategories = 6
 	} = $props();

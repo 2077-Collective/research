@@ -5,11 +5,14 @@
 
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
-	import { tick } from 'svelte';
+	import { onMount, tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
 	import FeaturedCard from './FeaturedCard.svelte';
 	let newArticleRef: HTMLElement | null = null;
+
+	let backPathname = '';
+	onMount(() => (backPathname = document.referrer));
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -116,6 +119,7 @@
 					href="/"
 					aria-label="Back to Home"
 					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full bg-[#19191A] group"
+					data-sveltekit-preload-data
 				>
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
 				</a>

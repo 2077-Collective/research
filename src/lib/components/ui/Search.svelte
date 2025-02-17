@@ -14,8 +14,6 @@
 		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
 	);
 
-	let open = $state(false);
-
 	interface HighlightResultWithContent {
 		title?: {
 			value: string;
@@ -91,6 +89,10 @@
 			/>
 			<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 		</div>
+
+		<span class="md:hidden flex items-center justify-center">
+			<Search class="size-6" />
+		</span>
 	</Dialog.Trigger>
 	<Dialog.Content
 		class="sm:max-w-[590px] h-[726px] max-h-[80dvh] md:rounded-[48px] p-0 border-none bg-[#19191A]"

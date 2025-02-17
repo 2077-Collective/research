@@ -27,11 +27,7 @@
 	}
 
 	const handleToggleDetailsVisibility = () => {
-		if (showDetails) {
-			showDetails = false;
-		} else {
-			showDetails = true;
-		}
+		showDetails = !showDetails;
 	};
 </script>
 
@@ -46,7 +42,10 @@
 				alt={full_name}
 			/>
 			<div
-				class="absolute inset-0 bg-[#0CDEE9] mix-blend-multiply opacity-0 group-hover:opacity-100 transition"
+				class={cn(
+					'absolute inset-0 bg-[#0CDEE9] mix-blend-multiply opacity-0 group-hover:opacity-100 transition',
+					showDetails && 'opacity-100'
+				)}
 			></div>
 		</div>
 	</div>
@@ -92,6 +91,7 @@
 						showDetails && 'bg-[#19191A] text-white'
 					)}
 					onclick={handleToggleDetailsVisibility}
+					aria-expanded={showDetails}
 				>
 					<Plus
 						class={cn(
@@ -103,6 +103,4 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- {@render body(picture_url, full_name, role, summary)} -->
 </div>

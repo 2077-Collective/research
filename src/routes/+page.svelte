@@ -24,7 +24,9 @@
 
 <div>
 	<div aria-label="Hero" class="relative hero">
-		<div class="flex items-end justify-between max-lg:flex-wrap-reverse container relative">
+		<div
+			class="flex items-end justify-between max-lg:justify-center max-lg:flex-wrap-reverse container relative"
+		>
 			<div class="z-10">
 				<h1
 					class="font-powerGroteskBold text-[32px] leading-9 md:leading-[48px] md:text-[48px] font-bold mb-3 -tracking-[0.96px] text-white"
@@ -52,7 +54,7 @@
 					reports on the cutting edge of Ethereum tech
 				</p>
 
-				<a href="/reports">
+				<a href="/reports" data-sveltekit-preload-data>
 					<button
 						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-hubot tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
 						aria-label="Read Research"
@@ -90,6 +92,7 @@
 				href="/reports"
 				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-hover"
 				aria-label="View all research articles"
+				data-sveltekit-preload-data
 			>
 				View all articles
 
