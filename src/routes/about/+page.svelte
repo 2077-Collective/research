@@ -132,10 +132,12 @@
 					<div
 						class="absolute inset-0 white items-center pl-[131px] py-[18px] pr-5 grid grid-cols-2 gap-5 group-hover:opacity-100 opacity-0 transition duration-300 translate-y-full group-hover:translate-y-0"
 					>
-						<button
+						<a
 							class="bg-[#252526] h-full rounded-[50px] text-[#979797] text-xl font-powerGroteskBold !font-normal hover:bg-white hover:text-black transition duration-300"
-							>Contact us</button
+							href="mailto:research@2077.xyz"
 						>
+							<button class="size-full">Contact us</button>
+						</a>
 
 						<div
 							class="bg-[#252526] h-full rounded-[50px] text-[#979797] text-xl font-powerGroteskBold !font-normal hover:bg-white hover:text-black transition duration-300"
@@ -190,12 +192,12 @@
 					role="Developer"
 					summary="Crypto-anarchist developer and Ethereum maxi. In her free time, she buys more ETH."
 				/>
-				<TeamCard
+				<!-- <TeamCard
 					twitter_username="lilfatfrank"
 					full_name="Karan"
 					role="Developer"
 					summary="Frontend specialist, backend aware. Part-time degen."
-				/>
+				/> -->
 				<TeamCard
 					twitter_username="alexhooketh"
 					full_name="Alex Hook"

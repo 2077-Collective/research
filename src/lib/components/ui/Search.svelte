@@ -1,12 +1,7 @@
 <script lang="ts">
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils/ui-components';
-	import {
-		algoliasearch,
-		type HighlightResult,
-		type RankingInfo,
-		type SnippetResult
-	} from 'algoliasearch';
+	import { algoliasearch, type RankingInfo, type SnippetResult } from 'algoliasearch';
 	import DOMPurify from 'dompurify';
 	import { Loader2, Search } from 'lucide-svelte';
 	import { writable } from 'svelte/store';
@@ -18,6 +13,8 @@
 		import.meta.env.VITE_ALGOLIA_APP_ID,
 		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
 	);
+
+	let open = $state(false);
 
 	interface HighlightResultWithContent {
 		title?: {
@@ -147,9 +144,7 @@
 												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
 											>
 												{@html DOMPurify.sanitize(
-													article._snippetResult
-														? article._snippetResult.content_excerpt.value
-														: ''
+													article._snippetResult ? article._snippetResult.content_excerpt.value : ''
 												)}
 											</p>
 										</a>

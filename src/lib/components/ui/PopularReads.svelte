@@ -38,9 +38,7 @@
 </script>
 
 <div class="flex max-md:flex-col">
-	<div
-		class="bg-[#010102] md:bg-[#022728] flex-1 overflow-hidden pt-10 md:pt-[70px] max-md:px-5 max-md:pb-28"
-	>
+	<div class="bg-[#010102] flex-1 overflow-hidden pt-10 md:pt-[70px] max-md:px-5 max-md:pb-28">
 		<div class="flex flex-col w-full">
 			<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
 				<div class="flex items-center justify-between container mb-9">
@@ -61,7 +59,7 @@
 					</div>
 				</div>
 
-				<hr class="border-[#07494B] max-md:hidden" />
+				<hr class="border-[#202020] max-md:hidden" />
 
 				<Carousel.Content>
 					{#each articles as article}
@@ -73,7 +71,7 @@
 						>
 							<a href={`/${article.slug}`} class="absolute inset-0" aria-label="View article"></a>
 
-							<div class="h-full w-px bg-[#07494B] absolute left-0 top-0 max-md:hidden"></div>
+							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 
 							{#if primaryCategory}
 								<div>

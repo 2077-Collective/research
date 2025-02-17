@@ -1,11 +1,18 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
-	// import { Mail, Menu, X } from 'lucide-svelte';
+	import { derived } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
 	import Search from './Search.svelte';
+
+	const current_url = derived(page, ($page) => {
+		return $page.url.pathname.split('/').filter(Boolean).pop() || '/';
+	});
+
+	console.log({ current_url });
 
 	let mobileMenuOpen = $state(false);
 
@@ -17,11 +24,6 @@
 
 	// Links
 	const links: LinkType[] = [
-		// {
-		// 	name: 'Home',
-		// 	href: '/'
-		// },
-
 		{
 			name: 'Research',
 			href: '/reports'
@@ -41,17 +43,6 @@
 			name: 'Work with Us',
 			href: '/work-with-us'
 		}
-
-		// {
-		// 	name: 'Metrics',
-		// 	href: '/metrics'
-		// },
-
-		// {
-		// 	name: 'Twitter',
-		// 	href: '/metrics',
-		// 	isExternal: true
-		// },
 	];
 
 	let addBackgroundColor = $state(false);
@@ -79,11 +70,15 @@
 			<a href="/" class="ml-1"><Research /></a>
 
 			<!-- Desktop Navigation -->
-			<div class="items-center gap-10 hidden md:flex font-mono text-sm">
+			<div class="items-center gap-10 hidden lg:flex font-mono text-sm">
 				{#each links as link}
+					{@const isActive = `/${current_url}` === link.href}
 					<a
 						href={link.href}
-						class="text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group"
+						class={cn(
+							'text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group',
+							isActive && 'text-[#0CDEE9] hover:text-[#0CDEE9]'
+						)}
 					>
 						{link.name}
 						{#if link.isExternal}
@@ -102,20 +97,20 @@
 					<Mail class="w-4 h-4 ml-1" />
 				</Button> -->
 			</div>
-
-			<!-- Mobile Menu Toggle -->
-			<div class="md:hidden">
-				{@render mobileMenu()}
-			</div>
 		</div>
 
 		<Search />
+
+		<!-- Mobile Menu Toggle -->
+		<div class="lg:hidden">
+			{@render mobileMenu()}
+		</div>
 	</div>
 </div>
 
 <!-- Mobile Menu Snippet -->
 {#snippet mobileMenu()}
-	<div class="md:hidden">
+	<div class="lg:hidden">
 		<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = true)}>
 			<Menu class="w-5 h-5" />
 		</Button>

@@ -91,17 +91,17 @@
 					<Badge
 						variant="rectangularFilled"
 						href={`/category/${category.toLowerCase()}`}
-						class="font-mono font-bold border-white/20 text-xs lg:text-sm"
+						class="bg-white text-neutral-80 py-1.5 px-2 mb-1"
 					>
 						{category}
 					</Badge>
 
 					<a
 						href={`/category/${category.toLowerCase()}`}
-						class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group"
+						class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
 					>
 						View All
-						<ArrowRight class="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+						<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />
 					</a>
 				</div>
 

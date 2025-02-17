@@ -3,7 +3,7 @@
 	import FeaturedArcticles from '$lib/components/ui/FeaturedArcticles.svelte';
 	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
-	import TestimonialsHome from '$lib/components/ui/TestimonialsHome.svelte';
+	import Testimonials5 from '$lib/components/ui/Testimonials5.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -11,8 +11,6 @@
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
-
-	console.log({ articles });
 
 	const featuredArticles = $derived(articles.slice(0, 5));
 	const popularReads = $derived(articles.slice(5, 15));
@@ -82,7 +80,7 @@
 		{/if}
 	</section>
 
-	<section class="mt-16 mb-10 md:mb-24 container">
+	<section class="mt-16 mb-10 md:mb-16 container">
 		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
 	</section>
 
@@ -108,5 +106,5 @@
 		{/if}
 	</section>
 
-	<TestimonialsHome />
+	<Testimonials5 />
 </div>

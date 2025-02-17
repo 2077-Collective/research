@@ -13,7 +13,7 @@
 	import Pymnts from '$lib/components/ui/icons/partners/Pymnts.svelte';
 	import Spire from '$lib/components/ui/icons/partners/Spire.svelte';
 	import Starknet from '$lib/components/ui/icons/partners/Starknet.svelte';
-	import Testimonials from '$lib/components/ui/Testimonials.svelte';
+	import Testimonials3 from '$lib/components/ui/Testimonials3.svelte';
 	import { Copy } from 'lucide-svelte';
 
 	const partners = [
@@ -128,6 +128,6 @@
 	</section>
 
 	<section>
-		<Testimonials />
+		<Testimonials3 />
 	</section>
 </div>
