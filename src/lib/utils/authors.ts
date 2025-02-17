@@ -11,9 +11,9 @@ export interface Author {
  * @param author - The author object containing username and optional full name
  * @returns The author's display name
  */
-export function getAuthorDisplayName(author: Author): string {
+export function getAuthorDisplayName(author: Author | null | undefined): string {
 	if (!author) return 'Unknown';
-	return author?.full_name || author?.username;
+	return author.full_name || author.username;
 }
 
 /**
@@ -26,9 +26,21 @@ export function getAuthorsText(authors: Author[] | null | undefined): string {
 
 	const authorsWithHyperlink = authors
 		.map((author) => {
-			return `<a class="hover:underline underline-offset-[3px]" data-sveltekit-preload-data href="/authors/${author?.username}">${author?.full_name || author?.username}</a>`;
+			const displayName = escapeHtml(author?.full_name || author?.username);
+			const username = escapeHtml(author?.username);
+			return `<a class="hover:underline underline-offset-[3px]" href="/authors/${username}">${displayName}</a>`;
 		})
 		.join(', ');
 
 	return authorsWithHyperlink;
+}
+
+function escapeHtml(unsafe: string | undefined | null): string {
+	if (!unsafe) return '';
+	return unsafe
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&#039;');
 }

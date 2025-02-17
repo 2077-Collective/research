@@ -16,8 +16,8 @@
 		goto(`/category/${categoryName}`);
 	}
 
-	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
-		if (event.detail.key === 'Enter') {
+	function handleKeydown(event: KeyboardEvent, categoryName: string) {
+		if (event.key === 'Enter') {
 			handleCategoryClick(categoryName);
 		}
 	}
@@ -26,8 +26,8 @@
 		return article.categories.find((category) => category.is_primary);
 	}
 
-	const links = getAuthorsText(article.authors || []);
-	const formattedLinks = links === 'Unknown' ? '' : links;
+	const authorText = getAuthorsText(article.authors || []);
+	const formattedAuthorText = authorText === 'Unknown' ? '' : authorText;
 </script>
 
 <div class="relative group md:rounded-[16px] overflow-hidden">
@@ -44,14 +44,12 @@
 		</a>
 	</div>
 
-	<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
-		<button
-			class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover font-semibold"
-		>
-			Read Article
-
-			<ArrowRight class="size-5 group-hover/button:translate-x-1 transition" />
-		</button>
+	<a
+		href={`/${article.slug}`}
+		class="absolute right-0 bottom-0 m-8 h-[38px] flex items-center justify-center px-4 py-2.5 bg-white text-black text-sm gap-2 rounded-[999px] opacity-0 group-hover:opacity-100 transition duration-300 max-md:hidden group/button hover:shadow-hover font-semibold"
+	>
+		Read Article
+		<ArrowRight class="size-5 group-hover/button:translate-x-1 transition" />
 	</a>
 
 	<div
@@ -65,7 +63,7 @@
 					role="link"
 					tabindex="0"
 					on:click={() => handleCategoryClick(primaryCategory)}
-					on:keydown={(event) => handleKeydown(event, primaryCategory)}
+					on:keydown={(event: any) => handleKeydown(event, primaryCategory)}
 				>
 					{primaryCategory}
 				</Badge>
@@ -83,7 +81,6 @@
 
 			<div class="flex items-center gap-2 text-xs text-neutral-40 font-mono mt-5 md:mt-2.5">
 				<p>{formattedDate}</p>
-				<!-- <p class="pl-2 line-clamp-1">By {getAuthorsText(article.authors)}</p> -->
 			</div>
 
 			<p class="max-md:hidden text-sm text-neutral-40 line-clamp-3 mt-2.5">
@@ -92,9 +89,9 @@
 
 			<hr class="my-4 border-[#262626]" />
 
-			{#if formattedLinks}
+			{#if formattedAuthorText}
 				<p class="text-sm font-mono line-clamp-1">
-					By {@html formattedLinks}
+					By {@html formattedAuthorText}
 				</p>
 			{/if}
 		</a>
