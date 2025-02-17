@@ -291,14 +291,16 @@
 	];
 </script>
 
-<div class="bg-[#0C0C0D] pt-32 pb-10">
+<div class="bg-[#0C0C0D] pt-8 md:pt-32 pb-10">
 	<div class="container">
 		<div class="flex md:items-start max-md:flex-col max-md:gap-8 md:px-10">
 			<div
 				class="max-w-full w-[468px] flex-shrink-0 bg-[#0C0C0D] flex items-center justify-center pt-10"
 			>
 				<div>
-					<h3 class="text-[44.852px] font-powerGroteskBold font-bold leading-[43.955px]">
+					<h3
+						class="text-[32px] md:text-[44.852px] font-powerGroteskBold font-bold leading-[43.955px]"
+					>
 						What the people <br /> are saying about us
 					</h3>
 

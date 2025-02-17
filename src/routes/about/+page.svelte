@@ -2,7 +2,7 @@
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ContributorCard from '$lib/components/ui/ContributorCard.svelte';
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
-	import { ArrowRight } from 'lucide-svelte';
+	import { ArrowRight, ArrowUpRight } from 'lucide-svelte';
 
 	const metrics = [
 		{
@@ -26,7 +26,9 @@
 	<section class="bg-[#010102] pt-32 pb-14 md:pb-40 relative">
 		<div class="container z-20 relative">
 			<div class="">
-				<p class="text-[24px] md:text-[32px] font-powerGroteskBold leading-9 font-bold">
+				<p
+					class="text-[24px] md:text-[32px] font-powerGroteskBold leading-[26px] md:leading-9 font-bold"
+				>
 					<span
 						class="text-sm font-mono text-[#0CDEE9] block md:inline-block align-middle max-md:mb-3"
 						>{`{About}`}{' '}</span
@@ -50,7 +52,7 @@
 				</div>
 
 				<div
-					class="rounded-[100px] bg-[#0F0F10] pl-[50px] py-[18px] pr-5 mt-[56px] h-[102px] flex items-center relative group overflow-hidden"
+					class="rounded-[100px] bg-[#0F0F10] pl-[50px] py-[18px] pr-5 mt-[56px] h-[102px] flex items-center relative group overflow-hidden max-md:hidden"
 				>
 					<p
 						class="text-2xl font-powerGroteskBold text-neutral-20 group-hover:opacity-0 transition duration-300"
@@ -81,6 +83,28 @@
 								>View our Services Page</a
 							>
 						</div>
+					</div>
+				</div>
+
+				<div class="md:hidden mt-8">
+					<p class="text-neutral-40 text-sm font-mono">Looking to work with us?</p>
+
+					<div class="mt-[15px] border-y border-[#222] divide-y divide-[#222]">
+						<a
+							href="mailto:research@2077.xyz"
+							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light"
+						>
+							Get in Touch
+							<ArrowUpRight class="size-4" />
+						</a>
+
+						<a
+							href="/work-with-us"
+							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light"
+						>
+							View our Services Page
+							<ArrowUpRight class="size-4" />
+						</a>
 					</div>
 				</div>
 			</div>
@@ -127,12 +151,7 @@
 					role="Developer"
 					summary="Crypto-anarchist developer and Ethereum maxi. In her free time, she buys more ETH."
 				/>
-				<!-- <TeamCard
-					twitter_username="lilfatfrank"
-					full_name="Karan"
-					role="Developer"
-					summary="Frontend specialist, backend aware. Part-time degen."
-				/> -->
+
 				<TeamCard
 					twitter_username="alexhooketh"
 					full_name="Alex Hook"

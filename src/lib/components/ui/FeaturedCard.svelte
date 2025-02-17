@@ -53,7 +53,7 @@
 	</a>
 
 	<div
-		class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] max-md:pt-6 md:py-6 md:translate-y-[134px] group-hover:translate-y-0 transition duration-300 will-change-transform"
+		class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] max-md:pt-6 md:py-6 md:translate-y-[30%] group-hover:translate-y-0 transition duration-300 will-change-transform"
 	>
 		{#if primaryCategory}
 			<div class="px-6">
@@ -83,14 +83,16 @@
 				<p>{formattedDate}</p>
 			</div>
 
-			<p class="max-md:hidden text-sm text-neutral-40 line-clamp-3 mt-2.5">
+			<p
+				class="max-md:hidden text-sm text-neutral-40 line-clamp-3 mt-2.5 md:opacity-0 group-hover:opacity-100 transition"
+			>
 				{article.summary}
 			</p>
 
-			<hr class="my-4 border-[#262626]" />
+			<hr class="my-4 border-[#262626] md:opacity-0 group-hover:opacity-100 transition" />
 
 			{#if formattedAuthorText}
-				<p class="text-sm font-mono line-clamp-1">
+				<p class="text-sm font-mono line-clamp-1 md:opacity-0 group-hover:opacity-100 transition">
 					By {@html formattedAuthorText}
 				</p>
 			{/if}
