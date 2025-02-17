@@ -155,20 +155,6 @@
 		</div>
 	</section>
 
-	<!-- <div class="flex flex-col justify-end md:flex-row gap-2 border-y py-4 md:py-6 mb-4 md:mb-12">
-		<Input
-			class="grow-0 max-md:w-full tracking-normal"
-			type="text"
-			placeholder="Search"
-			bind:value={search}
-			variant="small"
-		>
-			{#snippet icon()}
-				<Search class="w-4 h-4" />
-			{/snippet}
-		</Input>
-	</div> -->
-
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-[67px] gap-x-6 justify-center container pt-14 bg-[#0C0C0D]"
 	>
