@@ -7,9 +7,6 @@ export const load: PageServerLoad = async () => {
 		new Set(articles.flatMap((article) => article.categories.map((category) => category.name)))
 	);
 
-	console.log('FIRST ===>', articles[0]);
-	console.log('LAST ===>', articles[articles.length - 1]);
-
 	return {
 		articles,
 		articleCategories

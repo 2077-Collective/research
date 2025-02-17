@@ -13,7 +13,7 @@ export interface Author {
  */
 export function getAuthorDisplayName(author: Author): string {
 	if (!author) return 'Unknown';
-	return author.full_name || author.username;
+	return author?.full_name || author?.username;
 }
 
 /**
@@ -26,7 +26,7 @@ export function getAuthorsText(authors: Author[] | null | undefined): string {
 
 	const authorsWithHyperlink = authors
 		.map((author) => {
-			return `<a class="hover:underline underline-offset-[3px]" href="/authors/${author.username}">${author.full_name || author.username}</a>`;
+			return `<a class="hover:underline underline-offset-[3px]" href="/authors/${author?.username}">${author?.full_name || author?.username}</a>`;
 		})
 		.join(', ');
 

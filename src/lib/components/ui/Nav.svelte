@@ -12,8 +12,6 @@
 		return $page.url.pathname.split('/').filter(Boolean).pop() || '/';
 	});
 
-	console.log({ current_url });
-
 	let mobileMenuOpen = $state(false);
 
 	type LinkType = {

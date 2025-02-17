@@ -625,14 +625,10 @@
 								<span class="text-neutral-40">By</span>
 								{#each article.authors as author, index}
 									<a
-										href={author.twitter_username
-											? `https://twitter.com/${author.twitter_username}`
-											: null}
-										target="_blank"
-										rel="noopener noreferrer"
-										class={author.twitter_username ? 'border-b' : ''}
+										class="underline underline-offset-[3px]"
+										href={author.twitter_username ? `/authors/${author.twitter_username}` : null}
 									>
-										{author.full_name}
+										{author.full_name || author.twitter_username}
 									</a>
 									{#if index < article.authors.length - 2}
 										<span>, </span>

@@ -38,9 +38,13 @@
 <div
 	class="flex flex-col bg-[#19191A] rounded-[8px] w-full h-[400px] relative overflow-hidden group"
 >
-	<div class="absolute inset-0 bg-red-400">
+	<div class="absolute inset-0">
 		<div class="size-full relative">
-			<img src="/philosopher.png" class="size-full object-cover object-top" alt={full_name} />
+			<img
+				src={picture_url || '/philosopher.png'}
+				class="size-full object-cover object-top"
+				alt={full_name}
+			/>
 			<div
 				class="absolute inset-0 bg-[#0CDEE9] mix-blend-multiply opacity-0 group-hover:opacity-100 transition"
 			></div>

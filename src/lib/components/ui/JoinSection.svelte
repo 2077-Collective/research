@@ -95,18 +95,20 @@
 		{
 			name: 'Ethereum Navigator',
 			icon: EthNavigator,
-			number: '20K+',
+			number: '500+',
 			subtitle: 'Subscribers',
 			ctaText: 'Subscribe',
-			href: '/ethereum-naviagtor'
+			href: '/ethereum-naviagtor',
+			isExternal: false
 		},
 		{
 			name: 'Twitter/X',
 			icon: X,
-			number: '23K+',
+			number: '2.1K+',
 			subtitle: 'Followers',
 			ctaText: 'Follow us',
-			href: '/'
+			href: 'https://x.com/2077Research',
+			isExternal: true
 		},
 		{
 			name: 'Telegram',
@@ -114,7 +116,8 @@
 			number: '20K+',
 			subtitle: 'Members',
 			ctaText: 'Join Telegram',
-			href: '/'
+			href: '/',
+			isExternal: true
 		}
 	];
 </script>
@@ -169,7 +172,7 @@
 						</div>
 
 						<div>
-							<a href={social.href}>
+							<a href={social.href} target={social.isExternal ? '_blank' : '_self'}>
 								<button
 									class="h-10 md:h-14 flex items-center justify-center text-center w-full text-neutral-40 font-mono uppercase border border-neutral-80 hover:bg-neutral-80 rounded-[8px] transition max-md:text-sm"
 									>{social.ctaText}</button

@@ -25,6 +25,9 @@
 	function getPrimaryCategory(article: ArticleMetadata) {
 		return article.categories.find((category) => category.is_primary);
 	}
+
+	const links = getAuthorsText(article.authors || []);
+	const formattedLinks = links === 'Unknown' ? '' : links;
 </script>
 
 <div class="relative group md:rounded-[16px] overflow-hidden">
@@ -89,9 +92,11 @@
 
 			<hr class="my-4 border-[#262626]" />
 
-			<p class="text-sm font-mono line-clamp-1">
-				By {getAuthorsText(article.authors)}
-			</p>
+			{#if formattedLinks}
+				<p class="text-sm font-mono line-clamp-1">
+					By {@html formattedLinks}
+				</p>
+			{/if}
 		</a>
 	</div>
 </div>
