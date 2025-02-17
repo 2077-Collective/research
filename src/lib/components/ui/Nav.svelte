@@ -5,6 +5,7 @@
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
+	import Search from './Search.svelte';
 
 	let mobileMenuOpen = $state(false);
 
@@ -107,6 +108,8 @@
 				{@render mobileMenu()}
 			</div>
 		</div>
+
+		<Search />
 	</div>
 </div>
 
