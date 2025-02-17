@@ -3,7 +3,7 @@
 	import FeaturedArcticles from '$lib/components/ui/FeaturedArcticles.svelte';
 	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
-	import Testimonials5 from '$lib/components/ui/Testimonials5.svelte';
+	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -106,5 +106,5 @@
 		{/if}
 	</section>
 
-	<Testimonials5 />
+	<Testimonials4 />
 </div>

@@ -75,7 +75,7 @@
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each relatedArticles as article}
-			<ArticleCard {article} />
+			<ArticleCard {article} hideCategory />
 		{/each}
 	</div>
 </div>

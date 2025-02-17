@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
+	import { cn } from '$lib/utils/ui-components';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
@@ -67,9 +68,9 @@
 			/>
 		</div>
 
-		<div class="flex flex-col p-3 w-full">
+		<div class="flex flex-col px-3 w-full mt-2">
 			<div class="flex gap-1 items-start w-full text-xs tracking-wide">
-				{#if displayCategory}
+				{#if displayCategory && !hideCategory}
 					<Badge
 						variant="rectangularFilled"
 						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
@@ -78,18 +79,16 @@
 								handleCategoryClick(displayCategory.name, e);
 							}
 						}}
-						class={isOnCategoryPage ? 'cursor-default' : 'cursor-pointer'}
+						class={cn('mb-2', isOnCategoryPage ? 'cursor-default' : 'cursor-pointer')}
 					>
 						{displayCategory.name}
 					</Badge>
 				{/if}
 			</div>
-			<p
-				class="font-powerGroteskBold mt-2 text-lg font-medium leading-tight tracking-tight line-clamp-2"
-			>
+			<p class="font-powerGroteskBold text-lg font-bold leading-tight tracking-tight line-clamp-2">
 				{article.title}
 			</p>
-			<p class="mt-1 text-xs text-gray-600 dark:text-gray-400 font-medium tracking-normal">
+			<p class="mt-1 text-xs font-mono text-neutral-40 tracking-normal">
 				By {article.authors?.map((author: any) => author.full_name || author.username).join(', ')}
 			</p>
 		</div>
