@@ -39,7 +39,7 @@ export const fetchArticles = async (category?: string, page = 1, limit = 10) => 
 			queryParams.append('filters[categories][slug][$eq]', category.toLowerCase());
 		}
 
-		const FETCH_URL = `${baseURL}/api/articles?${queryParams.toString()}`;
+		const FETCH_URL = `${baseURL}/api/articles?sort=createdAt:desc&${queryParams.toString()}`;
 
 		const res = await fetch(FETCH_URL, { headers });
 

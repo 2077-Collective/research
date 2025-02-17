@@ -82,7 +82,7 @@
 		{/if}
 	</section>
 
-	<section class="mt-16 mb-10 container">
+	<section class="mt-16 mb-10 md:mb-24 container">
 		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
 	</section>
 

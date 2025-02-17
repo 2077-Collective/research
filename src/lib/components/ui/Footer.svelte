@@ -10,7 +10,7 @@
 	const linkGroups: any = {
 		navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
-			{ href: '/about', text: 'Research', isExternal: true },
+			{ href: '/reports', text: 'Research', isExternal: false },
 			{ href: '/about', text: 'Newsletter', isExternal: false },
 			{ href: '/about', text: 'About', isExternal: false },
 			{ href: '/work-with-us', text: 'Work with us', isExternal: false }
@@ -98,13 +98,15 @@
 {#snippet linkComp(link: Link)}
 	<a
 		href={link.href}
-		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-20 font-inter text-sm"
+		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-20 font-inter text-sm group"
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
 	>
 		<span class="self-stretch my-auto">{@html link.text}</span>
 		{#if link.isExternal}
-			<ArrowUpRightIcon class="w-4 h-4" />
+			<ArrowUpRightIcon
+				class="w-4 h-4 group-hover:translate-x-[2px] group-hover:-translate-y-[2px] transition will-change-transform"
+			/>
 		{/if}
 	</a>
 {/snippet}
