@@ -87,14 +87,6 @@
 						{/if}
 					</a>
 				{/each}
-
-				<!-- <Button
-					href="/ethereum-navigator"
-					class="flex items-center gap-1 justify-center w-fit px-8 bg-special-blue rounded-full"
-				>
-					Subscribe
-					<Mail class="w-4 h-4 ml-1" />
-				</Button> -->
 			</div>
 		</div>
 
@@ -136,7 +128,7 @@
 					{#each links as link}
 						<a
 							class="flex items-center gap-1 group"
-							href="/about"
+							href={link.href}
 							onclick={() => {
 								mobileMenuOpen = false;
 							}}
@@ -148,30 +140,7 @@
 							{/if}
 						</a>
 					{/each}
-					<!-- <a
-						href="/about"
-						onclick={() => {
-							mobileMenuOpen = false;
-						}}>About us</a
-					>
-					<a
-						href="/work-with-us"
-						onclick={() => {
-							mobileMenuOpen = false;
-						}}>Work with us</a
-					> -->
 				</div>
-
-				<!-- <Button
-					href="/ethereum-navigator"
-					class="mt-4 flex items-center gap-1 justify-center px-8 bg-special-blue"
-					onclick={() => {
-						mobileMenuOpen = false;
-					}}
-				>
-					Subscribe to our newsletter
-					<Mail class="w-4 h-4 ml-1" />
-				</Button> -->
 			</div>
 		</div>
 	{/if}

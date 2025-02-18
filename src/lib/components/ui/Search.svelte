@@ -2,6 +2,7 @@
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils/ui-components';
 	import { algoliasearch, type RankingInfo, type SnippetResult } from 'algoliasearch';
+	import { format } from 'date-fns';
 	import DOMPurify from 'dompurify';
 	import { Loader2, Search } from 'lucide-svelte';
 	import { writable } from 'svelte/store';
@@ -29,6 +30,11 @@
 		objectID: string;
 		title: string;
 		slug: string;
+		categories: {
+			id: string;
+			name: string;
+			slug: string;
+		}[];
 		_highlightResult?: HighlightResultWithContent;
 		_snippetResult?: SnippetResult & {
 			content_excerpt: {
@@ -37,10 +43,12 @@
 		};
 		_rankingInfo?: RankingInfo;
 		_distinctSeqID?: number;
+		created_at: string;
 	};
 
-	const results = writable<SearchResult[]>([]);
+	const results = writable<Record<string, SearchResult[]>>({});
 	const loading = writable<boolean>(false);
+	const openDialog = writable<boolean>(false);
 
 	let query = '';
 	let debounceTimeout: ReturnType<typeof setTimeout>;
@@ -50,7 +58,7 @@
 
 		debounceTimeout = setTimeout(async () => {
 			if (!query) {
-				results.set([]);
+				results.set({});
 				loading.set(false);
 				return;
 			}
@@ -63,9 +71,33 @@
 					searchParams: { query }
 				});
 
-				results.set(response.hits as SearchResult[]);
+				const hits = response.hits as SearchResult[];
+
+				const filteredHits = hits.filter(
+					(result) =>
+						result._highlightResult?.content_excerpt?.matchedWords &&
+						result._highlightResult.content_excerpt.matchedWords.length > 0
+				);
+
+				const categories: string[] = Array.from(
+					new Set(filteredHits.map((result) => result.categories[0].name))
+				);
+
+				const transformedHits: any = categories.reduce(
+					(acc, category) => {
+						acc[category] = filteredHits.filter(
+							(result) => result.categories[0]?.name === category
+						);
+						return acc;
+					},
+					{} as Record<string, typeof hits>
+				);
+
+				console.log({ transformedHits });
+
+				results.set(transformedHits);
 			} catch (error) {
-				results.set([]);
+				results.set({});
 				const errorMessage = error instanceof Error ? error.message : 'Search failed';
 				console.error(`Algolia search error: ${errorMessage}`);
 			} finally {
@@ -74,26 +106,30 @@
 		}, 300);
 	}
 
-	const handleCloseSearch = () => {
-		results.set([]);
+	const handleCloseSearch = (open: boolean) => {
+		results.set({});
 		query = '';
+		openDialog.set(open);
+	};
+
+	const handleOpenDialog = () => {
+		openDialog.set(true);
 	};
 </script>
 
-<Dialog.Root onOpenChange={handleCloseSearch}>
-	<Dialog.Trigger>
-		<div class="relative w-[353px] max-md:hidden">
-			<Input
-				class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 cursor-pointer w-full focus:outline-none"
-				placeholder="Search 2077Research"
-			/>
-			<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
-		</div>
+<button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
+	<Input
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 cursor-pointer w-full focus:outline-none"
+		placeholder="Search 2077Research"
+	/>
+	<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
+</button>
 
-		<span class="md:hidden flex items-center justify-center">
-			<Search class="size-6" />
-		</span>
-	</Dialog.Trigger>
+<button class="md:hidden flex items-center justify-center" onclick={handleOpenDialog}>
+	<Search class="size-6" />
+</button>
+
+<Dialog.Root open={$openDialog} onOpenChange={(open) => handleCloseSearch(open)}>
 	<Dialog.Content
 		class="sm:max-w-[590px] h-[726px] max-h-[80dvh] md:rounded-[48px] p-0 border-none bg-[#19191A]"
 	>
@@ -101,10 +137,10 @@
 			<div class="px-5 pt-4">
 				<div class="relative w-full flex-shrink-0">
 					<input
-						class="h-[45px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 w-full"
+						class="h-[45px] bg-neutral-80 rounded-[38px] border-neutral-60 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 w-full"
 						placeholder="Search 2077Research"
 						bind:value={query}
-						on:keyup={handleSearch}
+						onkeyup={handleSearch}
 					/>
 					<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 				</div>
@@ -113,7 +149,7 @@
 			<div
 				class={cn(
 					'flex-1 text-center flex-shrink-0 overflow-hidden',
-					($loading || $results.length === 0) && 'flex items-center justify-center'
+					($loading || Object.keys($results).length === 0) && 'flex items-center justify-center'
 				)}
 			>
 				{#if $loading}
@@ -122,45 +158,83 @@
 					</p>
 				{/if}
 
-				{#if !$loading && $results.length > 0}
-					<div class="space-y-6 h-full px-5 pt-6 pb-10 overflow-y-auto">
-						<ul class="mt-2 text-left">
-							{#each $results as article}
-								{@const highlight = article._highlightResult}
-								{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
-									<li class="group cursor-pointer hover:opacity-70 transition">
-										<a href={`/${article.slug}`} class="px-3 py-2.5">
-											{#if highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0}
-												<p
-													class="text-[18px] font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:!not-italic"
-												>
-													{@html DOMPurify.sanitize(highlight.title.value)}
-												</p>
-											{:else}
-												<p class="font-powerGroteskBold font-bold line-clamp-1 transition">
-													{article.title}
-												</p>
-											{/if}
+				{#if !$loading && Object.keys($results).length > 0}
+					<div class="h-full px-5 pt-6 pb-10 overflow-y-auto">
+						<ul class="mt-2 text-left space-y-6">
+							{#each Object.keys($results) as articleCategory}
+								{@const articles = $results[articleCategory]}
 
-											<p
-												class="text-[#F2F2F2] [&>em]:text-[#0CDEE9] [&>em]:font-medium [&>em]:not-italic text-sm"
-											>
-												{@html DOMPurify.sanitize(
-													article._snippetResult ? article._snippetResult.content_excerpt.value : ''
-												)}
-											</p>
-										</a>
-									</li>
-								{/if}
+								<li>
+									<p class="text-xs font-geist-mono font-bold text-[#0CDEE9] mb-1 px-3">
+										{articleCategory}
+									</p>
+
+									<ul>
+										{#each articles as article}
+											{@const highlight = article._highlightResult}
+											{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
+											{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
+												<li class="group cursor-pointer hover:bg-[#0CDEE9]">
+													<a
+														href={`/${article.slug}`}
+														class="px-3 block"
+														onclick={() => handleCloseSearch(false)}
+													>
+														<div class="border-b border-[#343434] pt-1.5 pb-3">
+															{#if highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0}
+																<p
+																	class="text-base font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:!not-italic group-hover:text-[#022C2F]"
+																>
+																	{@html DOMPurify.sanitize(highlight.title.value)}
+																</p>
+															{:else}
+																<p
+																	class="text-base font-powerGroteskBold font-bold line-clamp-1 transition group-hover:text-[#022C2F]"
+																>
+																	{article.title}
+																</p>
+															{/if}
+
+															<p
+																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-inter group-hover:text-neutral-80 mt-1"
+															>
+																{@html DOMPurify.sanitize(
+																	article._snippetResult
+																		? article._snippetResult.content_excerpt.value
+																		: ''
+																)}
+															</p>
+
+															<div class="mt-1">
+																<p
+																	class="text-xs font-mono text-neutral-40 group-hover:text-neutral-80"
+																>
+																	{formattedDate}
+																</p>
+															</div>
+														</div>
+													</a>
+												</li>
+											{/if}
+										{/each}
+									</ul>
+								</li>
 							{/each}
 						</ul>
 					</div>
 				{/if}
 
-				{#if !$loading && $results.length === 0}
+				{#if !$loading && query.length === 0}
 					<div>
 						<EmptySearch className="mx-auto mb-6" />
 						<p class="max-w-[219px] mx-auto">Looks like you haven't searched for anything yet.</p>
+					</div>
+				{/if}
+
+				{#if !$loading && Object.keys($results).length === 0 && query.length > 0}
+					<div>
+						<EmptySearch className="mx-auto mb-6" />
+						<p class="max-w-[219px] mx-auto">Sorry, we couldn't find that.</p>
 					</div>
 				{/if}
 			</div>

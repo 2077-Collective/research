@@ -610,7 +610,7 @@
 						</div>
 
 						<h1
-							class="font-powerGroteskBold capitalize text-5xl font-bold leading-[50px] max-md:max-w-full max-md:text-4xl max-md:leading-[52px] break-words mt-[22px]"
+							class="font-powerGroteskBold capitalize text-5xl font-bold leading-[50px] max-md:max-w-full max-md:text-4xl max-md:leading-[40px] break-words mt-[22px]"
 						>
 							{article.title}
 						</h1>
@@ -624,7 +624,7 @@
 								<span class="text-neutral-40">By</span>
 								{#each article.authors as author, index}
 									<a
-										class="underline underline-offset-[3px]"
+										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
 										href={author.twitter_username ? `/authors/${author.twitter_username}` : null}
 										data-sveltekit-preload-data
 									>

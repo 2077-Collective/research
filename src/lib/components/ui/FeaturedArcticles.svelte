@@ -3,7 +3,6 @@
 	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { format } from 'date-fns';
 	import FeaturedCard from './FeaturedCard.svelte';
 
 	export let articles: ArticleMetadata[];
@@ -54,9 +53,6 @@
 <Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
 	<Carousel.Content>
 		{#each articles as article}
-			{@const primaryCategory = getPrimaryCategory(article)?.name}
-			{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-
 			<Carousel.Item>
 				<FeaturedCard {article} />
 			</Carousel.Item>

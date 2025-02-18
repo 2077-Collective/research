@@ -81,7 +81,8 @@ const config: Config = {
 				'eb-garamond': ['"EB Garamond"', 'serif'],
 				mono: 'var(--font-mono)',
 				powerGroteskBold: 'var(--font-power)',
-				hubot: 'var(--font-hubot)'
+				hubot: 'var(--font-hubot)',
+				'geist-mono': 'var(--font-geist-mono)'
 			},
 			letterSpacing: {
 				tightest: '-.075em',

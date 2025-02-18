@@ -2,6 +2,7 @@
 /* @import '@fontsource-variable/space-grotesk'; */
 @import '@fontsource-variable/kode-mono';
 @import '@fontsource-variable/hubot-sans';
+@import '@fontsource-variable/geist-mono';
 
 @tailwind base;
 @tailwind components;
@@ -50,8 +51,10 @@
 		--font-mono: 'Kode Mono Variable', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans Variable', sans-serif;
+		--font-geist-mono: 'Geist Mono Variable', monospace;
 
 		--background: 240 4% 5%;
+
 		--background-lighter: 240 4% 10%;
 		--foreground: 210 40% 98%;
 
