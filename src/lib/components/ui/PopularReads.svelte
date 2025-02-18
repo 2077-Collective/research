@@ -67,14 +67,14 @@
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
-							class="relative md:flex-none md:w-[265px] group overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
+							class="relative md:flex-none md:w-[265px] overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
-							<a
+							<!-- <a
 								href={`/${article.slug}`}
 								class="absolute inset-0"
 								aria-label="View article"
 								data-sveltekit-preload-data
-							></a>
+							></a> -->
 
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 
@@ -82,7 +82,7 @@
 								<div>
 									<Badge
 										variant="rectangularFilled"
-										class="font-mono text-xs cursor-pointer focus:ring-0 focus:ring-offset-0 font-bold !bg-white rounded-none border-none px-2 py-1.5 capitalize !text-neutral-80 relative z-50 hover:!bg-black hover:!text-white"
+										class="bg-white text-neutral-80 hover:!bg-neutral-20 py-1.5 px-2 capitalize relative z-50 cursor-pointer mb-1"
 										role="link"
 										tabindex="0"
 										on:click={() => handleCategoryClick(primaryCategory)}
@@ -93,10 +93,10 @@
 								</div>
 							{/if}
 
-							<div
-								class="flex max-md:aspect-[1/0.85] md:aspect-[15/17] items-center justify-center overflow-hidden"
-							>
-								<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
+							<a href={`/${article.slug}`} class="!size-full group" data-sveltekit-preload-data>
+								<div
+									class="flex max-md:aspect-[1/0.85] md:aspect-[15/17] items-center justify-center overflow-hidden"
+								>
 									<img
 										src={article.thumb_url}
 										alt={`Thumbnail for article: ${article.title}`}
@@ -105,26 +105,26 @@
 										decoding="async"
 										class="!size-full object-cover group-hover:scale-105 transition will-change-transform"
 									/>
-								</a>
-							</div>
-
-							<div class="max-md:bg-[#19191A] max-md:p-6 max-md:rounded-[8px]">
-								<h3
-									class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px]"
-								>
-									{toTitleCase(article.title)}
-								</h3>
-
-								<div
-									class="flex items-center gap-2 text-xs mt-[9px] text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
-								>
-									<p>{formattedDate}</p>
-
-									{#if article.min_read}
-										<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
-									{/if}
 								</div>
-							</div>
+
+								<div class="max-md:bg-[#19191A] max-md:p-6 max-md:rounded-[8px]">
+									<h3
+										class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px]"
+									>
+										{toTitleCase(article.title)}
+									</h3>
+
+									<div
+										class="flex items-center gap-2 text-xs mt-[9px] text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
+									>
+										<p>{formattedDate}</p>
+
+										{#if article.min_read}
+											<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
+										{/if}
+									</div>
+								</div>
+							</a>
 						</Carousel.Item>
 					{/each}
 				</Carousel.Content>

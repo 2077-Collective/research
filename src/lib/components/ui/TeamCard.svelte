@@ -65,7 +65,7 @@
 			<div
 				class={cn(
 					'w-full bg-neutral-80 group-hover:bg-white p-4 rounded-[8px] md:scale-x-[0.93] group-hover:scale-x-100 transition will-change-transform flex items-center justify-between',
-					showDetails && 'bg-white scale-x-100 rounded-t-none group-hover:rounded-t-none'
+					showDetails && 'bg-white md:scale-x-100 rounded-t-none group-hover:rounded-t-none'
 				)}
 			>
 				<div class="flex flex-col gap-1">

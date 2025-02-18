@@ -91,7 +91,7 @@
 					<Badge
 						variant="rectangularFilled"
 						href={`/category/${category.toLowerCase()}`}
-						class="bg-white text-neutral-80 py-1.5 px-2 mb-1"
+						class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
 					>
 						{category}
 					</Badge>
