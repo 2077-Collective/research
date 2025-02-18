@@ -5,8 +5,9 @@
 	import X from '$lib/components/ui/icons/X.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
+	import { cn } from '$lib/utils/ui-components';
 	import { format } from 'date-fns';
-	import { ArrowRight } from 'lucide-svelte';
+	import { ArrowRight, Grid, List } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	const { data }: { data: PageData } = $props();
@@ -26,8 +27,19 @@
 	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category: any) => category.is_primary);
+		const primary = article.categories.find((category: any) => category.is_primary);
+		return primary ?? article.categories[0];
 	}
+
+	let viewStyle = $state<'GRID' | 'LIST'>('GRID');
+
+	const handleToggleViewStyle = () => {
+		if (viewStyle === 'GRID') {
+			viewStyle = 'LIST';
+		} else {
+			viewStyle = 'GRID';
+		}
+	};
 </script>
 
 <BaseHead />
@@ -84,41 +96,111 @@
 		/>
 	</section>
 
-	<section class="bg-[#0C0C0D]">
+	<section class="bg-[#0C0C0D] pt-16 pb-28">
 		<div class="container">
-			<h2
-				id="team"
-				class="text-2xl md:text-[32px] leading-9 mb-4 md:mb-7 font-powerGroteskBold tracking-tight font-bold"
+			<div
+				class={cn(
+					'mb-4 md:mb-8 flex items-center justify-between',
+					viewStyle === 'LIST' && 'md:mb-0'
+				)}
 			>
-				Articles
-			</h2>
+				<h2
+					id="team"
+					class="text-2xl md:text-[32px] leading-9 font-powerGroteskBold tracking-tight font-bold"
+				>
+					Articles
+				</h2>
 
-			<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-x-6 md:gap-y-20">
-				{#each articles as article}
-					{@const category = getPrimaryCategory(article)}
-					{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
+				<button
+					class="size-8 flex items-center justify-center hover:text-neutral-20 transition"
+					onclick={handleToggleViewStyle}
+				>
+					{#if viewStyle === 'GRID'}
+						<Grid class="size-6" />
+					{:else}
+						<List class="size-6" />
+					{/if}
+				</button>
+			</div>
 
-					<div class="relative">
-						<div class="flex items-center justify-between">
-							<Badge
-								variant="rectangularFilled"
-								href={`/category/${formatCategorySlug(category?.name || '')}`}
-								class="bg-white text-neutral-80 py-1.5 px-2 mb-1"
-							>
-								{category?.name}
-							</Badge>
+			{#if viewStyle === 'GRID'}
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-x-6 md:gap-y-20">
+					{#each articles as article}
+						{@const category = getPrimaryCategory(article)}
+						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
-							<a
-								href={`/category/${formatCategorySlug(category?.name || '')}`}
-								class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
-								data-sveltekit-preload-data
-							>
-								View All
-								<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />
-							</a>
+						<div class="relative">
+							<div class="flex items-center justify-between">
+								<Badge
+									variant="rectangularFilled"
+									href={`/category/${formatCategorySlug(category?.name || '')}`}
+									class="bg-white text-neutral-80 py-1.5 px-2 mb-1 hover:bg-neutral-20"
+								>
+									{category?.name}
+								</Badge>
+
+								<a
+									href={`/category/${formatCategorySlug(category?.name || '')}`}
+									class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
+									data-sveltekit-preload-data
+								>
+									View All
+									<ArrowRight
+										class="w-3 h-3 group-hover/button:translate-x-1 transition-transform"
+									/>
+								</a>
+							</div>
+
+							<div class="relative group">
+								<a
+									href={`/${article.slug}`}
+									data-sveltekit-preload-data
+									class="absolute inset-0 z-20"
+									aria-label="Go to article"
+								></a>
+
+								<div class="overflow-hidden">
+									<img
+										src={article.thumb_url}
+										alt=""
+										class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+									/>
+								</div>
+
+								<div class="mt-4">
+									<h3
+										class="font-powerGroteskBold text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+									>
+										{article.title}
+									</h3>
+
+									<div
+										class="flex items-center gap-2 text-xs my-2 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
+									>
+										<p>{formattedDate}</p>
+
+										{#if article.min_read}
+											<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
+										{/if}
+									</div>
+
+									<p class="line-clamp-3 text-neutral-40 group-hover:text-neutral-60 transition">
+										{article.summary}
+									</p>
+								</div>
+							</div>
 						</div>
+					{/each}
+				</div>
+			{/if}
 
-						<div class="relative group">
+			{#if viewStyle === 'LIST'}
+				<div class="divide-y divide-[#1F1F1F]">
+					{#each articles as article}
+						{@const category = getPrimaryCategory(article)}
+						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
+
+						<div class="flex items-center flex-wrap gap-[46px] py-8 relative group">
 							<a
 								href={`/${article.slug}`}
 								data-sveltekit-preload-data
@@ -126,17 +208,25 @@
 								aria-label="Go to article"
 							></a>
 
-							<div class="overflow-hidden">
+							<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
 								<img
 									src={article.thumb_url}
 									alt=""
-									class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+									class="size-full object-cover group-hover:scale-105 transition will-change-transform"
 								/>
 							</div>
 
-							<div class="mt-4">
+							<div class="flex-1 space-y-2.5">
+								<Badge
+									variant="rectangularFilled"
+									href={`/category/${formatCategorySlug(category?.name || '')}`}
+									class="bg-[#0CDEE9] text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+								>
+									{category?.name}
+								</Badge>
+
 								<h3
-									class="font-powerGroteskBold text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+									class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 								>
 									{article.title}
 								</h3>
@@ -151,14 +241,14 @@
 									{/if}
 								</div>
 
-								<p class="line-clamp-3 text-neutral-40 group-hover:text-neutral-60 transition">
+								<p class="line-clamp-2 text-neutral-40 max-md:text-sm">
 									{article.summary}
 								</p>
 							</div>
 						</div>
-					</div>
-				{/each}
-			</div>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	</section>
 </div>
