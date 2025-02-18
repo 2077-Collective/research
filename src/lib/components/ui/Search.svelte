@@ -8,7 +8,6 @@
 	import { writable } from 'svelte/store';
 	import Algolia from './icons/Algolia.svelte';
 	import EmptySearch from './icons/EmptySearch.svelte';
-	import Input from './input/input.svelte';
 
 	const client = algoliasearch(
 		import.meta.env.VITE_ALGOLIA_APP_ID,
@@ -118,10 +117,11 @@
 </script>
 
 <button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
-	<Input
-		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 cursor-pointer w-full focus:outline-none"
-		placeholder="Search 2077Research"
-	/>
+	<span
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-60 cursor-pointer w-full flex items-center"
+	>
+		Search 2<span class="font-inter">0</span>77 research
+	</span>
 	<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 </button>
 

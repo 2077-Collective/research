@@ -193,12 +193,6 @@
 
 			<div class="w-5"></div>
 
-			<!-- <div
-				class="text-center text-sm !text-[24px] md:!text-[32px] font-powerGroteskBold font-bold w-16"
-			>
-				<span class="text-white">{current}</span>/{count}
-			</div> -->
-
 			<Carousel.Next
 				class="bg-white border-none [&_svg]:size-6 md:[&_svg]:size-6 text-black hover:bg-white size-12 hover:text-black hover:opacity-70 transition"
 			/>

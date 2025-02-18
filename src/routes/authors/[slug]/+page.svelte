@@ -57,15 +57,16 @@
 					{author.full_name}
 				</h1>
 
-				<p class="text-lg mt-[15px] font-light">
+				<p
+					class={cn(
+						'text-lg mt-[15px] font-light',
+						!author.bio && 'font-mono text-neutral-20 text-sm'
+					)}
+				>
 					{#if author.bio}
 						{author.bio}
 					{:else}
-						Edd Gent is a freelance science and technology writer based in Bengaluru, India. His
-						writing focuses on emerging technologies across computing, engineering, energy and
-						bioscience. He's on Twitter at @EddytheGent and email at edd dot gent at outlook dot
-						com. His PGP fingerprint is ABB8 6BB3 3E69 C4A7 EC91 611B 5C12 193D 5DFC C01B. His
-						public key is here. DM for Signal info.
+						No bio available
 					{/if}
 				</p>
 
@@ -78,7 +79,7 @@
 								<a
 									href={author.twitter_username}
 									target="_blank"
-									class="hover:opacity-80 transition"
+									class="transition hover:text-[#0CDEE9]"
 								>
 									<X size="16px" />
 								</a>
