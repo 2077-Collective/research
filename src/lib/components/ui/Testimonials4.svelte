@@ -287,7 +287,7 @@
 			alt="Overlay shadow"
 		/>
 
-		<h2 class="text-[24px] font-powerGroteskBold leading-[26.4px] mx-auto text-center mb-10">
+		<h2 class="text-[24px] font-powerGroteskBold leading-[26.4px] mx-auto text-center mb-6">
 			What the people <br /> are saying about us
 		</h2>
 

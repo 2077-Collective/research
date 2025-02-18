@@ -39,7 +39,6 @@
 		{@render children()}
 	</div>
 	<div class="flex flex-col grow items-center">
-		<!-- <Beehiiv variant="home" /> -->
 		<SubscribeSection />
 		<JoinSection />
 		<Footer />
