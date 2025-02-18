@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
-	import FeaturedArcticles from '$lib/components/ui/FeaturedArcticles.svelte';
+	import FeaturedArticles from '$lib/components/ui/FeaturedArticles.svelte';
 	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
 	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
@@ -81,7 +81,7 @@
 
 	<section class="container max-md:mt-14 max-md:mb-36 my-[90px]">
 		{#if featuredArticles}
-			<FeaturedArcticles articles={featuredArticles} />
+			<FeaturedArticles articles={featuredArticles} />
 		{/if}
 	</section>
 
