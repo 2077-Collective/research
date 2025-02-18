@@ -4,7 +4,7 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { cn } from '$lib/utils/ui-components';
+	import { ArrowRight } from 'lucide-svelte';
 	import { slide } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
@@ -58,12 +58,31 @@
 	const formattedLinks = links === 'Unknown' ? '' : links;
 </script>
 
-<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
-	<div
-		transition:slide={{ duration: 300 }}
-		class="flex flex-col h-fit rounded-lg overflow-hidden bg-white dark:bg-gray-800 group"
-		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
-	>
+<div
+	transition:slide={{ duration: 300 }}
+	style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
+>
+	{#if displayCategory && !hideCategory}
+		<div class="flex items-center justify-between">
+			<Badge
+				variant="rectangularFilled"
+				href={`/category/${formatCategorySlug(displayCategory.name)}`}
+				class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
+			>
+				{displayCategory.name}
+			</Badge>
+
+			<a
+				href={`/category/${formatCategorySlug(displayCategory.name)}`}
+				class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
+			>
+				View All
+				<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />
+			</a>
+		</div>
+	{/if}
+
+	<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
 		<div class="flex flex-col w-full overflow-hidden">
 			<img
 				src={thumbnailUrl}
@@ -72,33 +91,18 @@
 			/>
 		</div>
 
-		<div class="flex flex-col px-3 w-full mt-2">
-			<div class="flex gap-1 items-start w-full text-xs tracking-wide">
-				{#if displayCategory && !hideCategory}
-					<Badge
-						variant="rectangularFilled"
-						{...article.isSponsored ? { style: article.sponsorTextColor } : undefined}
-						onclick={(e: MouseEvent) => {
-							if (!isOnCategoryPage) {
-								handleCategoryClick(displayCategory.name, e);
-							}
-						}}
-						class={cn('mb-2', isOnCategoryPage ? 'cursor-default' : 'cursor-pointer')}
-					>
-						{displayCategory.name}
-					</Badge>
-				{/if}
-			</div>
+		<div class="px-3 mt-2">
 			<p
 				class="font-powerGroteskBold text-lg font-bold leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 			>
 				{article.title}
 			</p>
-			{#if formattedLinks}
-				<p class="text-xs font-mono line-clamp-1 mt-1 text-neutral-40">
-					By {@html formattedLinks}
-				</p>
-			{/if}
 		</div>
-	</div>
-</a>
+	</a>
+
+	{#if formattedLinks}
+		<p class="text-xs font-mono line-clamp-1 mt-1 text-neutral-40 px-3">
+			By {@html formattedLinks}
+		</p>
+	{/if}
+</div>

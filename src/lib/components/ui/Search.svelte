@@ -166,7 +166,7 @@
 			</div>
 
 			<div
-				class="flex-shrink-0 px-5 pb-6 pt-4 border-t border-[#343434] flex items-center justify-between text-neutral-20 text-xs"
+				class="flex-shrink-0 px-[33px] pb-6 pt-4 border-t border-[#343434] flex items-center justify-between text-neutral-20 text-xs"
 			>
 				<div class="flex items-center gap-1.5">
 					<p>Tap</p>

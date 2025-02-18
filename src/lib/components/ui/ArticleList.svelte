@@ -160,11 +160,7 @@
 	>
 		{#each filteredArticles.slice(1, visibleArticles) as article, index}
 			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard
-					{article}
-					onBadgeClick={(category) => handleCategoryClick(category)}
-					hideCategory
-				/>
+				<ArticleCard {article} onBadgeClick={(category) => handleCategoryClick(category)} />
 			</div>
 		{/each}
 
