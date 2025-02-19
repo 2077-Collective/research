@@ -62,7 +62,7 @@
 				<hr class="border-[#202020] max-md:hidden" />
 
 				<Carousel.Content class="gap-0 mx-5">
-					{#each articles as article}
+					{#each articles as article, i}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
@@ -70,6 +70,10 @@
 							class="relative md:flex-none md:w-[calc(100%/5)] overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
+
+							{#if articles.length - 1 === i}
+								<div class="h-full w-px bg-[#202020] absolute right-0 top-0 max-md:hidden"></div>
+							{/if}
 
 							{#if primaryCategory}
 								<div>
