@@ -88,9 +88,9 @@
 					</a>
 					<button onclick={handleCopyEmail} disabled={copied}>
 						{#if !copied}
-							<Copy class="size-4" />
+							<Copy class="size-4 text-neutral-60" />
 						{:else}
-							<CheckSquare2 class="size-4 fill-green-600 text-white" />
+							<CheckSquare2 class="size-4 fill-[#0BC8D2] text-white" />
 						{/if}
 					</button>
 				</p>
@@ -100,7 +100,7 @@
 
 	<section class="overflow-hidden md:mt-10 relative mt-16">
 		<img
-			class="h-[480px] md:size-full object-cover opacity-50"
+			class="2xl:h-[480px] h-[480px] md:size-full object-cover opacity-50"
 			src="/perspective-grid-work.png"
 			alt="perspective grid work with us"
 		/>

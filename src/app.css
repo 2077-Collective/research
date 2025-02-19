@@ -38,7 +38,7 @@
 @font-face {
 	font-family: 'PowerGrotesk';
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 300 400 500 600 700;
 	src:
 		local('PowerGrotesk'),
 		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
@@ -147,7 +147,7 @@
 	}
 
 	.font-powerGroteskBold {
-		letter-spacing: 0.8px !important;
+		letter-spacing: -0.96px !important;
 		font-weight: 700 !important;
 	}
 }

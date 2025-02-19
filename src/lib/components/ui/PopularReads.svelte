@@ -92,7 +92,7 @@
 
 							<a href={`/${article.slug}`} class="!size-full group" data-sveltekit-preload-data>
 								<div
-									class="flex max-md:aspect-[1/0.85] md:aspect-[15/17] items-center justify-center overflow-hidden"
+									class="flex max-md:aspect-[1/0.85] 2xl:aspect-[1/1] md:aspect-[15/17] items-center justify-center overflow-hidden"
 								>
 									<img
 										src={article.thumb_url}

@@ -25,19 +25,15 @@
 <div class="flex flex-col gap-8">
 	<section class="bg-[#010102] pt-32 pb-14 md:pb-40 relative">
 		<div class="container z-20 relative">
-			<div class="">
-				<p
-					class="text-[24px] md:text-[32px] font-powerGroteskBold leading-[26px] md:leading-9 font-bold"
-				>
-					<span
-						class="text-sm font-mono text-[#0CDEE9] block md:inline-block align-middle max-md:mb-3"
-						>{`{About}`}{' '}</span
-					>
-					2077 Research is dedicated to helping people navigate the frontier of Ethereum's research and
-					development (R&D). We explore cutting-edge topics across scaling, interoperability, Ethereum
-					standards, DeFi, staking, MEV, UX, privacy, and more. By simplifying complex ideas and providing
-					actionable insights, we empower our audience to make informed decisions in the evolving Ethereum
-					ecosystem.
+			<h1 class="text-[32px] font-powerGroteskBold !font-bold">About Us</h1>
+
+			<div class="mt-4">
+				<p class="font-light text-neutral-10 leading-[20.8px]">
+					2077 Research is dedicated to helping people navigate the frontier of Ethereum's research
+					and development (R&D). We explore cutting-edge topics across scaling, interoperability,
+					Ethereum standards, DeFi, staking, MEV, UX, privacy, and more. By simplifying complex
+					ideas and providing actionable insights, we empower our audience to make informed
+					decisions in the evolving Ethereum ecosystem.
 				</p>
 
 				<div class="flex items-center flex-wrap gap-2 mt-7">
