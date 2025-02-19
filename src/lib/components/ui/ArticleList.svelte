@@ -4,15 +4,15 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { ArrowDown, ArrowLeft } from 'lucide-svelte';
-	import { onMount, tick } from 'svelte';
+	import { cn } from '$lib/utils/ui-components';
+	import { ArrowDown } from 'lucide-svelte';
+	import { tick } from 'svelte';
 	import { slide } from 'svelte/transition';
 	import ArticleCard from './ArticleCard.svelte';
 	import FeaturedCard from './FeaturedCard.svelte';
+	import Grid from './icons/Grid.svelte';
+	import List from './icons/List.svelte';
 	let newArticleRef: HTMLElement | null = null;
-
-	let backPathname = '';
-	onMount(() => (backPathname = document.referrer));
 
 	const ARTICLES_PER_PAGE = 9;
 
@@ -21,7 +21,7 @@
 		articleCategories = [],
 		articlesPerPage = ARTICLES_PER_PAGE,
 		displayLoadMore = true,
-		title = 'Latest Research',
+		title = 'Featured Research',
 		disableCategory = false
 	}: {
 		articles: ArticleMetadata[];
@@ -109,12 +109,14 @@
 	function getPrimaryCategory(article: ArticleMetadata) {
 		return article.categories.find((category: any) => category.is_primary);
 	}
+
+	let viewStyle = $state<'GRID' | 'LIST'>('GRID');
 </script>
 
 <div>
 	<section class="pt-32 bg-[#0C0C0D] relative overflow-hidden pb-40">
 		<div class="container relative z-20">
-			<div class="flex items-center gap-3 mb-4 md:mb-9">
+			<!-- <div class="flex items-center gap-3 mb-4 md:mb-9">
 				<a
 					href="/"
 					aria-label="Back to Home"
@@ -123,20 +125,20 @@
 				>
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
 				</a>
-			</div>
+			</div> -->
 
 			<div>
 				<h2
 					id="latest-research"
-					class="text-3xl md:text-[40px] font-bold leading-9 font-powerGroteskBold tracking-wide"
+					class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold"
 				>
 					{title}
 				</h2>
 
-				<p class="max-w-[485px] text-sm font-hubot mt-3">
+				<!-- <p class="max-w-[485px] text-sm font-hubot mt-3">
 					The news around making Ethereum faster, cheaper, and more efficient with Layer 2s,
 					rollups, and sharding—paving the way for mass adoption.
-				</p>
+				</p> -->
 			</div>
 		</div>
 
@@ -155,21 +157,64 @@
 		</div>
 	</section>
 
-	<div
-		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-[67px] gap-x-6 justify-center container pt-14 bg-[#0C0C0D]"
-	>
-		{#each filteredArticles.slice(1, visibleArticles) as article, index}
-			<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
-				<ArticleCard {article} onBadgeClick={(category) => handleCategoryClick(category)} />
-			</div>
-		{/each}
+	<section class="pt-14 bg-[#0C0C0D]">
+		<div class="container flex items-center justify-between">
+			<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
-		{#if loading}
-			{#each Array(articlesPerPage) as _}
-				{@render cardSkeleton()}
+			<div class="flex items-center gap-2">
+				<button
+					class={cn(
+						'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+						viewStyle === 'GRID' && 'opacity-50'
+					)}
+					aria-label="Switch to list view"
+					onclick={() => (viewStyle = 'LIST')}
+				>
+					<List />
+
+					<span class="max-md:hidden">List View</span>
+				</button>
+
+				<button
+					class={cn(
+						'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+						viewStyle === 'LIST' && 'opacity-50'
+					)}
+					aria-label="Switch to list view"
+					onclick={() => (viewStyle = 'GRID')}
+				>
+					<Grid />
+
+					<span class="max-md:hidden">Grid View</span>
+				</button>
+			</div>
+		</div>
+
+		<div
+			class={cn(
+				'container',
+				viewStyle === 'GRID' &&
+					'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-0 md:gap-y-[67px] gap-x-6 justify-center',
+				viewStyle === 'LIST' && 'divide-y divide-[#1F1F1F]'
+			)}
+		>
+			{#each filteredArticles.slice(1, visibleArticles) as article, index}
+				<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
+					<ArticleCard
+						viewStyle="LIST"
+						{article}
+						onBadgeClick={(category) => handleCategoryClick(category)}
+					/>
+				</div>
 			{/each}
-		{/if}
-	</div>
+
+			{#if loading}
+				{#each Array(articlesPerPage) as _}
+					{@render cardSkeleton()}
+				{/each}
+			{/if}
+		</div>
+	</section>
 
 	{#if visibleArticles < filteredArticles.length && displayLoadMore}
 		<div class="flex justify-center py-4 md:py-10">

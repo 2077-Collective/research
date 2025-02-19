@@ -118,9 +118,9 @@
 
 <button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
 	<span
-		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-60 cursor-pointer w-full flex items-center"
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center font-inter tracking-tight"
 	>
-		Search 2<span class="font-inter">0</span>77 research
+		Search 2077 research
 	</span>
 	<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 </button>

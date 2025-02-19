@@ -11,27 +11,14 @@
 		navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
 			{ href: '/reports', text: 'Research', isExternal: false },
-			{ href: '/about', text: 'Newsletter', isExternal: false },
+			{ href: '/ethereum-navigator', text: 'Newsletter', isExternal: false },
 			{ href: '/about', text: 'About', isExternal: false },
 			{ href: '/work-with-us', text: 'Work with us', isExternal: false }
 		],
 
-		// read: [
-		// 	{
-		// 		href: 'https://2077.xyz',
-		// 		text: `Research`,
-		// 		isExternal: true
-		// 	},
-		// 	{
-		// 		href: 'https://2077.xyz',
-		// 		text: `The Bazaar`,
-		// 		isExternal: true
-		// 	}
-		// ],
-
 		socials: [
 			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Discord', isExternal: true },
+			{ href: 'https://x.com/2077research', text: 'Telegram', isExternal: true },
 			{ href: 'https://x.com/2077research', text: 'Farcaster', isExternal: true }
 		]
 	};
@@ -84,7 +71,7 @@
 				<div>
 					<p class="text-sm uppercase text-neutral-40">{groupTitle}</p>
 
-					<div class="mt-[18px] space-y-[14px]">
+					<div class="mt-[18px] space-y-3">
 						{#each linkGroups[groupTitle] as link}
 							{@render linkComp(link)}
 						{/each}
@@ -101,6 +88,7 @@
 		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-20 font-inter text-sm group"
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
+		data-sveltekit-preload-data
 	>
 		<span class="self-stretch my-auto">{@html link.text}</span>
 		{#if link.isExternal}

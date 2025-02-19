@@ -40,7 +40,7 @@
 <div class="flex max-md:flex-col">
 	<div class="bg-[#010102] flex-1 overflow-hidden pt-10 md:pt-[70px] max-md:px-5 max-md:pb-28">
 		<div class="flex flex-col w-full">
-			<Carousel.Root bind:api class="w-full relative" opts={{ loop: true }}>
+			<Carousel.Root bind:api class="w-full relative" opts={{ slidesToScroll: 5, startIndex: 0 }}>
 				<div class="flex items-center justify-between container mb-9">
 					<h2 class="text-2xl md:text-[32px] font-soehne font-medium">Trending Articles</h2>
 
@@ -61,21 +61,14 @@
 
 				<hr class="border-[#202020] max-md:hidden" />
 
-				<Carousel.Content>
+				<Carousel.Content class="gap-0 mx-5">
 					{#each articles as article}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
-							class="relative md:flex-none md:w-[265px] overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
+							class="relative md:flex-none md:w-[calc(100%/5)] overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
-							<!-- <a
-								href={`/${article.slug}`}
-								class="absolute inset-0"
-								aria-label="View article"
-								data-sveltekit-preload-data
-							></a> -->
-
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 
 							{#if primaryCategory}
@@ -115,7 +108,7 @@
 									</h3>
 
 									<div
-										class="flex items-center gap-2 text-xs mt-[9px] text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
+										class="flex items-center gap-2 text-xs mt-[9px] text-neutral-40 divide-x-[1px] divide-neutral-40 !font-mono max-md:mt-5"
 									>
 										<p>{formattedDate}</p>
 

@@ -14,7 +14,7 @@
 	import Spire from '$lib/components/ui/icons/partners/Spire.svelte';
 	import Starknet from '$lib/components/ui/icons/partners/Starknet.svelte';
 	import Testimonials3 from '$lib/components/ui/Testimonials3.svelte';
-	import { Copy } from 'lucide-svelte';
+	import { CheckSquare2, Copy } from 'lucide-svelte';
 
 	const partners = [
 		FastCompany,
@@ -37,6 +37,23 @@
 		Starknet,
 		MegaEth
 	];
+
+	let text = 'research@2077.xyz';
+	let copied = $state(false);
+
+	async function handleCopyEmail() {
+		if (copied) return;
+		try {
+			await navigator.clipboard.writeText(text);
+			copied = true;
+		} catch (err) {
+			console.error('Failed to copy:', err);
+		} finally {
+			setTimeout(() => {
+				copied = false;
+			}, 1500);
+		}
+	}
 </script>
 
 <BaseHead />
@@ -66,10 +83,16 @@
 				</p>
 				<p class="text-base flex items-center gap-1.5">
 					Send an e-mail to {' '}
-					<a href="mailto://research@2077.xyz" class="text-[#0BC8D2] hover:underline"
+					<a href="mailto:research@2077.xyz" class="text-[#0BC8D2] hover:underline"
 						>research@2077.xyz
 					</a>
-					<Copy class="size-4 cursor-pointer" />
+					<button onclick={handleCopyEmail} disabled={copied}>
+						{#if !copied}
+							<Copy class="size-4" />
+						{:else}
+							<CheckSquare2 class="size-4 fill-green-600 text-white" />
+						{/if}
+					</button>
 				</p>
 			</div>
 		</div>

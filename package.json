@@ -75,6 +75,7 @@
 		"embla-carousel-auto-scroll": "^8.3.0",
 		"embla-carousel-autoplay": "^8.5.2",
 		"googleapis": "^144.0.0",
+		"gsap": "^3.12.7",
 		"html2canvas": "^1.4.1",
 		"isomorphic-dompurify": "^2.16.0",
 		"jspdf": "^2.5.2",

@@ -28,7 +28,7 @@
 		},
 
 		{
-			name: 'Newletter',
+			name: 'Newsletter',
 			href: '/ethereum-navigator'
 		},
 

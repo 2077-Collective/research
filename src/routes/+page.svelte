@@ -38,7 +38,7 @@
 				</h1>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px]"
 				>
 					Navigate Ethereum’s evolving landscape <em>confidently</em>
 					{' '} with original research and insights that cut through the noise. At 2<span
@@ -48,7 +48,7 @@
 				</p>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px]"
 				>
 					Ready to level up your knowledge? Explore our library of original research, articles, and
 					reports on the cutting edge of Ethereum tech
@@ -79,7 +79,7 @@
 		<div class="absolute bottom-0 h-[40%] w-full pointer-events-none hero-mask"></div>
 	</div>
 
-	<section class="container max-md:mt-14 max-md:mb-36 my-[90px]">
+	<section class="container max-md:mt-14 max-md:mb-36 my-[90px] relative">
 		{#if featuredArticles}
 			<FeaturedArticles articles={featuredArticles} />
 		{/if}

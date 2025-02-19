@@ -1,9 +1,8 @@
 <script lang="ts">
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { cn } from '$lib/utils/ui-components';
-	import { AnimateSharedLayout, Motion } from 'svelte-motion';
+	import { AnimateSharedLayout } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
-	import Icon from './icons/Icon.svelte';
 
 	import Cio from '$lib/components/ui/icons/partners/Cio.svelte';
 	import EigenLayer from '$lib/components/ui/icons/partners/EigenLayer.svelte';
@@ -68,7 +67,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">The <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
+            <p class="mb-2">The <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
             <p class="mb-2">Really solid non-agitprop writeup of our work over at Wildcat :)</p>
             `,
 			author: 'laurence',
@@ -79,9 +78,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
             <p class="mb-1">Bonus points because it breaks down ZKPs by using Tornado Cash as a practical example.</p>
-            <p>Shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 🫡</p>
+            <p>Shoutout to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 🫡</p>
             `,
 			author: 'Martin | Blocksense 🏴‍☠️',
 			link: 'https://x.com/0bretenov/status/1868033218185695387?t=kYQqYpUR05zd0ZgVFyUFnA&s=19',
@@ -91,9 +90,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
             <p class="mb-1">But where can you go to learn more?</p>
-            <p>Luckily, our friends over <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> have you covered...</p>
+            <p>Luckily, our friends over <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> have you covered...</p>
             `,
 			author: '☉neBalance',
 			link: 'https://x.com/OneBalance_io/status/1867306674908016811?t=xIosQaRU9w43b8lQuL0_YA&s=19',
@@ -103,9 +102,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/EspressoSys" target="_blank" rel="noopener noreferrer nofollow">@EspressoSys</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/arbitrum" target="_blank" rel="noopener noreferrer nofollow">@arbitrum</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/therollupco" target="_blank" rel="noopener noreferrer nofollow">@therollupco</a></p>
-            <p class="">And definitely don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/EspressoSys" target="_blank" rel="noopener noreferrer nofollow">@EspressoSys</a><br/>Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/arbitrum" target="_blank" rel="noopener noreferrer nofollow">@arbitrum</a><br/>Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/therollupco" target="_blank" rel="noopener noreferrer nofollow">@therollupco</a></p>
+            <p class="">And definitely don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             `,
 			author: 'jill gunter ☕',
 			link: 'https://x.com/jillrgunter/status/1867041611605217359?t=49faH793BEin4k3yXpFHjA&s=19',
@@ -115,7 +114,7 @@
 		},
 		{
 			text: `<p class="mb-2">👀 excellent roundup here that covers what we're building, the current capabilities of a fast confirmation layer and what it offers chains in</p>
-			<p class="italic text-muted-foreground text-xs">[...]</p>`,
+			<p class="italic text-neutral-40 text-xs">[...]</p>`,
 			author: 'Espresso Systems',
 			link: 'https://x.com/EspressoSys/status/1867043045868441934?t=49faH793BEin4k3yXpFHjA&s=19',
 			platform: 'x',
@@ -124,8 +123,8 @@
 		},
 		{
 			text: `	
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-			<p>Read more about Aethir in this fantastic article by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>! 🚀👇🏻</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+			<p>Read more about Aethir in this fantastic article by <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>! 🚀👇🏻</p>
 			`,
 			author: 'Aethir Ecosystem',
 			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
@@ -142,7 +141,7 @@
 		},
 		{
 			text: `	
-            <p class="mb-2">This is super solid work <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
+            <p class="mb-2">This is super solid work <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
 			<p>I believe all the apps will be chain abstracted app next year.</p>
 			`,
 			author: 'Dhee.eth/nft 🦇🔊 CHAIN ABSTRACTION',
@@ -160,7 +159,7 @@
 			company: 'Intersend'
 		},
 		{
-			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer nofollow">@fikunmi_ap</a> and <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
+			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer nofollow">@fikunmi_ap</a> and <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
             <p>Here is the full tweet / report:</p>`,
 			author: 'taetaehoho',
 			link: 'https://x.com/0xtaetaehoho/status/1828440721075868089?t=ixll2icB1vuM76Qsi9zhmQ&s=19',
@@ -170,7 +169,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">Great article on Chain Abstraction by the team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
+            <p class="mb-2">Great article on Chain Abstraction by the team at <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
             <p>Read about CAKE framework and OneBalance accounts</p>
 			`,
 			author: '☉neBalance',
@@ -181,9 +180,9 @@
 		},
 		{
 			text: `
-            <p class="mb-1 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">🐡 Enter <a class="text-blue-500 hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer nofollow">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
-            <p class="mb-2">🌐 Read <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>'s full analysis below👇</p>
+            <p class="mb-1 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">🐡 Enter <a class="text-[#0CDEE9] hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer nofollow">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
+            <p class="mb-2">🌐 Read <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>'s full analysis below👇</p>
             `,
 			author: 'DeFi Dad',
 			link: 'https://x.com/defi_dad/status/1849100399485067733?s=46&t=Oa3-io-PodorudtH4BCkGg',
@@ -192,8 +191,8 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-1">One highlight I will give here is <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-1">One highlight I will give here is <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             <p>They are crazy detail-oriented and analytical. They could even find details about your project that you haven't even thought about 😂</p>
             `,
 			author: 'altan tutar',
@@ -204,8 +203,8 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-			<p>Very nice work breaking down ERC-7683 by the <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a>. S/o to the teams like <a class="text-blue-500 hover:underline" href="https://x.com/AcrossProtocol" target="_blank" rel="noopener noreferrer nofollow">@AcrossProtocol</a> & <a class="text-blue-500 hover:underline" href="https://x.com/Uniswap" target="_blank" rel="noopener noreferrer nofollow">@Uniswap</a> for collaborating on the standard.</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+			<p>Very nice work breaking down ERC-7683 by the <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a>. S/o to the teams like <a class="text-[#0CDEE9] hover:underline" href="https://x.com/AcrossProtocol" target="_blank" rel="noopener noreferrer nofollow">@AcrossProtocol</a> & <a class="text-[#0CDEE9] hover:underline" href="https://x.com/Uniswap" target="_blank" rel="noopener noreferrer nofollow">@Uniswap</a> for collaborating on the standard.</p>
 			`,
 			author: 'apriori',
 			link: 'https://x.com/apriori0x/status/1867300537172972019?t=2HjEDAqB61UGKHYlSRPeZg&s=19',
@@ -226,9 +225,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Big thanks to <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> & <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> for their cutting-edge research driving Ethereum forward.</p>
-            <p class="italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Big thanks to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> & <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> for their cutting-edge research driving Ethereum forward.</p>
+            <p class="italic text-neutral-40 text-xs">[...]</p>
             `,
 			author: 'Labyrinth',
 			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
@@ -237,9 +236,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Great overview of <a class="text-blue-500 hover:underline" href="https://x.com/hashtag/DePIN?src=hashtag_click" target="_blank" rel="noopener noreferrer nofollow">#DePIN</a> on Ethereum from <a class="text-blue-500 hover:underline" href="https://x.com/0xyanshu" target="_blank" rel="noopener noreferrer nofollow">@0xyanshu</a> and <a class="text-blue-500 hover:underline" href="https://x.com/eawosikaa" target="_blank" rel="noopener noreferrer nofollow">@eawosikaa</a> writing in <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 👇 </p>
-            <p><a class="text-blue-500 hover:underline" href="https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems#streamr-peer-to-peer-data-streaming" target="_blank" rel="noopener noreferrer nofollow">research.2077.xyz/depin-on-ether...</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Great overview of <a class="text-[#0CDEE9] hover:underline" href="https://x.com/hashtag/DePIN?src=hashtag_click" target="_blank" rel="noopener noreferrer nofollow">#DePIN</a> on Ethereum from <a class="text-[#0CDEE9] hover:underline" href="https://x.com/0xyanshu" target="_blank" rel="noopener noreferrer nofollow">@0xyanshu</a> and <a class="text-[#0CDEE9] hover:underline" href="https://x.com/eawosikaa" target="_blank" rel="noopener noreferrer nofollow">@eawosikaa</a> writing in <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 👇 </p>
+            <p><a class="text-[#0CDEE9] hover:underline" href="https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems#streamr-peer-to-peer-data-streaming" target="_blank" rel="noopener noreferrer nofollow">research.2077.xyz/depin-on-ether...</a></p>
             `,
 			author: 'Streamr Network',
 			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
@@ -260,7 +259,7 @@
 		{
 			text: `
             <p class="mb-2">Focus is now on building the best apps</p>
-            <p>This is a great read by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> team on how <a class="text-blue-500 hover:underline" href="https://x.com/SOCKETProtocol" target="_blank" rel="noopener noreferrer nofollow">@SOCKETProtocol</a> does it.</p>
+            <p>This is a great read by <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> team on how <a class="text-[#0CDEE9] hover:underline" href="https://x.com/SOCKETProtocol" target="_blank" rel="noopener noreferrer nofollow">@SOCKETProtocol</a> does it.</p>
             `,
 			author: 'Vaibhav ⚡️',
 			link: 'https://x.com/vaibhavchellani/status/1869099478340485517?s=46&t=3HX1wysJ915JPCYnZlMPfA',
@@ -270,7 +269,7 @@
 		},
 		{
 			text: `
-            <p>Great research from 2077 Research team on <a class="text-blue-500 hover:underline" href="https://x.com/nufflelabs" target="_blank" rel="noopener noreferrer nofollow">@nufflelabs</a> ! Go <a class="text-blue-500 hover:underline" href="https://x.com/mraltantutar" target="_blank" rel="noopener noreferrer nofollow">@mraltantutar</a> and team!</p>
+            <p>Great research from 2077 Research team on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/nufflelabs" target="_blank" rel="noopener noreferrer nofollow">@nufflelabs</a> ! Go <a class="text-[#0CDEE9] hover:underline" href="https://x.com/mraltantutar" target="_blank" rel="noopener noreferrer nofollow">@mraltantutar</a> and team!</p>
             `,
 			author: 'swisshustler',
 			link: 'https://x.com/swisshustler/status/1870462573486760117?t=KH6q1q7zdOBN_pauytSNig&s=19',
@@ -280,7 +279,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             `,
 			author: 'tkstanczak',
 			link: 'https://x.com/tkstanczak/status/1880153593896128907',
@@ -320,8 +319,8 @@
 				<div class="relative">
 					<Carousel.Root
 						bind:api
-						class="max-w-[380px] w-full relative mx-auto"
-						opts={{ loop: true, align: 'center' }}
+						class="max-w-[629px] w-full relative mx-auto"
+						opts={{ loop: true, align: 'center', startIndex: 15 }}
 					>
 						<AnimateSharedLayout>
 							<Carousel.Content>
@@ -333,7 +332,7 @@
 							</Carousel.Content>
 						</AnimateSharedLayout>
 
-						<div class="relative flex items-center justify-center gap-[18px] mt-2">
+						<div class="relative flex items-center justify-center gap-[18px]">
 							<Carousel.Previous
 								class="bg-white size-12 border-none [&_svg]:size-6 md:[&_svg]:size-8 !text-black hover:bg-neutral-10 hover:!text-neutral-80 relative left-0 translate-y-0"
 							/>
@@ -352,7 +351,7 @@
 {#snippet card(testimonial: Testimonial, i: number)}
 	<div
 		class={cn(
-			'p-5 md:px-[30px] md:py-6 w-full bg-[#19191A] rounded-[4px] border border-[#383838] relative transition'
+			'p-5 md:px-8 md:py-6 w-full bg-[#0C0C0C] rounded-[8px] border border-[#262626] relative transition'
 		)}
 	>
 		<a
@@ -364,8 +363,18 @@
 		>
 		</a>
 
-		<div class="flex flex-col gap-4">
-			<span class="text-sm md:text-base">{@html testimonial.text}</span>
+		<svg width="36" height="32" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M36 0L27.3356 18.6712H34.0475V31.1186H21.1119V19.0373L28.0678 0H36ZM14.8881 0L6.22373 18.6712H12.8136V31.1186H0V19.0373L6.95593 0H14.8881Z"
+				fill="#5A5A5A"
+			/>
+		</svg>
+
+		<div class="flex flex-col gap-8 mt-8">
+			<span
+				class="text-sm md:text-[24px] font-powerGroteskBold font-bold leading-6 [&_p]:!leading-7"
+				>{@html testimonial.text}</span
+			>
 
 			<div class="flex gap-2">
 				<div class="flex gap-2 justify-between w-full">
@@ -373,72 +382,17 @@
 						<img
 							src={testimonial.avatar}
 							alt={testimonial.author}
-							class="w-10 md:h-10 rounded-full"
+							class="size-[54px] object-cover object-top rounded-full"
 						/>
 						<div>
-							<p class="font-medium">{testimonial.author}</p>
+							<p class="font-powerGroteskBold !font-medium">{testimonial.author}</p>
 							{#if testimonial.company}
-								<p class="text-gray-500">{testimonial.company}</p>
+								<p class="text-neutral-40 text-sm font-mono">{testimonial.company}</p>
 							{/if}
 						</div>
-					</div>
-					<div class="flex gap-2">
-						<Icon name={testimonial.platform} />
 					</div>
 				</div>
 			</div>
 		</div>
-
-		{#if current === i + 1}
-			<Motion let:motion layoutId="outline">
-				<div class="absolute -inset-2 rounded-[4px] pointer-events-none" use:motion>
-					<div class="size-full relative">
-						<svg
-							width="17"
-							height="19"
-							class="absolute top-0 left-0"
-							viewBox="0 0 17 19"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path d="M17 1H5C2.79086 1 1 2.79086 1 5V18.5" stroke="#0CDEE9" />
-						</svg>
-
-						<svg
-							width="17"
-							height="19"
-							viewBox="0 0 17 19"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							class="absolute bottom-0 right-0"
-						>
-							<path d="M0 18H12C14.2091 18 16 16.2091 16 14V0.5" stroke="#0CDEE9" />
-						</svg>
-
-						<svg
-							width="17"
-							height="19"
-							viewBox="0 0 17 19"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							class="absolute bottom-0 left-0"
-						>
-							<path d="M17 18H5C2.79086 18 1 16.2091 1 14V0.5" stroke="#0CDEE9" />
-						</svg>
-
-						<svg
-							width="17"
-							height="19"
-							viewBox="0 0 17 19"
-							fill="none"
-							xmlns="http://www.w3.org/2000/svg"
-							class="absolute top-0 right-0"
-						>
-							<path d="M0 1H12C14.2091 1 16 2.79086 16 5V18.5" stroke="#0CDEE9" />
-						</svg>
-					</div>
-				</div>
-			</Motion>
-		{/if}
 	</div>
 {/snippet}

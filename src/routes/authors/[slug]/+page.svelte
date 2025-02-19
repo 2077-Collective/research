@@ -2,12 +2,14 @@
 	import { goto } from '$app/navigation';
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import Badge from '$lib/components/ui/badge/badge.svelte';
+	import Grid from '$lib/components/ui/icons/Grid.svelte';
+	import List from '$lib/components/ui/icons/List.svelte';
 	import X from '$lib/components/ui/icons/X.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
 	import { format } from 'date-fns';
-	import { ArrowRight, Grid, List } from 'lucide-svelte';
+	import { ArrowRight } from 'lucide-svelte';
 	import type { PageData } from './$types';
 
 	const { data }: { data: PageData } = $props();
@@ -112,16 +114,33 @@
 					Articles
 				</h2>
 
-				<button
-					class="size-8 flex items-center justify-center hover:text-neutral-20 transition"
-					onclick={handleToggleViewStyle}
-				>
-					{#if viewStyle === 'GRID'}
-						<Grid class="size-6" />
-					{:else}
-						<List class="size-6" />
-					{/if}
-				</button>
+				<div class="flex items-center gap-2">
+					<button
+						class={cn(
+							'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+							viewStyle === 'GRID' && 'opacity-50'
+						)}
+						aria-label="Switch to list view"
+						onclick={() => (viewStyle = 'LIST')}
+					>
+						<List />
+
+						<span class="max-md:hidden">List View</span>
+					</button>
+
+					<button
+						class={cn(
+							'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+							viewStyle === 'LIST' && 'opacity-50'
+						)}
+						aria-label="Switch to list view"
+						onclick={() => (viewStyle = 'GRID')}
+					>
+						<Grid />
+
+						<span class="max-md:hidden">Grid View</span>
+					</button>
+				</div>
 			</div>
 
 			{#if viewStyle === 'GRID'}

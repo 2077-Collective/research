@@ -63,7 +63,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">The <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
+            <p class="mb-2">The <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> gang were really in-depth about this - it's always great to see third parties write about what you've been working on</p>
             <p class="mb-2">Really solid non-agitprop writeup of our work over at Wildcat :)</p>
             `,
 			author: 'laurence',
@@ -74,9 +74,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
             <p class="mb-1">Bonus points because it breaks down ZKPs by using Tornado Cash as a practical example.</p>
-            <p>Shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 🫡</p>
+            <p>Shoutout to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 🫡</p>
             `,
 			author: 'Martin | Blocksense 🏴‍☠️',
 			link: 'https://x.com/0bretenov/status/1868033218185695387?t=kYQqYpUR05zd0ZgVFyUFnA&s=19',
@@ -86,9 +86,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
             <p class="mb-1">But where can you go to learn more?</p>
-            <p>Luckily, our friends over <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> have you covered...</p>
+            <p>Luckily, our friends over <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> have you covered...</p>
             `,
 			author: '☉neBalance',
 			link: 'https://x.com/OneBalance_io/status/1867306674908016811?t=xIosQaRU9w43b8lQuL0_YA&s=19',
@@ -98,9 +98,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/EspressoSys" target="_blank" rel="noopener noreferrer nofollow">@EspressoSys</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/arbitrum" target="_blank" rel="noopener noreferrer nofollow">@arbitrum</a><br/>Don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/therollupco" target="_blank" rel="noopener noreferrer nofollow">@therollupco</a></p>
-            <p class="">And definitely don't sleep on <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/EspressoSys" target="_blank" rel="noopener noreferrer nofollow">@EspressoSys</a><br/>Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/arbitrum" target="_blank" rel="noopener noreferrer nofollow">@arbitrum</a><br/>Don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/therollupco" target="_blank" rel="noopener noreferrer nofollow">@therollupco</a></p>
+            <p class="">And definitely don't sleep on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             `,
 			author: 'jill gunter ☕',
 			link: 'https://x.com/jillrgunter/status/1867041611605217359?t=49faH793BEin4k3yXpFHjA&s=19',
@@ -110,7 +110,7 @@
 		},
 		{
 			text: `<p class="mb-2">👀 excellent roundup here that covers what we're building, the current capabilities of a fast confirmation layer and what it offers chains in</p>
-			<p class="italic text-muted-foreground text-xs">[...]</p>`,
+			<p class="italic text-neutral-40 text-xs">[...]</p>`,
 			author: 'Espresso Systems',
 			link: 'https://x.com/EspressoSys/status/1867043045868441934?t=49faH793BEin4k3yXpFHjA&s=19',
 			platform: 'x',
@@ -119,8 +119,8 @@
 		},
 		{
 			text: `	
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-			<p>Read more about Aethir in this fantastic article by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>! 🚀👇🏻</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+			<p>Read more about Aethir in this fantastic article by <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>! 🚀👇🏻</p>
 			`,
 			author: 'Aethir Ecosystem',
 			link: 'https://x.com/AethirEco/status/1864944630149566639?t=TXgm_Q73EelEctNr3mB1Ow&s=19',
@@ -137,7 +137,7 @@
 		},
 		{
 			text: `	
-            <p class="mb-2">This is super solid work <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
+            <p class="mb-2">This is super solid work <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
 			<p>I believe all the apps will be chain abstracted app next year.</p>
 			`,
 			author: 'Dhee.eth/nft 🦇🔊 CHAIN ABSTRACTION',
@@ -155,7 +155,7 @@
 			company: 'Intersend'
 		},
 		{
-			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-blue-500 hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer nofollow">@fikunmi_ap</a> and <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
+			text: `<p class="mb-2">9/ Huge shoutout to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/fikunmi_ap" target="_blank" rel="noopener noreferrer nofollow">@fikunmi_ap</a> and <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> for a comprehensive report. Was great working/jamming on this together.</p>
             <p>Here is the full tweet / report:</p>`,
 			author: 'taetaehoho',
 			link: 'https://x.com/0xtaetaehoho/status/1828440721075868089?t=ixll2icB1vuM76Qsi9zhmQ&s=19',
@@ -165,7 +165,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">Great article on Chain Abstraction by the team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
+            <p class="mb-2">Great article on Chain Abstraction by the team at <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>!</p>
             <p>Read about CAKE framework and OneBalance accounts</p>
 			`,
 			author: '☉neBalance',
@@ -176,9 +176,9 @@
 		},
 		{
 			text: `
-            <p class="mb-1 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">🐡 Enter <a class="text-blue-500 hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer nofollow">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
-            <p class="mb-2">🌐 Read <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>'s full analysis below👇</p>
+            <p class="mb-1 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">🐡 Enter <a class="text-[#0CDEE9] hover:underline" href="https://x.com/puffer_unifi" target="_blank" rel="noopener noreferrer nofollow">@puffer_unifi</a>, aligning L1 + L2 with decentralized sequencing + shared MEV rewards.</p>
+            <p class="mb-2">🌐 Read <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a>'s full analysis below👇</p>
             `,
 			author: 'DeFi Dad',
 			link: 'https://x.com/defi_dad/status/1849100399485067733?s=46&t=Oa3-io-PodorudtH4BCkGg',
@@ -187,8 +187,8 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-1">One highlight I will give here is <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-1">One highlight I will give here is <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             <p>They are crazy detail-oriented and analytical. They could even find details about your project that you haven't even thought about 😂</p>
             `,
 			author: 'altan tutar',
@@ -199,8 +199,8 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-			<p>Very nice work breaking down ERC-7683 by the <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a>. S/o to the teams like <a class="text-blue-500 hover:underline" href="https://x.com/AcrossProtocol" target="_blank" rel="noopener noreferrer nofollow">@AcrossProtocol</a> & <a class="text-blue-500 hover:underline" href="https://x.com/Uniswap" target="_blank" rel="noopener noreferrer nofollow">@Uniswap</a> for collaborating on the standard.</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+			<p>Very nice work breaking down ERC-7683 by the <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a>. S/o to the teams like <a class="text-[#0CDEE9] hover:underline" href="https://x.com/AcrossProtocol" target="_blank" rel="noopener noreferrer nofollow">@AcrossProtocol</a> & <a class="text-[#0CDEE9] hover:underline" href="https://x.com/Uniswap" target="_blank" rel="noopener noreferrer nofollow">@Uniswap</a> for collaborating on the standard.</p>
 			`,
 			author: 'apriori',
 			link: 'https://x.com/apriori0x/status/1867300537172972019?t=2HjEDAqB61UGKHYlSRPeZg&s=19',
@@ -221,9 +221,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Big thanks to <a class="text-blue-500 hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> & <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> for their cutting-edge research driving Ethereum forward.</p>
-            <p class="italic text-muted-foreground text-xs">[...]</p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Big thanks to <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Collective" target="_blank" rel="noopener noreferrer nofollow">@2077Collective</a> & <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> for their cutting-edge research driving Ethereum forward.</p>
+            <p class="italic text-neutral-40 text-xs">[...]</p>
             `,
 			author: 'Labyrinth',
 			link: 'https://x.com/Labyrinth_HQ/status/1866929394159087945?t=e2TBZ4riMkZr5vkdnbheRA&s=19',
@@ -232,9 +232,9 @@
 		},
 		{
 			text: `
-            <p class="mb-2 italic text-muted-foreground text-xs">[...]</p>
-            <p class="mb-2">Great overview of <a class="text-blue-500 hover:underline" href="https://x.com/hashtag/DePIN?src=hashtag_click" target="_blank" rel="noopener noreferrer nofollow">#DePIN</a> on Ethereum from <a class="text-blue-500 hover:underline" href="https://x.com/0xyanshu" target="_blank" rel="noopener noreferrer nofollow">@0xyanshu</a> and <a class="text-blue-500 hover:underline" href="https://x.com/eawosikaa" target="_blank" rel="noopener noreferrer nofollow">@eawosikaa</a> writing in <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 👇 </p>
-            <p><a class="text-blue-500 hover:underline" href="https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems#streamr-peer-to-peer-data-streaming" target="_blank" rel="noopener noreferrer nofollow">research.2077.xyz/depin-on-ether...</a></p>
+            <p class="mb-2 italic text-neutral-40 text-xs">[...]</p>
+            <p class="mb-2">Great overview of <a class="text-[#0CDEE9] hover:underline" href="https://x.com/hashtag/DePIN?src=hashtag_click" target="_blank" rel="noopener noreferrer nofollow">#DePIN</a> on Ethereum from <a class="text-[#0CDEE9] hover:underline" href="https://x.com/0xyanshu" target="_blank" rel="noopener noreferrer nofollow">@0xyanshu</a> and <a class="text-[#0CDEE9] hover:underline" href="https://x.com/eawosikaa" target="_blank" rel="noopener noreferrer nofollow">@eawosikaa</a> writing in <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> 👇 </p>
+            <p><a class="text-[#0CDEE9] hover:underline" href="https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems#streamr-peer-to-peer-data-streaming" target="_blank" rel="noopener noreferrer nofollow">research.2077.xyz/depin-on-ether...</a></p>
             `,
 			author: 'Streamr Network',
 			link: 'https://x.com/streamr/status/1866120870823129311?t=kFyIZwb26cxgod9GfU7tNw&s=19',
@@ -255,7 +255,7 @@
 		{
 			text: `
             <p class="mb-2">Focus is now on building the best apps</p>
-            <p>This is a great read by <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> team on how <a class="text-blue-500 hover:underline" href="https://x.com/SOCKETProtocol" target="_blank" rel="noopener noreferrer nofollow">@SOCKETProtocol</a> does it.</p>
+            <p>This is a great read by <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a> team on how <a class="text-[#0CDEE9] hover:underline" href="https://x.com/SOCKETProtocol" target="_blank" rel="noopener noreferrer nofollow">@SOCKETProtocol</a> does it.</p>
             `,
 			author: 'Vaibhav ⚡️',
 			link: 'https://x.com/vaibhavchellani/status/1869099478340485517?s=46&t=3HX1wysJ915JPCYnZlMPfA',
@@ -265,7 +265,7 @@
 		},
 		{
 			text: `
-            <p>Great research from 2077 Research team on <a class="text-blue-500 hover:underline" href="https://x.com/nufflelabs" target="_blank" rel="noopener noreferrer nofollow">@nufflelabs</a> ! Go <a class="text-blue-500 hover:underline" href="https://x.com/mraltantutar" target="_blank" rel="noopener noreferrer nofollow">@mraltantutar</a> and team!</p>
+            <p>Great research from 2077 Research team on <a class="text-[#0CDEE9] hover:underline" href="https://x.com/nufflelabs" target="_blank" rel="noopener noreferrer nofollow">@nufflelabs</a> ! Go <a class="text-[#0CDEE9] hover:underline" href="https://x.com/mraltantutar" target="_blank" rel="noopener noreferrer nofollow">@mraltantutar</a> and team!</p>
             `,
 			author: 'swisshustler',
 			link: 'https://x.com/swisshustler/status/1870462573486760117?t=KH6q1q7zdOBN_pauytSNig&s=19',
@@ -275,7 +275,7 @@
 		},
 		{
 			text: `
-            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-blue-500 hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
+            <p class="mb-2">Get ready to hear more on based rollups in 2025. From the great team at <a class="text-[#0CDEE9] hover:underline" href="https://x.com/2077Research" target="_blank" rel="noopener noreferrer nofollow">@2077Research</a></p>
             `,
 			author: 'tkstanczak',
 			link: 'https://x.com/tkstanczak/status/1880153593896128907',

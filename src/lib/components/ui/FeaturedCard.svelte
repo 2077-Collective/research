@@ -4,7 +4,9 @@
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
+	import { gsap } from 'gsap';
 	import { ArrowRight } from 'lucide-svelte';
+	import { onMount } from 'svelte';
 	import Badge from './badge/badge.svelte';
 
 	export let article: ArticleMetadata;
@@ -28,10 +30,36 @@
 
 	const authorText = getAuthorsText(article.authors || []);
 	const formattedAuthorText = authorText === 'Unknown' ? '' : authorText;
+
+	let child: HTMLDivElement | null = null;
+
+	onMount(() => {
+		if (child) {
+			gsap.set(child, { height: 0, marginTop: 0 });
+		}
+	});
+
+	function expand() {
+		if (child) {
+			gsap.to(child, { height: 'auto', marginTop: 10, duration: 0.3, ease: 'power2.out' }); // Expand
+		}
+	}
+
+	function collapse() {
+		if (child) {
+			gsap.to(child, { height: 0, marginTop: 0, duration: 0.3, ease: 'power2.in' }); // Collapse
+		}
+	}
 </script>
 
-<div class="relative group md:rounded-[16px] overflow-hidden">
-	<div class="flex md:aspect-[1/0.45] items-center justify-center">
+<div
+	class="relative group md:rounded-[16px] overflow-hidden"
+	onmouseenter={expand}
+	onmouseleave={collapse}
+	role="button"
+	tabindex="0"
+>
+	<div class="flex md:aspect-[2.045/1] items-center justify-center">
 		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 			<img
 				src={article.thumb_url}
@@ -39,7 +67,7 @@
 				loading="eager"
 				fetchpriority="high"
 				decoding="async"
-				class="!w-full lg:w-4/6 object-cover"
+				class="size-full object-cover"
 			/>
 		</a>
 	</div>
@@ -53,7 +81,7 @@
 	</a>
 
 	<div
-		class="relative md:absolute md:w-[350px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] max-md:pt-6 md:py-6 md:translate-y-[30%] group-hover:translate-y-0 transition duration-300 will-change-transform"
+		class="relative md:absolute md:w-[420px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] pt-6 md:pb-3 group-hover:translate-y-0 transition duration-300 will-change-transform"
 	>
 		{#if primaryCategory}
 			<div class="px-6">
@@ -71,31 +99,33 @@
 		{/if}
 
 		<a href={`/${article.slug}`} class="px-6 max-md:pb-6 block" data-sveltekit-preload-data>
-			<h3
-				class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-3 mt-4"
-			>
-				{toTitleCase(article.title)}
-			</h3>
+			<div>
+				<h3
+					class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-4 mt-4"
+				>
+					{toTitleCase(article.title)}
+				</h3>
 
-			<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">{article.summary}</p>
+				<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">{article.summary}</p>
+			</div>
 
 			<div class="flex items-center gap-2 text-xs text-neutral-40 font-mono mt-5 md:mt-2.5">
 				<p>{formattedDate}</p>
 			</div>
 
-			<p
-				class="max-md:hidden text-sm text-neutral-40 line-clamp-4 mt-2.5 md:opacity-0 group-hover:opacity-100 transition"
-			>
-				{article.summary}
-			</p>
-
-			<hr class="my-4 border-[#262626] md:opacity-0 group-hover:opacity-100 transition" />
-
-			{#if formattedAuthorText}
-				<p class="text-sm font-mono line-clamp-1 md:opacity-0 group-hover:opacity-100 transition">
-					By {@html formattedAuthorText}
+			<div class="overflow-hidden" bind:this={child}>
+				<p class="max-md:hidden text-sm text-neutral-40 line-clamp-4">
+					{article.summary}
 				</p>
-			{/if}
+
+				<!-- {#if formattedAuthorText}
+					<hr class="my-4 border-[#262626]" />
+
+					<p class="text-sm font-mono line-clamp-1">
+						By {@html formattedAuthorText}
+					</p>
+				{/if} -->
+			</div>
 		</a>
 	</div>
 </div>
