@@ -1,3 +1,5 @@
+import { browser } from '$app/environment';
+
 /**
  * Type definition for an author object
  */
@@ -22,6 +24,7 @@ export function getAuthorDisplayName(author: Author | null | undefined): string 
  * @returns Format string of author names or "Unknown" if no authors
  */
 export function getAuthorsText(authors: Author[] | null | undefined): string {
+	if (!browser) return '';
 	if (!authors?.length) return 'Unknown';
 
 	const authorsWithHyperlink = authors

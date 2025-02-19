@@ -158,7 +158,7 @@
 	</section>
 
 	<section class="pt-14 bg-[#0C0C0D]">
-		<div class="container flex items-center justify-between">
+		<div class="container flex items-center justify-between mb-10">
 			<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
 			<div class="flex items-center gap-2">
@@ -201,9 +201,11 @@
 			{#each filteredArticles.slice(1, visibleArticles) as article, index}
 				<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
 					<ArticleCard
-						viewStyle="LIST"
+						{viewStyle}
 						{article}
 						onBadgeClick={(category) => handleCategoryClick(category)}
+						hideInfo={false}
+						hideSummary={false}
 					/>
 				</div>
 			{/each}

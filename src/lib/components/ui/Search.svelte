@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import * as Dialog from '$lib/components/ui/dialog';
 	import { cn } from '$lib/utils/ui-components';
 	import { algoliasearch, type RankingInfo, type SnippetResult } from 'algoliasearch';
@@ -79,7 +80,7 @@
 				);
 
 				const categories: string[] = Array.from(
-					new Set(filteredHits.map((result) => result.categories[0].name))
+					new Set(filteredHits.map((result) => result.categories[0]?.name).filter(Boolean))
 				);
 
 				const transformedHits: any = categories.reduce(
@@ -91,8 +92,6 @@
 					},
 					{} as Record<string, typeof hits>
 				);
-
-				console.log({ transformedHits });
 
 				results.set(transformedHits);
 			} catch (error) {
@@ -109,6 +108,10 @@
 		results.set({});
 		query = '';
 		openDialog.set(open);
+
+		if (browser) {
+			document.body.style.overflow = 'unset';
+		}
 	};
 
 	const handleOpenDialog = () => {

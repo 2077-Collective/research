@@ -118,13 +118,13 @@
 					{article.summary}
 				</p>
 
-				<!-- {#if formattedAuthorText}
+				{#if formattedAuthorText}
 					<hr class="my-4 border-[#262626]" />
 
 					<p class="text-sm font-mono line-clamp-1">
 						By {@html formattedAuthorText}
 					</p>
-				{/if} -->
+				{/if}
 			</div>
 		</a>
 	</div>

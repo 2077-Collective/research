@@ -6,7 +6,7 @@
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { format } from 'date-fns';
 	import { ArrowRight } from 'lucide-svelte';
-	import { slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
 	interface $$Props {
@@ -119,14 +119,14 @@
 				{/if}
 			</div>
 
-			<p class="line-clamp-2 text-neutral-40 max-md:text-sm">
+			<p class="text-neutral-40 max-md:text-sm line-clamp-3">
 				{article.summary}
 			</p>
 		</div>
 	</div>
 {:else}
 	<div
-		transition:slide={{ duration: 300 }}
+		transition:fade={{ duration: 200 }}
 		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
 	>
 		{#if displayCategory && !hideCategory}
@@ -150,11 +150,11 @@
 		{/if}
 
 		<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
-			<div class="flex flex-col w-full overflow-hidden">
+			<div class="overflow-hidden">
 				<img
 					src={thumbnailUrl}
 					alt=""
-					class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+					class="aspect-[1/0.5] object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
 				/>
 			</div>
 

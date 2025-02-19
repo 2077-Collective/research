@@ -280,41 +280,43 @@
 	];
 </script>
 
-<div class="bg-black relative overflow-hidden">
-	<div class="container py-20">
+<div class="bg-[#010304] relative overflow-hidden">
+	<div>
 		<img
-			class="w-[1198.5px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none"
+			class="w-[1288px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none object-cover"
 			src="/Overlay+Shadow.png"
 			alt="Overlay shadow"
 		/>
 
-		<h2 class="text-[44.852px] font-powerGroteskBold leading-[44px] mx-auto text-center mb-6">
-			What the people <br /> are saying about us
-		</h2>
+		<div class="py-16">
+			<h2 class="text-[44.852px] font-powerGroteskBold leading-[44px] mx-auto text-center mb-6">
+				What the people <br /> are saying about us
+			</h2>
 
-		<div class="overflow-hidden">
-			<div class="relative">
-				<Carousel.Root bind:api class="w-full relative " opts={{ loop: true, align: 'center' }}>
-					<AnimateSharedLayout>
-						<Carousel.Content class="items-center">
-							{#each testimonials as testimonial, i}
-								<Carousel.Item class="flex-none w-[271px] md:w-[821px] p-2">
-									{@render card(testimonial, i)}
-								</Carousel.Item>
-							{/each}
-						</Carousel.Content>
-					</AnimateSharedLayout>
+			<div class="overflow-hidden">
+				<div class="relative">
+					<Carousel.Root bind:api class="w-full relative " opts={{ loop: true, align: 'center' }}>
+						<AnimateSharedLayout>
+							<Carousel.Content class="items-center">
+								{#each testimonials as testimonial, i}
+									<Carousel.Item class="flex-none w-[271px] md:w-[821px] p-2">
+										{@render card(testimonial, i)}
+									</Carousel.Item>
+								{/each}
+							</Carousel.Content>
+						</AnimateSharedLayout>
 
-					<div class="relative flex items-center justify-center gap-[18px] mt-10">
-						<Carousel.Previous
-							class="bg-[#151516] size-12 border-none [&_svg]:size-6 md:[&_svg]:size-6 !text-white relative left-0 translate-y-0 hover:bg-[#151516] hover:opacity-85"
-						/>
+						<div class="relative flex items-center justify-center gap-[18px] mt-10">
+							<Carousel.Previous
+								class="bg-[#151516] size-12 border-none [&_svg]:size-6 md:[&_svg]:size-6 !text-white relative left-0 translate-y-0 hover:bg-[#151516] hover:opacity-85"
+							/>
 
-						<Carousel.Next
-							class="bg-[#151516] size-12 border-none [&_svg]:size-6 md:[&_svg]:size-6 !text-white relative left-0 translate-y-0 hover:bg-[#151516] hover:opacity-85"
-						/>
-					</div>
-				</Carousel.Root>
+							<Carousel.Next
+								class="bg-[#151516] size-12 border-none [&_svg]:size-6 md:[&_svg]:size-6 !text-white relative left-0 translate-y-0 hover:bg-[#151516] hover:opacity-85"
+							/>
+						</div>
+					</Carousel.Root>
+				</div>
 			</div>
 		</div>
 	</div>
