@@ -86,6 +86,9 @@ const config: Config = {
 			},
 			animation: {
 				float: 'float 5s ease-in-out infinite'
+			},
+			boxShadow: {
+				hover: '0px 0px 28px 0px rgba(12, 222, 233, 0.50)'
 			}
 		}
 	},
