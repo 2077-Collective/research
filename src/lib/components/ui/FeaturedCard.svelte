@@ -84,7 +84,7 @@
 			</div>
 
 			<p
-				class="max-md:hidden text-sm text-neutral-40 line-clamp-3 mt-2.5 md:opacity-0 group-hover:opacity-100 transition"
+				class="max-md:hidden text-sm text-neutral-40 line-clamp-4 mt-2.5 md:opacity-0 group-hover:opacity-100 transition"
 			>
 				{article.summary}
 			</p>
