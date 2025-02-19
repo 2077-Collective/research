@@ -1,5 +1,6 @@
 import { env } from '$env/dynamic/public';
 import { ArticleMetadataArraySchema, type ArticleMetadata } from '$lib/types/article';
+import { calculateReadingTime } from '$lib/utils/calculate-read-time';
 
 const baseURL = env.PUBLIC_STRAPI_URL;
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
@@ -99,7 +100,7 @@ export const fetchArticles = async (category?: string, page = 1, limit = 10) => 
 					})),
 					created_at: article?.createdAt || new Date().toISOString(),
 					updated_at: article?.updatedAt || new Date().toISOString(),
-					min_read: article?.min_read || null,
+					min_read: article?.min_read || calculateReadingTime(article?.content || ''),
 					views: article?.views || 0,
 					isSponsored: article?.is_sponsored || false,
 					sponsorColor: article?.sponsor_color || '',

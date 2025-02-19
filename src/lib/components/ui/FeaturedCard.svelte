@@ -109,8 +109,14 @@
 				<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">{article.summary}</p>
 			</div>
 
-			<div class="flex items-center gap-2 text-xs text-neutral-40 font-mono mt-5 md:mt-2.5">
+			<div
+				class="flex items-center gap-2 text-xs text-neutral-40 font-mono mt-5 md:mt-2.5 divide-x-[1px] divide-[#333]"
+			>
 				<p>{formattedDate}</p>
+
+				{#if article.min_read}
+					<p class="pl-2">{article.min_read} min read</p>
+				{/if}
 			</div>
 
 			<div class="overflow-hidden" bind:this={child}>

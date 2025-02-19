@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/public';
 import type { Article, ArticleMetadata, StrapiArticle, StrapiResponse } from '$lib/types/article';
 import { logApiResponse } from '$lib/utils/api-logger';
+import { calculateReadingTime } from '$lib/utils/calculate-read-time';
 
 const baseURL = env.PUBLIC_STRAPI_URL;
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
@@ -60,7 +61,7 @@ export const transformStrapiArticle = (articleData: any): ArticleMetadata | null
 			})),
 			created_at: articleData?.createdAt || new Date().toISOString(),
 			updated_at: articleData?.updatedAt || new Date().toISOString(),
-			min_read: articleData?.min_read || null,
+			min_read: articleData?.min_read || calculateReadingTime(articleData?.content || ''),
 			views: articleData?.views || 0,
 			isSponsored: articleData?.is_sponsored || false,
 			sponsorColor: articleData?.sponsor_color || '',
@@ -104,7 +105,7 @@ const transformToFullArticle = (articleData: any): Article | null => {
 			})),
 			created_at: articleData?.createdAt || new Date().toISOString(),
 			updated_at: articleData?.updatedAt || new Date().toISOString(),
-			min_read: articleData?.min_read || null,
+			min_read: articleData?.min_read || calculateReadingTime(articleData?.content || ''),
 			views: articleData?.views || 0,
 			isSponsored: articleData?.is_sponsored || false,
 			sponsorColor: articleData?.sponsor_color || '',
