@@ -2,15 +2,10 @@
 	import { page } from '$app/stores';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
-	import { derived } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
 	import Search from './Search.svelte';
-
-	const current_url = derived(page, ($page) => {
-		return $page.url.pathname.split('/').filter(Boolean).pop() || '/';
-	});
 
 	let mobileMenuOpen = $state(false);
 
@@ -70,12 +65,12 @@
 			<!-- Desktop Navigation -->
 			<div class="items-center gap-10 hidden lg:flex font-mono text-sm">
 				{#each links as link}
-					{@const isActive = `/${current_url}` === link.href}
+					{@const isActive = $page.url.pathname === link.href}
 					<a
 						href={link.href}
 						class={cn(
-							'text-gray-200 hover:text-gray-400 transition-colors flex items-center gap-1 group',
-							isActive && 'text-[#0CDEE9] hover:text-[#0CDEE9]'
+							'text-gray-200 hover:text-neutral-40 transition-colors flex items-center gap-1 group',
+							isActive && 'text-[#0CDEE9] hover:text-[#0CDEE9] font-bold'
 						)}
 						data-sveltekit-preload-data
 					>
