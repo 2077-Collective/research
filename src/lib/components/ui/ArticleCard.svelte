@@ -6,7 +6,6 @@
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { format } from 'date-fns';
 	import { ArrowRight } from 'lucide-svelte';
-	import { fade } from 'svelte/transition';
 	import Badge from './badge/badge.svelte';
 
 	interface $$Props {
@@ -95,13 +94,15 @@
 		</div>
 
 		<div class="flex-1 space-y-2.5">
-			<Badge
-				variant="rectangularFilled"
-				href={`/category/${formatCategorySlug(category?.name || '')}`}
-				class="bg-[#0CDEE9] text-neutral-80 py-1.5 px-2 font-mono relative z-50"
-			>
-				{category?.name}
-			</Badge>
+			{#if !hideCategory}
+				<Badge
+					variant="rectangularFilled"
+					href={`/category/${formatCategorySlug(category?.name || '')}`}
+					class="bg-white text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+				>
+					{category?.name}
+				</Badge>
+			{/if}
 
 			<h3
 				class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
@@ -126,7 +127,6 @@
 	</div>
 {:else}
 	<div
-		transition:fade={{ duration: 200 }}
 		style={`background-color: ${article.isSponsored ? article.sponsorColor : 'transparent'}; color: ${article.isSponsored ? article.sponsorTextColor : 'inherit'};`}
 	>
 		{#if displayCategory && !hideCategory}

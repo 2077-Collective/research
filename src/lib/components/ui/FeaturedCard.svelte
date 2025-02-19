@@ -9,7 +9,13 @@
 	import { onMount } from 'svelte';
 	import Badge from './badge/badge.svelte';
 
-	export let article: ArticleMetadata;
+	const {
+		article,
+		hideCategory = false
+	}: {
+		article: ArticleMetadata;
+		hideCategory?: boolean;
+	} = $props();
 
 	const primaryCategory = getPrimaryCategory(article)?.name;
 	const formattedDate = format(article.created_at, 'dd MMM yyyy');
@@ -53,7 +59,7 @@
 </script>
 
 <div
-	class="relative group md:rounded-[16px] overflow-hidden"
+	class="relative group md:rounded-[16px] overflow-hidden border border-[#171717]"
 	onmouseenter={expand}
 	onmouseleave={collapse}
 	role="button"
@@ -83,7 +89,7 @@
 	<div
 		class="relative md:absolute md:w-[420px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] pt-6 md:pb-3 group-hover:translate-y-0 transition duration-300 will-change-transform"
 	>
-		{#if primaryCategory}
+		{#if primaryCategory && !hideCategory}
 			<div class="px-6">
 				<Badge
 					variant="rectangularFilled"

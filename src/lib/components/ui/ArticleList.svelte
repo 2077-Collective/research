@@ -152,7 +152,7 @@
 	<section class="bg-[#010102] pb-[98px]">
 		<div class="container relative -mt-28">
 			{#if firstArticle}
-				<FeaturedCard article={firstArticle} />
+				<FeaturedCard article={firstArticle} hideCategory />
 			{/if}
 		</div>
 	</section>
@@ -206,6 +206,7 @@
 						onBadgeClick={(category) => handleCategoryClick(category)}
 						hideInfo={false}
 						hideSummary={false}
+						hideCategory={disableCategory}
 					/>
 				</div>
 			{/each}
