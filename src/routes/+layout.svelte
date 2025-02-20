@@ -43,7 +43,7 @@
 		<!-- <Beehiiv /> -->
 		<JoinSection />
 		<Footer />
-		<Toaster />
+		<Toaster richColors />
 
 		{#if showButton}
 			<button

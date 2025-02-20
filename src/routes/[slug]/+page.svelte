@@ -18,15 +18,18 @@
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
 	import { onMount, tick, type Component } from 'svelte';
+	import { derived } from 'svelte/store';
 	import { fly } from 'svelte/transition';
 	import type { PageData } from './$types';
 
+	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
+	import { jwt } from '$lib/stores/auth';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
-	import { FileDown, Link2, Share, type Icon } from 'lucide-svelte';
+	import { FileDown, Link2, Share, X, type Icon } from 'lucide-svelte';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -62,6 +65,8 @@
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
+
+	const baseURL = env.PUBLIC_STRAPI_URL;
 
 	const sanitizedContent = $derived(
 		data.article?.content
@@ -554,6 +559,49 @@
 			handlePdfDownload(data.article);
 		}
 	}
+
+	let token = $state('');
+	let isLoggedIn = $state(false);
+	let showAuthBanner = $state(false);
+	let isCheckingAuth = $state(true);
+
+	jwt.subscribe((value) => {
+		token = value || '';
+	});
+
+	const handleFetchUser = async () => {
+		if (!token) {
+			isCheckingAuth = false;
+
+			return;
+		}
+
+		try {
+			const response = await fetch(`${baseURL}/api/users/me`, {
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			});
+
+			const result = await response.json();
+
+			if (result.confirmed && result.username) {
+				isLoggedIn = true;
+			} else {
+				isLoggedIn = false;
+			}
+		} catch (error) {
+			isLoggedIn = false;
+		} finally {
+			isCheckingAuth = false;
+		}
+	};
+
+	$effect(() => {
+		handleFetchUser();
+	});
+
+	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
 </script>
 
 <ArticleHead article={data.article} />
@@ -565,6 +613,65 @@
 		aria-label={`Progress ${progress}%`}
 	></div>
 </div>
+
+{#if showAuthBanner}
+	<div
+		class="fixed h-screen w-screen bg-black/30 backdrop-blur-[3px] top-0 left-0 z-[999999] flex items-center justify-center"
+	>
+		<div class="p-11 bg-[#131314] rounded-[8px] w-[1095px] max-w-full relative">
+			<div class="max-w-[595px]">
+				<div>
+					<h2 class="text-[40px] leading-[38.8px] font-powerGroteskBold font-bold">
+						Listening to articles requires a 2077 Research account.
+					</h2>
+
+					<p class="mt-[13px] text-neutral-20 font-medium">
+						Sign in to listen to articles, download as PDFs, and save research for later.
+						<br />It’s free—just create an account to explore the future of Ethereum without limits.
+					</p>
+				</div>
+
+				<div class="mt-[30px] flex items-center gap-[10.564px]">
+					<a href={`/signup?callback_url=/${$slug}`}>
+						<button
+							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 font-mono flex items-center justify-center hover:bg-neutral-80 transition"
+						>
+							Create an Account
+						</button>
+					</a>
+
+					<a href={`/signin?callback_url=/${$slug}`}>
+						<button
+							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 font-mono flex items-center justify-center hover:bg-neutral-80 transition"
+						>
+							Sign In
+						</button>
+					</a>
+				</div>
+			</div>
+
+			<button class="absolute top-11 right-11 group" onclick={() => (showAuthBanner = false)}>
+				<X class="size-8 text-white group-hover:text-neutral-40 transition" />
+			</button>
+		</div>
+	</div>
+{/if}
+
+{#if !isLoggedIn && !isCheckingAuth}
+	<button
+		class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition"
+		onclick={() => (showAuthBanner = true)}
+	>
+		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path
+				d="M7.19997 1.93549C6.08933 1.2587 4.66602 2.05812 4.66602 3.35873V16.6414C4.66602 17.942 6.08933 18.7414 7.19997 18.0646L18.0985 11.4233C19.1644 10.7738 19.1644 9.22631 18.0985 8.57681L7.19997 1.93549Z"
+				class="fill-[#666666] group-hover:fill-neutral-80 transition"
+			/>
+		</svg>
+
+		Sign in to Listen</button
+	>
+{/if}
 
 <div class="flex flex-col gap-y-6 md:gap-y-14">
 	{#if !isReadingMode}
@@ -664,17 +771,19 @@
 				class="w-full h-full object-cover pointer-events-none select-none"
 			/>
 
-			<iframe
-				id="AudioNativeElevenLabsPlayer"
-				title="AudioNative ElevenLabs Player"
-				width="377"
-				height="98"
-				frameborder="no"
-				scrolling="no"
-				src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-				style="max-height: 90px;"
-				class="fixed left-1/2 -translate-x-1/2 bottom-8 z-[99999]"
-			></iframe>
+			{#if isLoggedIn && !isCheckingAuth}
+				<iframe
+					id="AudioNativeElevenLabsPlayer"
+					title="AudioNative ElevenLabs Player"
+					width="377"
+					height="98"
+					frameborder="no"
+					scrolling="no"
+					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+					style="max-height: 90px;"
+					class="fixed left-1/2 -translate-x-1/2 bottom-8 z-[99999]"
+				></iframe>
+			{/if}
 		</div>
 	</div>
 {/snippet}
