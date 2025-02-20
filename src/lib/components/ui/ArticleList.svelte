@@ -100,16 +100,6 @@
 
 	const firstArticle = $derived(filteredArticles[0]);
 
-	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
-		if (event.detail.key === 'Enter') {
-			handleCategoryClick(categoryName);
-		}
-	}
-
-	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category: any) => category.is_primary);
-	}
-
 	let viewStyle = $state<'GRID' | 'LIST'>('GRID');
 </script>
 

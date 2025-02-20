@@ -48,10 +48,10 @@
 	];
 </script>
 
-<section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 md:pb-52 pb-40">
+<section class="bg-[#0C0C0D] w-full pt-16 md:pt-32 md:pb-52 pb-40 overflow-hidden">
 	<div class="container">
 		<h2
-			class="text-[24px] md:text-[32px] font-powerGroteskBold font-bold max-md:max-w-[257px] text-center mx-auto leading-8"
+			class="text-2xl md:text-[32px] font-powerGroteskBold font-bold max-md:max-w-[257px] text-center mx-auto md:leading-8"
 		>
 			Join the movement shaping <br class="max-md:hidden" /> the decentralized future
 		</h2>

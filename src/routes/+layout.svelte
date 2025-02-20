@@ -1,9 +1,9 @@
 <script lang="ts">
-	import Beehiiv from '$lib/components/ui/Beehiiv.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
 	import JoinSection from '$lib/components/ui/JoinSection.svelte';
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
@@ -39,8 +39,8 @@
 		{@render children()}
 	</div>
 	<div class="flex flex-col grow items-center">
-		<!-- <SubscribeSection /> -->
-		<Beehiiv />
+		<SubscribeSection />
+		<!-- <Beehiiv /> -->
 		<JoinSection />
 		<Footer />
 		<Toaster />

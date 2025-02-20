@@ -12,8 +12,10 @@
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 
-	const featuredArticles = $derived(articles.slice(0, 5));
-	const popularReads = $derived(articles.slice(5, 15));
+	const FEATURED_COUNT = 5;
+	const POPULAR_COUNT = 10;
+	const featuredArticles = $derived(articles.slice(0, FEATURED_COUNT));
+	const popularReads = $derived(articles.slice(FEATURED_COUNT, FEATURED_COUNT + POPULAR_COUNT));
 
 	onMount(() => {
 		setArticles(data.articles);
