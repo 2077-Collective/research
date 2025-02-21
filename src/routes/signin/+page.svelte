@@ -34,9 +34,10 @@
 
 	const searchParams = derived(page, ($page) => new URLSearchParams($page.url.search));
 	const paramValue = derived(searchParams, ($params) => $params.get('callback_url'));
+	const confirmEmail = derived(searchParams, ($params) => $params.get('confirm_email'));
 
 	const signUpURL = $paramValue ? `/signup?callback_url=${$paramValue}` : '/signup';
-	const redirectURL = $paramValue || '/';
+	const redirectURL = $paramValue || '/reports';
 
 	const handleSubmit = async () => {
 		isSubmitting = false;
@@ -54,7 +55,21 @@
 			const result = await response.json();
 
 			if (result.error) {
-				toast.error(result.error.message);
+				if (result.error.name === 'ValidationError') {
+					toast.error(result.error.message);
+				}
+
+				if (result.error.name === 'ApplicationError') {
+					if (result.error.message === 'Your account email is not confirmed') {
+						options.body = JSON.stringify({ email });
+
+						await fetch(`${baseURL}/api/auth/send-email-confirmation`, options);
+						toast.warning(`Email not verified. Check email for verification link`);
+					} else {
+						toast.warning(result.error.message);
+					}
+				}
+
 				isSubmitting = false;
 
 				return;
@@ -67,7 +82,7 @@
 					sessionStorage.setItem('jwt', result.jwt);
 				}
 
-				goto(redirectURL);
+				await goto(redirectURL);
 
 				toast.success('Log in successful');
 
@@ -90,6 +105,12 @@
 			canContinue = true;
 		} else {
 			canContinue = false;
+		}
+
+		if ($confirmEmail && JSON.parse($confirmEmail) === true) {
+			toast.success('Email has been confirmed. Proceed to login');
+
+			setTimeout(() => goto('/signin'), 2000);
 		}
 	});
 </script>
