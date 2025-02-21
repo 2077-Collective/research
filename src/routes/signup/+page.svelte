@@ -11,6 +11,8 @@
 
 	const baseURL = env.PUBLIC_STRAPI_URL;
 
+	const GOOGLE_AUTH_URL = `${baseURL}/api/connect/google`;
+
 	const emailSchema = z.string().email({ message: 'Invalid email' });
 
 	let showPassword = $state(false);
@@ -69,7 +71,7 @@
 			const result = await response.json();
 
 			if (result.error) {
-				console.log('ERROR ===>', result.error.message);
+				toast.error(result.error.message);
 
 				return;
 			}
@@ -82,7 +84,7 @@
 				return;
 			}
 		} catch (error) {
-			console.log(error);
+			toast.error('An error occured. Please try again.');
 		} finally {
 			isSubmitting = false;
 		}
@@ -210,12 +212,14 @@
 				</div>
 
 				<div class="mt-[26px] grid md:grid-cols-2 gap-2">
-					<button
-						class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
-					>
-						<Google />
-						Continue with Google</button
-					>
+					<a href={GOOGLE_AUTH_URL}>
+						<button
+							class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
+						>
+							<Google />
+							Continue with Google</button
+						>
+					</a>
 
 					<button
 						class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
