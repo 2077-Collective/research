@@ -5,7 +5,7 @@
 	import { env } from '$env/dynamic/public';
 	import { jwt } from '$lib/stores/auth';
 	import { error } from '@sveltejs/kit';
-	import { Loader2 } from 'lucide-svelte';
+	import { ArrowRight, Loader2 } from 'lucide-svelte';
 	import { derived } from 'svelte/store';
 
 	const baseURL = env.PUBLIC_STRAPI_URL;
@@ -18,7 +18,7 @@
 
 	let errorText = $state('');
 	let successText = $state('');
-	let isLoading = $state(false);
+	let isLoading = $state(true);
 
 	if (
 		($providerParamValue !== 'google' && $providerParamValue !== 'apple') ||
@@ -90,21 +90,34 @@
 		{:else}
 			<div>
 				{#if successText}
-					<p class="font-mono text-center">
-						{@html successText}
-					</p>
+					<div class="flex flex-col items-center justify-center gap-6">
+						<p class="font-inter text-center text-xl text-neutral-20">
+							{@html successText}
+						</p>
+
+						<a href="/reports">
+							<button
+								class="h-9 px-4 py-2 flex items-center justify-center gap-2 font-mono text-sm bg-[#0CDEE9] text-neutral-80 rounded-[8px] font-medium hover:opacity-80 transition group"
+								>View research
+
+								<ArrowRight
+									class="size-4 group-hover:translate-x-[2px] transition will-change-transform"
+								/>
+							</button></a
+						>
+					</div>
 				{/if}
 
 				{#if errorText}
 					<div>
-						<p class="font-mono text-center text-red-500">
+						<p class="font-inter text-xl text-center text-red-500">
 							{@html errorText}
 						</p>
 
-						<div class="mt-5 flex items-center justify-center">
+						<div class="mt-6 flex items-center justify-center">
 							<a href="/signin">
 								<button
-									class="h-10 px-4 py-2 flex items-center justify-center font-mono text-sm bg-[#0CDEE9] text-neutral-80 rounded-[8px] font-medium hover:opacity-80 transition"
+									class="h-9 px-4 py-2 flex items-center justify-center font-mono text-sm bg-[#0CDEE9] text-neutral-80 rounded-[8px] font-medium hover:opacity-80 transition"
 									>Go back to Sign in
 								</button></a
 							>
