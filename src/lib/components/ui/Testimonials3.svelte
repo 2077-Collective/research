@@ -292,7 +292,7 @@
 
 <div class="bg-[#0C0C0D] pt-8 md:pt-32 pb-10">
 	<div class="container">
-		<div class="flex md:items-start max-md:flex-col max-md:gap-8 md:px-10">
+		<div class="flex md:items-center max-md:flex-col max-md:gap-8 md:px-10">
 			<div class="max-w-full w-[468px] flex-shrink-0 bg-[#0C0C0D] flex items-center justify-center">
 				<div>
 					<h3
@@ -360,18 +360,6 @@
 			aria-label="Tweet link"
 		>
 		</a>
-
-		<svg
-			class="size-6 md:size-8"
-			viewBox="0 0 36 32"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<path
-				d="M36 0L27.3356 18.6712H34.0475V31.1186H21.1119V19.0373L28.0678 0H36ZM14.8881 0L6.22373 18.6712H12.8136V31.1186H0V19.0373L6.95593 0H14.8881Z"
-				fill="#5A5A5A"
-			/>
-		</svg>
 
 		<div class="flex flex-col gap-6 md:gap-8 mt-8">
 			<span
