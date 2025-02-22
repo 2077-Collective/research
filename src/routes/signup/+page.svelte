@@ -110,7 +110,7 @@
 	const signInURL = $paramValue ? `/signin?callback_url=${$paramValue}` : '/signin';
 </script>
 
-<section class="pt-32 pb-48 container flex items-start gap-10 justify-between">
+<section class="pt-24 md:pt-32 pb-24 md:pb-48 container flex items-start gap-10 justify-between">
 	<div class="lg:w-[580px] w-full flex-shrink-0 pt-10">
 		<div>
 			<h1 class="text-3xl md:text-[48px] font-powerGroteskBold font-bold md:leading-[46.56px]">
@@ -211,7 +211,7 @@
 					</p>
 				</div>
 
-				<div class="mt-[26px] grid md:grid-cols-2 gap-2">
+				<div class="mt-[26px] grid grid-cols-1 gap-2">
 					<a href={GOOGLE_AUTH_URL}>
 						<button
 							class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
@@ -222,7 +222,7 @@
 					</a>
 
 					<button
-						class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
+						class="hidden h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
 					>
 						<Apple />
 						Continue with Apple</button

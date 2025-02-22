@@ -98,7 +98,7 @@
 {#snippet mobileMenu()}
 	<div class="lg:hidden ml-6">
 		<button class="flex items-center justify-center" onclick={() => (mobileMenuOpen = true)}>
-			<Menu class="w-6 h-6" />
+			<Menu class="size-6" />
 		</button>
 	</div>
 
@@ -114,15 +114,19 @@
 				<div class="flex justify-between items-center">
 					<a href="/"><Research /></a>
 					<Button variant="ghost" class="w-fit p-1" onclick={() => (mobileMenuOpen = false)}>
-						<X class="w-5 h-5" />
+						<X class="size-6" />
 					</Button>
 				</div>
 
 				<!-- Mobile Menu Links -->
-				<div class="flex flex-col gap-4 items-center">
+				<div class="flex flex-col gap-6 items-center pt-10">
 					{#each links as link}
+						{@const isActive = $page.url.pathname === link.href}
 						<a
-							class="flex items-center gap-1 group"
+							class={cn(
+								'flex items-center gap-1 group',
+								isActive && 'text-[#0CDEE9] hover:text-[#0CDEE9] font-bold'
+							)}
 							href={link.href}
 							onclick={() => {
 								mobileMenuOpen = false;

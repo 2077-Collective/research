@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { cn } from '$lib/utils/ui-components';
-	import { AnimateSharedLayout, Motion } from 'svelte-motion';
+	import { Motion } from 'svelte-motion';
 	import type { CarouselAPI } from './carousel/context';
 
 	let api: CarouselAPI | undefined;
@@ -279,12 +279,16 @@
 	];
 </script>
 
-<div class="bg-black relative pt-32 pb-24">
+<div class="bg-black relative pt-12 pb-16 md:pt-32 md:pb-24">
 	<div class="overflow-hidden">
 		<div class="relative">
-			<Carousel.Root bind:api class="w-full relative " opts={{ loop: true, align: 'center' }}>
-				<div class="mb-10 flex items-center justify-between container">
-					<h2 class="text-[44.852px] font-powerGroteskBold leading-[44px]">
+			<Carousel.Root
+				bind:api
+				class="w-full relative "
+				opts={{ loop: true, align: 'center', startIndex: 12 }}
+			>
+				<div class="mb-6 md:mb-10 flex items-center justify-between container">
+					<h2 class="text-2xl md:text-[44.852px] font-powerGroteskBold md:leading-[44px]">
 						What the people <br /> are saying about us
 					</h2>
 
@@ -299,15 +303,13 @@
 					</div>
 				</div>
 
-				<AnimateSharedLayout>
-					<Carousel.Content class="items-center">
-						{#each testimonials as testimonial, i}
-							<Carousel.Item class="flex-none w-[271px] md:w-[821px] p-2">
-								{@render card(testimonial, i)}
-							</Carousel.Item>
-						{/each}
-					</Carousel.Content>
-				</AnimateSharedLayout>
+				<Carousel.Content class="items-center gap-0">
+					{#each testimonials as testimonial, i}
+						<Carousel.Item class="flex-none w-[300px] md:w-[821px] p-2 max-md:-mx-2">
+							{@render card(testimonial, i)}
+						</Carousel.Item>
+					{/each}
+				</Carousel.Content>
 
 				<div class="relative md:hidden flex items-center justify-center gap-[18px] mt-10">
 					<Carousel.Previous
@@ -326,7 +328,7 @@
 {#snippet card(testimonial: Testimonial, i: number)}
 	<div
 		class={cn(
-			'w-full bg-[#0C0C0D] rounded-[4px] border border-[#262626] relative transition will-change-transform px-8 py-6',
+			'w-full bg-[#0C0C0D] rounded-[4px] border border-[#262626] relative transition will-change-transform md:px-8 md:py-6 max-md:p-5',
 			current !== i + 1 &&
 				'bg-[#0F0F10] border-transparent select-none cursor-default scale-[0.85] brightness-50'
 		)}
@@ -342,13 +344,12 @@
 			</a>
 		{/if}
 
-		<div class="flex flex-col gap-8">
+		<div class="flex flex-col gap-6 md:gap-8">
 			<svg
-				width="36"
-				height="32"
 				viewBox="0 0 36 32"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
+				class="size-6 md:size-8"
 			>
 				<path
 					d="M36 0L27.3356 18.6712H34.0475V31.1186H21.1119V19.0373L28.0678 0H36ZM14.8881 0L6.22373 18.6712H12.8136V31.1186H0V19.0373L6.95593 0H14.8881Z"
@@ -356,7 +357,7 @@
 				/>
 			</svg>
 
-			<h3 class="text-sm md:text-[28px] font-powerGroteskBold font-bold leading-8">
+			<h3 class="text-sm md:text-[28px] font-powerGroteskBold font-bold md:leading-8">
 				{@html testimonial.text}
 			</h3>
 
@@ -364,12 +365,14 @@
 				<img
 					src={testimonial.avatar}
 					alt={testimonial.author}
-					class="size-[54px] rounded-full object-cover object-top"
+					class="size-9 md:size-[54px] rounded-full object-cover object-top"
 				/>
 				<div>
-					<p class="font-medium font-powerGroteskBold">{testimonial.author}</p>
+					<p class="font-medium font-powerGroteskBold max-md:text-sm capitalize">
+						{testimonial.author}
+					</p>
 					{#if testimonial.company}
-						<p class="text-neutral-40 font-mono">{testimonial.company}</p>
+						<p class="text-neutral-40 font-mono max-md:text-xs">{testimonial.company}</p>
 					{/if}
 				</div>
 			</div>

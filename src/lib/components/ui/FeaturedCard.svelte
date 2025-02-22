@@ -59,7 +59,7 @@
 </script>
 
 <div
-	class="relative group md:rounded-[16px] overflow-hidden border border-[#171717]"
+	class="relative group md:rounded-[16px] overflow-hidden md:border border-[#171717]"
 	onmouseenter={expand}
 	onmouseleave={collapse}
 	role="button"

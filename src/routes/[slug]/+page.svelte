@@ -618,10 +618,12 @@
 	<div
 		class="fixed h-screen w-screen bg-black/30 backdrop-blur-[3px] top-0 left-0 z-[999999] flex items-center justify-center"
 	>
-		<div class="p-11 bg-[#131314] rounded-[8px] w-[1095px] max-w-full relative">
+		<div
+			class="p-8 md:p-11 bg-[#131314] rounded-[8px] w-[1095px] max-w-[95%] md:max-w-full relative"
+		>
 			<div class="max-w-[595px]">
 				<div>
-					<h2 class="text-[40px] leading-[38.8px] font-powerGroteskBold font-bold">
+					<h2 class="text-3xl md:text-[40px] md:leading-[38.8px] font-powerGroteskBold font-bold">
 						Listening to articles requires a 2077 Research account.
 					</h2>
 
@@ -631,7 +633,7 @@
 					</p>
 				</div>
 
-				<div class="mt-[30px] flex items-center gap-[10.564px]">
+				<div class="mt-[30px] flex items-center flex-wrap gap-[10.564px]">
 					<a href={`/signup?callback_url=/${$slug}`}>
 						<button
 							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 font-mono flex items-center justify-center hover:bg-neutral-80 transition"
@@ -650,8 +652,11 @@
 				</div>
 			</div>
 
-			<button class="absolute top-11 right-11 group" onclick={() => (showAuthBanner = false)}>
-				<X class="size-8 text-white group-hover:text-neutral-40 transition" />
+			<button
+				class="absolute top-3 right-3 md:top-11 md:right-11 group"
+				onclick={() => (showAuthBanner = false)}
+			>
+				<X class="size-6 md:size-8 text-white group-hover:text-neutral-40 transition" />
 			</button>
 		</div>
 	</div>
@@ -704,7 +709,7 @@
 
 				<div class="flex flex-col max-w-full tracking-tight w-[794px]">
 					<section class="flex flex-col w-full">
-						<div class="flex items-center gap-2 font-mono">
+						<div class="flex items-center flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
 								<a href={'/category/' + category.name.toLowerCase()} data-sveltekit-preload-data
 									><Badge

@@ -293,12 +293,10 @@
 <div class="bg-[#0C0C0D] pt-8 md:pt-32 pb-10">
 	<div class="container">
 		<div class="flex md:items-start max-md:flex-col max-md:gap-8 md:px-10">
-			<div
-				class="max-w-full w-[468px] flex-shrink-0 bg-[#0C0C0D] flex items-center justify-center pt-10"
-			>
+			<div class="max-w-full w-[468px] flex-shrink-0 bg-[#0C0C0D] flex items-center justify-center">
 				<div>
 					<h3
-						class="text-[32px] md:text-[44.852px] font-powerGroteskBold font-bold leading-[43.955px]"
+						class="text-2xl md:text-[44.852px] font-powerGroteskBold font-bold md:leading-[43.955px]"
 					>
 						What the people <br /> are saying about us
 					</h3>
@@ -325,14 +323,14 @@
 						<AnimateSharedLayout>
 							<Carousel.Content>
 								{#each testimonials as testimonial, i}
-									<Carousel.Item class="p-8">
+									<Carousel.Item class="md:p-8">
 										{@render card(testimonial, i)}
 									</Carousel.Item>
 								{/each}
 							</Carousel.Content>
 						</AnimateSharedLayout>
 
-						<div class="relative flex items-center justify-center gap-[18px]">
+						<div class="relative flex items-center justify-center gap-[18px] max-md:mt-6">
 							<Carousel.Previous
 								class="bg-white size-12 border-none [&_svg]:size-6 md:[&_svg]:size-8 !text-black hover:bg-neutral-10 hover:!text-neutral-80 relative left-0 translate-y-0"
 							/>
@@ -351,7 +349,7 @@
 {#snippet card(testimonial: Testimonial, i: number)}
 	<div
 		class={cn(
-			'p-5 md:px-8 md:py-6 w-full bg-[#0C0C0C] rounded-[8px] border border-[#262626] relative transition'
+			'p-6 md:px-8 md:py-6 w-full bg-[#0C0C0C] rounded-[8px] border border-[#262626] relative transition'
 		)}
 	>
 		<a
@@ -363,16 +361,21 @@
 		>
 		</a>
 
-		<svg width="36" height="32" viewBox="0 0 36 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+		<svg
+			class="size-6 md:size-8"
+			viewBox="0 0 36 32"
+			fill="none"
+			xmlns="http://www.w3.org/2000/svg"
+		>
 			<path
 				d="M36 0L27.3356 18.6712H34.0475V31.1186H21.1119V19.0373L28.0678 0H36ZM14.8881 0L6.22373 18.6712H12.8136V31.1186H0V19.0373L6.95593 0H14.8881Z"
 				fill="#5A5A5A"
 			/>
 		</svg>
 
-		<div class="flex flex-col gap-8 mt-8">
+		<div class="flex flex-col gap-6 md:gap-8 mt-8">
 			<span
-				class="text-sm md:text-[24px] font-powerGroteskBold font-bold leading-6 [&_p]:!leading-7"
+				class="text-base md:text-[24px] font-powerGroteskBold font-bold md:leading-6 md:[&_p]:!leading-7"
 				>{@html testimonial.text}</span
 			>
 
@@ -382,10 +385,10 @@
 						<img
 							src={testimonial.avatar}
 							alt={testimonial.author}
-							class="size-[54px] object-cover object-top rounded-full"
+							class="size-9 md:size-[54px] object-cover object-top rounded-full"
 						/>
 						<div>
-							<p class="font-powerGroteskBold !font-medium">{testimonial.author}</p>
+							<p class="font-powerGroteskBold !font-medium capitalize">{testimonial.author}</p>
 							{#if testimonial.company}
 								<p class="text-neutral-40 text-sm font-mono">{testimonial.company}</p>
 							{/if}

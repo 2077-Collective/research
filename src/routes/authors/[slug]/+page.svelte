@@ -99,7 +99,7 @@
 		/>
 	</section>
 
-	<section class="bg-[#0C0C0D] pt-16 pb-28">
+	<section class="bg-[#0C0C0D] md:pt-16 pb-28">
 		<div class="container">
 			<div
 				class={cn(
@@ -114,7 +114,7 @@
 					Articles
 				</h2>
 
-				<div class="flex items-center gap-2">
+				<div class="hidden md:flex items-center gap-2">
 					<button
 						class={cn(
 							'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
@@ -144,7 +144,7 @@
 			</div>
 
 			{#if viewStyle === 'GRID'}
-				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-2.5 md:gap-x-6 md:gap-y-20">
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-x-6 md:gap-y-20">
 					{#each articles as article}
 						{@const category = getPrimaryCategory(article)}
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}

@@ -62,13 +62,13 @@
 		class="max-w-[1163px] relative mt-10 md:mt-16 mx-auto"
 		opts={{ loop: true, align: 'center' }}
 	>
-		<Carousel.Content>
+		<Carousel.Content class="max-md:-mx-5">
 			{#each [...socials, ...socials] as social, i}
 				{@const isLeft = current === 1 ? 6 : current - 1}
 				{@const isRight = current === 6 ? 1 : current + 1}
 
 				<Carousel.Item
-					class={cn('relative flex-none w-[300px] md:w-[397px] mr-2.5 md:mr-5 p-0')}
+					class={cn('relative flex-none w-[304px] md:w-[397px] mr-2.5 md:mr-5 p-0')}
 					style="perspective: 1000px; transform-style: preserve-3d;"
 				>
 					<div
@@ -89,7 +89,7 @@
 
 						<div class="flex-1 text-center">
 							<div
-								class="text-[100px] md:text-[125px] font-powerGroteskBold font-bold tracking-wide leading-none"
+								class="text-[95px] md:text-[125px] font-powerGroteskBold font-bold tracking-wide leading-none"
 							>
 								{social.number}
 							</div>

@@ -98,7 +98,7 @@ export const getAuthor = async (username: string): Promise<Author | null> => {
 			);
 
 			// Update articles only with valid transformed ones
-			author.articles = transformedArticles.filter(Boolean);
+			author.articles = transformedArticles.filter(Boolean).reverse();
 		}
 
 		cache.set(cacheKey, { data: author, timestamp: Date.now() });

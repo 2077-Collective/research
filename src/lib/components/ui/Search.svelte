@@ -134,10 +134,10 @@
 
 <Dialog.Root open={$openDialog} onOpenChange={(open) => handleCloseSearch(open)}>
 	<Dialog.Content
-		class="sm:max-w-[590px] h-[726px] max-h-[80dvh] md:rounded-[48px] p-0 border-none bg-[#19191A]"
+		class="sm:max-w-[590px] max-md:w-[95%] h-[726px] max-h-[80dvh] md:rounded-[48px] p-0 border-none bg-[#19191A] z-[999999] max-md:rounded-[8px]"
 	>
 		<div class="h-full flex flex-col overflow-hidden">
-			<div class="px-5 pt-4">
+			<div class="px-4 md:px-5 pt-4">
 				<div class="relative w-full flex-shrink-0">
 					<input
 						class="h-[45px] bg-neutral-80 rounded-[38px] border-neutral-60 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 w-full"
@@ -162,13 +162,13 @@
 				{/if}
 
 				{#if !$loading && Object.keys($results).length > 0}
-					<div class="h-full px-5 pt-6 pb-10 overflow-y-auto">
+					<div class="h-full px-4 md:px-5 pt-6 pb-10 overflow-y-auto">
 						<ul class="mt-2 text-left space-y-6">
 							{#each Object.keys($results) as articleCategory}
 								{@const articles = $results[articleCategory]}
 
 								<li>
-									<p class="text-xs font-geist-mono font-bold text-[#0CDEE9] mb-1 px-3">
+									<p class="text-xs font-geist-mono font-bold text-[#0CDEE9] mb-1 md:px-3">
 										{articleCategory}
 									</p>
 
@@ -180,7 +180,7 @@
 												<li class="group cursor-pointer hover:bg-[#0CDEE9]">
 													<a
 														href={`/${article.slug}`}
-														class="px-3 block"
+														class="md:px-3 block"
 														onclick={() => handleCloseSearch(false)}
 													>
 														<div class="border-b border-[#343434] pt-1.5 pb-3">
@@ -208,7 +208,7 @@
 																)}
 															</p>
 
-															<div class="mt-1">
+															<div class="mt-4 md:mt-1">
 																<p
 																	class="text-xs font-mono text-neutral-40 group-hover:text-neutral-80"
 																>

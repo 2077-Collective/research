@@ -151,7 +151,7 @@
 		<div class="container flex items-center justify-between mb-10">
 			<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
-			<div class="flex items-center gap-2">
+			<div class="max-md:hidden flex items-center gap-2">
 				<button
 					class={cn(
 						'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
@@ -184,7 +184,7 @@
 			class={cn(
 				'container',
 				viewStyle === 'GRID' &&
-					'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-0 md:gap-y-[67px] gap-x-6 justify-center',
+					'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-10 md:gap-y-[67px] gap-x-6 justify-center',
 				viewStyle === 'LIST' && 'divide-y divide-[#1F1F1F]'
 			)}
 		>

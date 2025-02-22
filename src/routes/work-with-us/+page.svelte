@@ -120,7 +120,7 @@
 		</div>
 	</section>
 
-	<section class="bg-[#020203] py-20">
+	<section class="bg-[#020203] py-10 md:py-20">
 		<div class="container">
 			<h2
 				id="faq"

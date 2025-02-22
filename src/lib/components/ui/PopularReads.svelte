@@ -40,8 +40,22 @@
 <div class="flex max-md:flex-col">
 	<div class="bg-[#010102] flex-1 overflow-hidden pt-10 md:pt-[70px] max-md:px-5 max-md:pb-28">
 		<div class="flex flex-col w-full">
-			<Carousel.Root bind:api class="w-full relative" opts={{ slidesToScroll: 5, startIndex: 0 }}>
-				<div class="flex items-center justify-between container mb-9">
+			<Carousel.Root
+				bind:api
+				class="w-full relative"
+				opts={{
+					startIndex: 0,
+					breakpoints: {
+						'(min-width: 768px)': {
+							slidesToScroll: 5
+						},
+						'(max-width: 768px)': {
+							slidesToScroll: 1
+						}
+					}
+				}}
+			>
+				<div class="flex items-center justify-between md:container mb-9">
 					<h2 class="text-2xl md:text-[32px] font-soehne font-medium">Trending Articles</h2>
 
 					<div class="flex items-center gap-[30px] font-medium max-md:hidden">
@@ -61,13 +75,13 @@
 
 				<hr class="border-[#202020] max-md:hidden" />
 
-				<Carousel.Content class="gap-0 mx-5">
+				<Carousel.Content class="gap-0 md:mx-5">
 					{#each articles as article, i}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
-							class="relative md:flex-none md:w-[calc(100%/5)] overflow-hidden px-5 border-[#07494B] md:pt-7 md:pb-20"
+							class="relative md:flex-none md:w-[calc(100%/5)] overflow-hidden md:px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 
@@ -92,7 +106,7 @@
 
 							<a href={`/${article.slug}`} class="!size-full group" data-sveltekit-preload-data>
 								<div
-									class="flex max-md:aspect-[1/0.85] 2xl:aspect-[1/1] md:aspect-[15/17] items-center justify-center overflow-hidden"
+									class="flex max-md:aspect-[1/0.6] 2xl:aspect-[1/1] md:aspect-[15/17] items-center justify-center overflow-hidden"
 								>
 									<img
 										src={article.thumb_url}
@@ -104,7 +118,7 @@
 									/>
 								</div>
 
-								<div class="max-md:bg-[#19191A] max-md:p-6 max-md:rounded-[8px]">
+								<div class="max-md:bg-[#19191A] max-md:p-6 max-md:rounded-b-[8px]">
 									<h3
 										class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px]"
 									>

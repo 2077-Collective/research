@@ -31,7 +31,7 @@
 		>
 			<div class="z-10">
 				<h1
-					class="font-powerGroteskBold text-[32px] leading-9 md:leading-[48px] md:text-[48px] font-bold mb-3 -tracking-[0.96px] text-white"
+					class="font-powerGroteskBold text-[30px] leading-9 md:leading-[48px] md:text-[48px] font-bold md:mb-3 mb-4 text-white"
 				>
 					Cutting-Edge <br class="md:hidden" /> Ethereum <br class="max-md:hidden" /> research for
 					<br />
@@ -40,7 +40,7 @@
 				</h1>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px]"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
 				>
 					Navigate Ethereum’s evolving landscape <em>confidently</em>
 					{' '} with original research and insights that cut through the noise. At 2<span
@@ -50,7 +50,7 @@
 				</p>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px]"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] mb-6 md:mb-8 font-medium"
 				>
 					Ready to level up your knowledge? Explore our library of original research, articles, and
 					reports on the cutting edge of Ethereum tech
@@ -58,7 +58,7 @@
 
 				<a href="/reports" data-sveltekit-preload-data>
 					<button
-						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] mt-8 rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-hubot tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
+						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-hubot tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
 						aria-label="Read Research"
 						>Read research
 						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform" />
