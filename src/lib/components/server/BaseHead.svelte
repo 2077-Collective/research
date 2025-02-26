@@ -7,7 +7,7 @@
 	const image = `${pageUrl}/preview-image.jpg`;
 	const title = '2077 Research: Cutting-Edge Ethereum Research';
 	const description =
-		'2077 Research delivers high-signal research and insights on the future of Ethereum scaling, interoperability, privacy, infrastructure, DeFi, and more';
+		'2077 Research delivers high-signal research and insights on the future of Ethereum scaling, interoperability, privacy, infrastructure, DeFi, and more.';
 
 	// Use the imported utility function
 	const sanitizedTitle = sanitizeTitle(title ?? '');
