@@ -38,6 +38,9 @@ importers:
       '@fontsource/ibm-plex-sans':
         specifier: ^5.1.1
         version: 5.1.1
+      '@fontsource/ubuntu-mono':
+        specifier: ^5.1.1
+        version: 5.1.1
       '@google-cloud/local-auth':
         specifier: ^3.0.1
         version: 3.0.1
@@ -936,6 +939,9 @@ packages:
 
   '@fontsource/ibm-plex-sans@5.1.1':
     resolution: {integrity: sha512-s6xHuHCYxZbIZV0Qchw+EoucPYWCP3PgLs9+oF3u1kLQKwabWaUC3Fm30y6n3VIMCqR89dpkcS8LTqH/IGTDDQ==}
+
+  '@fontsource/ubuntu-mono@5.1.1':
+    resolution: {integrity: sha512-R81WHFRcm8R78u24PehYiHsRTTth6ZRbA1nKKhKYnvqW92J7BNbH7NETwEPmxFlTLM3rGnqfoP1tvBczBeWRpg==}
 
   '@google-cloud/local-auth@3.0.1':
     resolution: {integrity: sha512-YJ3GFbksfHyEarbVHPSCzhKpjbnlAhdzg2SEf79l6ODukrSM1qUOqfopY232Xkw26huKSndyzmJz+A6b2WYn7Q==}
@@ -4241,6 +4247,8 @@ snapshots:
   '@fontsource-variable/space-grotesk@5.1.1': {}
 
   '@fontsource/ibm-plex-sans@5.1.1': {}
+
+  '@fontsource/ubuntu-mono@5.1.1': {}
 
   '@google-cloud/local-auth@3.0.1':
     dependencies:

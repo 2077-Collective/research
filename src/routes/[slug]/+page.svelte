@@ -606,13 +606,15 @@
 
 <ArticleHead article={data.article} />
 
-<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
-	<div
-		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
-		style="width: {progress}%"
-		aria-label={`Progress ${progress}%`}
-	></div>
-</div>
+{#if isLoggedIn && !isCheckingAuth}
+	<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
+		<div
+			class="h-full bg-neutral-20 transition-all duration-150 ease-out"
+			style="width: {progress}%"
+			aria-label={`Progress ${progress}%`}
+		></div>
+	</div>
+{/if}
 
 {#if showAuthBanner}
 	<div
@@ -686,7 +688,9 @@
 	{@render body(data.article)}
 
 	{#if !isReadingMode}
-		{@render floatingButtons()}
+		{#if isLoggedIn && !isCheckingAuth}
+			{@render floatingButtons()}
+		{/if}
 	{/if}
 
 	<div class={isReadingMode ? 'hidden' : 'container mb-12'}>
@@ -740,10 +744,10 @@
 										href={author.twitter_username ? `/authors/${author.twitter_username}` : null}
 										data-sveltekit-preload-data
 									>
-										{author.full_name || author.twitter_username}
+										{(author.full_name || author.twitter_username || '').trim()}
 									</a>
 									{#if index < article.authors.length - 2}
-										<span>, </span>
+										<span>,</span>
 									{:else if index < article.authors.length - 1}
 										<span>{' '}and{' '}</span>
 									{/if}
@@ -957,27 +961,32 @@
 							{/if}
 						</div>
 
-						<button
-							onclick={() => handlePdfDownload(article)}
-							class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
-							aria-label="Download as PDF"
-							disabled={isDownloading}
-						>
-							{#if isDownloading}
-								<div
-									class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-									aria-busy="true"
-								></div>
-							{:else}
-								<FileDown class="size-5" />
-							{/if}
-							<span class="border-b">PDF</span>
-						</button>
+						{#if isLoggedIn && !isCheckingAuth}
+							<button
+								onclick={() => handlePdfDownload(article)}
+								class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
+								aria-label="Download as PDF"
+								disabled={isDownloading}
+							>
+								{#if isDownloading}
+									<div
+										class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+										aria-busy="true"
+									></div>
+								{:else}
+									<FileDown class="size-5" />
+								{/if}
+								<span class="border-b">PDF</span>
+							</button>
+						{/if}
 					</div>
 				</div>
 			</div>
 		{/if}
-		{@render floatingButtons()}
+
+		{#if isLoggedIn && !isCheckingAuth}
+			{@render floatingButtons()}
+		{/if}
 	</article>
 {/snippet}
 
@@ -1060,8 +1069,10 @@
 	{/if}
 {/snippet}
 
-<!-- Add this right after the main content div -->
-{@render summaryPanel()}
+{#if isLoggedIn && !isCheckingAuth}
+	<!-- Add this right after the main content div -->
+	{@render summaryPanel()}
+{/if}
 
 <style>
 	/* Add Garamond font */

@@ -1,6 +1,6 @@
 @import '@fontsource-variable/inter';
 /* @import '@fontsource-variable/space-grotesk'; */
-@import '@fontsource-variable/kode-mono';
+@import '@fontsource/ubuntu-mono';
 @import '@fontsource-variable/hubot-sans';
 @import '@fontsource-variable/geist-mono';
 
@@ -48,7 +48,7 @@
 	/* Define dark mode variables in :root */
 	:root {
 		/* --font-primary: 'Hubot Sans Variable', sans-serif; */
-		--font-mono: 'Kode Mono Variable', monospace;
+		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans Variable', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;

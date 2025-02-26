@@ -112,7 +112,7 @@
 					{toTitleCase(article.title)}
 				</h3>
 
-				<p class="md:hidden mt-2 text-sm text-neutral-40 line-clamp-3">{article.summary}</p>
+				<p class="md:hidden mt-2 text-sm text-neutral-40">{article.summary}</p>
 			</div>
 
 			<div
@@ -126,7 +126,7 @@
 			</div>
 
 			<div class="overflow-hidden" bind:this={child}>
-				<p class="max-md:hidden text-sm text-neutral-40 line-clamp-4">
+				<p class="max-md:hidden text-sm text-neutral-40">
 					{article.summary}
 				</p>
 
