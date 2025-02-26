@@ -85,7 +85,7 @@
 				<div class="md:hidden mt-8">
 					<p class="text-neutral-40 text-sm font-mono">Looking to work with us?</p>
 
-					<div class="mt-[15px] border-y border-[#222] divide-y divide-[#222]">
+					<div class="mt-[15px] border-y border-[#222] divide-y divide-[#222] font-ibm">
 						<a
 							href="mailto:research@2077.xyz"
 							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light"
@@ -113,7 +113,7 @@
 		/>
 	</section>
 
-	<section class="bg-[#0C0C0D]">
+	<section class="bg-[#0C0C0D] pb-20">
 		<div class="container">
 			<h2
 				id="team"
@@ -164,7 +164,7 @@
 		</div>
 	</section>
 
-	<section class="relative overflow-hidden py-16 bg-[#020203]">
+	<section class="relative overflow-hidden py-16 bg-[#020203] hidden">
 		<div class="relative z-20 container">
 			<h2
 				id="contributors"

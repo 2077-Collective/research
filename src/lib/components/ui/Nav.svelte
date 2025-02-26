@@ -119,7 +119,7 @@
 				</div>
 
 				<!-- Mobile Menu Links -->
-				<div class="flex flex-col gap-6 items-center pt-10">
+				<div class="flex flex-col gap-6 items-center pt-10 font-mono">
 					{#each links as link}
 						{@const isActive = $page.url.pathname === link.href}
 						<a

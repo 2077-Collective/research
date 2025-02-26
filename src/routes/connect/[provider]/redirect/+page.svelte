@@ -91,7 +91,7 @@
 			<div>
 				{#if successText}
 					<div class="flex flex-col items-center justify-center gap-6">
-						<p class="font-inter text-center text-xl text-neutral-20">
+						<p class="font-ibm text-center text-xl text-neutral-20">
 							{@html successText}
 						</p>
 
@@ -110,7 +110,7 @@
 
 				{#if errorText}
 					<div>
-						<p class="font-inter text-xl text-center text-red-500">
+						<p class="font-ibm text-xl text-center text-red-500">
 							{@html errorText}
 						</p>
 

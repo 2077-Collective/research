@@ -43,10 +43,10 @@
 					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
 				>
 					Navigate Ethereum’s evolving landscape <em>confidently</em>
-					{' '} with original research and insights that cut through the noise. At 2<span
-						class="font-inter">0</span
-					>77 Research, we explore the ideas, innovations, and breakthroughs shaping the future of
-					Ethereum and crypto—so you can stay ahead in an industry that never stands still
+					{' '} with original research and insights that cut through the noise. At
+					<span class="font-ibm">2077</span> Research, we explore the ideas, innovations, and breakthroughs
+					shaping the future of Ethereum and crypto—so you can stay ahead in an industry that never stands
+					still
 				</p>
 
 				<p
@@ -70,8 +70,8 @@
 				src="/HAND_ELEMENT.png"
 				class="mix-blend-screen pointer-events-none select-none"
 				alt="hand-element"
-				width="689px"
-				height="608px"
+				width="689"
+				height="608"
 				loading="eager"
 				fetchpriority="high"
 				decoding="async"

@@ -206,7 +206,7 @@
 					<div class="relative flex items-center justify-center">
 						<div class="absolute h-px w-full bg-[#2D2D2D]"></div>
 						<p
-							class="px-[18px] bg-[#0C0C0D] text-[#5C5C5C] text-sm font-inter flex-shrink-0 relative z-20"
+							class="px-[18px] bg-[#0C0C0D] text-[#5C5C5C] text-sm font-ibm flex-shrink-0 relative z-20"
 						>
 							or
 						</p>

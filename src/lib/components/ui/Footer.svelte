@@ -85,7 +85,7 @@
 {#snippet linkComp(link: Link)}
 	<a
 		href={link.href}
-		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-20 font-inter text-sm group"
+		class="flex gap-1 items-center self-stretch my-auto whitespace-nowrap hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4 focus:outline-none focus:ring-2 focus:ring-offset-2 text-neutral-20 font-ibm text-sm group"
 		target={link.isExternal ? '_blank' : '_self'}
 		rel="noopener noreferrer"
 		data-sveltekit-preload-data
