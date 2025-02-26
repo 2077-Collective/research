@@ -1,49 +1,106 @@
 <script lang="ts">
 	import type { TeamMember } from '$lib/types/team';
-	import { Badge } from './badge';
+	import { cn } from '$lib/utils/ui-components';
+	import { Plus } from 'lucide-svelte';
 	const { full_name, picture_url, summary, role, twitter_username }: TeamMember = $props();
+
+	let showDetails = $state(false);
+
+	function clickOutside(node: HTMLElement, callback: () => void) {
+		function handleClick(event: MouseEvent) {
+			if (!node.contains(event.target as Node)) {
+				callback();
+			}
+		}
+
+		document.addEventListener('click', handleClick, true);
+
+		return {
+			destroy() {
+				document.removeEventListener('click', handleClick, true);
+			}
+		};
+	}
+
+	function handleClose() {
+		showDetails = false;
+	}
+
+	const handleToggleDetailsVisibility = () => {
+		showDetails = !showDetails;
+	};
 </script>
 
-{#if twitter_username}
-	<a
-		href={`https://x.com/${twitter_username}`}
-		class="flex flex-col bg-zinc-900 rounded-xl w-full relative"
-	>
-		<!-- this is the gradient -->
-		<div
-			class="w-full h-full hover:opacity-50 transition opacity-0 bg-gradient-to-t from-[#07BEBF]/20 absolute rounded-xl"
-		></div>
-		<div class="p-4">{@render body(picture_url, full_name, role, summary)}</div>
-	</a>
-{:else}
-	<div class="flex flex-col bg-zinc-900 rounded-xl p-4 w-full">
-		{@render body(picture_url, full_name, role, summary)}
-	</div>
-{/if}
-
-{#snippet body(picture_url: string | undefined, full_name: string, role: string, summary: string)}
-	<div class="flex md:flex-col gap-4">
-		{#if picture_url}
+<div
+	class="flex flex-col bg-[#19191A] rounded-[8px] w-full h-[400px] relative overflow-hidden group"
+>
+	<div class="absolute inset-0">
+		<div class="size-full relative">
 			<img
-				class="w-16 h-16 aspect-square rounded-full bg-gradient-to-br from-blue-500 to-purple-400"
-				src={picture_url}
-				alt=""
+				src={picture_url || '/philosopher.png'}
+				class="size-full object-cover object-top"
+				alt={full_name}
 			/>
-			<!--
-			{:else}
 			<div
-				class="w-16 h-16 aspect-square rounded-full bg-gradient-to-br from-blue-500 to-purple-400"
+				class={cn(
+					'absolute inset-0 bg-[#0CDEE9] mix-blend-multiply opacity-0 group-hover:opacity-100 transition',
+					showDetails && 'opacity-100'
+				)}
 			></div>
-			-->
-		{/if}
-		<div class="flex flex-col">
-			<p class="font-powerGroteskBold text-xl md:text-2xl font-medium leading-9 tracking-tight">
-				{full_name}
-			</p>
-			<div class="mb-2 md:mt-2 flex gap-2">
-				<Badge variant="outline">{role}</Badge>
+		</div>
+	</div>
+	<div class="absolute inset-0 p-5 flex items-end justify-center" use:clickOutside={handleClose}>
+		<div class="w-full flex flex-col h-full">
+			<div class="flex-1 h-full w-full relative overflow-hidden">
+				<div
+					class={cn(
+						'bg-white w-full h-full translate-y-[120%] transition rounded-t-[8px] px-4 pt-4',
+						showDetails && 'translate-y-0'
+					)}
+				>
+					<p class="text-[#19191A] text-sm">{summary}</p>
+				</div>
+			</div>
+
+			<div
+				class={cn(
+					'w-full bg-neutral-80 group-hover:bg-white p-4 rounded-[8px] md:scale-x-[0.97] group-hover:scale-x-100 transition will-change-transform flex items-center justify-between',
+					showDetails && 'bg-white md:scale-x-100 rounded-t-none group-hover:rounded-t-none'
+				)}
+			>
+				<div class="flex flex-col gap-1">
+					<p
+						class={cn(
+							'font-powerGroteskBold text-xl md:text-2xl font-medium leading-9  group-hover:text-[#19191A]',
+							showDetails && 'text-[#19191A]'
+						)}
+					>
+						{full_name}
+					</p>
+
+					<div
+						class="h-[22px] bg-[#19191A] rounded-[2px] px-1.5 py-1 w-fit flex items-center justify-center text-xs text-neutral-10"
+					>
+						{role}
+					</div>
+				</div>
+
+				<button
+					class={cn(
+						'size-[35px] bg-white group-hover:bg-[#19191A] group-hover:text-white rounded-full flex items-center justify-center text-black',
+						showDetails && 'bg-[#19191A] text-white'
+					)}
+					onclick={handleToggleDetailsVisibility}
+					aria-expanded={showDetails}
+				>
+					<Plus
+						class={cn(
+							'group-hover:rotate-180 transition',
+							showDetails && 'rotate-45 group-hover:rotate-45'
+						)}
+					/>
+				</button>
 			</div>
 		</div>
 	</div>
-	<p class="leading-6 tracking-normal">{summary}</p>
-{/snippet}
+</div>

@@ -1,4 +1,7 @@
+/** @type {import('tailwindcss').Config} */
+
 import type { Config } from 'tailwindcss';
+import tailwindMotion from 'tailwindcss-motion';
 import plugin from 'tailwindcss/plugin';
 
 const config: Config = {
@@ -8,7 +11,13 @@ const config: Config = {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '16px',
+				sm: '2rem',
+				lg: '2rem',
+				xl: '2rem',
+				'2xl': '2rem'
+			},
 			screens: {
 				'2xl': '1400px'
 			}
@@ -50,7 +59,15 @@ const config: Config = {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
 				},
-				'special-blue': '#07BEBF'
+				'special-blue': '#07BEBF',
+				neutral: {
+					5: 'var(--neutral-05)',
+					10: 'var(--neutral-10)',
+					20: 'var(--neutral-20)',
+					40: 'var(--neutral-40)',
+					60: 'var(--neutral-60)',
+					80: 'var(--neutral-80)'
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -62,9 +79,11 @@ const config: Config = {
 				menlo: ['Menlo Regular', 'monospace'],
 				soehne: ['Soehne', 'sans-serif'],
 				'eb-garamond': ['"EB Garamond"', 'serif'],
-				mono: ['Kode Mono Variable', 'monospace'],
+				mono: 'var(--font-mono)',
 				powerGroteskBold: 'var(--font-power)',
-				hubot: ['HubotSans', 'sans-serif']
+				hubot: 'var(--font-hubot)',
+				'geist-mono': 'var(--font-geist-mono)',
+				ibm: 'var(--font-ibm)'
 			},
 			letterSpacing: {
 				tightest: '-.075em',
@@ -93,6 +112,7 @@ const config: Config = {
 		}
 	},
 	plugins: [
+		tailwindMotion,
 		plugin(function ({ addBase, theme }) {
 			addBase({
 				body: {
