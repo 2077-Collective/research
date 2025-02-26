@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { TableOfContents, TableOfContentsItem } from '$lib/types/article';
-	import { ChevronDown } from 'lucide-svelte';
+	import { ArrowDown, ChevronDown } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 
 	export let tableOfContents: TableOfContents = [];
@@ -91,42 +91,51 @@
 	}
 </script>
 
-<ul
-	class="hidden lg:block pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
+<div
+	class="hidden lg:flex pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] font-hubot flex-col"
 >
-	{#each items as item, index}
-		<li>
-			<a
-				href={`#${item.id}`}
-				class={`hover:underline hover:text-primary block transition-colors duration-200 ${
-					selectedItemIndex === index ? 'font-medium' : 'font-normal'
-				}`}
-				style="opacity: {calculateItemOpacity(index)}"
-				on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
-				on:mouseleave={(e) =>
-					(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
-				on:click={(e) => handleClick(e, `#${item.id}`)}
-			>
-				{item.title}
-			</a>
-			{#if item.children?.length > 0 && (currentHash === item.id || item.children.some((child: TableOfContentsItem) => child.id === currentHash))}
-				<ul class="mt-2 space-y-2">
-					{#each item.children as subItem}
-						<li class={`border-l-2 pl-3 ${currentHash === subItem.id ? '' : 'border-subtle'}`}>
-							<a
-								href={`#${subItem.id}`}
-								class={`text-sm ${currentHash === subItem.id ? 'font-medium' : 'font-normal'}`}
-								on:click={(e) => handleClick(e, `#${subItem.id}`)}
-							>
-								{subItem.title}
-							</a>
-						</li>
-					{/each}
-				</ul>
-			{/if}
-		</li>
-	{/each}
-</ul>
+	<div class="flex-shrink-0 flex items-center gap-2 text-neutral-40">
+		<h4 class="text-base font-mono">Table of Contents</h4>
+
+		<ArrowDown class="size-4" />
+	</div>
+
+	<ul class="overflow-y-auto flex-1 space-y-4 text-sm pb-8">
+		{#each items as item, index}
+			<li>
+				<a
+					href={`#${item.id}`}
+					class={`hover:underline hover:text-primary block transition-colors duration-200 ${
+						selectedItemIndex === index
+							? 'font-medium text-[#0CDEE9]'
+							: 'font-normal text-neutral-60'
+					}`}
+					on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+					on:mouseleave={(e) =>
+						(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
+					on:click={(e) => handleClick(e, `#${item.id}`)}
+				>
+					{item.title}
+				</a>
+				{#if item.children?.length > 0 && (currentHash === item.id || item.children.some((child: TableOfContentsItem) => child.id === currentHash))}
+					<ul class="mt-2 space-y-2">
+						{#each item.children as subItem}
+							<li class={`border-l-2 pl-3 ${currentHash === subItem.id ? '' : 'border-subtle'}`}>
+								<a
+									href={`#${subItem.id}`}
+									class={`text-sm ${currentHash === subItem.id ? 'font-medium text-neutral-20' : 'font-normal text-neutral-60'}`}
+									on:click={(e) => handleClick(e, `#${subItem.id}`)}
+								>
+									{subItem.title}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</li>
+		{/each}
+	</ul>
+</div>
 
 {#if showMobileTOC}
 	<button

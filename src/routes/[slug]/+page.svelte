@@ -829,14 +829,14 @@
 			[&>h2]:text-3xl [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10 [&_h2]:tracking-tight
 			[&>h3]:text-2xl [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10 [&_h3]:tracking-tight
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-base [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-base [&>p]:font-medium [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
 			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base [&_ul]:font-medium md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
