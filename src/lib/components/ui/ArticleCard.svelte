@@ -143,7 +143,7 @@
 					href={`/category/${formatCategorySlug(displayCategory.name)}`}
 					class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
 				>
-					View All
+					View all
 					<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />
 				</a>
 			</div>
