@@ -120,7 +120,7 @@
 
 				<p class="mt-3 font-medium text-neutral-40 max-md:text-sm">
 					Already have an account? <a
-						class="text-[#0CDEE9] underline underline-offset-[3px] hover:opacity-80 transition"
+						class="text-[#0CDEE9] underline underline-offset-[3px] hover:opacity-80 transition font-semibold"
 						href={signInURL}>Sign in</a
 					>
 				</p>
@@ -130,9 +130,9 @@
 				<form onsubmit={handleSubmit}>
 					<fieldset disabled={isSubmitting}>
 						<div class="space-y-3">
-							<label for="email" class="text-xs text-[#9b9b9b] font-mono">E-mail</label>
+							<label for="email" class="text-sm text-[#9b9b9b] font-mono">E-mail</label>
 							<input
-								class="block w-full h-12 px-4 md:text-sm placeholder:text-neutral-60 placeholder:font-medium rounded-[8px] focus-within:outline-[#0CDEE9] bg-[#1E1E1E]"
+								class="block w-full h-12 px-4 md:text-sm placeholder:text-neutral-60 placeholder:font-medium rounded-[8px] focus-within:outline-[#0CDEE9] bg-[#1E1E1E] font-ibm"
 								id="email"
 								placeholder="Enter E-mail Address"
 								bind:value={email}
@@ -140,12 +140,12 @@
 						</div>
 
 						<div class="space-y-3 mt-6">
-							<label for="password" class="text-xs text-[#9b9b9b] font-mono">Password</label>
+							<label for="password" class="text-sm text-[#9b9b9b] font-mono">Password</label>
 
 							<div>
 								<div class="relative">
 									<input
-										class="block w-full h-12 px-4 md:text-sm placeholder:text-neutral-60 placeholder:font-medium rounded-[8px] focus-within:outline-[#0CDEE9] pe-11 bg-[#1E1E1E]"
+										class="block w-full h-12 px-4 md:text-sm placeholder:text-neutral-60 placeholder:font-medium rounded-[8px] focus-within:outline-[#0CDEE9] pe-11 bg-[#1E1E1E] font-ibm"
 										id="password"
 										placeholder="Create a Password"
 										type={showPassword ? 'text' : 'password'}
@@ -165,7 +165,7 @@
 									</button>
 								</div>
 
-								<div class="mt-[11px] font-mono space-y-1.5">
+								<div class="mt-[11px] space-y-1.5">
 									{#each PASSWORD_CHECKS as check}
 										<div
 											class={cn(
@@ -187,7 +187,7 @@
 						</div>
 
 						<button
-							class="mt-10 h-[49px] text-neutral-80 font-bold bg-white rounded-[60px] flex items-center justify-center w-full py-4 px-2.5 hover:shadow-hover transition focus-within:outline-[#0CDEE9] max-md:text-sm disabled:opacity-50 disabled:hover:shadow-none disabled:pointer-events-none relative overflow-hidden"
+							class="mt-10 h-[49px] text-neutral-80 font-bold bg-white rounded-[60px] flex items-center justify-center w-full py-4 px-2.5 hover:shadow-hover transition focus-within:outline-[#0CDEE9] max-md:text-sm disabled:opacity-50 disabled:hover:shadow-none disabled:pointer-events-none relative overflow-hidden font-ibm"
 							type="submit"
 							disabled={!canContinue || isSubmitting}
 						>
@@ -215,7 +215,7 @@
 					<div class="mt-[26px] grid grid-cols-1 gap-2">
 						<a href={GOOGLE_AUTH_URL}>
 							<button
-								class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
+								class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium font-ibm"
 							>
 								<Google />
 								Continue with Google</button
@@ -223,7 +223,7 @@
 						</a>
 
 						<button
-							class="hidden h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
+							class="hidden h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium font-ibm"
 						>
 							<Apple />
 							Continue with Apple</button

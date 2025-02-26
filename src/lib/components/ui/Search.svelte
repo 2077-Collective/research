@@ -121,7 +121,7 @@
 
 <button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
 	<span
-		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center font-inter tracking-tight"
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center !font-ibm tracking-tight"
 	>
 		Search 2077 research
 	</span>
@@ -140,7 +140,7 @@
 			<div class="px-4 md:px-5 pt-4">
 				<div class="relative w-full flex-shrink-0">
 					<input
-						class="h-[45px] bg-neutral-80 rounded-[38px] border-neutral-60 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 w-full"
+						class="h-[45px] bg-neutral-80 rounded-[38px] border-neutral-60 focus-within:outline-neutral-60 transition ps-10 pe-4 md:text-sm text-base placeholder:text-neutral-60 w-full font-ibm"
 						placeholder="Search 2077Research"
 						bind:value={query}
 						onkeyup={handleSearch}
@@ -199,7 +199,7 @@
 															{/if}
 
 															<p
-																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-inter group-hover:text-neutral-80 mt-1"
+																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
 															>
 																{@html DOMPurify.sanitize(
 																	article._snippetResult

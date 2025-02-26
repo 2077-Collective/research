@@ -606,15 +606,13 @@
 
 <ArticleHead article={data.article} />
 
-{#if isLoggedIn && !isCheckingAuth}
-	<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
-		<div
-			class="h-full bg-neutral-20 transition-all duration-150 ease-out"
-			style="width: {progress}%"
-			aria-label={`Progress ${progress}%`}
-		></div>
-	</div>
-{/if}
+<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
+	<div
+		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
+		style="width: {progress}%"
+		aria-label={`Progress ${progress}%`}
+	></div>
+</div>
 
 {#if showAuthBanner}
 	<div
@@ -666,7 +664,7 @@
 
 {#if !isLoggedIn && !isCheckingAuth}
 	<button
-		class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition"
+		class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
 		onclick={() => (showAuthBanner = true)}
 	>
 		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">

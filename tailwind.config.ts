@@ -82,7 +82,8 @@ const config: Config = {
 				mono: 'var(--font-mono)',
 				powerGroteskBold: 'var(--font-power)',
 				hubot: 'var(--font-hubot)',
-				'geist-mono': 'var(--font-geist-mono)'
+				'geist-mono': 'var(--font-geist-mono)',
+				ibm: 'var(--font-ibm)'
 			},
 			letterSpacing: {
 				tightest: '-.075em',

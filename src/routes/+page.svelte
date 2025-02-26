@@ -58,10 +58,10 @@
 
 				<a href="/reports" data-sveltekit-preload-data>
 					<button
-						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-hubot tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
+						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-ibm tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
 						aria-label="Read Research"
 						>Read research
-						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform" />
+						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform size-5" />
 					</button></a
 				>
 			</div>
@@ -95,7 +95,7 @@
 		<div class="z-10 px-5 bg-background">
 			<a
 				href="/reports"
-				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-hover"
+				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-hover font-ibm"
 				aria-label="View all research articles"
 				data-sveltekit-preload-data
 			>

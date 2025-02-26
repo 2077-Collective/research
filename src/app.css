@@ -3,6 +3,7 @@
 @import '@fontsource/ubuntu-mono';
 @import '@fontsource-variable/hubot-sans';
 @import '@fontsource-variable/geist-mono';
+@import '@fontsource/ibm-plex-sans';
 
 @tailwind base;
 @tailwind components;
@@ -52,6 +53,7 @@
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans Variable', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
+		--font-ibm: 'IBM Plex Sans', sans-serif;
 
 		--background: 240 4% 5%;
 
