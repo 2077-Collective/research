@@ -1,7 +1,6 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
-	import Testimonials5 from '$lib/components/ui/Testimonials5.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -21,5 +20,5 @@
 
 <div class="flex flex-col gap-10">
 	<ArticleList {articles} {articleCategories} articlesPerPage={100} />
-	<Testimonials5 />
+	<!-- <Testimonials5 /> -->
 </div>

@@ -147,7 +147,7 @@
 		</div>
 	</section>
 
-	<section class="pt-14 bg-[#0C0C0D]">
+	<section class="py-14 bg-[#0C0C0D]">
 		<div class="container flex items-center justify-between mb-10">
 			<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
