@@ -60,10 +60,7 @@
 
 <div class="pt-32">
 	<section class="max-w-[680px] mx-auto container">
-		<h1
-			id="work-with-us"
-			class="text-3xl md:text-[32px] font-bold mb-4 font-powerGroteskBold tracking-tight"
-		>
+		<h1 id="work-with-us" class="text-3xl md:text-[32px] font-bold mb-4 font-powerGroteskBold">
 			Work with us
 		</h1>
 
@@ -122,10 +119,7 @@
 
 	<section class="bg-[#020203] py-10 md:py-20">
 		<div class="container">
-			<h2
-				id="faq"
-				class="text-2xl md:text-[32px] font-bold leading-9 mb-4 font-powerGroteskBold tracking-tight"
-			>
+			<h2 id="faq" class="text-2xl md:text-[32px] font-bold leading-9 mb-4 font-powerGroteskBold">
 				FAQs
 			</h2>
 

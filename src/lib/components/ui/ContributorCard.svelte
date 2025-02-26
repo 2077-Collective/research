@@ -61,7 +61,7 @@
 			<div class="flex flex-row w-full justify-between items-center">
 				<div class="flex items-center gap-2">
 					<p
-						class="font-powerGroteskBold text-xl md:text-xl font-medium leading-9 tracking-tight text-neutral-40 group-hover:text-white transition"
+						class="font-powerGroteskBold text-xl md:text-xl font-medium leading-9 text-neutral-40 group-hover:text-white transition"
 					>
 						{fullName}
 					</p>

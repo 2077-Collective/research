@@ -237,7 +237,7 @@
 				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
 				<div class="w-16 h-6 bg-gray-200 rounded-md"></div>
 			</div>
-			<div class="h-8 bg-gray-200 w-3/4 rounded-md tracking-tight"></div>
+			<div class="h-8 bg-gray-200 w-3/4 rounded-md"></div>
 			<div class="h-4 bg-gray-200 w-full rounded-md tracking-normal"></div>
 			<div class="h-4 bg-gray-200 w-5/6 rounded-md tracking-normal"></div>
 			<div class="h-4 bg-gray-200 w-1/2 rounded-md tracking-normal"></div>

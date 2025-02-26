@@ -71,7 +71,7 @@
 				<div class="flex flex-col gap-1">
 					<p
 						class={cn(
-							'font-powerGroteskBold text-xl md:text-2xl font-medium leading-9 tracking-tight group-hover:text-[#19191A]',
+							'font-powerGroteskBold text-xl md:text-2xl font-medium leading-9  group-hover:text-[#19191A]',
 							showDetails && 'text-[#19191A]'
 						)}
 					>

@@ -121,7 +121,7 @@
 
 <button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
 	<span
-		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center !font-ibm tracking-tight"
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center !font-ibm"
 	>
 		Search 2077 research
 	</span>

@@ -120,7 +120,7 @@
 
 								<div class="max-md:bg-[#19191A] max-md:p-6 max-md:rounded-b-[8px]">
 									<h3
-										class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px]"
+										class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px] !tracking-normal"
 									>
 										{toTitleCase(article.title)}
 									</h3>

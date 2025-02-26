@@ -709,7 +709,7 @@
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
 				</a>
 
-				<div class="flex flex-col max-w-full tracking-tight w-[794px]">
+				<div class="flex flex-col max-w-full w-[794px]">
 					<section class="flex flex-col w-full">
 						<div class="flex items-center flex-wrap gap-2 font-mono">
 							{#each article.categories as category}
@@ -825,18 +825,18 @@
 			class="lg:px-0 pb-20 text-primary w-full lg:max-w-[632px] mx-auto leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
-			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10 [&_h1]:tracking-tighter
-			[&>h2]:text-3xl [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10 [&_h2]:tracking-tight
-			[&>h3]:text-2xl [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10 [&_h3]:tracking-tight
+			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
+			[&>h2]:text-3xl [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
+			[&>h3]:text-2xl [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-base [&>p]:font-medium [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-base [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
 			[&_em]:leading-6 [&_em]:italic
 			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-base md:[&>ol]:text-lg [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base [&_ul]:font-medium md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-base md:[&>ul]:text-lg [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
@@ -848,11 +848,11 @@
 		>
 			{#if isReadingMode}
 				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
-					<h1 class="text-5xl mb-6 tracking-tight font-powerGroteskBold !leading-11 font-bold">
+					<h1 class="text-5xl mb-6 font-powerGroteskBold !leading-11 font-bold">
 						{article.title}
 					</h1>
 
-					<p class="text-base mb-8 text-neutral-5 leading-relaxed tracking-tight">
+					<p class="text-base mb-8 text-neutral-5 leading-relaxed">
 						{article.summary}
 					</p>
 					<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">
@@ -1050,9 +1050,9 @@
 				</div>
 				<div
 					class="flex-1 overflow-y-auto px-12 py-6 text-primary w-full leading-8
-					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
-					[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
-					[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
+					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58
+					[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9
+					[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7
 					[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 					[&>p]:text-base md:[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 					[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
@@ -1085,9 +1085,9 @@
 
 	:global(.reading-content) {
 		@apply text-primary w-full leading-8
-			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
-			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9 [&_h2]:tracking-tight
-			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7 [&_h3]:tracking-tight
+			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58
+			[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9
+			[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7
 			[&>h4]:text-xl [&>h4]:font-medium [&>h4]:mb-3
 			[&>p]:text-lg [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center

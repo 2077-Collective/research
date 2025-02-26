@@ -34,7 +34,7 @@
 					class="font-powerGroteskBold text-[30px] leading-9 md:leading-[48px] md:text-[48px] font-bold md:mb-3 mb-4 text-white"
 				>
 					Cutting-Edge <br class="md:hidden" /> Ethereum <br class="max-md:hidden" /> research for
-					<br />
+					<br class="max-md:hidden" />
 
 					enthusiasts, builders, <br class="max-md:hidden" /> and industry leaders
 				</h1>

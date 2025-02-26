@@ -105,7 +105,7 @@
 			{/if}
 
 			<h3
-				class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+				class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
 			>
 				{article.title}
 			</h3>
@@ -160,7 +160,7 @@
 
 			<div class="px-3 mt-2">
 				<p
-					class="font-powerGroteskBold text-lg font-bold leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+					class="font-powerGroteskBold text-lg font-bold leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
 				>
 					{article.title}
 				</p>

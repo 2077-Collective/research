@@ -59,7 +59,7 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight"
 			>
 				{toTitleCase(article.title)}
 			</h1>

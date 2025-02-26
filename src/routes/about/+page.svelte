@@ -117,7 +117,7 @@
 		<div class="container">
 			<h2
 				id="team"
-				class="text-2xl md:text-[32px] leading-9 mb-4 md:mb-7 font-powerGroteskBold tracking-tight font-bold"
+				class="text-2xl md:text-[32px] leading-9 mb-4 md:mb-7 font-powerGroteskBold font-bold"
 			>
 				Core Team
 			</h2>
@@ -168,7 +168,7 @@
 		<div class="relative z-20 container">
 			<h2
 				id="contributors"
-				class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold tracking-tight"
+				class="text-2xl md:text-4xl font-medium leading-9 mb-4 md:mb-8 font-powerGroteskBold"
 			>
 				Contributors
 			</h2>

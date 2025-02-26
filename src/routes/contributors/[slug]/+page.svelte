@@ -107,10 +107,7 @@
 					viewStyle === 'LIST' && 'md:mb-0'
 				)}
 			>
-				<h2
-					id="team"
-					class="text-2xl md:text-[32px] leading-9 font-powerGroteskBold tracking-tight font-bold"
-				>
+				<h2 id="team" class="text-2xl md:text-[32px] leading-9 font-powerGroteskBold font-bold">
 					Articles
 				</h2>
 
@@ -189,7 +186,7 @@
 
 								<div class="mt-4">
 									<h3
-										class="font-powerGroteskBold text-[18px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+										class="font-powerGroteskBold text-[18px] leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 									>
 										{article.title}
 									</h3>
@@ -246,7 +243,7 @@
 								</Badge>
 
 								<h3
-									class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight tracking-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
+									class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px]"
 								>
 									{article.title}
 								</h3>
