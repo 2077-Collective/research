@@ -31,7 +31,7 @@ export function getAuthorsText(authors: Author[] | null | undefined): string {
 		.map((author) => {
 			const displayName = escapeHtml(author?.full_name || author?.username);
 			const username = escapeHtml(author?.username);
-			return `<a class="hover:underline underline-offset-[3px]" href="/authors/${username}">${displayName}</a>`;
+			return `<a class="hover:underline underline-offset-[3px]" href="/contributors/${username}">${displayName}</a>`;
 		})
 		.join(', ');
 
