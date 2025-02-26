@@ -4,6 +4,8 @@
 @import '@fontsource-variable/hubot-sans';
 @import '@fontsource-variable/geist-mono';
 @import '@fontsource/ibm-plex-sans';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
 
 @tailwind base;
 @tailwind components;
@@ -108,7 +110,7 @@
 		/* font-family: var(--font-primary); */
 		font-weight: 300;
 	}
-
+	/* 
 	h1,
 	h2,
 	h3,
@@ -116,6 +118,10 @@
 	h5,
 	h6 {
 		@apply tracking-tight;
+	} */
+
+	button {
+		@apply !font-ibm;
 	}
 
 	p {
