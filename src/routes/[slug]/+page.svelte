@@ -25,7 +25,8 @@
 	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import { jwt } from '$lib/stores/auth';
+	import { getBookmarks, storedBookmarks } from '$lib/stores/bookmarks.svelte';
+	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
@@ -68,34 +69,34 @@
 
 	const baseURL = env.PUBLIC_STRAPI_URL;
 
-	const sanitizedContent = $derived(
-		data.article?.content
-			? DOMPurify.sanitize(data.article.content, {
-					ALLOWED_TAGS: [
-						'h1',
-						'h2',
-						'h3',
-						'h4',
-						'p',
-						'a',
-						'strong',
-						'em',
-						'ul',
-						'ol',
-						'li',
-						'img',
-						'pre',
-						'code',
-						'blockquote',
-						'table',
-						'tr',
-						'td',
-						'th'
-					],
-					ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
-				})
-			: ''
-	);
+	// const sanitizedContent = $derived(
+	// 	data.article?.content
+	// 		? DOMPurify.sanitize(data.article.content, {
+	// 				ALLOWED_TAGS: [
+	// 					'h1',
+	// 					'h2',
+	// 					'h3',
+	// 					'h4',
+	// 					'p',
+	// 					'a',
+	// 					'strong',
+	// 					'em',
+	// 					'ul',
+	// 					'ol',
+	// 					'li',
+	// 					'img',
+	// 					'pre',
+	// 					'code',
+	// 					'blockquote',
+	// 					'table',
+	// 					'tr',
+	// 					'td',
+	// 					'th'
+	// 				],
+	// 				ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+	// 			})
+	// 		: ''
+	// );
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
@@ -560,32 +561,17 @@
 		}
 	}
 
-	let token = $state('');
 	let isLoggedIn = $state(false);
 	let showAuthBanner = $state(false);
 	let isCheckingAuth = $state(true);
 
-	jwt.subscribe((value) => {
-		token = value || '';
-	});
-
 	const handleFetchUser = async () => {
-		if (!token) {
-			isCheckingAuth = false;
-
-			return;
-		}
-
 		try {
-			const response = await fetch(`${baseURL}/api/users/me`, {
-				headers: {
-					Authorization: `Bearer ${token}`
-				}
-			});
+			const {
+				data: { user }
+			} = await supabase.auth.getUser();
 
-			const result = await response.json();
-
-			if (result.confirmed && result.username) {
+			if (user && user.user_metadata.email_verified) {
 				isLoggedIn = true;
 			} else {
 				isLoggedIn = false;
@@ -599,9 +585,53 @@
 
 	$effect(() => {
 		handleFetchUser();
+		bookmarks = getBookmarks();
 	});
 
+	// const bookmarks = getBookmarks();
+
 	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
+	const isBookmarked = derived(storedBookmarks, ($storedBookmarks) =>
+		$storedBookmarks.includes($slug || '')
+	);
+
+	console.log({ isBookmarked });
+
+	const handleToogleAddToBookmarks = () => {
+		console.log($isBookmarked);
+		// if ($slug) {
+		// 	if (isBookmarked) {
+		// 		const newBookmarks = bookmarks.filter((id) => id !== $slug);
+
+		// 		console.log({ newBookmarks });
+
+		// 		// Update Supabase
+
+		// 		setBookmarks(newBookmarks);
+		// 	} else {
+		// 		const newBookmarks = [...bookmarks, $slug];
+
+		// 		console.log({ newBookmarks });
+
+		// 		// Update Supabase
+
+		// 		setBookmarks(newBookmarks);
+		// 	}
+		// }
+
+		storedBookmarks.update((prevBookmarks) => {
+			const newBookmarks = $isBookmarked
+				? prevBookmarks.filter((id) => id !== $slug)
+				: [...prevBookmarks, slug];
+
+			console.log({ newBookmarks });
+
+			// // Optimistically update UI first
+			// updateSupabase(newBookmarks);
+
+			return newBookmarks;
+		});
+	};
 </script>
 
 <ArticleHead article={data.article} />
@@ -754,6 +784,18 @@
 								{/each}
 							</div>
 						{/if}
+
+						<div class="mt-6">
+							{#if $isBookmarked}
+								<button class="text-sm text-neutral-20" onclick={handleToogleAddToBookmarks}
+									>Remove from bookmarks</button
+								>
+							{:else}
+								<button class="text-sm text-neutral-20" onclick={handleToogleAddToBookmarks}
+									>Add to bookmarks</button
+								>
+							{/if}
+						</div>
 					</section>
 				</div>
 

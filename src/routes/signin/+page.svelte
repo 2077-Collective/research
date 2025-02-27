@@ -1,11 +1,10 @@
-<script>
-	import { browser } from '$app/environment';
+<script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { env } from '$env/dynamic/public';
 	import Apple from '$lib/components/ui/icons/Apple.svelte';
 	import Google from '$lib/components/ui/icons/Google.svelte';
-	import { jwt } from '$lib/stores/auth';
+	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { Eye, EyeOff, Loader2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
@@ -13,8 +12,6 @@
 	import { z } from 'zod';
 
 	const baseURL = env.PUBLIC_STRAPI_URL;
-
-	const GOOGLE_AUTH_URL = `${baseURL}/api/connect/google`;
 
 	const emailSchema = z.string().email({ message: 'Invalid email' });
 
@@ -26,14 +23,6 @@
 	let isSubmitting = $state(false);
 	let canContinue = $state(false);
 
-	const options = {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: ''
-	};
-
 	const searchParams = derived(page, ($page) => new URLSearchParams($page.url.search));
 	const paramValue = derived(searchParams, ($params) => $params.get('callback_url'));
 	const confirmEmail = derived(searchParams, ($params) => $params.get('confirm_email'));
@@ -41,7 +30,9 @@
 	const signUpURL = $paramValue ? `/signup?callback_url=${$paramValue}` : '/signup';
 	const redirectURL = $paramValue || '/reports';
 
-	const handleSubmit = async () => {
+	const handleSubmit = async (e: any) => {
+		e.preventDefault();
+
 		isSubmitting = false;
 
 		if (!canContinue) return;
@@ -49,55 +40,48 @@
 		isSubmitting = true;
 
 		try {
-			const body = JSON.stringify({ identifier: email, password });
+			const { data, error } = await supabase.auth.signInWithPassword({
+				email,
+				password
+			});
 
-			options.body = body;
-
-			const response = await fetch(`${baseURL}/api/auth/local`, options);
-			const result = await response.json();
-
-			if (result.error) {
-				if (result.error.name === 'ValidationError') {
-					toast.error(result.error.message);
-				}
-
-				if (result.error.name === 'ApplicationError') {
-					if (result.error.message === 'Your account email is not confirmed') {
-						options.body = JSON.stringify({ email });
-
-						await fetch(`${baseURL}/api/auth/send-email-confirmation`, options);
-						toast.warning(`Email not verified. Check email for verification link`);
-					} else {
-						toast.warning(result.error.message);
-					}
-				}
-
-				isSubmitting = false;
-
-				return;
-			}
-
-			if (result.jwt && result.user) {
-				jwt.set(result.jwt);
-
-				if (browser) {
-					sessionStorage.setItem('jwt', result.jwt);
-				}
-
+			if (data.user) {
 				await goto(redirectURL);
 
 				toast.success('Log in successful');
 
 				return;
 			}
+
+			if (error) {
+				if (error.code === 'invalid_credentials') {
+					toast.error('Invalid credentials');
+
+					return;
+				}
+			}
+
+			console.log({ data, error });
 		} catch (error) {
 			toast.error('An error occured. Please try again.');
+		} finally {
 			isSubmitting = false;
 		}
 	};
 
 	const handleTogglePasswordVisibility = () => {
 		showPassword = !showPassword;
+	};
+
+	const handleGoogleSignin = async () => {
+		await supabase.auth.signInWithOAuth({
+			provider: 'google',
+			options: {
+				redirectTo: $paramValue
+					? `http://localhost:5173${$paramValue}`
+					: 'http://localhost:5173/reports'
+			}
+		});
 	};
 
 	$effect(() => {
@@ -201,14 +185,13 @@
 					</div>
 
 					<div class="mt-[26px] grid grid-cols-1 gap-2">
-						<a href={GOOGLE_AUTH_URL}>
-							<button
-								class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium font-ibm"
-							>
-								<Google />
-								Continue with Google</button
-							>
-						</a>
+						<button
+							class="h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] flex items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium font-ibm"
+							onclick={handleGoogleSignin}
+						>
+							<Google />
+							Continue with Google</button
+						>
 
 						<button
 							class="hidden h-[49px] text-neutral-80 bg-neutral-80 hover:opacity-80 text-white rounded-[60px] items-center justify-center gap-2.5 w-full py-4 px-2.5 transition focus-within:outline-[#0CDEE9] text-sm font-medium"
