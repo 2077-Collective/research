@@ -12,12 +12,13 @@
 	const links: Link[] = [
 		{ href: '/reports', text: 'Latest research', isExternal: false },
 		{ href: '/about', text: 'About', isExternal: false },
-		//{ href: '/article-review', text: 'Publish your research', isExternal: false },
+		{ href: '/privacy-notice', text: 'Privacy', isExternal: false },
 		{
 			href: 'https://2077.xyz',
 			text: `<p>2<span class="!font-inter">0</span>77.xyz<p>`,
 			isExternal: true
 		},
+		{ href: '/ethereum-navigator', text: 'Ethereum Navigator', isExternal: false },
 		{
 			href: 'mailto:research@2077.xyz',
 			text: 'Contact',
