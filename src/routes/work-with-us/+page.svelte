@@ -80,7 +80,7 @@
 				</p>
 				<p class="text-base flex items-center gap-1.5">
 					Send an e-mail to {' '}
-					<a href="mailto:research@2077.xyz" class="text-[#0BC8D2] hover:underline"
+					<a href="mailto:research@2077.xyz" class="text-[#0BC8D2] hover:underline font-medium"
 						>research@2077.xyz
 					</a>
 					<button onclick={handleCopyEmail} disabled={copied}>

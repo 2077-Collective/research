@@ -822,7 +822,7 @@
 
 		<div
 			id="content-container"
-			class="lg:px-0 pb-20 text-primary w-full lg:max-w-[632px] mx-auto leading-8 flex flex-col
+			class="lg:px-0 pb-20 text-primary w-full lg:max-w-[632px] mx-auto font-hubot leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
@@ -848,11 +848,11 @@
 		>
 			{#if isReadingMode}
 				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
-					<h1 class="text-5xl mb-6 font-powerGroteskBold !leading-11 font-bold">
+					<h1 class="text-[40px] mb-6 font-powerGroteskBold !leading-10 font-bold">
 						{article.title}
 					</h1>
 
-					<p class="text-base mb-8 text-neutral-5 leading-relaxed">
+					<p class="text-base mb-8 text-neutral-5 font-hubot">
 						{article.summary}
 					</p>
 					<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">

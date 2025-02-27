@@ -305,7 +305,7 @@
 						<AnimateSharedLayout>
 							<Carousel.Content class="items-center">
 								{#each testimonials as testimonial, i}
-									<Carousel.Item class="flex-none w-[300px] md:w-[821px] p-2">
+									<Carousel.Item class="flex-none w-[300px] md:w-[500px] lg:w-[821px] p-2">
 										{@render card(testimonial, i)}
 									</Carousel.Item>
 								{/each}

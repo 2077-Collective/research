@@ -81,7 +81,7 @@
 						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
-							class="relative md:flex-none md:w-[calc(100%/5)] overflow-hidden md:px-5 border-[#07494B] md:pt-7 md:pb-20"
+							class="relative md:flex-none lg:w-[calc(100%/5)] md:w-[calc(100%/3)] overflow-hidden md:px-5 border-[#07494B] md:pt-7 md:pb-20"
 						>
 							<div class="h-full w-px bg-[#202020] absolute left-0 top-0 max-md:hidden"></div>
 

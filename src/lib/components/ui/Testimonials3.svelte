@@ -292,7 +292,7 @@
 
 <div class="bg-[#0C0C0D] pt-8 md:pt-32 pb-10">
 	<div class="container">
-		<div class="flex md:items-center max-md:flex-col max-md:gap-8 md:px-10">
+		<div class="flex md:items-center lg:flex-row md:flex-col flex-wrap max-md:gap-8 md:px-10">
 			<div class="max-w-full w-[468px] flex-shrink-0 bg-[#0C0C0D] flex items-center justify-center">
 				<div>
 					<h3
