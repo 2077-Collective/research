@@ -118,7 +118,7 @@
 			id="emailInput"
 			bind:value={email}
 			placeholder="Your email address"
-			class="flex gap-2 items-center px-5 py-2.5 text-lg tracking-tight leading-loose  min-w-[240px] rounded-full w-[380px]"
+			class="flex gap-2 items-center px-5 py-2.5 text-lg  leading-loose  min-w-[240px] rounded-full w-[380px]"
 			required
 		>
 			{#snippet button()}

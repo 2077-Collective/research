@@ -1,4 +1,4 @@
-import { fetchArticles } from '$lib/services/article.service';
+import { fetchArticles } from '$lib/services/strapi.service';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {

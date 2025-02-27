@@ -1,10 +1,18 @@
 <script lang="ts">
     import type { PageData } from './$types';
-    import DOMPurify from 'dompurify';
+    //import DOMPurify from 'dompurify';
+    import DOMPurify from 'isomorphic-dompurify';
 
     export let data: PageData;
     const { post } = data;
-    const sanitizedContent = post.content ? DOMPurify.sanitize(post.content) : '';
+    const sanitizedContent = post.content ? DOMPurify.sanitize(post.content, {
+        ALLOWED_TAGS: [
+            'h1', 'h2', 'h3', 'h4', 'p', 'a', 'strong', 
+            'em', 'ul', 'ol', 'li', 'img', 'pre', 'code', 
+            'blockquote', 'table', 'tr', 'td', 'th'
+        ],
+        ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
+    }) : '';
 
     function formatDate(timestamp: number | null): string {
         if (!timestamp) return '';
