@@ -12,6 +12,8 @@
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 
+	console.log({ articles });
+
 	const FEATURED_COUNT = 5;
 	const POPULAR_COUNT = 10;
 	const featuredArticles = $derived(articles.slice(0, FEATURED_COUNT));

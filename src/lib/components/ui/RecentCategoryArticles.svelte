@@ -75,6 +75,7 @@
 
 	$effect(() => {
 		const articles = getArticles();
+
 		if (articles?.length > 0) {
 			categoryArticles = getRecentArticlesByCategory(articles);
 		}
