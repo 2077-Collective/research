@@ -34,12 +34,12 @@
 }
 
 @font-face {
-	font-family: 'HubotSans';
-	font-style: normal;
-	font-weight: normal;
+	font-family: 'Hubot Sans';
 	src:
-		local('HubotSans'),
-		url('/fonts/HubotSans.woff2') format('woff2');
+		url('/fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+		url('/fonts/Hubot-Sans.woff2') format('woff2-variations');
+	font-weight: 200 900;
+	font-stretch: 75% 125%;
 }
 
 @font-face {
@@ -54,7 +54,7 @@
 @layer base {
 	/* Define dark mode variables in :root */
 	:root {
-		--font-primary: 'HubotSans', sans-serif;
+		--font-primary: 'Hubot Sans', sans-serif;
 		--font-mono: 'Kode Mono Variable', sans-serif;
 		--font-power: 'PowerGrotesk';
 
