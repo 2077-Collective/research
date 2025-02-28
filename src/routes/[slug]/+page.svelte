@@ -7,6 +7,7 @@
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
+	import * as Tooltip from '$lib/components/ui/tooltip';
 	import type { Article } from '$lib/types/article';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
@@ -945,25 +946,36 @@
 	<!-- Desktop vertical toolbar -->
 	<div class="w-12 flex-shrink-0 relative max-md:hidden">
 		<div
-			class="w-full p-2 sticky top-28 border text-neutral-20 bg-[#19191A] border-[#333] rounded-[16px] space-y-4"
+			class="w-full p-2 sticky top-28 border text-neutral-20 bg-[#19191A] border-[#333] rounded-[16px] flex flex-col items-center space-y-4"
 		>
-			<button
-				class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition disabled:opacity-50"
-				aria-label="Show AI Summary"
-				data-summary-toggle
-				disabled={!data?.article?.gpt_summary}
-				onclick={() => {
-					if (data?.article?.gpt_summary) {
-						if (isLoggedIn) {
-							toggleSummary();
-						} else {
-							showAuthBanner = true;
-						}
-					}
-				}}
-			>
-				<BrainCog class="size-5" />
-			</button>
+			<Tooltip.Root openDelay={5}>
+				<Tooltip.Trigger class="w-full aspect-square"
+					><button
+						class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition disabled:opacity-50"
+						aria-label="Show AI Summary"
+						data-summary-toggle
+						disabled={!data?.article?.gpt_summary}
+						onclick={() => {
+							if (data?.article?.gpt_summary) {
+								if (isLoggedIn) {
+									toggleSummary();
+								} else {
+									showAuthBanner = true;
+								}
+							}
+						}}
+					>
+						<BrainCog class="size-5" />
+					</button></Tooltip.Trigger
+				>
+				<Tooltip.Content
+					class="bg-[#19191A] border-[#333] font-mono text-xs"
+					side="left"
+					sideOffset={10}
+				>
+					<p>AI Summary</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
 
 			<div
 				class="relative"
@@ -1024,36 +1036,58 @@
 				{/if}
 			</div>
 
-			<button
-				onclick={() => {
-					if (isLoggedIn) {
-						handlePdfDownload(data.article);
-					} else {
-						showAuthBanner = true;
-					}
-				}}
-				class="disabled:cursor-wait w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
-				aria-label="Download as PDF"
-				disabled={isDownloading}
-			>
-				{#if isDownloading}
-					<div
-						class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-						aria-busy="true"
-					></div>
-				{:else}
-					<FileDown class="size-5" />
-				{/if}
-			</button>
+			<Tooltip.Root openDelay={5}>
+				<Tooltip.Trigger class="w-full aspect-square"
+					><button
+						onclick={() => {
+							if (isLoggedIn) {
+								handlePdfDownload(data.article);
+							} else {
+								showAuthBanner = true;
+							}
+						}}
+						class="disabled:cursor-wait w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
+						aria-label="Download as PDF"
+						disabled={isDownloading}
+					>
+						{#if isDownloading}
+							<div
+								class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+								aria-busy="true"
+							></div>
+						{:else}
+							<FileDown class="size-5" />
+						{/if}
+					</button></Tooltip.Trigger
+				>
+				<Tooltip.Content
+					class="bg-[#19191A] border-[#333] font-mono text-xs"
+					side="left"
+					sideOffset={10}
+				>
+					<p>Download PDF</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
 
-			<button
-				class="w-full aspect-square flex flex-col items-center justify-center gap-2"
-				onclick={handleToogleAddToBookmarks}
-			>
-				<Bookmark
-					class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')}
-				/>
-			</button>
+			<Tooltip.Root openDelay={5}>
+				<Tooltip.Trigger class="w-full aspect-square"
+					><button
+						class="w-full aspect-square flex flex-col items-center justify-center gap-2"
+						onclick={handleToogleAddToBookmarks}
+					>
+						<Bookmark
+							class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')}
+						/>
+					</button></Tooltip.Trigger
+				>
+				<Tooltip.Content
+					class="bg-[#19191A] border-[#333] font-mono text-xs"
+					side="left"
+					sideOffset={10}
+				>
+					<p>{isBookmarked ? 'Remove from bookmarks' : 'Save to bookmarks'}</p>
+				</Tooltip.Content>
+			</Tooltip.Root>
 		</div>
 	</div>
 </div>
