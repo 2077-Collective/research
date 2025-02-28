@@ -10,7 +10,6 @@
 
 	let articles = $state<any[]>([]);
 	let isLoading = $state(true);
-	let isLoggedIn = $state(false);
 
 	const handleFetchBookmarks = async () => {
 		isLoading = true;
@@ -20,8 +19,6 @@
 			} = await supabase.auth.getUser();
 
 			if (user) {
-				isLoggedIn = true;
-
 				const { data, error: dataError } = await supabase
 					.from('UserBookmarks')
 					.select('*')
@@ -62,7 +59,7 @@
 		} catch (errorData) {
 			console.error(errorData);
 			toast.error('Error loading bookmarks. Please try again.');
-			isLoggedIn = false;
+
 			articles = [];
 
 			throw error(500, 'An error occured');
