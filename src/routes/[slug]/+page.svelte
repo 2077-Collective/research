@@ -727,7 +727,7 @@
 
 {#if showAuthBanner}
 	<div
-		class="fixed h-screen w-screen bg-black/30 backdrop-blur-[3px] top-0 left-0 z-[999999] flex items-center justify-center"
+		class="fixed h-screen w-screen bg-black/30 backdrop-blur-[3px] top-0 left-0 z-[9999999999] flex items-center justify-center"
 	>
 		<div
 			class="p-8 md:p-11 bg-[#131314] rounded-[8px] w-[1095px] max-w-[95%] md:max-w-full relative"
