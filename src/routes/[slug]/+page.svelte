@@ -24,7 +24,6 @@
 	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import { createAudioStreamFromText } from '$lib/utils/eleven-labs';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
@@ -634,14 +633,9 @@
 		}
 	};
 
-	const handleAudioFetch = async () => {
-		await createAudioStreamFromText('This is James');
-	};
-
 	$effect(() => {
 		handleFetchUser();
 		handleFetchBookmarks();
-		handleAudioFetch();
 	});
 
 	let openShareMobile = $state(false);
