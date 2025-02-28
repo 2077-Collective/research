@@ -24,7 +24,7 @@
 	};
 </script>
 
-<footer class="w-full bg-[#040405] py-16">
+<footer class="w-full bg-[#040405] max-md:pt-12 max-md:pb-28 md:py-16">
 	<div class="flex flex-col md:flex-row gap-6 justify-between md:container max-md:pl-6">
 		<div class="flex items-center justify-between gap-12">
 			<svg

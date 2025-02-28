@@ -18,8 +18,10 @@
 	);
 
 	const filteredArticles = $derived(
-		articles.filter((article) =>
-			article.categories.some((cat) => cat.name.toLowerCase() === formattedCategory.toLowerCase())
+		articles.filter((article: { categories: { name: string }[] }) =>
+			article.categories.some(
+				(cat: { name: string }) => cat.name.toLowerCase() === formattedCategory.toLowerCase()
+			)
 		)
 	);
 

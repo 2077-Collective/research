@@ -143,7 +143,7 @@
 		background-repeat: no-repeat;
 		background-position: center;
 		/* background-size: cover; */
-		@apply pt-16 md:pt-28 pb-20 md:pb-40;
+		@apply pt-16 md:pt-20 pb-20 md:pb-40;
 
 		.hero-mask {
 			background: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
@@ -155,7 +155,7 @@
 	}
 
 	.font-powerGroteskBold {
-		letter-spacing: -0.96px !important;
+		/* letter-spacing: -0.96px !important; */
 		font-weight: 700 !important;
 	}
 }

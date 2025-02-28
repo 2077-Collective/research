@@ -95,13 +95,17 @@
 
 		<div class="flex-1 space-y-2.5">
 			{#if !hideCategory}
-				<Badge
-					variant="rectangularFilled"
+				<a
 					href={`/category/${formatCategorySlug(category?.name || '')}`}
-					class="bg-white text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+					data-sveltekit-preload-data
 				>
-					{category?.name}
-				</Badge>
+					<Badge
+						variant="rectangularFilled"
+						class="bg-white text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+					>
+						{category?.name}
+					</Badge>
+				</a>
 			{/if}
 
 			<h3
@@ -131,16 +135,21 @@
 	>
 		{#if displayCategory && !hideCategory}
 			<div class="flex items-center justify-between">
-				<Badge
-					variant="rectangularFilled"
+				<a
 					href={`/category/${formatCategorySlug(displayCategory.name)}`}
-					class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
+					data-sveltekit-preload-data
 				>
-					{displayCategory.name}
-				</Badge>
+					<Badge
+						variant="rectangularFilled"
+						class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
+					>
+						{displayCategory.name}
+					</Badge>
+				</a>
 
 				<a
 					href={`/category/${formatCategorySlug(displayCategory.name)}`}
+					data-sveltekit-preload-data
 					class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
 				>
 					View all

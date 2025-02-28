@@ -119,13 +119,13 @@
 	};
 </script>
 
-<button class="relative w-[353px] max-md:hidden" onclick={handleOpenDialog}>
+<button class="relative w-[390px] max-md:hidden" onclick={handleOpenDialog}>
 	<span
-		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-10 cursor-pointer w-full flex items-center !font-ibm"
+		class="h-[38px] bg-neutral-80 rounded-[38px] border-neutral-80 transition ps-10 pe-4 text-sm text-neutral-60 cursor-pointer w-full flex items-center !font-ibm"
 	>
 		Search 2077 research
 	</span>
-	<Search class="size-5 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
+	<Search class="size-4 absolute top-1/2 -translate-y-1/2 left-3 pointer-events-none" />
 </button>
 
 <button class="md:hidden flex items-center justify-center" onclick={handleOpenDialog}>

@@ -23,6 +23,11 @@
 		},
 
 		{
+			name: 'Contributors',
+			href: '/contributors'
+		},
+
+		{
 			name: 'Newsletter',
 			href: '/ethereum-navigator'
 		},

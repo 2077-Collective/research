@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
 	import { gsap } from 'gsap';
@@ -11,10 +12,12 @@
 
 	const {
 		article,
-		hideCategory = false
+		hideCategory = false,
+		isCategoryPage = false
 	}: {
 		article: ArticleMetadata;
 		hideCategory?: boolean;
+		isCategoryPage?: boolean;
 	} = $props();
 
 	const primaryCategory = getPrimaryCategory(article)?.name;
@@ -31,7 +34,7 @@
 	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category) => category.is_primary);
+		return article.categories.find((category) => category.is_primary) || article.categories[0];
 	}
 
 	const authorText = getAuthorsText(article.authors || []);
@@ -65,7 +68,7 @@
 	role="button"
 	tabindex="0"
 >
-	<div class="flex md:aspect-[2.045/1] items-center justify-center">
+	<div class="flex md:aspect-[2.045/0.9] items-center justify-center">
 		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 			<img
 				src={article.thumb_url}
@@ -91,16 +94,25 @@
 	>
 		{#if primaryCategory && !hideCategory}
 			<div class="px-6">
-				<Badge
-					variant="rectangularFilled"
-					class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
-					role="link"
-					tabindex="0"
-					on:click={() => handleCategoryClick(primaryCategory)}
-					on:keydown={(event: any) => handleKeydown(event, primaryCategory)}
-				>
-					{primaryCategory}
-				</Badge>
+				{#if isCategoryPage}
+					<Badge
+						variant="rectangularFilled"
+						class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80 !pointer-events-none select-none z-0"
+					>
+						Featured
+					</Badge>
+				{:else}
+					<a href={`/category/${formatCategorySlug(primaryCategory)}`} data-sveltekit-preload-data>
+						<Badge
+							variant="rectangularFilled"
+							class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
+							role="link"
+							tabindex="0"
+						>
+							{isCategoryPage ? 'Featured' : primaryCategory}
+						</Badge>
+					</a>
+				{/if}
 			</div>
 		{/if}
 

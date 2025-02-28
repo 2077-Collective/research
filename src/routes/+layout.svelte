@@ -4,8 +4,6 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
-	import { setBookmarks, storedBookmarks } from '$lib/stores/bookmarks.svelte';
-	import { supabase } from '$lib/utils/supabase';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
@@ -27,37 +25,6 @@
 	}
 
 	const { children } = $props();
-
-	const handleFetchBookmarks = async () => {
-		const {
-			data: { user }
-		} = await supabase.auth.getUser();
-
-		if (user) {
-			const { data, error } = await supabase
-				.from('UserBookmarks')
-				.select('*')
-				.eq('userId', user.id)
-				.limit(1)
-				.single();
-
-			if (data) {
-				const savedBookmarks = data.articleIds || [];
-
-				setBookmarks(savedBookmarks);
-
-				storedBookmarks.set(savedBookmarks);
-			}
-
-			if (error) {
-				// Handle Error here
-			}
-		}
-	};
-
-	$effect(() => {
-		handleFetchBookmarks();
-	});
 </script>
 
 <svelte:head>
@@ -76,11 +43,11 @@
 		<!-- <Beehiiv /> -->
 		<JoinSection />
 		<Footer />
-		<Toaster richColors />
+		<Toaster richColors position="top-center" />
 
 		{#if showButton}
 			<button
-				class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-11 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed bottom-8 md:bottom-11 right-3 md:right-11 font-semibold border border-[#333] z-[999999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover"
+				class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed bottom-8 md:bottom-11 right-3 md:right-14 font-semibold border border-[#333] z-[999999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover"
 				aria-label="Scroll back to the top of the page"
 				onclick={handleScrollToTop}
 			>
