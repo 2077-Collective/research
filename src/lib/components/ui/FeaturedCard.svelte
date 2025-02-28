@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
 	import { gsap } from 'gsap';
@@ -93,16 +94,25 @@
 	>
 		{#if primaryCategory && !hideCategory}
 			<div class="px-6">
-				<Badge
-					variant="rectangularFilled"
-					class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
-					role="link"
-					tabindex="0"
-					on:click={() => handleCategoryClick(primaryCategory)}
-					on:keydown={(event: any) => handleKeydown(event, primaryCategory)}
-				>
-					{isCategoryPage ? 'Featured' : primaryCategory}
-				</Badge>
+				{#if isCategoryPage}
+					<Badge
+						variant="rectangularFilled"
+						class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80 !pointer-events-none select-none z-0"
+					>
+						Featured
+					</Badge>
+				{:else}
+					<a href={`/category/${formatCategorySlug(primaryCategory)}`} data-sveltekit-preload-data>
+						<Badge
+							variant="rectangularFilled"
+							class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
+							role="link"
+							tabindex="0"
+						>
+							{isCategoryPage ? 'Featured' : primaryCategory}
+						</Badge>
+					</a>
+				{/if}
 			</div>
 		{/if}
 

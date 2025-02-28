@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { env } from '$env/dynamic/public';
 	import Apple from '$lib/components/ui/icons/Apple.svelte';
 	import Google from '$lib/components/ui/icons/Google.svelte';
 	import { supabase } from '$lib/utils/supabase';
@@ -10,7 +9,7 @@
 	import { derived } from 'svelte/store';
 	import { z } from 'zod';
 
-	const baseURL = env.PUBLIC_STRAPI_URL;
+	const pageUrl = $page.url.origin;
 
 	const emailSchema = z.string().email({ message: 'Invalid email' });
 
@@ -65,7 +64,7 @@
 				email,
 				password,
 				options: {
-					emailRedirectTo: `http://localhost:5173/${signInURL}`
+					emailRedirectTo: `${pageUrl}/${signInURL}`
 				}
 			});
 
@@ -108,9 +107,7 @@
 		await supabase.auth.signInWithOAuth({
 			provider: 'google',
 			options: {
-				redirectTo: $paramValue
-					? `http://localhost:5173${$paramValue}`
-					: 'http://localhost:5173/reports'
+				redirectTo: $paramValue ? `${pageUrl}${$paramValue}` : `${pageUrl}/reports`
 			}
 		});
 	};
