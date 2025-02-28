@@ -148,37 +148,39 @@
 	</section>
 
 	<section class="py-14 bg-[#0C0C0D]">
-		<div class="container flex items-center justify-between mb-10">
-			<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
+		{#if filteredArticles.slice(1, visibleArticles).length > 0}
+			<div class="container flex items-center justify-between mb-10">
+				<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
-			<div class="max-md:hidden flex items-center gap-2">
-				<button
-					class={cn(
-						'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
-						viewStyle === 'GRID' && 'opacity-50'
-					)}
-					aria-label="Switch to list view"
-					onclick={() => (viewStyle = 'LIST')}
-				>
-					<List />
+				<div class="max-md:hidden flex items-center gap-2">
+					<button
+						class={cn(
+							'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+							viewStyle === 'GRID' && 'opacity-50'
+						)}
+						aria-label="Switch to list view"
+						onclick={() => (viewStyle = 'LIST')}
+					>
+						<List />
 
-					<span class="max-md:hidden">List View</span>
-				</button>
+						<span class="max-md:hidden">List View</span>
+					</button>
 
-				<button
-					class={cn(
-						'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
-						viewStyle === 'LIST' && 'opacity-50'
-					)}
-					aria-label="Switch to list view"
-					onclick={() => (viewStyle = 'GRID')}
-				>
-					<Grid />
+					<button
+						class={cn(
+							'md:bg-[#19191A] h-10 flex items-center justify-center gap-1 text-sm p-1.5 md:p-2.5 rounded-[8px] transition',
+							viewStyle === 'LIST' && 'opacity-50'
+						)}
+						aria-label="Switch to list view"
+						onclick={() => (viewStyle = 'GRID')}
+					>
+						<Grid />
 
-					<span class="max-md:hidden">Grid View</span>
-				</button>
+						<span class="max-md:hidden">Grid View</span>
+					</button>
+				</div>
 			</div>
-		</div>
+		{/if}
 
 		<div
 			class={cn(
