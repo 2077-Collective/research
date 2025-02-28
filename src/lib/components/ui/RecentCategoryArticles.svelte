@@ -89,17 +89,19 @@
 		{#each categoryArticles as { category, articles }}
 			<div class="flex flex-col">
 				<div class="flex items-center justify-between">
-					<Badge
-						variant="rectangularFilled"
-						href={`/category/${category.toLowerCase()}`}
-						class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
-					>
-						{category}
-					</Badge>
+					<a href={`/category/${category.toLowerCase()}`} data-sveltekit-preload-data>
+						<Badge
+							variant="rectangularFilled"
+							class="bg-white text-neutral-80 hover:bg-neutral-20 py-1.5 px-2 mb-1"
+						>
+							{category}
+						</Badge>
+					</a>
 
 					<a
 						href={`/category/${category.toLowerCase()}`}
 						class="flex font-mono text-neutral-20 items-center gap-1 text-xs hover:text-primary/60 transition-colors group/button"
+						data-sveltekit-preload-data
 					>
 						View all
 						<ArrowRight class="w-3 h-3 group-hover/button:translate-x-1 transition-transform" />

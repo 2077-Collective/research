@@ -1,4 +1,4 @@
-import { getGhostArticleBySlug } from '$lib/services/ghost.service';
+import { getGhostArticleBySlug } from '$lib/services/article.service.js';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {

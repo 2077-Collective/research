@@ -142,7 +142,7 @@
 	<section class="bg-[#010102] pb-[98px]">
 		<div class="container relative -mt-28">
 			{#if firstArticle}
-				<FeaturedCard article={firstArticle} hideCategory />
+				<FeaturedCard article={firstArticle} isCategoryPage />
 			{/if}
 		</div>
 	</section>

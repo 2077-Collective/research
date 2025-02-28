@@ -8,7 +8,7 @@
 	// Get data from props
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
-	const articleCategories = $derived(data.articleCategories);
+	const articleCategories = $derived(data.articleCategories) as string[];
 
 	// Set articles in the store on mount
 	onMount(() => {

@@ -11,10 +11,12 @@
 
 	const {
 		article,
-		hideCategory = false
+		hideCategory = false,
+		isCategoryPage = false
 	}: {
 		article: ArticleMetadata;
 		hideCategory?: boolean;
+		isCategoryPage?: boolean;
 	} = $props();
 
 	const primaryCategory = getPrimaryCategory(article)?.name;
@@ -31,7 +33,7 @@
 	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category) => category.is_primary);
+		return article.categories.find((category) => category.is_primary) || article.categories[0];
 	}
 
 	const authorText = getAuthorsText(article.authors || []);
@@ -65,7 +67,7 @@
 	role="button"
 	tabindex="0"
 >
-	<div class="flex md:aspect-[2.045/1] items-center justify-center">
+	<div class="flex md:aspect-[2.045/0.9] items-center justify-center">
 		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
 			<img
 				src={article.thumb_url}
@@ -99,7 +101,7 @@
 					on:click={() => handleCategoryClick(primaryCategory)}
 					on:keydown={(event: any) => handleKeydown(event, primaryCategory)}
 				>
-					{primaryCategory}
+					{isCategoryPage ? 'Featured' : primaryCategory}
 				</Badge>
 			</div>
 		{/if}

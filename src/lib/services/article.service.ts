@@ -1,7 +1,10 @@
 import { env } from '$env/dynamic/public';
 import type { Article, ArticleMetadata, StrapiArticle, StrapiResponse } from '$lib/types/article';
 import { logApiResponse } from '$lib/utils/api-logger';
+import { cache, isCacheValid } from '$lib/utils/cache';
 import { calculateReadingTime } from '$lib/utils/calculate-read-time';
+import { ghostAPI } from '$lib/utils/ghost';
+import { transformToFullArticle as transformToFullArticleGhost } from '$lib/utils/transform-article';
 
 const baseURL = env.PUBLIC_STRAPI_URL;
 const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
@@ -12,19 +15,9 @@ if (!baseURL || !apiToken) {
 	);
 }
 
-console.log('Base URL:', baseURL);
-console.log('API Token:', apiToken ? '***' : 'Not set');
-
 const headers = {
 	Authorization: `Bearer ${apiToken}`,
 	'Content-Type': 'application/json'
-};
-
-const cache = new Map<string, { data: ArticleMetadata[]; timestamp: number }>();
-const CACHE_TTL = 5 * 60 * 1000;
-
-const isCacheValid = (timestamp: number): boolean => {
-	return Date.now() - timestamp < CACHE_TTL;
 };
 
 export const transformStrapiArticle = (articleData: any): ArticleMetadata | null => {
@@ -224,4 +217,30 @@ export const getArticleBySlug = async (slug: string): Promise<Article | null> =>
 		console.error(`Error fetching article ${slug}:`, error);
 		return null;
 	}
+};
+
+export const getGhostArticleBySlug = async (slug: string) => {
+	if (!slug?.trim()) {
+		return null;
+	}
+
+	const cacheKey = slug;
+
+	if (cache.has(cacheKey)) {
+		const cached = cache.get(cacheKey);
+		if (cached && isCacheValid(cached.timestamp)) {
+			return cached.data;
+		}
+	}
+
+	const post = await ghostAPI.posts.read(
+		{ slug },
+		{ formats: ['html'], include: ['authors', 'tags'] }
+	);
+
+	const transformedArticle = transformToFullArticleGhost(post);
+
+	cache.set(cacheKey, { data: transformedArticle, timestamp: Date.now() });
+
+	return transformedArticle;
 };
