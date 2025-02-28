@@ -25,12 +25,12 @@
 	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
-	import { getBookmarks, storedBookmarks } from '$lib/stores/bookmarks.svelte';
+	import { createAudioStreamFromText } from '$lib/utils/eleven-labs';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
-	import { FileDown, Link2, Share, X, type Icon } from 'lucide-svelte';
+	import { Bookmark, FileDown, Link2, Loader2, Play, Share, X, type Icon } from 'lucide-svelte';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -41,6 +41,7 @@
 	import 'prismjs/components/prism-solidity';
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
+	import { toast } from 'svelte-sonner';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -443,10 +444,10 @@
 
 	// Initialize reading mode from localStorage
 	onMount(() => {
-		const storedReadingMode = localStorage.getItem('readingMode');
-		if (storedReadingMode !== null) {
-			isReadingMode = storedReadingMode === 'true';
-		}
+		// const storedReadingMode = localStorage.getItem('readingMode');
+		// if (storedReadingMode !== null) {
+		// 	isReadingMode = storedReadingMode === 'true';
+		// }
 		currentURL = window.location.href;
 		contentState = 'ready';
 
@@ -564,6 +565,54 @@
 	let isLoggedIn = $state(false);
 	let showAuthBanner = $state(false);
 	let isCheckingAuth = $state(true);
+	let bookmarks = $state<string[]>([]);
+	let userId = $state<string | null>(null);
+
+	let loadingBookmarks = $state(true);
+
+	const handleFetchBookmarks = async () => {
+		loadingBookmarks = true;
+
+		try {
+			const {
+				data: { user }
+			} = await supabase.auth.getUser();
+
+			if (user) {
+				const { data, error } = await supabase
+					.from('UserBookmarks')
+					.select('*')
+					.eq('userId', user.id)
+					.limit(1)
+					.single();
+
+				if (data) {
+					const savedBookmarks = data.articleIds || [];
+
+					bookmarks = savedBookmarks;
+				}
+
+				if (error) {
+					if (error.code === 'PGRST116') {
+						const { error: createError } = await supabase
+							.from('UserBookmarks')
+							.insert({ userId: user.id, articleIds: [] });
+
+						if (createError) {
+							toast.error('An error occured. Please try again.');
+						}
+					} else {
+						toast.error('Error fetching bookmarks');
+					}
+				}
+			}
+		} catch (error) {
+			console.error(error);
+			toast.error('Error loading bookmarks. Please try again.');
+		} finally {
+			loadingBookmarks = false;
+		}
+	};
 
 	const handleFetchUser = async () => {
 		try {
@@ -573,70 +622,105 @@
 
 			if (user && user.user_metadata.email_verified) {
 				isLoggedIn = true;
+				userId = user.id;
 			} else {
 				isLoggedIn = false;
+				userId = null;
 			}
 		} catch (error) {
 			isLoggedIn = false;
+			userId = null;
 		} finally {
 			isCheckingAuth = false;
 		}
 	};
 
+	const handleAudioFetch = async () => {
+		await createAudioStreamFromText('This is James');
+	};
+
 	$effect(() => {
 		handleFetchUser();
-		bookmarks = getBookmarks();
+		handleFetchBookmarks();
+		handleAudioFetch();
 	});
 
-	// const bookmarks = getBookmarks();
+	let openShareMobile = $state(false);
+	let isBookmarking = $state(false);
 
 	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
-	const isBookmarked = derived(storedBookmarks, ($storedBookmarks) =>
-		$storedBookmarks.includes($slug || '')
-	);
+	let isBookmarked = $state(false);
 
-	console.log({ isBookmarked });
+	$effect(() => {
+		isBookmarked = bookmarks.includes($slug || '');
+	});
 
-	const handleToogleAddToBookmarks = () => {
-		console.log($isBookmarked);
-		// if ($slug) {
-		// 	if (isBookmarked) {
-		// 		const newBookmarks = bookmarks.filter((id) => id !== $slug);
+	const handleToogleAddToBookmarks = async () => {
+		if (isBookmarking) return;
 
-		// 		console.log({ newBookmarks });
+		isBookmarking = false;
 
-		// 		// Update Supabase
+		if (!$slug) return;
 
-		// 		setBookmarks(newBookmarks);
-		// 	} else {
-		// 		const newBookmarks = [...bookmarks, $slug];
+		if (!isLoggedIn && !userId) {
+			showAuthBanner = true;
 
-		// 		console.log({ newBookmarks });
+			return;
+		}
 
-		// 		// Update Supabase
+		const currentBookmarks = bookmarks;
 
-		// 		setBookmarks(newBookmarks);
-		// 	}
-		// }
+		const newBookmarks: any[] = isBookmarked
+			? bookmarks.filter((id) => id !== $slug)
+			: [...bookmarks, $slug];
 
-		storedBookmarks.update((prevBookmarks) => {
-			const newBookmarks = $isBookmarked
-				? prevBookmarks.filter((id) => id !== $slug)
-				: [...prevBookmarks, slug];
+		bookmarks = newBookmarks;
 
-			console.log({ newBookmarks });
+		if (isBookmarked) {
+			toast.success('Article removed from your bookmarks');
+		} else {
+			toast.success('Article added to your bookmarks');
+		}
 
-			// // Optimistically update UI first
-			// updateSupabase(newBookmarks);
+		isBookmarking = true;
 
-			return newBookmarks;
-		});
+		try {
+			const { data, error } = await supabase
+				.from('UserBookmarks')
+				.update({ articleIds: newBookmarks })
+				.eq('userId', userId)
+				.select();
+
+			if (error) {
+				bookmarks = currentBookmarks;
+
+				toast.error(`Couldn't add article to bookmarks`);
+			}
+		} catch (error) {
+			bookmarks = currentBookmarks;
+
+			toast.error('An error occured. Please try again.');
+		} finally {
+			isBookmarking = false;
+		}
 	};
 </script>
 
 <ArticleHead article={data.article} />
 
-<div class="fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]" aria-hidden="true">
+{#if loadingBookmarks}
+	<div class="h-dvh w-dvw bg-background z-[99] flex items-center justify-center fixed top-0 left-0">
+		<Loader2 class="animate-spin" />
+	</div>
+{/if}
+
+<div
+	class={cn(
+		'fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]',
+		loadingBookmarks && 'hidden'
+	)}
+	aria-hidden="true"
+>
 	<div
 		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
 		style="width: {progress}%"
@@ -692,7 +776,7 @@
 	</div>
 {/if}
 
-{#if !isLoggedIn && !isCheckingAuth}
+{#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
 		class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
 		onclick={() => (showAuthBanner = true)}
@@ -708,6 +792,116 @@
 	>
 {/if}
 
+<!-- Fixed bottom bar fo mobile -->
+<div
+	class={cn(
+		'hidden max-md:grid grid-cols-4 gap-4 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] px-4 py-4 text-neutral-40',
+		loadingBookmarks && 'max-md:hidden'
+	)}
+>
+	<button
+		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		aria-label="Show AI Summary"
+		data-summary-toggle
+		onclick={() => {
+			if (isLoggedIn) {
+				toggleSummary();
+			} else {
+				showAuthBanner = true;
+			}
+		}}
+	>
+		<BrainCog class="size-5" />
+		<span class="text-xs font-medium font-ibm">Summary</span>
+	</button>
+
+	<button
+		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		onclick={() => {
+			if (!isLoggedIn) {
+				showAuthBanner = true;
+			}
+		}}
+	>
+		<Play class="size-5" />
+		<span class="text-xs font-medium font-ibm">Play audio</span>
+	</button>
+
+	<button
+		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		onclick={() => (openShareMobile = true)}
+	>
+		<Share class="size-5" />
+		<span class="text-xs font-medium font-ibm">Share</span>
+	</button>
+
+	<button
+		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		onclick={handleToogleAddToBookmarks}
+	>
+		<Bookmark class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')} />
+		<span class="text-xs font-medium font-ibm">{isBookmarked ? 'Saved' : 'Save'}</span>
+	</button>
+
+	<!-- <button class="min-h-10 flex flex-col items-center justify-center gap-2">
+		<ArrowUp class="size-5" />
+		<span class="text-xs font-medium font-ibm">Back to top</span>
+	</button> -->
+</div>
+
+<!-- Share Mobile -->
+<div
+	class={cn(
+		'h-screen w-screen fixed bg-black top-0 left-0 z-[99999999] -translate-x-full transition will-change-transform flex flex-col',
+		openShareMobile && 'translate-x-0'
+	)}
+>
+	<div class="flex items-center justify-between flex-shrink-0 p-4">
+		<h2 class="text-2xl font-medium font-powerGroteskBold">Share</h2>
+
+		<button
+			class="size-10 flex items-center justify-center"
+			onclick={() => (openShareMobile = false)}
+		>
+			<X />
+		</button>
+	</div>
+
+	<div class="flex-1 px-4 pb-8 overflow-y-auto space-y-3">
+		{#each shareOptions as option}
+			<a
+				href={option.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				role="menuitem"
+				class="hover:bg-white hover:text-black flex items-center gap-2 h-10"
+				data-sveltekit-preload-data
+			>
+				{#if option.isSvg}
+					{@html option.icon}
+				{:else}
+					{@const IconComponent = option.icon}
+					<IconComponent class="size-5" />
+				{/if}
+				<span class="text-sm">{option.name}</span>
+			</a>
+		{/each}
+
+		<button
+			onclick={copyShareLink}
+			role="menuitem"
+			class="w-full hover:bg-white hover:text-black text-left flex items-center gap-2 h-10"
+		>
+			<Link2 class="size-5" />
+			{#if copySuccess}
+				<span class="text-special-blue text-sm">Link Copied</span>
+			{:else}
+				<span class="text-sm">Copy Link</span>
+			{/if}
+		</button>
+	</div>
+</div>
+
 <div class="flex flex-col gap-y-6 md:gap-y-14">
 	{#if !isReadingMode}
 		{@render header(data.article)}
@@ -716,7 +910,7 @@
 	{@render body(data.article)}
 
 	{#if !isReadingMode}
-		{#if isLoggedIn && !isCheckingAuth}
+		{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 			{@render floatingButtons()}
 		{/if}
 	{/if}
@@ -730,14 +924,14 @@
 	<div class="relative pt-32 container">
 		<div class="relative">
 			<header class="flex justify-between flex-col">
-				<a
-					href="/"
+				<button
 					aria-label="Back to Home"
 					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full mb-[38.5px] bg-[#19191A] group"
 					data-sveltekit-preload-data
+					onclick={() => history.back()}
 				>
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
-				</a>
+				</button>
 
 				<div class="flex flex-col max-w-full w-[794px]">
 					<section class="flex flex-col w-full">
@@ -786,7 +980,7 @@
 						{/if}
 
 						<div class="mt-6">
-							{#if $isBookmarked}
+							{#if isBookmarked}
 								<button class="text-sm text-neutral-20" onclick={handleToogleAddToBookmarks}
 									>Remove from bookmarks</button
 								>
@@ -822,7 +1016,7 @@
 				class="w-full h-full object-cover pointer-events-none select-none"
 			/>
 
-			{#if isLoggedIn && !isCheckingAuth}
+			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 				<iframe
 					id="AudioNativeElevenLabsPlayer"
 					title="AudioNative ElevenLabs Player"
@@ -832,7 +1026,7 @@
 					scrolling="no"
 					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
 					style="max-height: 90px;"
-					class="fixed left-1/2 -translate-x-1/2 bottom-8 z-[99999]"
+					class="fixed left-1/2 -translate-x-1/2 bottom-12 z-[99999]"
 				></iframe>
 			{/if}
 		</div>
@@ -868,10 +1062,10 @@
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
-			[&>h2]:text-3xl [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
-			[&>h3]:text-2xl [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
+			[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
+			[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-base [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-base [&>p]:break-words [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
@@ -1003,7 +1197,7 @@
 							{/if}
 						</div>
 
-						{#if isLoggedIn && !isCheckingAuth}
+						{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 							<button
 								onclick={() => handlePdfDownload(article)}
 								class="flex items-center gap-1 hover:text-primary/50 cursor-pointer disabled:cursor-wait disabled:opacity-50"
@@ -1026,7 +1220,7 @@
 			</div>
 		{/if}
 
-		{#if isLoggedIn && !isCheckingAuth}
+		{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 			{@render floatingButtons()}
 		{/if}
 	</article>
@@ -1035,7 +1229,7 @@
 {#snippet floatingButtons()}
 	{#if showFloatingButtons || isReadingMode}
 		<div
-			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300 z-[9999]"
+			class="max-md:hidden fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300 z-[9999]"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>
@@ -1064,7 +1258,7 @@
 {#snippet summaryPanel()}
 	{#if data?.article?.gpt_summary}
 		<div
-			class="fixed inset-y-0 right-0 pointer-events-none z-50 flex items-center"
+			class="fixed inset-y-0 right-0 pointer-events-none flex items-center z-[999999999]"
 			class:overflow-hidden={summaryOpen}
 		>
 			<div
@@ -1079,9 +1273,9 @@
 				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
 			>
 				<div
-					class="sticky top-0 z-10 bg-background border-b px-8 py-4 flex justify-between items-center"
+					class="sticky top-0 z-10 bg-background border-b border-[#202020] px-4 md:px-8 py-4 flex justify-between items-center"
 				>
-					<h2 class="text-2xl font-medium">Summary</h2>
+					<h2 class="text-2xl font-medium font-powerGroteskBold">Summary</h2>
 					<button
 						onclick={toggleSummary}
 						class="p-2 hover:bg-secondary rounded-full"
@@ -1091,7 +1285,7 @@
 					</button>
 				</div>
 				<div
-					class="flex-1 overflow-y-auto px-12 py-6 text-primary w-full leading-8
+					class="flex-1 overflow-y-auto px-4 md:px-12 py-4 md:py-6 text-primary w-full leading-8
 					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58
 					[&>h2]:text-3xl [&>h2]:font-medium [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-9
 					[&>h3]:text-2xl [&>h3]:font-medium [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-7
@@ -1111,7 +1305,7 @@
 	{/if}
 {/snippet}
 
-{#if isLoggedIn && !isCheckingAuth}
+{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<!-- Add this right after the main content div -->
 	{@render summaryPanel()}
 {/if}

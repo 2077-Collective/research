@@ -76,6 +76,7 @@
 		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.36.2",
 		"drizzle-zod": "^0.5.1",
+		"elevenlabs": "^1.52.0",
 		"embla-carousel-auto-scroll": "^8.3.0",
 		"embla-carousel-autoplay": "^8.5.2",
 		"googleapis": "^144.0.0",

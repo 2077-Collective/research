@@ -4,8 +4,6 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
-	import { setBookmarks, storedBookmarks } from '$lib/stores/bookmarks.svelte';
-	import { supabase } from '$lib/utils/supabase';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
@@ -27,37 +25,6 @@
 	}
 
 	const { children } = $props();
-
-	const handleFetchBookmarks = async () => {
-		const {
-			data: { user }
-		} = await supabase.auth.getUser();
-
-		if (user) {
-			const { data, error } = await supabase
-				.from('UserBookmarks')
-				.select('*')
-				.eq('userId', user.id)
-				.limit(1)
-				.single();
-
-			if (data) {
-				const savedBookmarks = data.articleIds || [];
-
-				setBookmarks(savedBookmarks);
-
-				storedBookmarks.set(savedBookmarks);
-			}
-
-			if (error) {
-				// Handle Error here
-			}
-		}
-	};
-
-	$effect(() => {
-		handleFetchBookmarks();
-	});
 </script>
 
 <svelte:head>
@@ -76,7 +43,7 @@
 		<!-- <Beehiiv /> -->
 		<JoinSection />
 		<Footer />
-		<Toaster richColors />
+		<Toaster richColors position="top-center" />
 
 		{#if showButton}
 			<button
