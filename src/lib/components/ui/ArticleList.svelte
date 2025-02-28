@@ -22,7 +22,8 @@
 		articlesPerPage = ARTICLES_PER_PAGE,
 		displayLoadMore = true,
 		title = 'Featured Research',
-		disableCategory = false
+		disableCategory = false,
+		hideFeatured = false
 	}: {
 		articles: ArticleMetadata[];
 		articleCategories?: string[];
@@ -30,6 +31,7 @@
 		displayLoadMore?: boolean;
 		title?: string;
 		disableCategory?: boolean;
+		hideFeatured?: boolean;
 	} = $props();
 	let search = $state('');
 	let selectedCategory = $state('');
@@ -104,9 +106,10 @@
 </script>
 
 <div>
-	<section class="pt-32 bg-[#0C0C0D] relative overflow-hidden pb-40">
-		<div class="container relative z-20">
-			<!-- <div class="flex items-center gap-3 mb-4 md:mb-9">
+	{#if !hideFeatured}
+		<section class="pt-32 bg-[#0C0C0D] relative overflow-hidden pb-40">
+			<div class="container relative z-20">
+				<!-- <div class="flex items-center gap-3 mb-4 md:mb-9">
 				<a
 					href="/"
 					aria-label="Back to Home"
@@ -117,38 +120,39 @@
 				</a>
 			</div> -->
 
-			<div>
-				<h2
-					id="latest-research"
-					class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold"
-				>
-					{title}
-				</h2>
+				<div>
+					<h2
+						id="latest-research"
+						class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold"
+					>
+						{title}
+					</h2>
 
-				<!-- <p class="max-w-[485px] text-sm font-hubot mt-3">
+					<!-- <p class="max-w-[485px] text-sm font-hubot mt-3">
 					The news around making Ethereum faster, cheaper, and more efficient with Layer 2s,
 					rollups, and sharding—paving the way for mass adoption.
 				</p> -->
+				</div>
 			</div>
-		</div>
 
-		<img
-			class="absolute top-0 pointer-events-none opacity-10 w-full"
-			src="/category-header-bg.png"
-			alt="Header mesh"
-		/>
-	</section>
+			<img
+				class="absolute top-0 pointer-events-none opacity-10 w-full"
+				src="/category-header-bg.png"
+				alt="Header mesh"
+			/>
+		</section>
 
-	<section class="bg-[#010102] pb-[98px]">
-		<div class="container relative -mt-28">
-			{#if firstArticle}
-				<FeaturedCard article={firstArticle} isCategoryPage />
-			{/if}
-		</div>
-	</section>
+		<section class="bg-[#010102] pb-[98px]">
+			<div class="container relative -mt-28">
+				{#if firstArticle}
+					<FeaturedCard article={firstArticle} isCategoryPage />
+				{/if}
+			</div>
+		</section>
+	{/if}
 
 	<section class="py-14 bg-[#0C0C0D]">
-		{#if filteredArticles.slice(1, visibleArticles).length > 0}
+		{#if filteredArticles.slice(hideFeatured ? 0 : 1, visibleArticles).length > 0}
 			<div class="container flex items-center justify-between mb-10">
 				<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>
 
@@ -190,7 +194,7 @@
 				viewStyle === 'LIST' && 'divide-y divide-[#1F1F1F]'
 			)}
 		>
-			{#each filteredArticles.slice(1, visibleArticles) as article, index}
+			{#each filteredArticles.slice(hideFeatured ? 0 : 1, visibleArticles) as article, index}
 				<div transition:slide={{ delay: 100 * (index % articlesPerPage) }}>
 					<ArticleCard
 						{viewStyle}

@@ -2,7 +2,12 @@ import { cache, isCacheValid } from '$lib/utils/cache';
 import { ghostAPI } from '$lib/utils/ghost';
 import { transformArticle } from '$lib/utils/transform-article';
 
-export const fetchGhostArticles = async (category?: string, page = 1, limit = 15) => {
+export const fetchGhostArticles = async (
+	category?: string,
+	page = 1,
+	limit = 15,
+	bookmarks?: string[]
+) => {
 	const cacheKey = `${category || 'all'}-${page || 1}-${limit}`;
 
 	if (cache.has(cacheKey)) {
@@ -17,7 +22,8 @@ export const fetchGhostArticles = async (category?: string, page = 1, limit = 15
 			limit,
 			include: ['authors', 'tags'],
 			page,
-			...(category && { filter: `tag:${category}` })
+			...(category && { filter: `tag:${category}` }),
+			...((bookmarks || []).length > 0 && { filter: `slug:[${bookmarks}]` })
 		});
 
 		if (!posts) {

@@ -42,7 +42,7 @@
 
 	<img
 		src="/contritbutors-header.png"
-		class="absolute top-0 right-0 pointer-events-none"
+		class="absolute top-0 right-0 pointer-events-none h-full"
 		alt="header bg"
 	/>
 </section>

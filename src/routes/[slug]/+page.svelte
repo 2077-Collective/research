@@ -13,7 +13,6 @@
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import Mail from 'lucide-svelte/icons/mail';
-	import ScrollText from 'lucide-svelte/icons/scroll-text';
 	import Twitter from 'lucide-svelte/icons/twitter';
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
@@ -30,7 +29,7 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
-	import { Bookmark, FileDown, Link2, Loader2, Play, Share, X, type Icon } from 'lucide-svelte';
+	import { ArrowUp, Bookmark, FileDown, Link2, Loader2, Share, X, type Icon } from 'lucide-svelte';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -704,6 +703,10 @@
 			isBookmarking = false;
 		}
 	};
+
+	function handleScrollToTop() {
+		document.body.scrollIntoView({ behavior: 'smooth' });
+	}
 </script>
 
 <ArticleHead article={data.article} />
@@ -778,7 +781,7 @@
 
 {#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
-		class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
+		class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
 		onclick={() => (showAuthBanner = true)}
 	>
 		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -792,7 +795,7 @@
 	>
 {/if}
 
-<!-- Fixed bottom bar fo mobile -->
+<!-- Fixed bottom bar for mobile -->
 <div
 	class={cn(
 		'hidden max-md:grid grid-cols-4 gap-4 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] px-4 py-4 text-neutral-40',
@@ -800,7 +803,7 @@
 	)}
 >
 	<button
-		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
 		aria-label="Show AI Summary"
 		data-summary-toggle
 		onclick={() => {
@@ -810,21 +813,36 @@
 				showAuthBanner = true;
 			}
 		}}
+		disabled={!data?.article?.gpt_summary}
 	>
 		<BrainCog class="size-5" />
 		<span class="text-xs font-medium font-ibm">Summary</span>
 	</button>
 
 	<button
-		class="min-h-10 flex flex-col items-center justify-center gap-2"
 		onclick={() => {
-			if (!isLoggedIn) {
+			if (isLoggedIn) {
+				handlePdfDownload(data.article);
+			} else {
 				showAuthBanner = true;
 			}
 		}}
+		class="disabled:cursor-wait min-h-10 flex flex-col items-center justify-center gap-2 hover:text-neutral-40 transition"
+		aria-label="Download as PDF"
+		disabled={isDownloading}
 	>
-		<Play class="size-5" />
-		<span class="text-xs font-medium font-ibm">Play audio</span>
+		{#if isDownloading}
+			<div
+				class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+				aria-busy="true"
+			></div>
+		{:else}
+			<FileDown class="size-5" />
+		{/if}
+
+		<span class="text-xs font-medium font-ibm"
+			>{isDownloading ? 'Downloading' : 'Download PDF'}</span
+		>
 	</button>
 
 	<button
@@ -842,11 +860,6 @@
 		<Bookmark class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')} />
 		<span class="text-xs font-medium font-ibm">{isBookmarked ? 'Saved' : 'Save'}</span>
 	</button>
-
-	<!-- <button class="min-h-10 flex flex-col items-center justify-center gap-2">
-		<ArrowUp class="size-5" />
-		<span class="text-xs font-medium font-ibm">Back to top</span>
-	</button> -->
 </div>
 
 <!-- Share Mobile -->
@@ -902,26 +915,157 @@
 	</div>
 </div>
 
-<div class="flex flex-col gap-y-6 md:gap-y-14">
-	{#if !isReadingMode}
-		{@render header(data.article)}
-	{/if}
+<!-- Back to top button -->
+{#if showFloatingButtons && !loadingBookmarks}
+	<button
+		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[999999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
+		aria-label="Scroll back to the top of the page"
+		onclick={handleScrollToTop}
+	>
+		<ArrowUp
+			class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
+			style="stroke-width: 1.4"
+		/>
+	</button>
+{/if}
 
-	{@render body(data.article)}
-
-	{#if !isReadingMode}
-		{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-			{@render floatingButtons()}
+<div class="md:flex gap-8 container">
+	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
+		{#if !isReadingMode}
+			{@render header(data.article)}
 		{/if}
-	{/if}
 
-	<div class={isReadingMode ? 'hidden' : 'container mb-12'}>
-		<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+		{@render body(data.article)}
+
+		<!-- {#if !isReadingMode}
+			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
+				{@render floatingButtons()}
+			{/if}
+		{/if} -->
+
+		<div class={isReadingMode ? 'hidden' : 'mb-12'}>
+			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+		</div>
+	</div>
+
+	<!-- Desktop vertical toolbar -->
+	<div class="w-12 flex-shrink-0 relative max-md:hidden">
+		<div
+			class="w-full p-2 sticky top-28 border text-neutral-20 bg-[#19191A] border-[#333] rounded-[16px] space-y-4"
+		>
+			<button
+				class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition disabled:opacity-50"
+				aria-label="Show AI Summary"
+				data-summary-toggle
+				disabled={!data?.article?.gpt_summary}
+				onclick={() => {
+					if (data?.article?.gpt_summary) {
+						if (isLoggedIn) {
+							toggleSummary();
+						} else {
+							showAuthBanner = true;
+						}
+					}
+				}}
+			>
+				<BrainCog class="size-5" />
+			</button>
+
+			<div
+				class="relative"
+				onmouseenter={handleMouseEnter}
+				onmouseleave={handleMouseLeave}
+				role="menu"
+				tabindex="0"
+			>
+				<button
+					onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+					class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
+					aria-label="Share article"
+					aria-expanded={showShareDropdown}
+					aria-haspopup="true"
+					data-share-toggle
+				>
+					<Share class="size-5" />
+				</button>
+
+				{#if showShareDropdown}
+					<div
+						class="share-dropdown absolute {dropdownPosition === 'bottom'
+							? 'mt-2 top-full'
+							: 'bottom-full mb-2'} 
+						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0 font-mono"
+					>
+						{#each shareOptions as option}
+							<a
+								href={option.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								role="menuitem"
+								class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+								data-sveltekit-preload-data
+							>
+								{#if option.isSvg}
+									{@html option.icon}
+								{:else}
+									{@const IconComponent = option.icon}
+									<IconComponent class="w-5 h-5" />
+								{/if}
+								<span class="text-sm">{option.name}</span>
+							</a>
+						{/each}
+						<button
+							onclick={copyShareLink}
+							role="menuitem"
+							class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
+						>
+							<Link2 class="w-5 h-5" />
+							{#if copySuccess}
+								<span class="text-special-blue text-sm">Link Copied</span>
+							{:else}
+								<span class="text-sm">Copy Link</span>
+							{/if}
+						</button>
+					</div>
+				{/if}
+			</div>
+
+			<button
+				onclick={() => {
+					if (isLoggedIn) {
+						handlePdfDownload(data.article);
+					} else {
+						showAuthBanner = true;
+					}
+				}}
+				class="disabled:cursor-wait w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
+				aria-label="Download as PDF"
+				disabled={isDownloading}
+			>
+				{#if isDownloading}
+					<div
+						class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
+						aria-busy="true"
+					></div>
+				{:else}
+					<FileDown class="size-5" />
+				{/if}
+			</button>
+
+			<button
+				class="w-full aspect-square flex flex-col items-center justify-center gap-2"
+				onclick={handleToogleAddToBookmarks}
+			>
+				<Bookmark
+					class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')}
+				/>
+			</button>
+		</div>
 	</div>
 </div>
 
 {#snippet header(article: Article)}
-	<div class="relative pt-32 container">
+	<div class="relative pt-32">
 		<div class="relative">
 			<header class="flex justify-between flex-col">
 				<button
@@ -978,18 +1122,6 @@
 								{/each}
 							</div>
 						{/if}
-
-						<div class="mt-6">
-							{#if isBookmarked}
-								<button class="text-sm text-neutral-20" onclick={handleToogleAddToBookmarks}
-									>Remove from bookmarks</button
-								>
-							{:else}
-								<button class="text-sm text-neutral-20" onclick={handleToogleAddToBookmarks}
-									>Add to bookmarks</button
-								>
-							{/if}
-						</div>
 					</section>
 				</div>
 
@@ -1026,7 +1158,7 @@
 					scrolling="no"
 					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
 					style="max-height: 90px;"
-					class="fixed left-1/2 -translate-x-1/2 bottom-12 z-[99999]"
+					class="fixed left-1/2 -translate-x-1/2 bottom-24 z-[99999]"
 				></iframe>
 			{/if}
 		</div>
@@ -1035,7 +1167,7 @@
 
 {#snippet body(article: Article)}
 	<article
-		class={cn('lg:flex lg:gap-14 relative container', isReadingMode && 'reading-mode mt-32')}
+		class={cn('lg:flex lg:gap-14 relative', isReadingMode && 'reading-mode mt-32')}
 		class:overflow-hidden={summaryOpen}
 	>
 		<!-- Hide TOC in reading mode -->
@@ -1135,7 +1267,7 @@
 
 		{#if !isReadingMode}
 			<div class="max-lg:hidden">
-				<div class="font-mono sticky top-24 space-y-5 text-sm flex-1 pr-10">
+				<div class="font-mono sticky top-24 space-y-5 text-sm flex-1 pr-10 hidden">
 					<div class="flex items-center gap-4 justify-end">
 						<div
 							class="relative"
@@ -1220,9 +1352,9 @@
 			</div>
 		{/if}
 
-		{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
+		<!-- {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 			{@render floatingButtons()}
-		{/if}
+		{/if} -->
 	</article>
 {/snippet}
 
@@ -1233,7 +1365,7 @@
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>
-			{#if !isReadingMode && data?.article?.gpt_summary}
+			<!-- {#if !isReadingMode && data?.article?.gpt_summary}
 				<button
 					onclick={toggleSummary}
 					class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
@@ -1242,15 +1374,15 @@
 				>
 					<svelte:component this={BrainCog} class="size-5" />
 				</button>
-			{/if}
+			{/if} -->
 
-			<button
+			<!-- <button
 				onclick={toggleReadingMode}
 				class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
 				aria-label="Toggle reading mode"
 			>
 				<svelte:component this={ScrollText} class="size-5" />
-			</button>
+			</button> -->
 		</div>
 	{/if}
 {/snippet}
