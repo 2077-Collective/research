@@ -775,7 +775,7 @@
 
 {#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
-		class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
+		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
 		onclick={() => (showAuthBanner = true)}
 	>
 		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -912,7 +912,7 @@
 <!-- Back to top button -->
 {#if showFloatingButtons && !loadingBookmarks}
 	<button
-		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[999999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
+		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
 		aria-label="Scroll back to the top of the page"
 		onclick={handleScrollToTop}
 	>
@@ -1152,7 +1152,7 @@
 					scrolling="no"
 					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
 					style="max-height: 90px;"
-					class="fixed left-1/2 -translate-x-1/2 bottom-24 z-[99999]"
+					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
 				></iframe>
 			{/if}
 		</div>
@@ -1399,7 +1399,7 @@
 				style="transform: translateX({summaryOpen ? '0%' : '100%'})"
 			>
 				<div
-					class="sticky top-0 z-10 bg-background border-b border-[#202020] px-4 md:px-8 py-4 flex justify-between items-center"
+					class="z-10 bg-background border-b border-[#202020] px-4 md:px-8 py-4 flex justify-between items-center flex-shrink-0"
 				>
 					<h2 class="text-2xl font-medium font-powerGroteskBold">Summary</h2>
 					<button
@@ -1410,6 +1410,7 @@
 						<XIcon class="w-6 h-6" />
 					</button>
 				</div>
+
 				<div
 					class="flex-1 overflow-y-auto px-4 md:px-12 py-4 md:py-6 text-primary w-full leading-8
 					[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58

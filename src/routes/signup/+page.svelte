@@ -123,7 +123,7 @@
 	});
 </script>
 
-<div class="min-h-dvh flex items-center justify-center py-10 md:py-32">
+<div class="min-h-dvh flex items-center justify-center py-16 md:py-32">
 	<section class="container flex items-start gap-10 justify-between">
 		<div class="lg:w-[580px] w-full flex-shrink-0 pt-10">
 			<div>
