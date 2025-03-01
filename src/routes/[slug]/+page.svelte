@@ -41,6 +41,7 @@
 	import 'prismjs/components/prism-solidity';
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
+	import { init, destroy } from 'tocbot';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -447,7 +448,6 @@
 		}
 	}
 
-	// Initialize reading mode from localStorage
 	onMount(() => {
 		const storedReadingMode = localStorage.getItem('readingMode');
 		if (storedReadingMode !== null) {
@@ -503,7 +503,6 @@
 
 		window.addEventListener('beforeprint', handleBeforePrint);
 
-		// Refresh TOC when content is ready
 		$effect(() => {
 			if (contentState === 'ready') {
 				refreshToc();
@@ -519,7 +518,6 @@
 			window.removeEventListener('scroll', updateReadingProgress);
 			window.removeEventListener('keydown', handleKeyPress);
 			window.removeEventListener('beforeprint', handleBeforePrint);
-			tocbot.destroy();
 		};
 	});
 
@@ -860,8 +858,8 @@
 	>
 		<!-- Hide TOC in reading mode -->
 		{#if !isReadingMode}
-			<TableOfContents tableOfContents={article.table_of_contents} />
-			<div id="toc" class="block lg:hidden"></div>
+			<TableOfContents tableOfContents={article.table_of_contents}/>
+			<div id="toc" class="block lg:hidden w-full mx-0"></div>
 		{/if}
 
 		<!-- Update the back button in reading mode -->
