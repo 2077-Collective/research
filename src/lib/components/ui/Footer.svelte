@@ -5,9 +5,10 @@
 		href: string;
 		text: string;
 		isExternal: boolean;
+		icon?: typeof ArrowUpRightIcon; // Optional icon for the link
 	};
 
-	const linkGroups: any = {
+	const linkGroups: Record<string, Link[]> = {
 		navigation: [
 			{ href: '/', text: 'Home', isExternal: false },
 			{ href: '/reports', text: 'Research', isExternal: false },
@@ -15,17 +16,17 @@
 			{ href: '/about', text: 'About', isExternal: false },
 			{ href: '/work-with-us', text: 'Work with us', isExternal: false }
 		],
-
 		socials: [
 			{ href: 'https://x.com/2077research', text: 'Twitter', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Telegram', isExternal: true },
-			{ href: 'https://x.com/2077research', text: 'Farcaster', isExternal: true }
+			{ href: 'https://t.me/2077research', text: 'Telegram', isExternal: true },
+			{ href: 'https://farcaster.xyz/2077research', text: 'Farcaster', isExternal: true }
 		]
 	};
 </script>
 
 <footer class="w-full bg-[#040405] max-md:pt-12 max-md:pb-28 md:py-16">
 	<div class="flex flex-col md:flex-row gap-6 justify-between md:container max-md:pl-6">
+		<!-- Logo Section -->
 		<div class="flex items-center justify-between gap-12">
 			<svg
 				viewBox="0 0 53 105"
@@ -66,13 +67,13 @@
 			</svg>
 		</div>
 
+		<!-- Link Groups -->
 		<div class="flex md:justify-between gap-[50px] md:gap-16 max-md:mt-[35px]">
-			{#each Object.keys(linkGroups) as groupTitle}
+			{#each Object.entries(linkGroups) as [groupTitle, links]}
 				<div>
 					<p class="text-sm uppercase text-neutral-40">{groupTitle}</p>
-
 					<div class="mt-[18px] space-y-3">
-						{#each linkGroups[groupTitle] as link}
+						{#each links as link}
 							{@render linkComp(link)}
 						{/each}
 					</div>
@@ -82,6 +83,7 @@
 	</div>
 </footer>
 
+<!-- Link Component Snippet -->
 {#snippet linkComp(link: Link)}
 	<a
 		href={link.href}
