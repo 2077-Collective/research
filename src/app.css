@@ -1,5 +1,4 @@
 @import '@fontsource-variable/inter';
-/* @import '@fontsource-variable/space-grotesk'; */
 @import '@fontsource/ubuntu-mono';
 @import '@fontsource-variable/hubot-sans';
 @import '@fontsource-variable/geist-mono';
@@ -15,42 +14,33 @@
 	font-family: 'Menlo Regular';
 	font-style: normal;
 	font-weight: normal;
-	src:
-		local('Menlo Regular'),
-		url('/fonts/Menlo-Regular.woff') format('woff');
+	src: local('Menlo Regular'), url('/fonts/Menlo-Regular.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'Soehne';
 	font-style: normal;
 	font-weight: normal;
-	src:
-		local('Sohne'),
-		url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
+	src: local('Sohne'), url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
 }
 
 @font-face {
 	font-family: 'ABC Favorit Variable';
 	font-style: normal;
 	font-weight: normal;
-	src:
-		local('ABC Favorit Variable'),
-		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
+	src: local('ABC Favorit Variable'), url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
 }
 
 @font-face {
 	font-family: 'PowerGrotesk';
 	font-style: normal;
 	font-weight: 300 400 500 600 700;
-	src:
-		local('PowerGrotesk'),
-		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
+	src: local('PowerGrotesk'), url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
 }
 
 @layer base {
-	/* Define dark mode variables in :root */
 	:root {
-		/* --font-primary: 'Hubot Sans Variable', sans-serif; */
+		--font-primary: 'Hubot Sans', sans-serif;
 		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans Variable', sans-serif;
@@ -58,7 +48,6 @@
 		--font-ibm: 'IBM Plex Sans', sans-serif;
 
 		--background: 240 4% 5%;
-
 		--background-lighter: 240 4% 10%;
 		--foreground: 210 40% 98%;
 
@@ -88,7 +77,6 @@
 		--ring: 212.7 26.8% 83.9%;
 
 		--radius: 0.5rem;
-
 		--subtle: 210 3% 31%;
 
 		--neutral-05: #f2f2f2;
@@ -107,18 +95,8 @@
 		@apply tracking-normal font-hubot;
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
-		/* font-family: var(--font-primary); */
 		font-weight: 300;
 	}
-	/* 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		@apply ;
-	} */
 
 	button {
 		@apply !font-ibm;
@@ -139,10 +117,7 @@
 	}
 
 	.hero {
-		background: url('/hero.png');
-		background-repeat: no-repeat;
-		background-position: center;
-		/* background-size: cover; */
+		background: url('/hero.png') no-repeat center;
 		@apply pt-16 md:pt-28 pb-20 md:pb-40;
 
 		.hero-mask {
