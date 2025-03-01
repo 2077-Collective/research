@@ -155,13 +155,14 @@
 							href={link.getAttribute('href')}
 							class="toc-link {link.classList.contains('is-active-link') ? 'is-active-link' : ''}"
 							style="opacity: {1 - Math.abs(selectedItemIndex - index) / tocLinks.length}"
-							on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
-							on:mouseleave={(e) =>
+							onmouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+							onmouseleave={(e) =>
 								(e.currentTarget.style.opacity = (
 									1 -
 									Math.abs(selectedItemIndex - index) / tocLinks.length
 								).toString())}
-							on:click|preventDefault={(e) => {
+							onclick={(e) => {
+								e.preventDefault();
 								handleClick(e, link.getAttribute('href'));
 								const id = link.getAttribute('href')?.substring(1);
 								if (id) toggleItem(id);
@@ -178,7 +179,7 @@
 											class="toc-link {subLink.classList.contains('is-active-link')
 												? 'is-active-link'
 												: ''}"
-											on:click|preventDefault={(e) => handleClick(e, subLink.getAttribute('href'))}
+											onclick={(e) => { e.preventDefault(); handleClick(e, subLink.getAttribute('href')); }}
 										>
 											{subLink.textContent}
 										</a>
@@ -198,7 +199,7 @@
 	<button
 		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
 		class:h-screen={isOpen}
-		on:click={() => (isOpen = !isOpen)}
+		onclick={() => (isOpen = !isOpen)}
 	>
 		<ChevronDown
 			class="absolute right-3 top-3 w-5 h-5 transition-transform duration-200"
@@ -223,11 +224,7 @@
 							)
 								? 'font-medium'
 								: 'font-normal'}"
-							on:click|preventDefault={(e) => {
-								handleClick(e, link.getAttribute('href'));
-								const id = link.getAttribute('href')?.substring(1);
-								if (id) toggleItem(id);
-							}}
+							onclick={(e) => { e.preventDefault(); handleClick(e, link.getAttribute('href')); }}
 						>
 							{link.textContent}
 						</a>
@@ -242,7 +239,7 @@
 											)
 												? 'font-medium'
 												: 'font-normal'}"
-											on:click|preventDefault={(e) => handleClick(e, subLink.getAttribute('href'))}
+											onclick={(e) => { e.preventDefault(); handleClick(e, subLink.getAttribute('href')); }}
 										>
 											{subLink.textContent}
 										</a>
