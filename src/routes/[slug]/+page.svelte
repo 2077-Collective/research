@@ -441,6 +441,12 @@
 	// Update state management for reading mode
 	let isReadingMode = $state(false);
 
+	// Function to refresh TOC when content is updated
+	function refreshToc() {
+		if (contentState === 'ready') {
+		}
+	}
+
 	// Initialize reading mode from localStorage
 	onMount(() => {
 		const storedReadingMode = localStorage.getItem('readingMode');
@@ -497,6 +503,13 @@
 
 		window.addEventListener('beforeprint', handleBeforePrint);
 
+		// Refresh TOC when content is ready
+		$effect(() => {
+			if (contentState === 'ready') {
+				refreshToc();
+			}
+		});
+
 		return () => {
 			observer.disconnect();
 			window.removeEventListener('scroll', handleScroll);
@@ -506,6 +519,7 @@
 			window.removeEventListener('scroll', updateReadingProgress);
 			window.removeEventListener('keydown', handleKeyPress);
 			window.removeEventListener('beforeprint', handleBeforePrint);
+			tocbot.destroy();
 		};
 	});
 

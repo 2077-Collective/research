@@ -1,52 +1,53 @@
 <script lang="ts">
-	import type { TableOfContents, TableOfContentsItem } from '$lib/types/article';
-	import { ArrowDown, ChevronDown } from 'lucide-svelte';
 	import { onMount } from 'svelte';
+	import { init, destroy } from 'tocbot';
+	import { ChevronDown } from 'lucide-svelte';
 
-	export let tableOfContents: TableOfContents = [];
+	const {
+		tocSelector = '#toc',
+		contentSelector = '#content-container',
+		headingSelector = 'h1, h2'
+	} = $props<{
+		tableOfContents: {
+			id: string;
+			title: string;
+			children: Array<{
+				id: string;
+				title: string;
+				children: any[];
+			}>;
+		}[];
+		tocSelector?: string;
+		contentSelector?: string;
+		headingSelector?: string;
+	}>();
 
-	let currentHash = '';
-	let selectedItemIndex = 0;
-	let isOpen = false;
-	let showMobileTOC = false;
-
-	// Ensure tableOfContents is always an array
-	let items = Array.isArray(tableOfContents) ? tableOfContents : [];
+	let currentHash = $state('');
+	let selectedItemIndex = $state(0);
+	let isOpen = $state(false);
+	let showMobileTOC = $state(false);
+	let tocLinks = $state<Element[]>([]);
+	let expandedItems = $state<Set<string>>(new Set()); // Track expanded h1 items
 
 	onMount(() => {
-		currentHash = window.location.hash.slice(1);
-
-		const headingObserver = getHeadingObserver();
-		document.querySelectorAll('h1[id], h2[id]').forEach((heading) => {
-			headingObserver.observe(heading);
+		init({
+			tocSelector,
+			contentSelector,
+			headingSelector,
+			hasInnerContainers: true,
+			linkClass: 'toc-link',
+			activeLinkClass: 'is-active-link',
+			listClass: 'toc-list',
+			listItemClass: 'toc-list-item',
+			extraLinkClasses: 'hover:underline hover:text-primary transition-colors duration-200',
+			headingsOffset: 100,
+			scrollSmoothOffset: -100,
+			headingLabelCallback: (headingText) => {
+				return headingText.replace(/#/g, '').trim();
+			}
 		});
 
-		window.addEventListener('hashchange', () => {
-			currentHash = window.location.hash.slice(1);
-		});
-
-		const tocElement = document.getElementById('toc');
-		if (tocElement) {
-			getTocObserver().observe(tocElement);
-		}
-
-		return () => {
-			headingObserver.disconnect();
-			getTocObserver().disconnect();
-		};
-	});
-
-	function getTocObserver(): IntersectionObserver {
-		return new IntersectionObserver(
-			([entry]) => {
-				showMobileTOC = !entry.isIntersecting;
-			},
-			{ threshold: 0 }
-		);
-	}
-
-	function getHeadingObserver(): IntersectionObserver {
-		return new IntersectionObserver(
+		const headingObserver = new IntersectionObserver(
 			(entries) => {
 				entries.forEach((entry) => {
 					if (entry.isIntersecting) {
@@ -61,82 +62,130 @@
 			},
 			{ threshold: 1 }
 		);
-	}
 
-	function updateSelectedIndex(id: string): void {
-		const index = items.findIndex((item) => item.id === id);
-		if (index === -1) {
-			const parentIndex = items.findIndex((item) =>
-				item.children?.some((child: TableOfContentsItem) => child.id === id)
+		document.querySelectorAll('h1[id], h2[id]').forEach((heading) => {
+			headingObserver.observe(heading);
+		});
+
+		const tocElement = document.getElementById('toc');
+		if (tocElement) {
+			const tocObserver = new IntersectionObserver(
+				([entry]) => {
+					showMobileTOC = !entry.isIntersecting;
+				},
+				{ threshold: 0 }
 			);
-			selectedItemIndex = parentIndex !== -1 ? parentIndex : 0;
-		} else {
-			selectedItemIndex = index;
+			tocObserver.observe(tocElement);
 		}
+
+		return () => {
+			headingObserver.disconnect();
+			destroy();
+		};
+	});
+
+	function updateSelectedIndex(id: string) {
+		const tocLinks = document.querySelectorAll('.toc-link');
+		tocLinks.forEach((link, index) => {
+			if (link.getAttribute('href') === `#${id}`) {
+				selectedItemIndex = index;
+
+				const parentH1 = link.closest('.toc-list-item.node-name--H1')?.querySelector('.toc-link');
+				if (parentH1) {
+					const parentH1Id = parentH1.getAttribute('href')?.substring(1);
+					if (parentH1Id) {
+						expandedItems.clear();
+						expandedItems.add(parentH1Id);
+					}
+				} else if (link.classList.contains('node-name--H1')) {
+					expandedItems.clear();
+					expandedItems.add(id);
+				}
+			}
+		});
 	}
 
-	function calculateItemOpacity(index: number): number {
-		return 1 - Math.abs(selectedItemIndex - index) / items.length;
-	}
-
-	function handleClick(e: MouseEvent, href: string): void {
+	function handleClick(e: MouseEvent, href: string | null) {
 		e.preventDefault();
+		if (!href) return;
+
 		const targetId = href.substring(1);
 		const targetElement = document.getElementById(targetId);
 
 		if (targetElement) {
-			targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			targetElement.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
 			history.pushState(null, '', href);
 		}
 	}
+
+	function toggleItem(id: string) {
+		if (expandedItems.has(id)) {
+			expandedItems.delete(id);
+		} else {
+			expandedItems.add(id);
+		}
+		expandedItems = new Set(expandedItems);
+	}
+
+	function isExpanded(href: string | null): boolean {
+		const id = href?.substring(1) || '';
+		return expandedItems.has(id);
+	}
 </script>
 
+<!-- Desktop TOC -->
 <div
-	class="hidden lg:flex pl-12 w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] font-hubot flex-col"
+	class="hidden lg:block w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
 >
-	<div class="flex-shrink-0 flex items-center gap-2 text-neutral-40">
-		<h4 class="text-base font-mono">Table of Contents</h4>
-
-		<ArrowDown class="size-4" />
+	<div id={tocSelector.replace('#', '')} class="toc">
+		<ul class="toc-list">
+			{#each Array.from(document.querySelectorAll('.toc-link')) as link, index}
+				<li class="toc-list-item">
+					<a
+						href={link.getAttribute('href')}
+						class="toc-link {link.classList.contains('is-active-link') ? 'is-active-link' : ''}"
+						style="opacity: {1 - Math.abs(selectedItemIndex - index) / tocLinks.length}"
+						on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
+						on:mouseleave={(e) =>
+							(e.currentTarget.style.opacity = (
+								1 -
+								Math.abs(selectedItemIndex - index) / tocLinks.length
+							).toString())}
+						on:click|preventDefault={(e) => {
+							handleClick(e, link.getAttribute('href'));
+							const id = link.getAttribute('href')?.substring(1);
+							if (id) toggleItem(id);
+						}}
+					>
+						{link.textContent}
+					</a>
+					{#if isExpanded(link.getAttribute('href')) && link.parentElement?.tagName === 'H1'}
+						<ul class="toc-list">
+							{#each Array.from(link.parentElement?.querySelectorAll('.toc-list .toc-link') || []) as subLink}
+								<li class="toc-list-item">
+									<a
+										href={subLink.getAttribute('href')}
+										class="toc-link {subLink.classList.contains('is-active-link')
+											? 'is-active-link'
+											: ''}"
+										on:click|preventDefault={(e) => handleClick(e, subLink.getAttribute('href'))}
+									>
+										{subLink.textContent}
+									</a>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</li>
+			{/each}
+		</ul>
 	</div>
-
-	<ul class="overflow-y-auto flex-1 space-y-4 text-sm pb-8">
-		{#each items as item, index}
-			<li>
-				<a
-					href={`#${item.id}`}
-					class={`hover:underline hover:text-primary block transition-colors duration-200 ${
-						selectedItemIndex === index
-							? 'font-medium text-[#0CDEE9]'
-							: 'font-normal text-neutral-60'
-					}`}
-					on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
-					on:mouseleave={(e) =>
-						(e.currentTarget.style.opacity = calculateItemOpacity(index).toString())}
-					on:click={(e) => handleClick(e, `#${item.id}`)}
-				>
-					{item.title}
-				</a>
-				{#if item.children?.length > 0 && (currentHash === item.id || item.children.some((child: TableOfContentsItem) => child.id === currentHash))}
-					<ul class="mt-2 space-y-2">
-						{#each item.children as subItem}
-							<li class={`border-l-2 pl-3 ${currentHash === subItem.id ? '' : 'border-subtle'}`}>
-								<a
-									href={`#${subItem.id}`}
-									class={`text-sm ${currentHash === subItem.id ? 'font-medium text-neutral-20' : 'font-normal text-neutral-60'}`}
-									on:click={(e) => handleClick(e, `#${subItem.id}`)}
-								>
-									{subItem.title}
-								</a>
-							</li>
-						{/each}
-					</ul>
-				{/if}
-			</li>
-		{/each}
-	</ul>
 </div>
 
+<!-- Mobile TOC -->
 {#if showMobileTOC}
 	<button
 		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
@@ -150,38 +199,44 @@
 		{#if !isOpen}
 			<div class="p-3 bg-secondary w-full">
 				<div class="w-11/12 overflow-hidden whitespace-nowrap text-ellipsis">
-					{items.find((item) => item.id === currentHash)?.title ||
-						items[selectedItemIndex]?.children?.find(
-							(child: TableOfContentsItem) => child.id === currentHash
-						)?.title}
+					{tocLinks.find((l) => l.classList.contains('is-active-link'))?.textContent ||
+						'Table of Contents'}
 				</div>
 			</div>
 		{/if}
 		{#if isOpen}
 			<ul class="flex font-hubot flex-col gap-3 bg-secondary p-3 grow">
-				{#each items as item, index}
+				{#each Array.from(document.querySelectorAll('.toc-link')) as link}
 					<li>
 						<a
-							href={`#${item.id}`}
-							class={`text-sm block w-full transition-colors duration-200 ${
-								selectedItemIndex === index ? 'font-medium' : 'font-normal'
-							}`}
-							on:click={(e) => handleClick(e, `#${item.id}`)}
+							href={link.getAttribute('href')}
+							class="text-sm block w-full transition-colors duration-200 {link.classList.contains(
+								'is-active-link'
+							)
+								? 'font-medium'
+								: 'font-normal'}"
+							on:click|preventDefault={(e) => {
+								handleClick(e, link.getAttribute('href'));
+								const id = link.getAttribute('href')?.substring(1);
+								if (id) toggleItem(id);
+							}}
 						>
-							{item.title}
+							{link.textContent}
 						</a>
-						{#if item.children?.length > 0 && (currentHash === item.id || item.children.some((child: TableOfContentsItem) => child.id === currentHash))}
+						{#if isExpanded(link.getAttribute('href')) && link.parentElement?.tagName === 'H1'}
 							<ul class="mt-2 space-y-2">
-								{#each item.children as subItem}
-									<li
-										class={`border-l-2 pl-3 ${currentHash === subItem.id ? '' : 'border-subtle'}`}
-									>
+								{#each Array.from(link.parentElement?.querySelectorAll('.toc-list .toc-link') || []) as subLink}
+									<li>
 										<a
-											href={`#${subItem.id}`}
-											class={`text-sm ${currentHash === subItem.id ? 'font-medium' : 'font-normal'}`}
-											on:click={(e) => handleClick(e, `#${subItem.id}`)}
+											href={subLink.getAttribute('href')}
+											class="text-sm block w-full transition-colors duration-200 {subLink.classList.contains(
+												'is-active-link'
+											)
+												? 'font-medium'
+												: 'font-normal'}"
+											on:click|preventDefault={(e) => handleClick(e, subLink.getAttribute('href'))}
 										>
-											{subItem.title}
+											{subLink.textContent}
 										</a>
 									</li>
 								{/each}
@@ -193,3 +248,62 @@
 		{/if}
 	</button>
 {/if}
+
+<style>
+	:global(.toc) {
+		width: 100%;
+		max-height: 80vh;
+		overflow-y: auto;
+		padding: 10px;
+		scrollbar-width: thin;
+		scrollbar-color: var(--neutral-80) transparent;
+	}
+
+	:global(.toc::-webkit-scrollbar) {
+		width: 2px;
+	}
+
+	:global(.toc::-webkit-scrollbar-track) {
+		background: transparent;
+	}
+
+	:global(.toc::-webkit-scrollbar-thumb) {
+		background-color: var(--neutral-80);
+		border-radius: 2px;
+	}
+
+	:global(.toc::-webkit-scrollbar-thumb:hover) {
+		background-color: var(--neutral-60);
+	}
+
+	:global(.toc-link) {
+		text-decoration: none;
+		font-size: 0.9rem;
+		transition: color 0.2s ease;
+		color: inherit;
+		padding: 0.25rem 0;
+		display: block;
+	}
+
+	:global(.is-active-link) {
+		font-weight: 600;
+		color: var(--primary);
+	}
+
+	:global(.toc-list) {
+		margin: 0;
+	}
+
+	:global(.toc-list-item) {
+		margin: 0.5rem 0;
+		padding-left: 1rem;
+	}
+
+	:global(.toc-list-item > a) {
+		padding-left: 1rem;
+	}
+
+	:global(.toc-list-item > a.node-name--H2) {
+		border-left: 2px solid var(--neutral-80);
+	}
+</style>
