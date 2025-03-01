@@ -1,6 +1,5 @@
 @import '@fontsource-variable/inter';
 @import '@fontsource/ubuntu-mono';
-@import '@fontsource-variable/hubot-sans';
 @import '@fontsource-variable/geist-mono';
 @import '@fontsource/ibm-plex-sans';
 @import '@fontsource/ibm-plex-sans/500.css';
@@ -38,6 +37,15 @@
 }
 
 @font-face {
+	font-family: 'Hubot Sans';
+	src:
+		url('/fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
+		url('/fonts/Hubot-Sans.woff2') format('woff2-variations');
+	font-weight: 200 900;
+	font-stretch: -100%;
+}
+
+@font-face {
 	font-family: 'PowerGrotesk';
 	font-style: normal;
 	font-weight: 300 400 500 600 700;
@@ -51,7 +59,7 @@
 		--font-primary: 'Hubot Sans', sans-serif;
 		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
-		--font-hubot: 'Hubot Sans Variable', sans-serif;
+		--font-hubot: 'Hubot Sans', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
 		--font-ibm: 'IBM Plex Sans', sans-serif;
 
