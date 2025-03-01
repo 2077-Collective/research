@@ -56,7 +56,6 @@
 
 @layer base {
 	:root {
-		--font-primary: 'Hubot Sans', sans-serif;
 		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans', sans-serif;
@@ -120,7 +119,6 @@
 
 	p {
 		@apply tracking-normal;
-		font-family: var(--font-primary);
 	}
 
 	code {
@@ -136,7 +134,6 @@
 		background: url('/hero.png');
 		background-repeat: no-repeat;
 		background-position: center;
-		/* background-size: cover; */
 		@apply pt-16 md:pt-20 pb-20 md:pb-40;
 
 		.hero-mask {
@@ -144,12 +141,7 @@
 		}
 	}
 
-	.ldJQvz {
-		font-family: var(--font-primary) !important;
-	}
-
 	.font-powerGroteskBold {
-		/* letter-spacing: -0.96px !important; */
 		font-weight: 700 !important;
 	}
 }
