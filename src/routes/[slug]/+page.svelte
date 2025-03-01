@@ -41,6 +41,7 @@
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
 	import { toast } from 'svelte-sonner';
+	import { init, destroy } from 'tocbot';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -441,7 +442,12 @@
 	// Update state management for reading mode
 	let isReadingMode = $state(false);
 
-	// Initialize reading mode from localStorage
+	// Function to refresh TOC when content is updated
+	function refreshToc() {
+		if (contentState === 'ready') {
+		}
+	}
+
 	onMount(() => {
 		// const storedReadingMode = localStorage.getItem('readingMode');
 		// if (storedReadingMode !== null) {
@@ -496,6 +502,12 @@
 		window.addEventListener('keydown', handleKeyPress);
 
 		window.addEventListener('beforeprint', handleBeforePrint);
+
+		$effect(() => {
+			if (contentState === 'ready') {
+				refreshToc();
+			}
+		});
 
 		return () => {
 			observer.disconnect();
@@ -1201,7 +1213,7 @@
 		<!-- Hide TOC in reading mode -->
 		{#if !isReadingMode}
 			<TableOfContents tableOfContents={article.table_of_contents} />
-			<div id="toc" class="block lg:hidden"></div>
+			<div id="toc" class="block lg:hidden w-full mx-0"></div>
 		{/if}
 
 		<!-- Update the back button in reading mode -->
