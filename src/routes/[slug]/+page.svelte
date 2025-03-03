@@ -739,7 +739,7 @@
 
 		<div
 			id="content-container"
-			class="px-3 md:px-12 lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
+			class="px-3 md:px-12 overflow-hidden lg:px-0 pb-20 text-primary w-full lg:max-w-screen-md leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-5xl [&>h1]:font-medium [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-58 [&_h1]:tracking-tighter
@@ -826,26 +826,26 @@
 {#snippet floatingButtons()}
 	{#if showFloatingButtons || isReadingMode}
 		<div
-			class="fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300"
+			class="fixed bottom-[6.2rem] right-3 md:right-10 flex flex-col gap-3 transition-all duration-300"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
 		>
 			{#if !isReadingMode && data?.article?.gpt_summary}
 				<button
 					onclick={toggleSummary}
-					class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-all duration-300"
+					class="bg-primary text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-all duration-300 flex items-center justify-center"
 					aria-label="Show AI Summary"
 					data-summary-toggle
 				>
-					<svelte:component this={BrainCog} class="w-6 h-6" />
+					<svelte:component this={BrainCog} class="size-5" />
 				</button>
 			{/if}
 			<button
 				onclick={toggleReadingMode}
-				class="bg-primary text-primary-foreground p-4 rounded-full hover:bg-primary/90 transition-colors"
+				class="bg-primary text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
 				aria-label="Toggle reading mode"
 			>
-				<svelte:component this={ScrollText} class="w-6 h-6" />
+				<svelte:component this={ScrollText} class="size-5" />
 			</button>
 		</div>
 	{/if}
