@@ -93,7 +93,7 @@
 
 					{#if !isActive}
 						<button
-							class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden"
+							class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden pointer-events-none"
 							onclick={() => (activeContributor = contributor.id)}
 						>
 							See more
@@ -103,10 +103,20 @@
 				</div>
 
 				{#if !isActive}
-					<div class="flex items-center gap-3 mt-[18px]">
-						<a href="/" class="hover:text-[#0CDEE9] transition">
-							<X size="20px" />
-						</a>
+					<div class="flex items-center justify-between">
+						<div class="flex items-center gap-3 mt-[18px]">
+							<a href="/" class="hover:text-[#0CDEE9] transition">
+								<X size="20px" />
+							</a>
+						</div>
+
+						<button
+							class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 pointer-events-none md:hidden"
+							onclick={() => (activeContributor = contributor.id)}
+						>
+							See more
+							<ChevronDown class="size-4" />
+						</button>
 					</div>
 				{/if}
 

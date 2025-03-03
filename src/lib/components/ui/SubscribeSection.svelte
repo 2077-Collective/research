@@ -1,7 +1,9 @@
 <section class="w-full has_bg py-16">
 	<div class="container flex max-md:flex-col flex-wrap gap-10 items-center justify-between">
-		<h3 class="text-2xl md:text-[32px] font-powerGroteskBold font-bold md:leading-8">
-			Discover Ethereum’s Frontier<br />One Deep Dive at a Time
+		<h3
+			class="text-2xl md:text-[32px] font-powerGroteskBold font-bold md:leading-8 max-w-[550px] w-full"
+		>
+			Discover Ethereum’s Frontier One Deep Dive at a Time
 		</h3>
 
 		<iframe

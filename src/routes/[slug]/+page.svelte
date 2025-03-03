@@ -41,7 +41,6 @@
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
 	import { toast } from 'svelte-sonner';
-	import { init, destroy } from 'tocbot';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -693,7 +692,7 @@
 		try {
 			const { data, error } = await supabase
 				.from('UserBookmarks')
-				.update({ articleIds: newBookmarks })
+				.update({ articleIds: newBookmarks, updated_at: new Date() })
 				.eq('userId', userId)
 				.select();
 
