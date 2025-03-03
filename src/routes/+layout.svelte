@@ -51,9 +51,8 @@
 				onclick={handleScrollToTop}
 			>
 				<!-- <span class="max-md:hidden">Back to the Top</span> -->
-
 				<ArrowUp
-					class="size-5 rounded-full group-hover:-translate-y-[2px] transition"
+					class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
 					style="stroke-width: 1.4"
 				/>
 			</button>
