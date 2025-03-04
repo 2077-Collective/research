@@ -15,6 +15,10 @@
 		{
 			"source": "/archive",
 			"destination": "https://www.research.2077.xyz/"
+		},
+		{
+			"source": "/api/(.*)",
+			"destination": "https://cms.2077.xyz/api/$1"
 		}
 	]
 }
