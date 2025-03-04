@@ -2,7 +2,11 @@
 	"rewrites": [
 		{
 			"source": "/spectra-finance-moving-toward-a-more-robust-defi-ird-ecosystem",
-			"destination": "/spectra-finance-moving-toward-a-more-robust-defi-and-ird-ecosystem"
+			"destination": "https://research.2077.xyz/spectra-finance-moving-toward-a-more-robust-defi-and-ird-ecosystem"
+		},
+		{
+			"source": "/spectra-finance-moving-toward-a-more-robust-defi-ird-ecosystem/",
+			"destination": "https://research.2077.xyz/spectra-finance-moving-toward-a-more-robust-defi-and-ird-ecosystem"
 		},
 		{
 			"source": "/p/(.*)",
