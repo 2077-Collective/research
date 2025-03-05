@@ -3,7 +3,6 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { toTitleCase } from '$lib/utils/titleCase';
 	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
@@ -61,14 +60,12 @@
 			<h1
 				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight"
 			>
-				{(article.title)}
+				{article.title}
 			</h1>
 		</a>
 
 		<a href={`/${article.slug}`}>
-			<p
-				class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 line-clamp-2 leading-relaxed"
-			>
+			<p class="font-hubot text-xs sm:text-base lg:text-lg text-gray-200 leading-relaxed">
 				{article.summary}
 			</p>
 		</a>

@@ -186,13 +186,13 @@
 														<div class="border-b border-[#343434] pt-1.5 pb-3">
 															{#if highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0}
 																<p
-																	class="text-base font-powerGroteskBold font-bold line-clamp-1 transition [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:!not-italic group-hover:text-[#022C2F]"
+																	class="text-base font-powerGroteskBold font-bold transition [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:!not-italic group-hover:text-[#022C2F]"
 																>
 																	{@html DOMPurify.sanitize(highlight.title.value)}
 																</p>
 															{:else}
 																<p
-																	class="text-base font-powerGroteskBold font-bold line-clamp-1 transition group-hover:text-[#022C2F]"
+																	class="text-base font-powerGroteskBold font-bold transition group-hover:text-[#022C2F]"
 																>
 																	{article.title}
 																</p>

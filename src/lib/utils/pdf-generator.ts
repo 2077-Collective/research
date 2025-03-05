@@ -1,6 +1,6 @@
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
 import type { Article } from '$lib/types/article';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 const headingStyles = {
 	H1: { fontSize: 20, marginTop: 10, marginBottom: 4 },
@@ -119,11 +119,11 @@ export async function downloadPDF(article: Article) {
 		pdf.setFontSize(13);
 
 		pdf.setTextColor(75, 75, 75); // Set lighter shade of black (RGB: 75,75,75)
-		const authors = `By ${article.authors.map((a) => a.fullName).join(', ')}`;
+		const authors = `By ${(article.authors || []).map((a) => a.full_name).join(', ')}`;
 		pdf.text(authors, margin, currentY);
 		currentY += 20;
 
-		const date = new Date(article.scheduledPublishTime).toLocaleDateString('en-GB', {
+		const date = new Date(article.created_at).toLocaleDateString('en-GB', {
 			year: 'numeric',
 			month: 'long',
 			day: 'numeric'
