@@ -35,7 +35,6 @@
 		Home,
 		Link2,
 		Loader2,
-		Play,
 		Share,
 		X,
 		type Icon
@@ -726,7 +725,7 @@
 			<div class="max-w-[595px]">
 				<div>
 					<h2 class="text-3xl md:text-[40px] md:leading-[38.8px] font-powerGroteskBold font-bold">
-						Listening to articles requires a 2077 Research account.
+						Listening to articles requires an account.
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
@@ -830,13 +829,13 @@
 		<span class="text-xs font-medium font-ibm">Play Audio</span>
 	</button> -->
 
-	<div class="flex flex-col items-center justify-center gap-2">
-		<!-- <div class="size-6 bg-green-500 overflow-hidden"></div> -->
+	<!-- <div class="flex flex-col items-center justify-center gap-2">
+		<div class="size-6 bg-green-500 overflow-hidden"></div>
 		<Play />
-		<span class="text-xs font-medium font-ibm">Play</span>
-	</div>
+		<span class="text-xs font-medium font-ibm">Play Audio</span>
+	</div> -->
 
-	<!-- <button
+	<button
 		onclick={() => {
 			if (isLoggedIn) {
 				handlePdfDownload(data.article);
@@ -857,8 +856,8 @@
 			<FileDown class="size-5" />
 		{/if}
 
-		<span class="text-xs font-medium font-ibm">Play</span>
-	</button> -->
+		<span class="text-xs font-medium font-ibm">Download PDF</span>
+	</button>
 
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2"
