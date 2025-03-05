@@ -86,7 +86,10 @@
 					{#if !isActive}
 						<button
 							class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden"
-							onclick={() => (activeContributor = contributor.id)}
+							onclick={(e) => {
+								e.stopPropagation();
+								activeContributor = contributor.id;
+							}}
 						>
 							See more
 							<ChevronDown class="size-4" />
@@ -132,7 +135,10 @@
 
 							<button
 								class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden"
-								onclick={() => (activeContributor = '')}
+								onclick={(e) => {
+									e.stopPropagation();
+									activeContributor = '';
+								}}
 							>
 								Hide details
 								<ChevronUp class="size-4" />
