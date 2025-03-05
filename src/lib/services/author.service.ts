@@ -1,54 +1,14 @@
-import { env } from '$env/dynamic/public';
 import type { Author } from '$lib/types/author';
-import { logApiResponse } from '$lib/utils/api-logger';
-import { getArticleBySlug, transformStrapiArticle } from './article.service';
+import { cache, isCacheValid } from '$lib/utils/cache';
+import { ghostAPI } from '$lib/utils/ghost';
+import { transformArticle } from '$lib/utils/transform-article';
 
-const baseURL = env.PUBLIC_STRAPI_URL;
-const apiToken = env.PUBLIC_STRAPI_API_TOKEN;
-
-const headers = {
-	Authorization: `Bearer ${apiToken}`,
-	'Content-Type': 'application/json'
-};
-
-export const fetchAuthors = async (): Promise<Author[]> => {
-	try {
-		const res = await fetch(`${baseURL}/api/authors?populate=*`, { headers });
-		if (!res.ok) {
-			throw new Error(`Failed to fetch authors: ${res.status}`);
-		}
-
-		const response = await res.json();
-
-		if (!response.data) return [];
-
-		const transformedAuthors = response.data.map((author: any) => ({
-			username: author.username || '',
-			id: author.id.toString(),
-			full_name: author.full_name || null,
-			twitter_username: author.twitter_username || null
-		}));
-
-		return transformedAuthors;
-	} catch (err) {
-		console.error('Author fetch or parse error:', err);
-		return [];
-	}
-};
-
-const cache = new Map<string, { data: Author; timestamp: number }>();
-const CACHE_TTL = 5 * 60 * 1000;
-
-const isCacheValid = (timestamp: number): boolean => {
-	return Date.now() - timestamp < CACHE_TTL;
-};
-
-export const getAuthor = async (username: string): Promise<Author | null> => {
-	if (!username?.trim()) {
+export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
+	if (!slug?.trim()) {
 		return null;
 	}
 
-	const cacheKey = username;
+	const cacheKey = `author-with-articles-${slug}`;
 
 	if (cache.has(cacheKey)) {
 		const cached = cache.get(cacheKey);
@@ -57,55 +17,75 @@ export const getAuthor = async (username: string): Promise<Author | null> => {
 		}
 	}
 
-	const url = new URL(`${baseURL}/api/authors`);
-	url.searchParams.append('populate', '*');
-	url.searchParams.append('filters[username][$eq]', username);
+	try {
+		const author = await ghostAPI.authors.read({ slug }, { include: 'count.posts' });
+		const posts = await ghostAPI.posts.browse({
+			limit: 1000,
+			page: 1,
+			include: ['authors', 'tags'],
+			filter: `author:${slug}`
+		});
+
+		if (!author) {
+			return null;
+		}
+
+		const transformedAuthor: any = {
+			username: author.slug,
+			id: author.id,
+			full_name: author.name || '',
+			twitter_username: author.twitter || '',
+			bio: author.bio || null,
+			articles: []
+		};
+
+		if (posts) {
+			const transformedArticles = posts
+				.map((article) => transformArticle(article))
+				.filter((article) => article !== null);
+
+			transformedAuthor.articles = transformedArticles || [];
+		}
+
+		cache.set(cacheKey, { data: transformedAuthor, timestamp: Date.now() });
+
+		return transformedAuthor;
+	} catch (error) {
+		console.error(`Error fetching author ${slug}:`, error);
+		return null;
+	}
+};
+
+export const fetchAuthorsGhost = async () => {
+	const cacheKey = `contributors`;
+
+	if (cache.has(cacheKey)) {
+		const cached = cache.get(cacheKey);
+		if (cached && isCacheValid(cached.timestamp)) {
+			return cached.data;
+		}
+	}
 
 	try {
-		const response = await fetch(url.toString(), { headers });
+		const authors = await ghostAPI.authors.browse();
 
-		if (!response.ok) {
-			const errorResponse = await response.text();
-			console.error('Error response:', errorResponse);
-			return null;
+		if (!authors) {
+			return [];
 		}
 
-		const result: any = await response.json();
+		const transformedAuthors = authors.map((author: any) => ({
+			username: author.slug,
+			id: author.id,
+			full_name: author.name,
+			twitter_username: author.twitter || null,
+			bio: author.bio
+		}));
 
-		await logApiResponse(result, `get-author-${username}`);
+		cache.set(cacheKey, { data: transformedAuthors, timestamp: Date.now() });
 
-		if (!result?.data?.[0]) {
-			return null;
-		}
-
-		const author = result.data[0];
-
-		if (author.articles && author.articles.length > 0) {
-			const transformedArticles = await Promise.all(
-				author.articles.map(async (article: any) => {
-					const response = await getArticleBySlug(article.slug);
-
-					if (!response) {
-						return null;
-					}
-
-					article.thumb = { url: response.thumb_url };
-					article.categories = response.categories;
-					article.authors = response.authors;
-
-					return transformStrapiArticle(article);
-				})
-			);
-
-			// Update articles only with valid transformed ones
-			author.articles = transformedArticles.filter(Boolean).reverse();
-		}
-
-		cache.set(cacheKey, { data: author, timestamp: Date.now() });
-
-		return author;
+		return transformedAuthors;
 	} catch (error) {
-		console.error(`Error fetching author ${username}:`, error);
-		return null;
+		console.error('Error in fetchArticles:', error);
+		throw error;
 	}
 };

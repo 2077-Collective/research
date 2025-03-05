@@ -124,7 +124,7 @@
 							</div>
 
 							<h3
-								class="font-powerGroteskBold text-[18px] leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
+								class="font-powerGroteskBold text-[18px] leading-tight text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
 							>
 								{article.title}
 							</h3>

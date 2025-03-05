@@ -90,7 +90,7 @@
 	</a>
 
 	<div
-		class="relative md:absolute md:w-[420px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] pt-6 md:pb-3 group-hover:translate-y-0 transition duration-300 will-change-transform"
+		class="relative md:absolute md:w-[440px] max-w-full bg-[#19191A] md:bottom-0 md:left-[93px] rounded-t-[8px] max-md:rounded-t-none max-md:rounded-b-[8px] pt-6 md:pb-3 group-hover:translate-y-0 transition duration-300 will-change-transform"
 	>
 		{#if primaryCategory && !hideCategory}
 			<div class="px-6">
@@ -118,9 +118,7 @@
 
 		<a href={`/${article.slug}`} class="px-6 max-md:pb-6 block" data-sveltekit-preload-data>
 			<div>
-				<h3
-					class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 line-clamp-4 mt-4"
-				>
+				<h3 class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 mt-4">
 					{toTitleCase(article.title)}
 				</h3>
 
@@ -145,7 +143,7 @@
 				{#if formattedAuthorText}
 					<hr class="my-4 border-[#262626]" />
 
-					<p class="text-sm font-mono line-clamp-1">
+					<p class="text-sm font-mono">
 						By {@html formattedAuthorText}
 					</p>
 				{/if}

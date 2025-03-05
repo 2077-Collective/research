@@ -22,7 +22,6 @@
 	import { fly } from 'svelte/transition';
 	import type { PageData } from './$types';
 
-	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { supabase } from '$lib/utils/supabase';
@@ -36,7 +35,6 @@
 		Home,
 		Link2,
 		Loader2,
-		Play,
 		Share,
 		X,
 		type Icon
@@ -77,37 +75,6 @@
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
-
-	const baseURL = env.PUBLIC_STRAPI_URL;
-
-	// const sanitizedContent = $derived(
-	// 	data.article?.content
-	// 		? DOMPurify.sanitize(data.article.content, {
-	// 				ALLOWED_TAGS: [
-	// 					'h1',
-	// 					'h2',
-	// 					'h3',
-	// 					'h4',
-	// 					'p',
-	// 					'a',
-	// 					'strong',
-	// 					'em',
-	// 					'ul',
-	// 					'ol',
-	// 					'li',
-	// 					'img',
-	// 					'pre',
-	// 					'code',
-	// 					'blockquote',
-	// 					'table',
-	// 					'tr',
-	// 					'td',
-	// 					'th'
-	// 				],
-	// 				ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
-	// 			})
-	// 		: ''
-	// );
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
@@ -758,7 +725,7 @@
 			<div class="max-w-[595px]">
 				<div>
 					<h2 class="text-3xl md:text-[40px] md:leading-[38.8px] font-powerGroteskBold font-bold">
-						Listening to articles requires a 2077 Research account.
+						Listening to articles requires an account.
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
@@ -862,13 +829,13 @@
 		<span class="text-xs font-medium font-ibm">Play Audio</span>
 	</button> -->
 
-	<div class="flex flex-col items-center justify-center gap-2">
-		<!-- <div class="size-6 bg-green-500 overflow-hidden"></div> -->
+	<!-- <div class="flex flex-col items-center justify-center gap-2">
+		<div class="size-6 bg-green-500 overflow-hidden"></div>
 		<Play />
-		<span class="text-xs font-medium font-ibm">Play</span>
-	</div>
+		<span class="text-xs font-medium font-ibm">Play Audio</span>
+	</div> -->
 
-	<!-- <button
+	<button
 		onclick={() => {
 			if (isLoggedIn) {
 				handlePdfDownload(data.article);
@@ -889,8 +856,8 @@
 			<FileDown class="size-5" />
 		{/if}
 
-		<span class="text-xs font-medium font-ibm">Play</span>
-	</button> -->
+		<span class="text-xs font-medium font-ibm">Download PDF</span>
+	</button>
 
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2"

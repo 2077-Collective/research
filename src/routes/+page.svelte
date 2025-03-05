@@ -40,7 +40,7 @@
 				</h1>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[610px] font-hubot tracking-[0.18px]"
 				>
 					Navigate Ethereum’s evolving landscape <em>confidently</em>
 					{' '} with original research and insights that cut through the noise. At 2077 Research, we
@@ -49,10 +49,10 @@
 				</p>
 
 				<p
-					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] mb-6 md:mb-8 font-medium"
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[610px] font-hubot tracking-[0.18px] mb-6 md:mb-8"
 				>
-					Ready to level up your knowledge? Explore our library of original research, articles, and
-					reports on the cutting edge of Ethereum tech
+					Ready to level up your knowledge? Explore our library of original research reports,
+					articles, and reports on the cutting edge of Ethereum tech.
 				</p>
 
 				<a href="/reports" data-sveltekit-preload-data>

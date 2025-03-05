@@ -78,7 +78,7 @@
 				<Carousel.Content class="gap-0 md:mx-5">
 					{#each articles as article, i}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
-						{@const formattedDate = format(article.updated_at, 'dd MMM yyyy')}
+						{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
 
 						<Carousel.Item
 							class="relative md:flex-none lg:w-[calc(100%/5)] md:w-[calc(100%/3)] overflow-hidden md:px-5 border-[#07494B] md:pt-7 md:pb-20"
@@ -131,7 +131,7 @@
 										<p>{formattedDate}</p>
 
 										{#if article.min_read}
-											<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
+											<p class="pl-2">{article.min_read} min read</p>
 										{/if}
 									</div>
 								</div>
