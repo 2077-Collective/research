@@ -1,9 +1,10 @@
-import { getAuthor } from '$lib/services/author.service';
+import { getAuthorGhost } from '$lib/services/author.service';
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
 	try {
-		const author = await getAuthor(params.slug);
+		const author = await getAuthorGhost(params.slug);
+
 		if (!author) {
 			throw error(404, { message: 'Author not found' });
 		}

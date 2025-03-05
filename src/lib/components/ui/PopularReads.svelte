@@ -131,7 +131,7 @@
 										<p>{formattedDate}</p>
 
 										{#if article.min_read}
-											<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
+											<p class="pl-2">{article.min_read} min read</p>
 										{/if}
 									</div>
 								</div>

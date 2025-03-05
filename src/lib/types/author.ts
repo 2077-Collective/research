@@ -29,9 +29,7 @@ export type Author = {
 	username: string;
 	bio: string | null;
 	twitter_username: string;
-	created_at: string;
-	updated_at: string;
-	articles: ArticleMetadata[];
+	articles?: ArticleMetadata[];
 };
 
 // Strapi Author interface
