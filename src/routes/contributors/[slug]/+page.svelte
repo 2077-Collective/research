@@ -202,7 +202,7 @@
 											{/if}
 										</div>
 
-										<p class="line-clamp-3 text-neutral-40 group-hover:text-neutral-60 transition">
+										<p class="text-neutral-40 group-hover:text-neutral-60 transition">
 											{article.summary}
 										</p>
 									</div>
@@ -259,7 +259,7 @@
 										{/if}
 									</div>
 
-									<p class="line-clamp-2 text-neutral-40 max-md:text-sm">
+									<p class="text-neutral-40 max-md:text-sm">
 										{article.summary}
 									</p>
 								</div>

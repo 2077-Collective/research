@@ -161,12 +161,12 @@
 								</div>
 
 								<h3
-									class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors line-clamp-2 font-powerGroteskBold"
+									class="text-xl font-bold mb-2 group-hover:text-teal-400 transition-colors font-powerGroteskBold"
 								>
 									{post.title}
 								</h3>
 
-								<p class="text-sm text-neutral-40 line-clamp-3 mb-4">
+								<p class="text-sm text-neutral-40 mb-4">
 									{post.preview_text}
 								</p>
 

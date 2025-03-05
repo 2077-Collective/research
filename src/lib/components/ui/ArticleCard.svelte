@@ -134,7 +134,7 @@
 					{/if}
 				</div>
 
-				<p class="text-neutral-40 max-md:text-sm line-clamp-3">
+				<p class="text-neutral-40 max-md:text-sm">
 					{article.summary}
 				</p>
 			</a>
@@ -204,7 +204,7 @@
 				{/if}
 
 				{#if !hideSummary}
-					<p class="line-clamp-3 text-neutral-40 group-hover:text-neutral-60 transition">
+					<p class="text-neutral-40 group-hover:text-neutral-60 transition">
 						{article.summary}
 					</p>
 				{/if}
