@@ -2,28 +2,12 @@
 	import X from '$lib/components/ui/icons/X.svelte';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import type { PageData } from '../$types';
 
 	let activeContributor = $state('');
 
-	const CONTRIBUTORS = [
-		{
-			id: 'eawosika',
-			name: 'Emmanuel Awosika',
-			bio: "EA is a freelance science and technology writer based in Bengaluru, India. His writing focuses on emerging technologies across computing, engineering, energy and bioscience. He's on Twitter at @EddytheGent and email at edd dot gent at outlook dot com."
-		},
-
-		{
-			id: 'miraokafor',
-			name: 'Mira Okafor',
-			bio: "EA is a freelance science and technology writer based in Bengaluru, India. His writing focuses on emerging technologies across computing, engineering, energy and bioscience. He's on Twitter at @EddytheGent and email at edd dot gent at outlook dot com."
-		},
-
-		{
-			id: 'rohan-takeda',
-			name: 'Rohan Takeda',
-			bio: "EA is a freelance science and technology writer based in Bengaluru, India. His writing focuses on emerging technologies across computing, engineering, energy and bioscience. He's on Twitter at @EddytheGent and email at edd dot gent at outlook dot com."
-		}
-	];
+	const { data } = $props<{ data: PageData }>();
+	const contributors = data.authors;
 </script>
 
 <section class="bg-[#010102] pt-32 pb-16 relative overflow-hidden">
@@ -48,7 +32,7 @@
 </section>
 
 <section class="divide-y divide-[#202020] border-b border-[#202020]">
-	{#each CONTRIBUTORS as contributor}
+	{#each contributors as contributor}
 		{@const isActive = contributor.id === activeContributor}
 
 		<div
@@ -73,19 +57,27 @@
 			<div class="container">
 				<div class="flex items-center justify-between">
 					<div>
-						<h3 class="text-2xl font-powerGroteskBold font-bold">{contributor.name}</h3>
+						<h3 class="text-2xl font-powerGroteskBold font-bold capitalize">
+							{contributor.full_name}
+						</h3>
 
-						{#if isActive}
+						{#if isActive && contributor.twitter_username}
 							<div class="flex items-center gap-3 md:hidden mt-[18px]">
-								<a href="/" class="hover:text-[#0CDEE9] transition">
+								<a
+									href={`https://x.com/${contributor.twitter_username}`}
+									class="hover:text-[#0CDEE9] transition"
+								>
 									<X size="20px" />
 								</a>
 							</div>{/if}
 					</div>
 
-					{#if isActive}
+					{#if isActive && contributor.twitter_username}
 						<div class="flex items-center gap-3 max-md:hidden">
-							<a href="/" class="hover:text-[#0CDEE9] transition">
+							<a
+								href={`https://x.com/${contributor.twitter_username}`}
+								class="hover:text-[#0CDEE9] transition"
+							>
 								<X size="20px" />
 							</a>
 						</div>
@@ -102,9 +94,12 @@
 					{/if}
 				</div>
 
-				{#if !isActive}
+				{#if !isActive && contributor.twitter_username}
 					<div class="flex items-center gap-3 mt-[18px]">
-						<a href="/" class="hover:text-[#0CDEE9] transition">
+						<a
+							href={`https://x.com/${contributor.twitter_username}`}
+							class="hover:text-[#0CDEE9] transition"
+						>
 							<X size="20px" />
 						</a>
 					</div>
@@ -112,20 +107,26 @@
 
 				{#if isActive}
 					<div class="overflow-hidden mt-4 md:mt-2">
-						<p class="max-w-[692px] text-neutral-10 max-md:text-sm">
-							{contributor.bio}
+						<p
+							class={cn(
+								'max-w-[692px] text-neutral-10 max-md:text-sm',
+								!contributor.bio && 'font-mono'
+							)}
+						>
+							{contributor.bio || 'No bio'}
 						</p>
 
 						<div class="flex items-end justify-between mt-4">
-							<button
+							<a
+								href={`/contributors/${contributor.username}`}
 								class="h-9 flex items-center gap-2 rounded-[4px] bg-neutral-80 text-neutral-10 py-1.5 px-4 group text-sm !font-mono hover:opacity-80 transition"
 							>
-								View all articles by {contributor.name}
+								View all articles by {contributor.full_name}
 
 								<ArrowRight
 									class="group-hover:translate-x-[2px] transition will-change-transform size-4"
 								/>
-							</button>
+							</a>
 
 							<button
 								class="text-sm text-[#0CDEE9] !font-mono flex items-center gap-2 max-md:hidden"

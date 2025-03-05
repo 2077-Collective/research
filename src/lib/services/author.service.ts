@@ -1,6 +1,7 @@
 import { env } from '$env/dynamic/public';
 import type { Author } from '$lib/types/author';
 import { logApiResponse } from '$lib/utils/api-logger';
+import { ghostAPI } from '$lib/utils/ghost';
 import { getArticleBySlug, transformStrapiArticle } from './article.service';
 
 const baseURL = env.PUBLIC_STRAPI_URL;
@@ -36,7 +37,7 @@ export const fetchAuthors = async (): Promise<Author[]> => {
 	}
 };
 
-const cache = new Map<string, { data: Author; timestamp: number }>();
+const cache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 5 * 60 * 1000;
 
 const isCacheValid = (timestamp: number): boolean => {
@@ -107,5 +108,94 @@ export const getAuthor = async (username: string): Promise<Author | null> => {
 	} catch (error) {
 		console.error(`Error fetching author ${username}:`, error);
 		return null;
+	}
+};
+
+export const getAuthorGhost = async (slug: string): Promise<Author | null> => {
+	if (!slug?.trim()) {
+		return null;
+	}
+
+	const cacheKey = slug;
+
+	if (cache.has(cacheKey)) {
+		const cached = cache.get(cacheKey);
+		if (cached && isCacheValid(cached.timestamp)) {
+			return cached.data;
+		}
+	}
+
+	try {
+		// const author = await ghostAPI.authors.read({ slug }, { include: 'posts' });
+
+		// console.log({ author });
+
+		// if (!author) {
+		// 	return null;
+		// }
+
+		// const author = result.data[0];
+
+		// if (author.articles && author.articles.length > 0) {
+		// 	const transformedArticles = await Promise.all(
+		// 		author.articles.map(async (article: any) => {
+		// 			const response = await getArticleBySlug(article.slug);
+
+		// 			if (!response) {
+		// 				return null;
+		// 			}
+
+		// 			article.thumb = { url: response.thumb_url };
+		// 			article.categories = response.categories;
+		// 			article.authors = response.authors;
+
+		// 			return transformStrapiArticle(article);
+		// 		})
+		// 	);
+
+		// 	// Update articles only with valid transformed ones
+		// 	author.articles = transformedArticles.filter(Boolean).reverse();
+		// }
+
+		// cache.set(cacheKey, { data: author, timestamp: Date.now() });
+
+		return null;
+	} catch (error) {
+		console.error(`Error fetching author ${slug}:`, error);
+		return null;
+	}
+};
+
+export const fetchAuthorsGhost = async () => {
+	const cacheKey = `contributors`;
+
+	if (cache.has(cacheKey)) {
+		const cached = cache.get(cacheKey);
+		if (cached && isCacheValid(cached.timestamp)) {
+			return cached.data;
+		}
+	}
+
+	try {
+		const authors = await ghostAPI.authors.browse();
+
+		if (!authors) {
+			return [];
+		}
+
+		const transformedAuthors = authors.map((author: any) => ({
+			username: author.slug,
+			id: author.id,
+			full_name: author.name,
+			twitter_username: author.twitter || null,
+			bio: author.bio
+		}));
+
+		cache.set(cacheKey, { data: transformedAuthors, timestamp: Date.now() });
+
+		return transformedAuthors;
+	} catch (error) {
+		console.error('Error in fetchArticles:', error);
+		throw error;
 	}
 };

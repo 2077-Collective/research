@@ -22,7 +22,6 @@
 	import { fly } from 'svelte/transition';
 	import type { PageData } from './$types';
 
-	import { env } from '$env/dynamic/public';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import { supabase } from '$lib/utils/supabase';
@@ -77,37 +76,6 @@
 	if (!data.article) {
 		throw error(404, 'Article not found');
 	}
-
-	const baseURL = env.PUBLIC_STRAPI_URL;
-
-	// const sanitizedContent = $derived(
-	// 	data.article?.content
-	// 		? DOMPurify.sanitize(data.article.content, {
-	// 				ALLOWED_TAGS: [
-	// 					'h1',
-	// 					'h2',
-	// 					'h3',
-	// 					'h4',
-	// 					'p',
-	// 					'a',
-	// 					'strong',
-	// 					'em',
-	// 					'ul',
-	// 					'ol',
-	// 					'li',
-	// 					'img',
-	// 					'pre',
-	// 					'code',
-	// 					'blockquote',
-	// 					'table',
-	// 					'tr',
-	// 					'td',
-	// 					'th'
-	// 				],
-	// 				ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
-	// 			})
-	// 		: ''
-	// );
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
