@@ -1,8 +1,9 @@
 <script lang="ts">
-	import Beehiiv from '$lib/components/ui/Beehiiv.svelte';
 	import Footer from '$lib/components/ui/Footer.svelte';
+	import JoinSection from '$lib/components/ui/JoinSection.svelte';
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
@@ -34,15 +35,15 @@
 
 <div>
 	<Nav />
-	<div class="transition-colors duration-300 max-w-screen-2xl mx-auto">
+	<div class="transition-colors duration-300">
 		{@render children()}
 	</div>
-	<div
-		class="flex flex-col grow items-center px-3 md:px-12 py-4 md:py-6 mt-8 max-w-screen-2xl mx-auto"
-	>
-		<Beehiiv variant="home" />
+	<div class="flex flex-col grow items-center">
+		<SubscribeSection />
+		<!-- <Beehiiv /> -->
+		<JoinSection />
 		<Footer />
-		<Toaster />
+		<Toaster richColors position="top-center" />
 
 		{#if showButton}
 			<button

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Article } from '$lib/types/article';
 	import { page } from '$app/stores';
+	import type { Article } from '$lib/types/article';
+	import { sanitizeTitle } from '$lib/utils/sanitise';
 	import ArticleJsonLd from './ArticleJsonLd.svelte';
-	import { sanitizeTitle } from '$lib/utils/sanitise'; // Import the utility function
+	// Import the utility function
 
 	const { article }: { article?: Article } = $props();
 
@@ -11,11 +12,10 @@
 	// Sanitize the article data using the utility function
 	const sanitizedTitle = article ? sanitizeTitle(article.title) : '';
 	const sanitizedSummary = article ? sanitizeTitle(article.summary) : '';
-	const sanitizedThumb = article ? sanitizeTitle(article.thumb) : '';
+	const sanitizedThumb = article ? sanitizeTitle(article.thumb_url || '') : '';
 	const sanitizedUrl = article ? sanitizeTitle(`${pageUrl}/${article.slug}`) : '';
-	const sanitizedAuthors = article?.authors
-		?.map((author) => author.fullName || author.username)
-		?.join(', ') ?? '';
+	const sanitizedAuthors =
+		article?.authors?.map((author) => author.full_name || author.username)?.join(', ') ?? '';
 </script>
 
 <svelte:head>

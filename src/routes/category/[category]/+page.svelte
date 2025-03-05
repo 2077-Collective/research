@@ -1,9 +1,9 @@
 <script lang="ts">
+	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
-	import type { PageData } from './$types';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { onMount } from 'svelte';
-	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import type { PageData } from './$types';
 
 	const { data }: { data: PageData } = $props();
 
@@ -18,8 +18,10 @@
 	);
 
 	const filteredArticles = $derived(
-		articles.filter((article) =>
-			article.categories.some((cat) => cat.name.toLowerCase() === formattedCategory.toLowerCase())
+		articles.filter((article: { categories: { name: string }[] }) =>
+			article.categories.some(
+				(cat: { name: string }) => cat.name.toLowerCase() === formattedCategory.toLowerCase()
+			)
 		)
 	);
 
@@ -66,7 +68,7 @@
 
 <BaseHead />
 
-<div class="px-3 md:px-12 flex flex-col gap-10">
+<div class="">
 	<ArticleList
 		articles={paginatedArticles}
 		{articlesPerPage}
@@ -83,8 +85,14 @@
 	</div>
 
 	{#if currentPage * articlesPerPage >= filteredArticles.length && filteredArticles.length > 0}
-		<div class="flex justify-center py-4">
-			<span class="text-gray-500">No more articles to load.</span>
+		<div class="relative mt-10 mb-[113px]">
+			<div class="flex justify-center">
+				<span class="text-neutral-5 z-20 relative bg-[#0C0C0D] block px-[35px] text-xs font-mono"
+					>No more articles to load :)</span
+				>
+			</div>
+
+			<div class="w-full h-px bg-[#161616] top-1/2 -translate-y-1/2 absolute"></div>
 		</div>
 	{/if}
 </div>

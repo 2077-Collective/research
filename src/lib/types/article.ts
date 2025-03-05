@@ -1,81 +1,75 @@
 import { z } from 'zod';
 
-// Basic schemas
-export const CategorySchema = z.object({
+export interface StrapiResponse<T> {
+	data: Array<{
+		id: number;
+		attributes: T;
+	}>;
+	meta: {
+		pagination: {
+			page: number;
+			pageSize: number;
+			pageCount: number;
+			total: number;
+		};
+	};
+}
+
+export interface ThumbData {
+	data?: {
+		attributes: {
+			url: string;
+		};
+	};
+}
+
+// Define the schemas
+const ThumbDataSchema = z.object({
+	data: z
+		.object({
+			attributes: z.object({
+				url: z.string()
+			})
+		})
+		.optional()
+});
+
+const CategorySchema = z.object({
 	name: z.string(),
-	is_primary: z.boolean().optional().default(false)
+	is_primary: z.boolean()
 });
 
-export const AuthorSchema = z.object({
+const AuthorSchema = z.object({
 	username: z.string(),
-	id: z.string(),
-	full_name: z.string().nullable(),
-	twitter_username: z.string().nullable()
-});
-export const AuthorArraySchema = z.array(AuthorSchema);
-export type Author = z.infer<typeof AuthorSchema>;
-
-export const ContributorSchema = z.object({
-	full_name: z.string(),
+	full_name: z.string().optional(),
+	id: z.string().optional(),
 	twitter_username: z.string().nullable().optional()
 });
-export const ContributorArraySchema = z.array(ContributorSchema);
-export type Contributor = z.infer<typeof ContributorSchema>;
 
-const CommonArticleFields = z.object({
+export const ArticleMetadataSchema = z.object({
 	id: z.string(),
 	slug: z.string(),
 	title: z.string(),
-	thumb: z.string(),
+	summary: z.string(),
+	created_at: z.string(),
+	updated_at: z.string(),
+	thumb_url: z.string().optional(),
+	thumb: z.union([z.string(), ThumbDataSchema]).optional(),
 	categories: z.array(CategorySchema),
-	summary: z.string()
+	min_read: z.number().nullable().optional(),
+	views: z.number(),
+	isSponsored: z.boolean().optional(),
+	sponsorColor: z.string().optional(),
+	sponsorTextColor: z.string().optional(),
+	authors: z.array(AuthorSchema).optional()
 });
 
-const BaseArticleSchema = CommonArticleFields.extend({
-	authors: z.array(AuthorSchema),
-	min_read: z.number(),
-	created_at: z.string()
-});
+export const ArticleMetadataArraySchema = z.array(ArticleMetadataSchema);
 
-export const ArticleMetadataSchema = CommonArticleFields.extend({
-	authors: z.array(AuthorSchema).optional(),
-	content: z.string().optional(),
-	views: z.number().optional(),
-	is_sponsored: z.boolean().optional(),
-	sponsor_color: z
-		.string()
-		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
-		.optional()
-		.default('#FFFFFF'),
-	sponsor_text_color: z
-		.string()
-		.regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$|^rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)$/)
-		.optional()
-		.default('#000000'),
-	related_articles: z.array(BaseArticleSchema).optional(),
-	updated_at: z.string().optional().default(new Date().toISOString())
-});
-
-export const TransformedArticleMetadataSchema = ArticleMetadataSchema.transform((article) => {
-	const { is_sponsored, sponsor_color, sponsor_text_color, related_articles, updated_at, ...rest } =
-		article;
-	return {
-		...rest,
-		isSponsored: is_sponsored,
-		sponsorColor: sponsor_color,
-		sponsorTextColor: sponsor_text_color,
-		relatedArticles: related_articles || [],
-		updatedAt: updated_at
-	};
-});
-
-export const ArticleMetadataArraySchema = z.array(TransformedArticleMetadataSchema);
-export type ArticleMetadata = z.infer<typeof TransformedArticleMetadataSchema>;
-
-const TableOfContentsItemSchema: z.ZodType<TableOfContentsItem> = z.lazy(() =>
+const TableOfContentsItemSchema: z.ZodType<any> = z.lazy(() =>
 	z.object({
-		title: z.string(),
 		id: z.string(),
+		title: z.string(),
 		children: z.array(TableOfContentsItemSchema)
 	})
 );
@@ -90,24 +84,89 @@ export type TableOfContents = z.infer<typeof TableOfContentsSchema>;
 
 export const FullArticleSchema = ArticleMetadataSchema.extend({
 	content: z.string(),
-	scheduled_publish_time: z.string(),
-	table_of_contents: TableOfContentsSchema,
-	acknowledgement: z.string().optional(),
 	gpt_summary: z.string().optional(),
-	authors: z.array(
-		AuthorSchema.transform((author) => ({
-			username: author.username,
-			fullName: author.full_name,
-			twitterUsername: author.twitter_username
-		}))
-	)
-}).transform((article) => ({
-	...article,
-	scheduledPublishTime: article.scheduled_publish_time,
-	tableOfContents: article.table_of_contents,
-	relatedArticles: article.related_articles || [],
-	updatedAt: article.updated_at,
-	gptSummary: article.gpt_summary
-}));
+	table_of_contents: z.array(TableOfContentsItemSchema)
+});
 
-export type Article = z.infer<typeof FullArticleSchema>;
+export interface ArticleMetadata {
+	id: string;
+	slug: string;
+	title: string;
+	summary: string;
+	created_at: string;
+	updated_at: string;
+	thumb_url?: string;
+	thumb?: string | ThumbData;
+	categories: Array<{
+		name: string;
+		is_primary: boolean;
+	}>;
+	min_read?: number | null;
+	views: number;
+	isSponsored?: boolean;
+	sponsorColor?: string;
+	sponsorTextColor?: string;
+	authors?: Array<{
+		username: string;
+		full_name?: string | undefined;
+		id?: string | undefined;
+		twitter_username?: string | null | undefined;
+	}>;
+}
+
+export interface Article extends ArticleMetadata {
+	content: string;
+	gpt_summary?: string;
+	table_of_contents: Array<{
+		id: string;
+		title: string;
+		children: Array<{
+			id: string;
+			title: string;
+			children: any[];
+		}>;
+	}>;
+}
+
+export interface StrapiArticle {
+	slug: string;
+	title: string;
+	summary: string;
+	content: string;
+	createdAt: string;
+	updatedAt: string;
+	publishedAt: string;
+	article_status: string;
+	thumb?: ThumbData;
+	categories: {
+		data: Array<{
+			attributes: {
+				name: string;
+				is_primary: boolean;
+			};
+		}>;
+	};
+	gpt_summary?: string;
+	views: number;
+	min_read: number | null;
+	table_of_contents: Array<{
+		id: string;
+		title: string;
+		children: Array<{
+			id: string;
+			title: string;
+			children: any[];
+		}>;
+	}>;
+	isSponsored?: boolean;
+	sponsorColor?: string;
+	sponsorTextColor?: string;
+	authors?: {
+		data: Array<{
+			attributes: {
+				username: string;
+				full_name?: string;
+			};
+		}>;
+	};
+}

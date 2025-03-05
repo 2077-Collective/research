@@ -38,5 +38,18 @@
 	<meta name="title" content={sanitizedTitle} />
 	<meta name="description" content={sanitizedDescription} />
 
-	<link rel="preload" href="/fonts/Hubot-Sans.woff2" as="font" type="font/woff2" crossorigin />
+	<link
+		rel="preload"
+		href="/fonts/Hubot-Sans.woff2"
+		as="font"
+		type="font/woff2"
+		crossorigin="anonymous"
+	/>
+	<link
+		rel="preload"
+		href="/fonts/PowerGrotesk-Variable.woff2"
+		as="font"
+		type="font/woff2"
+		crossorigin="anonymous"
+	/>
 </svelte:head>

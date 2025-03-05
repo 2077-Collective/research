@@ -2,14 +2,22 @@
 	import { goto } from '$app/navigation';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
+	import { formatCategorySlug } from '$lib/utils/format';
+	import { toTitleCase } from '$lib/utils/titleCase';
 	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
 
 	const primaryCategory = $derived(article.categories.find((category) => category.is_primary));
 
+	const thumbnailUrl = $derived(
+		typeof article.thumb === 'string'
+			? article.thumb
+			: article.thumb?.data?.attributes?.url || article.thumb_url || ''
+	);
+
 	function handleCategoryClick(categoryName: string) {
-		goto(`/category/${categoryName}`);
+		goto(`/category/${formatCategorySlug(categoryName)}`);
 	}
 
 	function handleKeydown(event: CustomEvent<KeyboardEvent>, categoryName: string) {
@@ -22,7 +30,7 @@
 <div class="flex flex-col lg:flex-row w-full">
 	<a href={`/${article.slug}`} class="!w-full lg:!w-4/6">
 		<img
-			src={article.thumb}
+			src={thumbnailUrl}
 			alt={`Thumbnail for article: ${article.title}`}
 			loading="eager"
 			fetchpriority="high"
@@ -51,7 +59,7 @@
 
 		<a href={`/${article.slug}`}>
 			<h1
-				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight tracking-tight"
+				class="font-powerGroteskBold text-xl sm:text-3xl lg:text-5xl font-medium text-white leading-tight"
 			>
 				{(article.title)}
 			</h1>

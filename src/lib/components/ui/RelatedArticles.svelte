@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchArticles } from '$lib/services/article.service';
+	import { fetchArticles } from '$lib/services/strapi.service';
 	import { getArticles, setArticles } from '$lib/stores/articles.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { onMount } from 'svelte';
@@ -67,14 +67,15 @@
 </script>
 
 <div class="flex flex-col">
-	<h2 class="text-3xl md:text-5xl font-medium leading-9 mb-6 md:mb-12 font-powerGroteskBold">
-		Related research
+	<h2 class="text-3xl md:text-[32px] font-bold leading-9 mb-6 md:mb-12 font-powerGroteskBold">
+		Related
 	</h2>
+
 	<div
 		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-4 md:gap-y-10 gap-x-6 justify-center"
 	>
 		{#each relatedArticles as article}
-			<ArticleCard {article} />
+			<ArticleCard {article} hideCategory />
 		{/each}
 	</div>
 </div>

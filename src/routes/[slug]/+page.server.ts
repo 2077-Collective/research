@@ -1,15 +1,16 @@
-import { getArticleBySlug } from '$lib/services/article.service';
-import type { PageServerLoad } from './$types';
+import { getGhostArticleBySlug } from '$lib/services/article.service.js';
 import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async ({ params }) => {
-    if (params.slug === '404') return;
+export async function load({ params }) {
+	try {
+		const post = await getGhostArticleBySlug(params.slug);
 
-    const article = await getArticleBySlug(params.slug);
-
-    if (!article) {
-        throw error(404, 'Article not found');
-    }
-
-    return { article };
-};
+		if (!post) {
+			throw error(404, { message: 'Article not found' });
+		}
+		return { article: post };
+	} catch (err) {
+		console.error('Error loading article:', err);
+		throw error(500, { message: 'Failed to load article' });
+	}
+}

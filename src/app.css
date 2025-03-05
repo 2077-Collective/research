@@ -1,6 +1,9 @@
 @import '@fontsource-variable/inter';
-@import '@fontsource-variable/space-grotesk';
-@import '@fontsource-variable/kode-mono';
+@import '@fontsource/ubuntu-mono';
+@import '@fontsource-variable/geist-mono';
+@import '@fontsource/ibm-plex-sans';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
 
 @tailwind base;
 @tailwind components;
@@ -45,18 +48,19 @@
 @font-face {
 	font-family: 'PowerGrotesk';
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 300 400 500 600 700;
 	src:
 		local('PowerGrotesk'),
 		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
 }
 
 @layer base {
-	/* Define dark mode variables in :root */
 	:root {
-		--font-primary: 'Hubot Sans', sans-serif;
-		--font-mono: 'Kode Mono Variable', sans-serif;
+		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
+		--font-hubot: 'Hubot Sans', sans-serif;
+		--font-geist-mono: 'Geist Mono Variable', monospace;
+		--font-ibm: 'IBM Plex Sans', sans-serif;
 
 		--background: 240 4% 5%;
 		--background-lighter: 240 4% 10%;
@@ -88,8 +92,14 @@
 		--ring: 212.7 26.8% 83.9%;
 
 		--radius: 0.5rem;
-
 		--subtle: 210 3% 31%;
+
+		--neutral-05: #f2f2f2;
+		--neutral-10: #e6e6e6;
+		--neutral-20: #ccc;
+		--neutral-40: #999;
+		--neutral-60: #666666;
+		--neutral-80: #333333;
 	}
 
 	* {
@@ -97,25 +107,18 @@
 	}
 
 	body {
-		@apply tracking-normal;
+		@apply tracking-normal font-hubot;
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
-		font-family: var(--font-primary);
 		font-weight: 300;
 	}
 
-	h1,
-	h2,
-	h3,
-	h4,
-	h5,
-	h6 {
-		@apply tracking-tight;
+	button {
+		@apply !font-ibm;
 	}
 
 	p {
 		@apply tracking-normal;
-		font-family: var(--font-primary);
 	}
 
 	code {
@@ -127,7 +130,18 @@
 		@apply tracking-wide;
 	}
 
-	.ldJQvz {
-		font-family: var(--font-primary) !important;
+	.hero {
+		background: url('/hero.png');
+		background-repeat: no-repeat;
+		background-position: center;
+		@apply pt-16 md:pt-20 pb-20 md:pb-40;
+
+		.hero-mask {
+			background: linear-gradient(180deg, rgba(1, 1, 2, 0) 0%, #010102 100%);
+		}
+	}
+
+	.font-powerGroteskBold {
+		font-weight: 700 !important;
 	}
 }

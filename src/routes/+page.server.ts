@@ -1,14 +1,13 @@
-import { fetchArticles } from '$lib/services/article.service';
-import type { PageServerLoad } from './$types';
+import { fetchGhostArticles } from '$lib/services/ghost.service';
+import { error } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async () => {
-	const articles = await fetchArticles();
-	const articleCategories = Array.from(
-		new Set(articles.flatMap((article) => article.categories.map((category) => category.name)))
-	);
+export async function load() {
+	try {
+		const posts = await fetchGhostArticles(undefined, 1, 15);
 
-	return {
-		articles,
-		articleCategories
-	};
-};
+		return { articles: posts, posts };
+	} catch (err) {
+		console.error('Error loading articles:', err);
+		throw error(500, { message: 'Failed to load articles' });
+	}
+}

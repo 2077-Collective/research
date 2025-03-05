@@ -1,8 +1,9 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
-	import ArticleSpotlight from '$lib/components/ui/ArticleSpotlight.svelte';
+	import FeaturedArticles from '$lib/components/ui/FeaturedArticles.svelte';
+	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
-	import Testimonials from '$lib/components/ui/Testimonials.svelte';
+	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import { onMount } from 'svelte';
@@ -11,6 +12,11 @@
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
 
+	const FEATURED_COUNT = 5;
+	const POPULAR_COUNT = 10;
+	const featuredArticles = $derived(articles.slice(0, FEATURED_COUNT));
+	const popularReads = $derived(articles.slice(FEATURED_COUNT, FEATURED_COUNT + POPULAR_COUNT));
+
 	onMount(() => {
 		setArticles(data.articles);
 	});
@@ -18,46 +24,94 @@
 
 <BaseHead />
 
-<div class="px-3 md:px-12">
-	<div
-		aria-label="Hero"
-		class="h-[420px] md:h-[714px] relative border-b flex flex-col justify-end bg-gradient-to-b from-gray-100 to-transparent dark:from-secondary dark:to-transparent"
-	>
-		<h1
-			class="font-powerGroteskBold text-3xl md:leading-[69px] md:text-6xl font-medium max-w-[928px] mb-6 px-10"
+<div>
+	<div aria-label="Hero" class="relative hero">
+		<div
+			class="flex items-end justify-between max-lg:justify-center max-lg:flex-wrap-reverse container relative"
 		>
-			Cutting-edge Ethereum research for enthusiasts, builders, and decision-makers.
-		</h1>
-		<p class="text-[14px] leading-[18px] md:text-[16px] md:leading-[20px] max-w-[928px] px-10 mb-6">
-			Explore the Ethereum frontier with deep dives into infrastructure, finance, governance,
-			applications, and protocols. Cutting-edge research, high signal, actionable insights, zero
-			fluff.
-		</p>
-	</div>
+			<div class="z-10">
+				<h1
+					class="font-powerGroteskBold text-[30px] leading-9 md:leading-[48px] md:text-[48px] font-bold md:mb-3 mb-4 text-white"
+				>
+					Cutting-Edge <br class="md:hidden" /> Ethereum <br class="max-md:hidden" /> research for
+					<br class="max-md:hidden" />
 
-	{#if articles[0]}
-		<h2 class="text-2xl md:text-5xl font-powerGroteskBold my-8">Featured</h2>
-		<ArticleSpotlight article={articles[0]} />
-	{/if}
+					enthusiasts, builders, <br class="max-md:hidden" /> and industry leaders
+				</h1>
 
-	<div class="my-16">
-		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
-	</div>
+				<p
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] mb-[18px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] font-medium"
+				>
+					Navigate Ethereum’s evolving landscape <em>confidently</em>
+					{' '} with original research and insights that cut through the noise. At 2077 Research, we
+					explore the ideas, innovations, and breakthroughs shaping the future of Ethereum and crypto—so
+					you can stay ahead in an industry that never stands still
+				</p>
 
-	<div class="flex justify-center py-4 md:py-10">
-		<a
-			href="/reports"
-			class="flex items-center gap-3 px-4 py-2 text-2xl transition-colors duration-300 group"
-			aria-label="View all research articles"
-		>
-			See all research
-			<div
-				class="border rounded-full p-2 h-10 w-10 flex items-center justify-center group-hover:bg-primary group-hover:text-accent group-hover:translate-y-1 transition-transform duration-300"
-			>
-				<ArrowRight class="h-10 w-10 rounded-full" style="stroke-width: 1.4" />
+				<p
+					class="text-[14px] leading-[18px] md:text-[18px] md:leading-[24px] text-neutral-5 max-w-[599px] font-hubot tracking-[0.18px] mb-6 md:mb-8 font-medium"
+				>
+					Ready to level up your knowledge? Explore our library of original research, articles, and
+					reports on the cutting edge of Ethereum tech
+				</p>
+
+				<a href="/reports" data-sveltekit-preload-data>
+					<button
+						class="h-[46px] py-3 px-4 inline-flex items-center justify-center gap-2 bg-[#19191A] rounded-[3.88px] font-semibold text-[#B4B4B4] text-[15px] group font-ibm tracking-[0.18px] hover:bg-white hover:text-black transition hover:shadow-hover"
+						aria-label="Read Research"
+						>Read research
+						<ArrowRight class="group-hover:translate-x-1 transition will-change-transform size-5" />
+					</button></a
+				>
 			</div>
-		</a>
+
+			<img
+				src="/HAND_ELEMENT.png"
+				class="mix-blend-screen pointer-events-none select-none"
+				alt="hand-element"
+				width="689"
+				height="608"
+				loading="eager"
+				fetchpriority="high"
+				decoding="async"
+			/>
+		</div>
+
+		<div class="absolute bottom-0 h-[40%] w-full pointer-events-none hero-mask"></div>
 	</div>
 
-	<Testimonials />
+	<section class="container max-md:mt-14 max-md:mb-36 my-[90px] relative">
+		{#if featuredArticles}
+			<FeaturedArticles articles={featuredArticles} />
+		{/if}
+	</section>
+
+	<section class="mt-16 mb-10 md:mb-16 container">
+		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
+	</section>
+
+	<div class="flex justify-center relative mb-14 max-md:mb-10">
+		<div class="z-10 px-5 bg-background">
+			<a
+				href="/reports"
+				class="flex items-center justify-center gap-3 px-4 py-2 group text-sm h-[38px] bg-[#19191A] rounded-[3.17px] font-semibold text-[#B4B4B4] hover:bg-white hover:text-black transition hover:shadow-hover font-ibm"
+				aria-label="View all research articles"
+				data-sveltekit-preload-data
+			>
+				View all articles
+
+				<ArrowRight
+					class="rounded-full group-hover:translate-x-1 transition will-change-transform size-5"
+				/>
+			</a>
+		</div>
+	</div>
+
+	<section class="max-md:mt-14">
+		{#if featuredArticles}
+			<PopularReads articles={popularReads} />
+		{/if}
+	</section>
+
+	<Testimonials4 />
 </div>
