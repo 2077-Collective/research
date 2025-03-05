@@ -149,13 +149,17 @@
 
 							<div class="relative">
 								<div class="flex items-center justify-between">
-									<Badge
-										variant="rectangularFilled"
+									<a
 										href={`/category/${formatCategorySlug(category?.name || '')}`}
-										class="bg-white text-neutral-80 py-1.5 px-2 mb-1 hover:bg-neutral-20"
+										data-sveltekit-preload-data
 									>
-										{category?.name}
-									</Badge>
+										<Badge
+											variant="rectangularFilled"
+											class="bg-white text-neutral-80 py-1.5 px-2 mb-1 hover:bg-neutral-20"
+										>
+											{category?.name}
+										</Badge>
+									</a>
 
 									<a
 										href={`/category/${formatCategorySlug(category?.name || '')}`}
@@ -235,13 +239,17 @@
 								</div>
 
 								<div class="flex-1 space-y-2.5">
-									<Badge
-										variant="rectangularFilled"
+									<a
 										href={`/category/${formatCategorySlug(category?.name || '')}`}
-										class="bg-[#0CDEE9] text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+										data-sveltekit-preload-data
 									>
-										{category?.name}
-									</Badge>
+										<Badge
+											variant="rectangularFilled"
+											class="bg-white text-neutral-80 py-1.5 px-2 font-mono relative z-50"
+										>
+											{category?.name}
+										</Badge>
+									</a>
 
 									<h3
 										class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight text-neutral-20 group-hover:underline underline-offset-[3px]"

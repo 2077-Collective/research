@@ -105,7 +105,7 @@
 					<a href={`/category/${formatCategorySlug(primaryCategory)}`} data-sveltekit-preload-data>
 						<Badge
 							variant="rectangularFilled"
-							class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 capitalize !text-neutral-80"
+							class="font-mono font-normal text-xs cursor-pointer focus:ring-2 focus:ring-offset-2 rounded-[34px] !bg-[#0CDEE9] border-none px-3 py-1.5 !text-neutral-80"
 							role="link"
 							tabindex="0"
 						>
