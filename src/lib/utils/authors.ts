@@ -27,15 +27,22 @@ export function getAuthorsText(authors: Author[] | null | undefined): string {
 	if (!browser) return '';
 	if (!authors?.length) return 'Unknown';
 
-	const authorsWithHyperlink = authors
-		.map((author) => {
-			const displayName = escapeHtml(author?.full_name || author?.username);
-			const username = escapeHtml(author?.username);
-			return `<a class="hover:underline underline-offset-[3px]" href="/contributors/${username}">${displayName}</a>`;
-		})
-		.join(', ');
+	const authorsWithHyperlink = authors.map((author) => {
+		const displayName = escapeHtml(author?.full_name || author?.username);
+		const username = escapeHtml(author?.username);
+		return `<a class="hover:underline underline-offset-[3px]" href="/contributors/${username}">${displayName}</a>`;
+	});
 
-	return authorsWithHyperlink;
+	if (authorsWithHyperlink.length === 2) {
+		return authorsWithHyperlink.join(' and ');
+	}
+
+	if (authorsWithHyperlink.length > 2) {
+		const lastAuthor = authorsWithHyperlink.pop();
+		return `${authorsWithHyperlink.join(', ')}, and ${lastAuthor}`;
+	}
+
+	return authorsWithHyperlink[0] || 'Unknown';
 }
 
 function escapeHtml(unsafe: string | undefined | null): string {
