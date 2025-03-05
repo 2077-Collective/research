@@ -8,12 +8,12 @@
 		'@type': 'Article',
 		headline: article.title,
 		image: article.thumb,
-		datePublished: article.scheduledPublishTime,
-		dateModified: article.updatedAt,
-		author: article.authors.map((author) => ({
+		datePublished: article.created_at,
+		dateModified: article.updated_at,
+		author: (article.authors || []).map((author) => ({
 			'@type': 'Person',
-			name: author.fullName,
-			url: author.twitterUsername ? `https://twitter.com/${author.twitterUsername}` : undefined
+			name: author.full_name,
+			url: author.twitter_username ? `https://twitter.com/${author.twitter_username}` : undefined
 		})),
 		publisher: {
 			'@type': 'Organization',
