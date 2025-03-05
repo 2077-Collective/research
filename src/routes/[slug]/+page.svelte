@@ -89,12 +89,12 @@
 	}
 
 	const shareOptions: ShareOption[] = [
+		{ name: 'Email', url: mailShareURL, icon: Mail },
 		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
+		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
+		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
-		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
-		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
-		{ name: 'Mail', url: mailShareURL, icon: Mail },
 		{ name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp }
 	];
 
@@ -647,6 +647,7 @@
 
 		if (!isLoggedIn && !userId) {
 			showAuthBanner = true;
+			bannerText = 'Bookmarking articles';
 
 			return;
 		}
@@ -691,6 +692,8 @@
 	function handleScrollToTop() {
 		document.body.scrollIntoView({ behavior: 'smooth' });
 	}
+
+	let bannerText = $state('');
 </script>
 
 <ArticleHead article={data.article} />
@@ -725,7 +728,7 @@
 			<div class="max-w-[595px]">
 				<div>
 					<h2 class="text-3xl md:text-[40px] md:leading-[38.8px] font-powerGroteskBold font-bold">
-						Listening to articles requires an account.
+						{bannerText} requires an account.
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
@@ -755,7 +758,10 @@
 
 			<button
 				class="absolute top-3 right-3 md:top-11 md:right-11 group"
-				onclick={() => (showAuthBanner = false)}
+				onclick={() => {
+					bannerText = '';
+					showAuthBanner = false;
+				}}
 			>
 				<X class="size-6 md:size-8 text-white group-hover:text-neutral-40 transition" />
 			</button>
@@ -805,6 +811,7 @@
 				toggleSummary();
 			} else {
 				showAuthBanner = true;
+				bannerText = 'Reading article summaries';
 			}
 		}}
 		disabled={!data?.article?.gpt_summary}
@@ -841,6 +848,7 @@
 				handlePdfDownload(data.article);
 			} else {
 				showAuthBanner = true;
+				bannerText = 'Downloading articles';
 			}
 		}}
 		class="disabled:cursor-wait min-h-10 flex flex-col items-center justify-center gap-2 hover:text-neutral-40 transition"
@@ -921,9 +929,9 @@
 		>
 			<Link2 class="size-5" />
 			{#if copySuccess}
-				<span class="text-special-blue text-sm">Link Copied</span>
+				<span class="text-special-blue text-sm">Link copied</span>
 			{:else}
-				<span class="text-sm">Copy Link</span>
+				<span class="text-sm">Copy link</span>
 			{/if}
 		</button>
 	</div>
@@ -980,6 +988,7 @@
 									toggleSummary();
 								} else {
 									showAuthBanner = true;
+									bannerText = 'Reading article summaries';
 								}
 							}
 						}}
@@ -1063,6 +1072,7 @@
 								handlePdfDownload(data.article);
 							} else {
 								showAuthBanner = true;
+								bannerText = 'Downloading articles';
 							}
 						}}
 						class="disabled:cursor-wait w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
@@ -1139,7 +1149,7 @@
 						</div>
 
 						<h1
-							class="font-powerGroteskBold capitalize text-5xl font-bold leading-[50px] max-md:max-w-full max-md:text-4xl max-md:leading-[40px] break-words mt-[22px]"
+							class="font-powerGroteskBold text-5xl font-bold leading-[50px] max-md:max-w-full max-md:text-4xl max-md:leading-[40px] break-words mt-[22px]"
 						>
 							{article.title}
 						</h1>

@@ -93,7 +93,7 @@
 								<div class="max-md:px-1 max-md:pt-1">
 									<Badge
 										variant="rectangularFilled"
-										class="bg-white text-neutral-80 hover:!bg-neutral-20 py-1.5 px-2 capitalize relative z-50 cursor-pointer mb-1"
+										class="bg-white text-neutral-80 hover:!bg-neutral-20 py-1.5 px-2 relative z-50 cursor-pointer mb-1"
 										role="link"
 										tabindex="0"
 										on:click={() => handleCategoryClick(primaryCategory)}
