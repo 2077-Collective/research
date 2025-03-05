@@ -1154,12 +1154,10 @@
 								{#each article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
-										href={author.twitter_username
-											? `/contributors/${author.twitter_username}`
-											: null}
+										href={author.username ? `/contributors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
-										{(author.full_name || author.twitter_username || '').trim()}
+										{(author.full_name || author.username || '').trim()}
 									</a>
 									{#if index < article.authors.length - 2}
 										<span>,</span>
