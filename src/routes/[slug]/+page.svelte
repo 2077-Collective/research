@@ -1,29 +1,18 @@
 <!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
-	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
-	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
-	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
-	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
-	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
-	import * as Tooltip from '$lib/components/ui/tooltip';
-	import type { Article } from '$lib/types/article';
-	import { downloadPDF } from '$lib/utils/pdf-generator';
-	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
-	import BrainCog from 'lucide-svelte/icons/brain-cog';
-	import Linkedin from 'lucide-svelte/icons/linkedin';
-	import Mail from 'lucide-svelte/icons/mail';
-	import Twitter from 'lucide-svelte/icons/twitter';
-	import XIcon from 'lucide-svelte/icons/x';
-	import Prism from 'prismjs';
-	import { onMount, tick, type Component } from 'svelte';
-	import { derived } from 'svelte/store';
-	import { fly } from 'svelte/transition';
-	import type { PageData } from './$types';
-
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
+	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
+	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
+	import Research from '$lib/components/ui/icons/Research.svelte';
+	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
+	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
+	import * as Popover from '$lib/components/ui/popover';
+	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
+	import type { Article } from '$lib/types/article';
+	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
@@ -32,13 +21,24 @@
 		ArrowUp,
 		Bookmark,
 		FileDown,
+		Headphones,
 		Home,
 		Link2,
 		Loader2,
+		Printer,
 		Share,
+		Share2,
+		User,
 		X,
 		type Icon
 	} from 'lucide-svelte';
+	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
+	import BrainCog from 'lucide-svelte/icons/brain-cog';
+	import Linkedin from 'lucide-svelte/icons/linkedin';
+	import Mail from 'lucide-svelte/icons/mail';
+	import Twitter from 'lucide-svelte/icons/twitter';
+	import XIcon from 'lucide-svelte/icons/x';
+	import Prism from 'prismjs';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -49,7 +49,11 @@
 	import 'prismjs/components/prism-solidity';
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
+	import { onMount, tick, type Component } from 'svelte';
 	import { toast } from 'svelte-sonner';
+	import { derived } from 'svelte/store';
+	import { fly } from 'svelte/transition';
+	import type { PageData } from './$types';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -60,6 +64,7 @@
 	let showLightbox = $state(false);
 	let summaryOpen = $state(false);
 	let showFloatingButtons = $state(false);
+	let showTopbar = $state(false);
 	let copySuccess = $state(false);
 	let showShareDropdown = $state(false);
 
@@ -224,6 +229,7 @@
 		const contentRect = contentContainer.getBoundingClientRect();
 		// Always show in reading mode, otherwise show after scroll
 		showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
+		showTopbar = isReadingMode || (window.scrollY > 550 && contentRect.bottom >= 0);
 	}
 
 	type ClickOutsideOptions = {
@@ -356,10 +362,10 @@
 
 	let isDownloading = $state(false);
 
-	async function handlePdfDownload(article: Article) {
+	async function handlePdfDownload(article: Article, print = false) {
 		isDownloading = true;
 		try {
-			await downloadPDF(article);
+			await downloadPDF(article, print);
 		} finally {
 			isDownloading = false;
 		}
@@ -555,6 +561,7 @@
 	let isCheckingAuth = $state(true);
 	let bookmarks = $state<string[]>([]);
 	let userId = $state<string | null>(null);
+	let userEmail = $state<string | null>(null);
 
 	let loadingBookmarks = $state(true);
 
@@ -611,13 +618,16 @@
 			if (user && user.user_metadata.email_verified) {
 				isLoggedIn = true;
 				userId = user.id;
+				userEmail = user.email || null;
 			} else {
 				isLoggedIn = false;
 				userId = null;
+				userEmail = null;
 			}
 		} catch (error) {
 			isLoggedIn = false;
 			userId = null;
+			userEmail = null;
 		} finally {
 			isCheckingAuth = false;
 		}
@@ -875,13 +885,22 @@
 		<span class="text-xs font-medium font-ibm">Share</span>
 	</button>
 
-	<button
-		class="min-h-10 flex flex-col items-center justify-center gap-2"
-		onclick={handleToogleAddToBookmarks}
-	>
-		<Bookmark class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')} />
-		<span class="text-xs font-medium font-ibm">{isBookmarked ? 'Saved' : 'Save'}</span>
-	</button>
+	{#if isLoggedIn}
+		<button class="min-h-10 flex flex-col items-center justify-center gap-2">
+			<span
+				class="flex items-center justify-center text-white uppercase font-medium size-7 rounded-full bg-[#202020] text-xs"
+				>{(userEmail || '').charAt(0)}</span
+			>
+			<span class="text-xs font-medium font-ibm">Account</span>
+		</button>
+	{:else}
+		<a href="/signin">
+			<button class="min-h-10 flex flex-col items-center justify-center gap-2">
+				<User class={cn('size-5 transition')} />
+				<span class="text-xs font-medium font-ibm">Sign in</span>
+			</button></a
+		>
+	{/if}
 </div>
 
 <!-- Share Mobile -->
@@ -959,19 +978,13 @@
 
 		{@render body(data.article)}
 
-		<!-- {#if !isReadingMode}
-			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-				{@render floatingButtons()}
-			{/if}
-		{/if} -->
-
 		<div class={isReadingMode ? 'hidden' : 'mb-12'}>
 			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
 		</div>
 	</div>
 
 	<!-- Desktop vertical toolbar -->
-	<div class="w-12 flex-shrink-0 relative max-md:hidden">
+	<!-- <div class="w-12 flex-shrink-0 relative max-md:hidden">
 		<div
 			class="w-full p-2 sticky top-28 border text-neutral-20 bg-[#19191A] border-[#333] rounded-[16px] flex flex-col items-center space-y-4"
 		>
@@ -1118,8 +1131,171 @@
 				</Tooltip.Content>
 			</Tooltip.Root>
 		</div>
+	</div> -->
+</div>
+
+<!-- Top bar when scrolled: Desktop -->
+<div
+	class={cn(
+		'fixed z-[9999] bg-background w-full py-4 top-0 left-0 max-md:hidden -translate-y-full will-change-transform transition duration-500',
+		showTopbar && !loadingBookmarks && 'translate-y-0'
+	)}
+>
+	<div class="container flex items-center justify-between">
+		<div class="flex items-center gap-6">
+			<a href="/" class="ml-1"><Research /></a>
+
+			<h4 class="font-powerGroteskBold font-bold">{data.article.title}</h4>
+		</div>
+
+		{@render topBar('', !showTopbar)}
 	</div>
 </div>
+
+{#snippet topBar(className?: string, hideShare = false)}
+	<div
+		class={cn(
+			'text-[13px] text-neutral-40 md:divide-x-[1px] divide-[#262626] border-[#262626] flex flex-wrap items-center max-md:justify-between',
+			className
+		)}
+	>
+		{#if isLoggedIn}
+			<Popover.Root>
+				<Popover.Trigger>
+					<span
+						class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
+					>
+						<span>Listen</span>
+						<Headphones class="size-4" />
+					</span>
+				</Popover.Trigger>
+				<Popover.Content
+					sideOffset={8}
+					side="bottom"
+					align="start"
+					class="rounded-[4px] border-[#262626] p-3 bg-background text-sm"
+					>Audio player here</Popover.Content
+				>
+			</Popover.Root>
+		{:else}
+			<button
+				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
+				onclick={() => {
+					bannerText = 'Listening to articles';
+					showAuthBanner = true;
+				}}
+			>
+				<span>Listen</span>
+				<Headphones class="size-4" />
+			</button>
+		{/if}
+
+		<button
+			class={cn(
+				'flex max-md:flex-col-reverse items-center gap-2 md:px-4 transition',
+				isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]',
+				!isBookmarked && 'hover:text-neutral-20'
+			)}
+			onclick={handleToogleAddToBookmarks}
+		>
+			<span>{isBookmarked ? 'Saved' : 'Save'}</span>
+			<Bookmark class={cn('size-4 transition', isBookmarked && 'fill-[#0CDEE9]')} />
+		</button>
+
+		<div
+			class="relative"
+			onmouseenter={handleMouseEnter}
+			onmouseleave={handleMouseLeave}
+			role="menu"
+			tabindex="0"
+		>
+			<button
+				onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
+				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
+				aria-label="Share article"
+				aria-expanded={showShareDropdown}
+				aria-haspopup="true"
+				data-share-toggle
+			>
+				<span>Share</span>
+				<Share2 class="size-4" />
+			</button>
+
+			{#if showShareDropdown && !hideShare}
+				<div
+					class="share-dropdown absolute {dropdownPosition === 'bottom'
+						? 'mt-2 top-full'
+						: 'bottom-full mb-2'} 
+						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0 font-mono"
+				>
+					{#each shareOptions as option}
+						<a
+							href={option.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							role="menuitem"
+							class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+							data-sveltekit-preload-data
+						>
+							{#if option.isSvg}
+								{@html option.icon}
+							{:else}
+								{@const IconComponent = option.icon}
+								<IconComponent class="w-5 h-5" />
+							{/if}
+							<span class="text-sm">{option.name}</span>
+						</a>
+					{/each}
+					<button
+						onclick={copyShareLink}
+						role="menuitem"
+						class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2 !font-mono"
+					>
+						<Link2 class="w-5 h-5" />
+						{#if copySuccess}
+							<span class="text-special-blue text-sm">Link copied</span>
+						{:else}
+							<span class="text-sm">Copy link</span>
+						{/if}
+					</button>
+				</div>
+			{/if}
+		</div>
+
+		<button
+			class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
+			onclick={() => {
+				if (isLoggedIn) {
+					handlePdfDownload(data.article, true);
+				} else {
+					showAuthBanner = true;
+					bannerText = 'Downloading articles';
+				}
+			}}
+		>
+			<span>Print</span>
+			<Printer class="size-4" />
+		</button>
+
+		<button
+			class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:opacity-50"
+			disabled={!data?.article?.gpt_summary}
+			onclick={() => {
+				if (data?.article?.gpt_summary) {
+					if (isLoggedIn) {
+						toggleSummary();
+					} else {
+						showAuthBanner = true;
+						bannerText = 'Reading article summaries';
+					}
+				}
+			}}
+		>
+			<span>AI Summary</span>
+			<BrainCog class="size-4" />
+		</button>
+	</div>
+{/snippet}
 
 {#snippet header(article: Article)}
 	<div class="relative pt-32">
@@ -1180,7 +1356,7 @@
 					</section>
 				</div>
 
-				<div class="flex max-md:flex-col max-md:gap-4 md:items-center justify-between mt-11">
+				<div class="flex max-md:flex-col max-md:gap-y-4 md:items-center justify-between mt-5">
 					<div class="flex items-center gap-2 text-neutral-40 font-mono text-sm">
 						<time datetime={article.created_at}>
 							{new Date(article.created_at).toLocaleDateString('en-GB', {
@@ -1193,6 +1369,8 @@
 						<span>{readingTime}</span>
 					</div>
 				</div>
+
+				{@render topBar('mt-5 py-5 border-y', showTopbar)}
 			</header>
 		</div>
 

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { init, destroy } from 'tocbot';
 	import { ChevronDown } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { destroy, init } from 'tocbot';
 
 	const {
 		tocSelector = '#toc',
@@ -213,7 +213,9 @@
 			</div>
 		{/if}
 		{#if isOpen}
-			<ul class="flex px-2 font-hubot flex-col gap-3 bg-secondary p-0 w-full h-[calc(100vh-72px)] overflow-y-auto">
+			<ul
+				class="flex px-2 font-hubot flex-col gap-3 bg-secondary p-0 w-full h-[calc(100vh-72px)] overflow-y-auto"
+			>
 				{#each tocLinks as link}
 					<li class="w-full">
 						<a
@@ -258,73 +260,73 @@
 {/if}
 
 <style>
-    :global(.toc) {
-        width: 100%;
-        overflow-y: auto;
-        padding: 10px;
-        scrollbar-width: thin;
-        scrollbar-color: var(--neutral-80) transparent;
-    }
+	:global(.toc) {
+		width: 100%;
+		overflow-y: auto;
+		padding: 10px;
+		scrollbar-width: thin;
+		scrollbar-color: var(--neutral-80) transparent;
+	}
 
-    :global(.toc::-webkit-scrollbar) {
-        width: 2px;
-    }
+	:global(.toc::-webkit-scrollbar) {
+		width: 2px;
+	}
 
-    :global(.toc::-webkit-scrollbar-track) {
-        background: transparent;
-    }
+	:global(.toc::-webkit-scrollbar-track) {
+		background: transparent;
+	}
 
-    :global(.toc::-webkit-scrollbar-thumb) {
-        background-color: var(--neutral-80);
-        border-radius: 2px;
-    }
+	:global(.toc::-webkit-scrollbar-thumb) {
+		background-color: var(--neutral-80);
+		border-radius: 2px;
+	}
 
-    :global(.toc::-webkit-scrollbar-thumb:hover) {
-        background-color: var(--neutral-60);
-    }
+	:global(.toc::-webkit-scrollbar-thumb:hover) {
+		background-color: var(--neutral-60);
+	}
 
-    :global(.toc-link) {
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: color 0.2s ease;
-        color: inherit;
-        padding: 0.25rem 0;
-        display: block;
-    }
+	:global(.toc-link) {
+		text-decoration: none;
+		font-size: 0.9rem;
+		transition: color 0.2s ease;
+		color: inherit;
+		padding: 0.25rem 0;
+		display: block;
+	}
 
-    :global(.is-active-link) {
-        font-weight: 600;
-        color: var(--primary);
-    }
+	:global(.is-active-link) {
+		font-weight: 600;
+		color: var(--primary);
+	}
 
-    :global(.toc-list) {
-        margin: 0;
-        padding: 0;
-    }
+	:global(.toc-list) {
+		margin: 0;
+		padding: 0;
+	}
 
-    :global(.toc-list-item) {
-        margin: 0;
-        padding: 0;
-    }
+	:global(.toc-list-item) {
+		margin: 0;
+		padding: 0;
+	}
 
-    :global(.toc-list) {
-        margin: 0;
-    }
+	:global(.toc-list) {
+		margin: 0;
+	}
 
-    :global(.toc-list-item) {
-        margin: 0.5rem 0;
-        padding-left: 1rem;
-    }
+	:global(.toc-list-item) {
+		margin: 0.5rem 0;
+		padding-left: 1rem;
+	}
 
-    :global(.toc-list-item > a) {
-        padding-left: 1rem;
-    }
+	:global(.toc-list-item > a) {
+		padding-left: 1rem;
+	}
 
-    :global(.toc-list-item > a.node-name--H2) {
-        border-left: 2px solid var(--neutral-80);
-    }
+	:global(.toc-list-item > a.node-name--H2) {
+		border-left: 2px solid var(--neutral-80);
+	}
 
-    :global(.toc-list-item > a.node-name--H2.is-active-link) {
-        border-left: 2px solid white;
-    }
+	:global(.toc-list-item > a.node-name--H2.is-active-link) {
+		border-left: 2px solid white;
+	}
 </style>
