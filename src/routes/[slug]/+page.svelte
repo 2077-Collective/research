@@ -85,6 +85,7 @@
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
 	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + ' ' + $page.url.href)}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${encodeURIComponent(encodedUrl)}`;
+	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
 		name: string;
@@ -101,6 +102,7 @@
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
 		{ name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp }
+		// { name: 'Discord', url: discordShareURL, icon: Discord }
 	];
 
 	let progress = $state(0);
@@ -229,7 +231,7 @@
 		const contentRect = contentContainer.getBoundingClientRect();
 		// Always show in reading mode, otherwise show after scroll
 		showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
-		showTopbar = isReadingMode || (window.scrollY > 550 && contentRect.bottom >= 0);
+		// showTopbar = isReadingMode || (window.scrollY > 550 && contentRect.bottom >= 0);
 	}
 
 	type ClickOutsideOptions = {
@@ -562,6 +564,7 @@
 	let bookmarks = $state<string[]>([]);
 	let userId = $state<string | null>(null);
 	let userEmail = $state<string | null>(null);
+	let showShareModal = $state(false);
 
 	let loadingBookmarks = $state(true);
 
@@ -795,10 +798,118 @@
 	>
 {/if}
 
+<!-- Share Modal -->
+{#if showShareModal}
+	<div
+		class="fixed w-dvw h-dvh bg-black/50 top-0 left-0 z-[9999999] flex items-center justify-center md:hidden"
+	>
+		<div class="container flex items-center justify-center">
+			<div class="p-6 md:p-8 bg-[#131314] rounded-[8px] max-w-full w-[500px] relative space-y-6">
+				<h5 class="font-powerGroteskBold text-2xl">Share article</h5>
+
+				<div class="flex gap-4 items-start flex-wrap">
+					<div class="size-14 md:size-20 flex-shrink-0 overflow-hidden">
+						<img
+							src={data.article.thumb_url}
+							alt={data.article.title}
+							class="w-full h-full object-cover pointer-events-none select-none object-top"
+						/>
+					</div>
+
+					<div class="space-y-2">
+						<h6 class="font-medium">{data.article.title}</h6>
+
+						<p class="text-xs text-neutral-20">{data.article.summary}</p>
+
+						{#if data.article.authors}
+							<div class="font-mono text-xs">
+								<span class="text-neutral-40">By</span>
+								{#each data.article.authors as author, index}
+									<a
+										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
+										href={author.username ? `/contributors/${author.username}` : null}
+										data-sveltekit-preload-data
+									>
+										{(author.full_name || author.username || '').trim()}
+									</a>
+									{#if index < data.article.authors.length - 2}
+										<span>,</span>
+									{:else if index < data.article.authors.length - 1}
+										<span>{' '}and{' '}</span>
+									{/if}
+								{/each}
+							</div>
+						{/if}
+					</div>
+				</div>
+
+				<div
+					class="py-4 border-y border-neutral-80 flex items-center justify-between gap-4 flex-wrap [&_svg]:!size-5 md:[&_svg]:!size-7"
+				>
+					{#each shareOptions as option}
+						<a
+							href={option.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							role="menuitem"
+							data-sveltekit-preload-data
+							class="hover:text-neutral-40 transition"
+						>
+							{#if option.isSvg}
+								{@html option.icon}
+							{:else}
+								{@const IconComponent = option.icon}
+								<IconComponent />
+							{/if}
+						</a>
+					{/each}
+				</div>
+
+				<ul class="text-neutral-20 !font-mono space-y-4 max-md:text-sm">
+					<li>
+						<button
+							onclick={copyShareLink}
+							role="menuitem"
+							class={cn(
+								'w-full text-left flex items-center gap-2 transition',
+								!copySuccess && 'hover:text-neutral-40',
+								copySuccess && 'pointer-events-none'
+							)}
+						>
+							{#if copySuccess}
+								<span class="text-special-blue">Link copied</span>
+							{:else}
+								<span>Copy link</span>
+							{/if}
+						</button>
+					</li>
+
+					<li>
+						<button
+							class="hover:text-neutral-40 transition"
+							onclick={() => handlePdfDownload(data.article)}
+							>{isDownloading ? 'Downloading...' : 'Download PDF'}</button
+						>
+					</li>
+				</ul>
+
+				<button
+					class="absolute -top-2 md:top-0 right-4 md:right-8 group"
+					onclick={() => {
+						showShareModal = false;
+					}}
+				>
+					<X class="size-6 md:size-8 text-white group-hover:text-neutral-40 transition" />
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
 <!-- Fixed bottom bar for mobile -->
 <div
 	class={cn(
-		'hidden max-md:grid grid-cols-5 gap-1 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] py-4 text-neutral-40',
+		'hidden max-md:grid grid-cols-4 gap-1 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] py-4 text-neutral-40',
 		loadingBookmarks && 'max-md:hidden'
 	)}
 >
@@ -830,77 +941,32 @@
 		<span class="text-xs font-medium font-ibm">AI Summary</span>
 	</button>
 
-	<!-- <button
-		class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
-		aria-label="Play Audio"
-		data-summary-toggle
-		onclick={() => {
-			if (isLoggedIn) {
-				toggleSummary();
-			} else {
-				showAuthBanner = true;
-			}
-		}}
-	>
-		<Play class="size-5" />
-		<span class="text-xs font-medium font-ibm">Play Audio</span>
-	</button> -->
-
-	<!-- <div class="flex flex-col items-center justify-center gap-2">
-		<div class="size-6 bg-green-500 overflow-hidden"></div>
-		<Play />
-		<span class="text-xs font-medium font-ibm">Play Audio</span>
-	</div> -->
-
-	<button
-		onclick={() => {
-			if (isLoggedIn) {
-				handlePdfDownload(data.article);
-			} else {
-				showAuthBanner = true;
-				bannerText = 'Downloading articles';
-			}
-		}}
-		class="disabled:cursor-wait min-h-10 flex flex-col items-center justify-center gap-2 hover:text-neutral-40 transition"
-		aria-label="Download as PDF"
-		disabled={isDownloading}
-	>
-		{#if isDownloading}
-			<div
-				class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-				aria-busy="true"
-			></div>
-		{:else}
-			<FileDown class="size-5" />
-		{/if}
-
-		<span class="text-xs font-medium font-ibm">Download PDF</span>
-	</button>
-
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2"
-		onclick={() => (openShareMobile = true)}
+		onclick={() => (showShareModal = true)}
 	>
-		<Share class="size-5" />
+		<Share2 class="size-5" />
 		<span class="text-xs font-medium font-ibm">Share</span>
 	</button>
 
-	{#if isLoggedIn}
-		<button class="min-h-10 flex flex-col items-center justify-center gap-2">
-			<span
-				class="flex items-center justify-center text-white uppercase font-medium size-7 rounded-full bg-[#202020] text-xs"
-				>{(userEmail || '').charAt(0)}</span
+	<div class="flex items-center justify-center">
+		{#if isLoggedIn}
+			<button class="min-h-10 flex flex-col items-center gap-2">
+				<span
+					class="flex items-center justify-center text-white uppercase font-medium size-7 rounded-full bg-[#202020] text-xs"
+					>{(userEmail || '').charAt(0)}</span
+				>
+				<span class="text-xs font-medium font-ibm">Account</span>
+			</button>
+		{:else}
+			<a href="/signin">
+				<button class="min-h-10 flex flex-col items-center gap-2">
+					<User class={cn('size-5 transition')} />
+					<span class="text-xs font-medium font-ibm">Sign in</span>
+				</button></a
 			>
-			<span class="text-xs font-medium font-ibm">Account</span>
-		</button>
-	{:else}
-		<a href="/signin">
-			<button class="min-h-10 flex flex-col items-center justify-center gap-2">
-				<User class={cn('size-5 transition')} />
-				<span class="text-xs font-medium font-ibm">Sign in</span>
-			</button></a
-		>
-	{/if}
+		{/if}
+	</div>
 </div>
 
 <!-- Share Mobile -->
@@ -1137,7 +1203,7 @@
 <!-- Top bar when scrolled: Desktop -->
 <div
 	class={cn(
-		'fixed z-[9999] bg-background w-full py-4 top-0 left-0 max-md:hidden -translate-y-full will-change-transform transition duration-500',
+		'fixed z-[9999] bg-background w-full py-4 top-0 left-0 hidden -translate-y-full will-change-transform transition duration-500',
 		showTopbar && !loadingBookmarks && 'translate-y-0'
 	)}
 >
@@ -1221,7 +1287,7 @@
 				<Share2 class="size-4" />
 			</button>
 
-			{#if showShareDropdown && !hideShare}
+			{#if showShareDropdown}
 				<div
 					class="share-dropdown absolute {dropdownPosition === 'bottom'
 						? 'mt-2 top-full'
