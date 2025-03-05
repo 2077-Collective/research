@@ -29,7 +29,18 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
-	import { ArrowUp, Bookmark, FileDown, Link2, Loader2, Share, X, type Icon } from 'lucide-svelte';
+	import {
+		ArrowUp,
+		Bookmark,
+		FileDown,
+		Home,
+		Link2,
+		Loader2,
+		Play,
+		Share,
+		X,
+		type Icon
+	} from 'lucide-svelte';
 	import 'prismjs/components/prism-c';
 	import 'prismjs/components/prism-javascript';
 	import 'prismjs/components/prism-json';
@@ -41,7 +52,6 @@
 	import 'prismjs/components/prism-sql';
 	import 'prismjs/components/prism-typescript';
 	import { toast } from 'svelte-sonner';
-	import { init, destroy } from 'tocbot';
 
 	type ContentState = 'initial' | 'updating' | 'ready' | 'error';
 	let contentState: ContentState = 'initial';
@@ -805,10 +815,20 @@
 <!-- Fixed bottom bar for mobile -->
 <div
 	class={cn(
-		'hidden max-md:grid grid-cols-4 gap-4 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] px-4 py-4 text-neutral-40',
+		'hidden max-md:grid grid-cols-5 gap-1 fixed bottom-0 w-full z-[9999999] bg-[#010102] border-t border-[#202020] py-4 text-neutral-40',
 		loadingBookmarks && 'max-md:hidden'
 	)}
 >
+	<a href="/" class="flex items-center justify-center">
+		<button
+			class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
+			aria-label="Go back to home"
+		>
+			<Home class="size-5" />
+			<span class="text-xs font-medium font-ibm">Home</span>
+		</button>
+	</a>
+
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
 		aria-label="Show AI Summary"
@@ -823,10 +843,32 @@
 		disabled={!data?.article?.gpt_summary}
 	>
 		<BrainCog class="size-5" />
-		<span class="text-xs font-medium font-ibm">Summary</span>
+		<span class="text-xs font-medium font-ibm">AI Summary</span>
 	</button>
 
-	<button
+	<!-- <button
+		class="min-h-10 flex flex-col items-center justify-center gap-2 disabled:opacity-50"
+		aria-label="Play Audio"
+		data-summary-toggle
+		onclick={() => {
+			if (isLoggedIn) {
+				toggleSummary();
+			} else {
+				showAuthBanner = true;
+			}
+		}}
+	>
+		<Play class="size-5" />
+		<span class="text-xs font-medium font-ibm">Play Audio</span>
+	</button> -->
+
+	<div class="flex flex-col items-center justify-center gap-2">
+		<!-- <div class="size-6 bg-green-500 overflow-hidden"></div> -->
+		<Play />
+		<span class="text-xs font-medium font-ibm">Play</span>
+	</div>
+
+	<!-- <button
 		onclick={() => {
 			if (isLoggedIn) {
 				handlePdfDownload(data.article);
@@ -847,10 +889,8 @@
 			<FileDown class="size-5" />
 		{/if}
 
-		<span class="text-xs font-medium font-ibm"
-			>{isDownloading ? 'Downloading' : 'Download PDF'}</span
-		>
-	</button>
+		<span class="text-xs font-medium font-ibm">Play</span>
+	</button> -->
 
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2"
