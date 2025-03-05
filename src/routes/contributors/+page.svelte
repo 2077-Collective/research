@@ -120,6 +120,8 @@
 							<a
 								href={`/contributors/${contributor.username}`}
 								class="h-9 flex items-center gap-2 rounded-[4px] bg-neutral-80 text-neutral-10 py-1.5 px-4 group text-sm !font-mono hover:opacity-80 transition"
+								onclick={(e) => e.stopPropagation()}
+								data-sveltekit-preload-data
 							>
 								View all articles by {contributor.full_name}
 

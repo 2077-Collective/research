@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fetchArticles } from '$lib/services/strapi.service';
+	import { fetchGhostArticles } from '$lib/services/ghost.service';
 	import { getArticles, setArticles } from '$lib/stores/articles.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { onMount } from 'svelte';
@@ -57,7 +57,7 @@
 	onMount(async () => {
 		if (relatedArticles.length === 0 && !relatedArticlesFromApi.length) {
 			try {
-				const articles = await fetchArticles();
+				const articles = await fetchGhostArticles();
 				setArticles(articles);
 			} catch (error) {
 				console.error('Failed to fetch articles:', error);

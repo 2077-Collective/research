@@ -15,6 +15,7 @@
 		viewStyle?: 'GRID' | 'LIST';
 		hideSummary?: boolean;
 		hideInfo?: boolean;
+		hideAuthors?: boolean;
 	}
 
 	const {
@@ -23,7 +24,8 @@
 		hideCategory = false,
 		viewStyle = 'GRID',
 		hideSummary = true,
-		hideInfo = true
+		hideInfo = true,
+		hideAuthors = false
 	}: $$Props = $props();
 
 	const currentPageCategory = $derived(
@@ -73,25 +75,27 @@
 	}
 
 	const category = getPrimaryCategory(article);
-	const formattedDate = format(article.updated_at, 'dd MMM yyyy');
+	const formattedDate = format(article.created_at, 'dd MMM yyyy');
 </script>
 
 {#if viewStyle === 'LIST'}
 	<div class="flex items-center flex-wrap gap-[46px] py-8 relative group">
-		<a
+		<!-- <a
 			href={`/${article.slug}`}
 			data-sveltekit-preload-data
 			class="absolute inset-0 z-20"
 			aria-label="Go to article"
-		></a>
+		></a> -->
 
-		<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
-			<img
-				src={article.thumb_url}
-				alt=""
-				class="size-full object-cover group-hover:scale-105 transition will-change-transform"
-			/>
-		</div>
+		<a href={`/${article.slug}`} data-sveltekit-preload-data aria-label="Go to article">
+			<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
+				<img
+					src={article.thumb_url}
+					alt=""
+					class="size-full object-cover group-hover:scale-105 transition will-change-transform"
+				/>
+			</div></a
+		>
 
 		<div class="flex-1 space-y-2.5">
 			{#if !hideCategory}
@@ -108,25 +112,38 @@
 				</a>
 			{/if}
 
-			<h3
-				class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
+			<a
+				href={`/${article.slug}`}
+				data-sveltekit-preload-data
+				aria-label="Go to article"
+				class="block"
 			>
-				{article.title}
-			</h3>
+				<h3
+					class="font-powerGroteskBold text-[18px] md:text-[28px] leading-tight text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
+				>
+					{article.title}
+				</h3>
 
-			<div
-				class="flex items-center gap-2 text-xs my-2 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
-			>
-				<p>{formattedDate}</p>
+				<div
+					class="flex items-center gap-2 text-xs my-2 text-neutral-40 divide-x-[1px] divide-neutral-40 font-mono max-md:mt-5"
+				>
+					<p>{formattedDate}</p>
 
-				{#if article.min_read}
-					<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
-				{/if}
-			</div>
+					{#if article.min_read}
+						<p class="pl-2">{article.min_read} min read</p>
+					{/if}
+				</div>
 
-			<p class="text-neutral-40 max-md:text-sm line-clamp-3">
-				{article.summary}
-			</p>
+				<p class="text-neutral-40 max-md:text-sm line-clamp-3">
+					{article.summary}
+				</p>
+			</a>
+
+			{#if formattedLinks && !hideAuthors}
+				<p class="text-xs font-mono mt-2 text-neutral-40 relative">
+					By {@html formattedLinks}
+				</p>
+			{/if}
 		</div>
 	</div>
 {:else}
@@ -169,7 +186,7 @@
 
 			<div class="px-3 mt-2">
 				<p
-					class="font-powerGroteskBold text-lg font-bold leading-tight line-clamp-2 text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
+					class="font-powerGroteskBold text-lg font-bold leading-tight text-neutral-20 group-hover:underline underline-offset-[3px] !tracking-normal"
 				>
 					{article.title}
 				</p>
@@ -181,7 +198,7 @@
 						<p>{formattedDate}</p>
 
 						{#if article.min_read}
-							<p class="pl-2 line-clamp-1">{article.min_read} min read</p>
+							<p class="pl-2">{article.min_read} min read</p>
 						{/if}
 					</div>
 				{/if}
@@ -194,8 +211,8 @@
 			</div>
 		</a>
 
-		{#if formattedLinks}
-			<p class="text-xs font-mono line-clamp-1 mt-2 text-neutral-40 px-3">
+		{#if formattedLinks && !hideAuthors}
+			<p class="text-xs font-mono mt-2 text-neutral-40 px-3">
 				By {@html formattedLinks}
 			</p>
 		{/if}

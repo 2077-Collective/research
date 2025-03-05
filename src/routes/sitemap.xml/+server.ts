@@ -1,11 +1,11 @@
 import type { RequestHandler } from '@sveltejs/kit';
 
-import { fetchArticles } from '$lib/services/article.service';
+import { fetchGhostArticles } from '$lib/services/ghost.service';
 
 export const GET: RequestHandler = async ({ request }) => {
 	const protocol = request.headers.get('x-forwarded-proto') || 'https';
 	const baseURL = `${protocol}://${request.headers.get('host')}`;
-	const articles = await fetchArticles();
+	const articles = await fetchGhostArticles();
 	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
         <url>
@@ -24,7 +24,7 @@ export const GET: RequestHandler = async ({ request }) => {
 
         ${articles
 					.map(
-						(article) => `
+						(article: any) => `
             <url>
                 <loc>${baseURL}/${article.slug}</loc>
                 <lastmod>${new Date(article.updatedAt).toISOString()}</lastmod>

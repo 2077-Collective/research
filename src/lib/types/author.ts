@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { ArticleMetadata } from './article';
 import type { StrapiMedia } from './strapi';
 
 // Zod schema for social links
@@ -28,6 +29,7 @@ export type Author = {
 	username: string;
 	bio: string | null;
 	twitter_username: string;
+	articles?: ArticleMetadata[];
 };
 
 // Strapi Author interface
