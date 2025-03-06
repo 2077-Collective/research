@@ -8,6 +8,7 @@
 	import Research from '$lib/components/ui/icons/Research.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
+	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
 	import * as Popover from '$lib/components/ui/popover';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
@@ -21,8 +22,10 @@
 		ArrowUp,
 		Bookmark,
 		FileDown,
+		ForwardIcon,
 		Headphones,
 		Home,
+		Link,
 		Link2,
 		Loader2,
 		Printer,
@@ -36,7 +39,6 @@
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
 	import Linkedin from 'lucide-svelte/icons/linkedin';
 	import Mail from 'lucide-svelte/icons/mail';
-	import Twitter from 'lucide-svelte/icons/twitter';
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
 	import 'prismjs/components/prism-c';
@@ -96,7 +98,7 @@
 
 	const shareOptions: ShareOption[] = [
 		{ name: 'Email', url: mailShareURL, icon: Mail },
-		{ name: 'X/Twitter', url: twitterShareURL, icon: Twitter },
+		{ name: 'X/Twitter', url: twitterShareURL, icon: TwitterIcon },
 		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
@@ -745,15 +747,16 @@
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign in to listen to articles, download as PDFs, and save research for later.
-						<br />It’s free—just create an account to explore the future of Ethereum without limits.
+						Sign up for free to listen to narrated articles, download PDFs, save articles to read
+						later, customize your reading experience, highlight key insights, follow topics, and
+						receive curated newsletters. Explore the future of Ethereum without limits.
 					</p>
 				</div>
 
 				<div class="mt-[30px] flex items-center flex-wrap gap-[10.564px]">
 					<a href={`/signup?callback_url=/${$slug}`}>
 						<button
-							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 font-mono flex items-center justify-center hover:bg-neutral-80 transition"
+							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 flex items-center justify-center hover:bg-neutral-80 transition !font-mono"
 						>
 							Create an Account
 						</button>
@@ -761,7 +764,7 @@
 
 					<a href={`/signin?callback_url=/${$slug}`}>
 						<button
-							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 font-mono flex items-center justify-center hover:bg-neutral-80 transition"
+							class="h-[35px] border-[1.174px] border-neutral-80 rounded-[9.39px] text-[16.432px] text-neutral-10 px-3 py-2.5 !font-mono flex items-center justify-center hover:bg-neutral-80 transition"
 						>
 							Sign In
 						</button>
@@ -798,17 +801,30 @@
 	>
 {/if}
 
-<!-- Share Modal -->
+<!-- Share Modal mobile -->
 {#if showShareModal}
 	<div
 		class="fixed w-dvw h-dvh bg-black/50 top-0 left-0 z-[9999999] flex items-center justify-center md:hidden"
 	>
 		<div class="container flex items-center justify-center">
-			<div class="p-6 md:p-8 bg-[#131314] rounded-[8px] max-w-full w-[500px] relative space-y-6">
-				<h5 class="font-powerGroteskBold text-2xl">Share article</h5>
+			<div
+				class="py-[35px] px-[29px] bg-[#131314] rounded-[8px] max-w-full w-[500px] relative space-y-7 max-h-[90vh] overflow-y-auto"
+			>
+				<div class="flex items-center justify-between">
+					<h5 class="font-powerGroteskBold text-2xl font-bold leading-0">Share this article</h5>
 
-				<div class="flex gap-4 items-start flex-wrap">
-					<div class="size-14 md:size-20 flex-shrink-0 overflow-hidden">
+					<button
+						class="text-white hover:text-neutral-40 transition"
+						onclick={() => {
+							showShareModal = false;
+						}}
+					>
+						<X />
+					</button>
+				</div>
+
+				<div class="space-y-7">
+					<div class="w-full aspect-[1/0.5] flex-shrink-0 overflow-hidden">
 						<img
 							src={data.article.thumb_url}
 							alt={data.article.title}
@@ -816,17 +832,19 @@
 						/>
 					</div>
 
-					<div class="space-y-2">
-						<h6 class="font-medium">{data.article.title}</h6>
+					<div>
+						<h6 class="font-bold font-powerGroteskBold text-xl leading-[22px]">
+							{data.article.title}
+						</h6>
 
-						<p class="text-xs text-neutral-20">{data.article.summary}</p>
+						<p class="text-xs text-neutral-20 mt-2">{data.article.summary}</p>
 
 						{#if data.article.authors}
-							<div class="font-mono text-xs">
+							<div class="font-mono text-xs mt-4">
 								<span class="text-neutral-40">By</span>
 								{#each data.article.authors as author, index}
 									<a
-										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
+										class="underline underline-offset-[3px] text-neutral-5 hover:text-neutral-20 transition"
 										href={author.username ? `/contributors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
@@ -843,41 +861,43 @@
 					</div>
 				</div>
 
-				<div
-					class="py-4 border-y border-neutral-80 flex items-center justify-between gap-4 flex-wrap [&_svg]:!size-5 md:[&_svg]:!size-7"
-				>
-					{#each shareOptions as option}
-						<a
-							href={option.url}
-							target="_blank"
-							rel="noopener noreferrer"
-							role="menuitem"
-							data-sveltekit-preload-data
-							class="hover:text-neutral-40 transition"
-						>
-							{#if option.isSvg}
-								{@html option.icon}
-							{:else}
-								{@const IconComponent = option.icon}
-								<IconComponent />
-							{/if}
-						</a>
-					{/each}
+				<div class="py-[14px] border-y border-[#2D2D2D]">
+					<p class="font-mono font-normal text-neutral-20 -tracking-[0.8px] mb-2">Share to:</p>
+
+					<div class="flex items-center gap-5 flex-wrap [&_svg]:!size-[22.505px]">
+						{#each shareOptions as option}
+							<a
+								href={option.url}
+								target="_blank"
+								rel="noopener noreferrer"
+								role="menuitem"
+								data-sveltekit-preload-data
+								class="text-[#E6E6E6] hover:text-neutral-40 transition"
+							>
+								{#if option.isSvg}
+									{@html option.icon}
+								{:else}
+									{@const IconComponent = option.icon}
+									<IconComponent />
+								{/if}
+							</a>
+						{/each}
+					</div>
 				</div>
 
-				<ul class="text-neutral-20 !font-mono space-y-4 max-md:text-sm">
+				<ul class="text-neutral-20 space-y-3 text-xl">
 					<li>
 						<button
 							onclick={copyShareLink}
 							role="menuitem"
 							class={cn(
-								'w-full text-left flex items-center gap-2 transition',
+								'w-full text-left flex items-center gap-2 transition !font-mono -tracking-[1px]',
 								!copySuccess && 'hover:text-neutral-40',
-								copySuccess && 'pointer-events-none'
+								copySuccess && 'pointer-events-none text-special-blue'
 							)}
-						>
+							><Link class="size-5" />
 							{#if copySuccess}
-								<span class="text-special-blue">Link copied</span>
+								<span>Link copied</span>
 							{:else}
 								<span>Copy link</span>
 							{/if}
@@ -886,21 +906,14 @@
 
 					<li>
 						<button
-							class="hover:text-neutral-40 transition"
+							class="hover:text-neutral-40 transition !font-mono -tracking-[1px] flex items-center gap-2"
 							onclick={() => handlePdfDownload(data.article)}
-							>{isDownloading ? 'Downloading...' : 'Download PDF'}</button
 						>
+							<FileDown class="size-5" />
+							{isDownloading ? 'Downloading...' : 'Download PDF'}
+						</button>
 					</li>
 				</ul>
-
-				<button
-					class="absolute -top-2 md:top-0 right-4 md:right-8 group"
-					onclick={() => {
-						showShareModal = false;
-					}}
-				>
-					<X class="size-6 md:size-8 text-white group-hover:text-neutral-40 transition" />
-				</button>
 			</div>
 		</div>
 	</div>
@@ -945,7 +958,7 @@
 		class="min-h-10 flex flex-col items-center justify-center gap-2"
 		onclick={() => (showShareModal = true)}
 	>
-		<Share2 class="size-5" />
+		<ForwardIcon class="size-5 stroke-[3px]" />
 		<span class="text-xs font-medium font-ibm">Share</span>
 	</button>
 
@@ -1367,14 +1380,14 @@
 	<div class="relative pt-32">
 		<div class="relative">
 			<header class="flex justify-between flex-col">
-				<button
+				<!-- <button
 					aria-label="Back to Home"
 					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full mb-[38.5px] bg-[#19191A] group"
 					data-sveltekit-preload-data
 					onclick={() => history.back()}
 				>
 					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
-				</button>
+				</button> -->
 
 				<div class="flex flex-col max-w-full w-[794px]">
 					<section class="flex flex-col w-full">
