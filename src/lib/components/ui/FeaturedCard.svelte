@@ -3,7 +3,6 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
 	import { gsap } from 'gsap';
 	import { ArrowRight } from 'lucide-svelte';
@@ -119,7 +118,7 @@
 		<a href={`/${article.slug}`} class="px-6 max-md:pb-6 block" data-sveltekit-preload-data>
 			<div>
 				<h3 class="text-[28px] md:text-[32px] font-powerGroteskBold font-bold leading-8 mt-4">
-					{toTitleCase(article.title)}
+					{article.title}
 				</h3>
 
 				<p class="md:hidden mt-2 text-sm text-neutral-40">{article.summary}</p>
