@@ -18,7 +18,7 @@ export const load: PageLoad = async ({ params }) => {
 	}
 
 	const page = 1;
-	const limit = 10;
+	const limit = 1000;
 
 	try {
 		const articles = await fetchGhostArticles(formatCategorySlug(tag), page, limit);

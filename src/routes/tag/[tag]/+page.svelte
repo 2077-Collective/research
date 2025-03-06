@@ -17,31 +17,23 @@
 			.join(' ')
 	);
 
-	const filteredArticles = $derived(
-		articles.filter((article: { categories: { name: string }[] }) =>
-			article.categories.some(
-				(cat: { name: string }) => cat.name.toLowerCase() === formattedCategory.toLowerCase()
-			)
-		)
-	);
-
 	let currentPage = $state(1);
-	const articlesPerPage = 30;
-	const paginatedArticles = $derived(filteredArticles.slice(0, currentPage * articlesPerPage));
+	const articlesPerPage = 1000;
+	const paginatedArticles = $derived(articles.slice(0, currentPage * articlesPerPage));
 
 	let isLoading = $state(false);
 	let observer: IntersectionObserver;
 	let loadMoreMarker: HTMLElement;
 
 	onMount(() => {
-		setArticles(filteredArticles);
+		setArticles(articles);
 
 		observer = new IntersectionObserver(
 			(entries) => {
 				if (
 					entries[0].isIntersecting &&
 					!isLoading &&
-					currentPage * articlesPerPage < filteredArticles.length
+					currentPage * articlesPerPage < articles.length
 				) {
 					isLoading = true;
 					try {
@@ -84,7 +76,7 @@
 		{/if}
 	</div>
 
-	{#if currentPage * articlesPerPage >= filteredArticles.length && filteredArticles.length > 0}
+	{#if currentPage * articlesPerPage >= articles.length && articles.length > 0}
 		<div class="relative mt-10 mb-[113px]">
 			<div class="flex justify-center">
 				<span class="text-neutral-5 z-20 relative bg-[#0C0C0D] block px-[35px] text-xs font-mono"
