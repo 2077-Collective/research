@@ -112,7 +112,7 @@
 
 	body {
 		@apply tracking-normal font-hubot;
-		background-color: hsl(var(--new-background-color-1));
+		background-color: hsl(var(--new-background-color-2));
 		color: hsl(var(--new-text-color));
 		font-weight: 300;
 	}
@@ -148,4 +148,8 @@
 	.font-powerGroteskBold {
 		font-weight: 700 !important;
 	}
+}
+
+figcaption {
+	font-size: .5rem;
 }
