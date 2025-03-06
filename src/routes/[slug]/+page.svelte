@@ -15,6 +15,7 @@
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
+	import { formatCategorySlug } from '$lib/utils/format';
 	import { downloadPDF } from '$lib/utils/pdf-generator';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
@@ -78,13 +79,13 @@
 	}
 
 	const encodedUrl = encodeURIComponent($page.url.href);
-	const twitterShareURL = `https://twitter.com/intent/tweet?text=${data.article.title + '%0A%0A' + encodedUrl}`;
+	const twitterShareURL = `https://twitter.com/intent/tweet?text=${data.article.title + '%0A%0A' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + '%0A%0A' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
-	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${'%0A' + encodeURIComponent(data.article.title)}`;
+	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${data.article.summary + '%0A%0A' + encodedUrl}`;
 	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
@@ -102,7 +103,7 @@
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: LinkedIn },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
-		{ name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp }
+		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp }
 		// { name: 'Discord', url: discordShareURL, icon: Discord }
 	];
 
@@ -662,6 +663,7 @@
 		if (!isLoggedIn && !userId) {
 			showAuthBanner = true;
 			bannerText = 'Bookmarking articles';
+			bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'save');
 
 			return;
 		}
@@ -708,6 +710,26 @@
 	}
 
 	let bannerText = $state('');
+	let bannerSubTitle = $state('');
+
+	const bannerSubtitlePhrases = {
+		listen: 'listen to narrated articles',
+		summary: 'read article summaries',
+		download: 'download PDFs',
+		save: 'save articles to read later'
+	};
+
+	function joinPhrases(obj: Record<string, string>, key: keyof typeof obj): string {
+		const phrases = Object.values(obj);
+		const selectedPhrase = obj[key];
+
+		// Move the selected phrase to the beginning if it exists
+		const sortedPhrases = selectedPhrase
+			? [selectedPhrase, ...phrases.filter((phrase) => phrase !== selectedPhrase)]
+			: phrases;
+
+		return sortedPhrases.join(', ');
+	}
 </script>
 
 <ArticleHead article={data.article} />
@@ -746,9 +768,9 @@
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign up for free to listen to narrated articles, download PDFs, save articles to read
-						later, customize your reading experience, highlight key insights, follow topics, and
-						receive curated newsletters. Explore the future of Ethereum without limits.
+						Sign up for free to {bannerSubTitle}, customize your reading experience, highlight key
+						insights, follow topics, and receive curated newsletters. Explore the future of Ethereum
+						without limits.
 					</p>
 				</div>
 
@@ -786,10 +808,11 @@
 
 {#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
-		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
+		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm hidden"
 		onclick={() => {
 			bannerText = 'Listening to articles';
 			showAuthBanner = true;
+			bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
 		}}
 	>
 		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -810,7 +833,7 @@
 	>
 		<div class="container flex items-center justify-center">
 			<div
-				class="py-[35px] px-[29px] bg-[#131314] rounded-[8px] max-w-full w-[500px] relative space-y-7 max-h-[90vh] overflow-y-auto"
+				class="p-6 bg-[#131314] rounded-[8px] max-w-full w-[500px] relative space-y-4 max-h-[90vh] overflow-y-auto"
 			>
 				<div class="flex items-center justify-between">
 					<h5 class="font-powerGroteskBold text-2xl font-bold leading-0">Share this article</h5>
@@ -825,8 +848,8 @@
 					</button>
 				</div>
 
-				<div class="space-y-7">
-					<div class="w-full aspect-[1/0.5] flex-shrink-0 overflow-hidden">
+				<div class="space-y-4">
+					<div class="w-full aspect-[1/0.35] flex-shrink-0 overflow-hidden">
 						<img
 							src={data.article.thumb_url}
 							alt={data.article.title}
@@ -887,7 +910,7 @@
 					</div>
 				</div>
 
-				<ul class="text-neutral-20 space-y-3 text-xl">
+				<ul class="text-neutral-20 space-y-3 text-base">
 					<li>
 						<button
 							onclick={copyShareLink}
@@ -897,7 +920,7 @@
 								!copySuccess && 'hover:text-neutral-40',
 								copySuccess && 'pointer-events-none text-special-blue'
 							)}
-							><Link class="size-5" />
+							><Link class="size-4" />
 							{#if copySuccess}
 								<span>Link copied</span>
 							{:else}
@@ -1264,6 +1287,7 @@
 				onclick={() => {
 					bannerText = 'Listening to articles';
 					showAuthBanner = true;
+					bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
 				}}
 			>
 				<span>Listen</span>
@@ -1351,6 +1375,7 @@
 				} else {
 					showAuthBanner = true;
 					bannerText = 'Downloading articles';
+					bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'download');
 				}
 			}}
 		>
@@ -1368,6 +1393,7 @@
 					} else {
 						showAuthBanner = true;
 						bannerText = 'Reading article summaries';
+						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'summary');
 					}
 				}
 			}}
@@ -1433,7 +1459,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-base max-md:max-w-full mt-4 text-neutral-20">
+						<p class="text-lg max-md:max-w-full mt-4 text-neutral-20 font-medium">
 							{article.summary}
 						</p>
 
@@ -1586,11 +1612,13 @@
 
 					<div class="flex items-center flex-wrap gap-2">
 						{#each article.tags as tag}
-							<div
-								class="h-8 py-2 pl-3 pr-4 rounded-[36px] border border-[#1C1C1C] flex items-center justify-center"
-							>
-								<p class="font-mono text-neutral-40 -tracking-[0.64px]">{tag.name}</p>
-							</div>
+							<a href={`/tag/${formatCategorySlug(tag.name)}`} data-sveltekit-preload-data>
+								<div
+									class="h-8 py-2 pl-3 pr-4 rounded-[36px] border border-[#1C1C1C] flex items-center justify-center"
+								>
+									<p class="font-mono text-neutral-40 -tracking-[0.64px]">{tag.name}</p>
+								</div>
+							</a>
 						{/each}
 					</div>
 				</div>
