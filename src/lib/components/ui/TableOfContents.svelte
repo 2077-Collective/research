@@ -201,7 +201,7 @@
 <!-- Mobile TOC -->
 {#if browser && showMobileTOC}
 	<button
-		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
+		class="sticky top-[72px] md:top-[86px] py-4 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto"
 		class:h-screen={isOpen}
 		on:click={() => (isOpen = !isOpen)}
 	>
@@ -292,7 +292,7 @@
 
 	:global(.toc-link) {
 		text-decoration: none;
-		font-size: 0.9rem;
+		font-size: 14px !important;
 		transition: color 0.2s ease;
 		color: inherit;
 		padding: 0.25rem 0;

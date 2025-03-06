@@ -1343,14 +1343,14 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							role="menuitem"
-							class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2"
+							class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2 [&_svg]:!size-5"
 							data-sveltekit-preload-data
 						>
 							{#if option.isSvg}
 								{@html option.icon}
 							{:else}
 								{@const IconComponent = option.icon}
-								<IconComponent class="w-5 h-5" />
+								<IconComponent class="" />
 							{/if}
 							<span class="text-sm">{option.name}</span>
 						</a>
