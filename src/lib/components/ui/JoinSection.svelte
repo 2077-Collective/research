@@ -42,7 +42,7 @@
 			number: '20K+',
 			subtitle: 'Members',
 			ctaText: 'Join Telegram',
-			href: '/',
+			href: 'https://t.me/2077research',
 			isExternal: true
 		}
 	];

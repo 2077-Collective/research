@@ -9,7 +9,7 @@ const headingStyles = {
 	default: { fontSize: 14, marginTop: 2, marginBottom: 2 }
 } as const;
 
-export async function downloadPDF(article: Article) {
+export async function downloadPDF(article: Article, print = false) {
 	try {
 		const content = document.getElementById('content-container');
 		if (!content) return;
@@ -313,7 +313,17 @@ export async function downloadPDF(article: Article) {
 
 		// Add footer before saving
 		await addFooter();
-		pdf.save(`${article.slug}.pdf`);
+
+		if (print) {
+			pdf.autoPrint();
+
+			const pdfBlob = pdf.output('blob');
+			const pdfURL = URL.createObjectURL(pdfBlob);
+
+			window.open(pdfURL, '_blank');
+		} else {
+			pdf.save(`${article.slug}.pdf`);
+		}
 	} catch (error) {
 		console.error('Failed to generate PDF:', error);
 	}

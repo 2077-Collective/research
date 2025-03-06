@@ -3,7 +3,6 @@
 	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import type { ArticleMetadata } from '$lib/types/article';
-	import { toTitleCase } from '$lib/utils/titleCase';
 	import { format } from 'date-fns';
 	import Badge from './badge/badge.svelte';
 
@@ -122,7 +121,7 @@
 									<h3
 										class="text-lg md:text-[20px] font-powerGroteskBold font-bold leading-[22px] mt-2.5 group-hover:underline underline-offset-[3px] !tracking-normal"
 									>
-										{toTitleCase(article.title)}
+										{article.title}
 									</h3>
 
 									<div
