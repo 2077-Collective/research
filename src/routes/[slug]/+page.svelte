@@ -1618,7 +1618,7 @@
 						{#each article.tags as tag}
 							<a href={`/tag/${formatCategorySlug(tag.name)}`} data-sveltekit-preload-data>
 								<div
-									class="h-8 py-2 pl-3 pr-4 rounded-[36px] border border-[#1C1C1C] flex items-center justify-center"
+									class="h-8 py-2 pl-3 pr-4 rounded-[36px] border border-[#1C1C1C] flex items-center justify-center hover:bg-[#1C1C1C] transition"
 								>
 									<p class="font-mono text-neutral-40 -tracking-[0.64px]">{tag.name}</p>
 								</div>
