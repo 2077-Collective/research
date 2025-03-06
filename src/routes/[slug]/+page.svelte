@@ -787,7 +787,10 @@
 {#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
 		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
-		onclick={() => (showAuthBanner = true)}
+		onclick={() => {
+			bannerText = 'Listening to articles';
+			showAuthBanner = true;
+		}}
 	>
 		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
@@ -1509,7 +1512,7 @@
 			[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
 			[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-base [&>p]:break-words [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-[18px] [&>p]:break-words [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-neutral-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
