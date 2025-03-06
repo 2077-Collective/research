@@ -1499,9 +1499,10 @@
 			</a>
 		{/if}
 
-		<div
-			id="content-container"
-			class="lg:px-0 pb-20 text-primary w-full lg:max-w-[632px] mx-auto font-hubot leading-8 flex flex-col
+		<div class="w-full lg:max-w-[632px] mx-auto lg:px-0 pb-20">
+			<div
+				id="content-container"
+				class="text-primary font-hubot leading-8 flex flex-col
 			{isReadingMode ? 'reading-content' : ''}
 			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
 			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
@@ -1523,57 +1524,74 @@
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
 			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
 			"
-			class:copied={copiedHeaderId}
-		>
-			{#if isReadingMode}
-				<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
-					<h1 class="text-[40px] mb-6 font-powerGroteskBold !leading-10 font-bold">
-						{article.title}
-					</h1>
+				class:copied={copiedHeaderId}
+			>
+				{#if isReadingMode}
+					<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
+						<h1 class="text-[40px] mb-6 font-powerGroteskBold !leading-10 font-bold">
+							{article.title}
+						</h1>
 
-					<p class="text-base mb-8 text-neutral-5 font-hubot">
-						{article.summary}
-					</p>
-					<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">
-						{#if article.authors}
-							<div class="">
-								By
-								{#each article.authors as author, index}
-									{' '}
-									<a
-										href={author.twitter_username
-											? `https://twitter.com/${author.twitter_username}`
-											: null}
-										target="_blank"
-										rel="noopener noreferrer"
-										class={author.twitter_username ? 'reading-mode-link' : ''}
-									>
-										{author.full_name}
-									</a>
-									{#if index < article.authors.length - 2}
-										<span>,</span>
-									{:else if index < article.authors.length - 1}
-										<span>and</span>
-									{/if}
-								{/each}
+						<p class="text-base mb-8 text-neutral-5 font-hubot">
+							{article.summary}
+						</p>
+						<div class="flex flex-col gap-3 text-base text-neutral-40 font-mono">
+							{#if article.authors}
+								<div class="">
+									By
+									{#each article.authors as author, index}
+										{' '}
+										<a
+											href={author.twitter_username
+												? `https://twitter.com/${author.twitter_username}`
+												: null}
+											target="_blank"
+											rel="noopener noreferrer"
+											class={author.twitter_username ? 'reading-mode-link' : ''}
+										>
+											{author.full_name}
+										</a>
+										{#if index < article.authors.length - 2}
+											<span>,</span>
+										{:else if index < article.authors.length - 1}
+											<span>and</span>
+										{/if}
+									{/each}
+								</div>
+							{/if}
+							<div class="flex items-center gap-2">
+								<time datetime={article.created_at}>
+									{new Date(article.created_at).toLocaleDateString('en-GB', {
+										year: 'numeric',
+										month: 'long',
+										day: 'numeric'
+									})}
+								</time>
+								<span>·</span>
+								<span>{readingTime}</span>
 							</div>
-						{/if}
-						<div class="flex items-center gap-2">
-							<time datetime={article.created_at}>
-								{new Date(article.created_at).toLocaleDateString('en-GB', {
-									year: 'numeric',
-									month: 'long',
-									day: 'numeric'
-								})}
-							</time>
-							<span>·</span>
-							<span>{readingTime}</span>
 						</div>
+					</div>
+				{/if}
+
+				{@html sanitizeContent(article.content)}
+			</div>
+
+			{#if article.tags.length > 0}
+				<div class="mt-12">
+					<h6 class="font-medium mb-3">Topics</h6>
+
+					<div class="flex items-center flex-wrap gap-2">
+						{#each article.tags as tag}
+							<div
+								class="h-8 py-2 pl-3 pr-4 rounded-[36px] border border-[#1C1C1C] flex items-center justify-center"
+							>
+								<p class="font-mono text-neutral-40 -tracking-[0.64px]">{tag.name}</p>
+							</div>
+						{/each}
 					</div>
 				</div>
 			{/if}
-
-			{@html sanitizeContent(article.content)}
 		</div>
 
 		{#if !isReadingMode}
