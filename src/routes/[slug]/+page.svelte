@@ -78,15 +78,19 @@
 		throw error(404, 'Article not found');
 	}
 
+	function removeTrailingPeriod(str: string): string {
+		return str.endsWith('.') ? str.slice(0, -1) : str;
+	}
+
 	const encodedUrl = encodeURIComponent($page.url.href);
-	const twitterShareURL = `https://twitter.com/intent/tweet?text=${data.article.title + '%0A%0A' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
+	const twitterShareURL = `https://twitter.com/intent/tweet?text=${removeTrailingPeriod(data.article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
 
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + '%0A%0A' + encodedUrl)}`;
-	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
+	const telegramShareURL = `https://t.me/share/msg_url?url=${encodedUrl}&text=${'%0A' + encodeURIComponent(data.article.title)}`;
 	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
-	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${data.article.summary + '%0A%0A' + encodedUrl}`;
+	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${'From 2077 Research' + '%0A%0A' + encodeURIComponent(data.article.title) + '%0A%0A' + data.article.summary + '%0A%0A' + encodedUrl}`;
 	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
