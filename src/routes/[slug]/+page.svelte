@@ -27,7 +27,6 @@
 		Home,
 		Link,
 		Link2,
-		Loader2,
 		Printer,
 		Share,
 		Share2,
@@ -713,16 +712,16 @@
 
 <ArticleHead article={data.article} />
 
-{#if loadingBookmarks}
+<!-- {#if loadingBookmarks}
 	<div class="h-dvh w-dvw bg-background z-[99] flex items-center justify-center fixed top-0 left-0">
 		<Loader2 class="animate-spin" />
 	</div>
-{/if}
+{/if} -->
 
 <div
 	class={cn(
-		'fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]',
-		loadingBookmarks && 'hidden'
+		'fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]'
+		// loadingBookmarks && 'hidden'
 	)}
 	aria-hidden="true"
 >
@@ -1378,7 +1377,29 @@
 
 {#snippet header(article: Article)}
 	<div class="relative pt-32">
-		<div class="relative">
+		<div class="rounded-[8px] overflow-hidden relative">
+			<img
+				src={article.thumb_url}
+				alt={article.title}
+				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
+			/>
+
+			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
+				<iframe
+					id="AudioNativeElevenLabsPlayer"
+					title="AudioNative ElevenLabs Player"
+					width="377"
+					height="98"
+					frameborder="no"
+					scrolling="no"
+					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
+					style="max-height: 90px;"
+					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
+				></iframe>
+			{/if}
+		</div>
+
+		<div class="relative mt-8">
 			<header class="flex justify-between flex-col">
 				<!-- <button
 					aria-label="Back to Home"
@@ -1409,7 +1430,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-base max-md:max-w-full mt-4 text-neutral-40">
+						<p class="text-base max-md:max-w-full mt-4 text-neutral-20">
 							{article.summary}
 						</p>
 
@@ -1452,28 +1473,6 @@
 				{@render topBar('mt-5 py-5 border-y', showTopbar)}
 			</header>
 		</div>
-
-		<div class="mt-8 rounded-[8px] overflow-hidden relative">
-			<img
-				src={article.thumb_url}
-				alt={article.title}
-				class="w-full h-full object-cover pointer-events-none select-none"
-			/>
-
-			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-				<iframe
-					id="AudioNativeElevenLabsPlayer"
-					title="AudioNative ElevenLabs Player"
-					width="377"
-					height="98"
-					frameborder="no"
-					scrolling="no"
-					src="https://elevenlabs.io/player/index.html?publicUserId=8ad299f5577a1c569543dae730993de0382c7c4aefa1eb8fc88e8516d4affa89"
-					style="max-height: 90px;"
-					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
-				></iframe>
-			{/if}
-		</div>
 	</div>
 {/snippet}
 
@@ -1509,8 +1508,8 @@
 			[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
 			[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-base [&>p]:break-words [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
-			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
+			[&>p]:text-base [&>p]:break-words [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-neutral-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
 			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
@@ -1520,7 +1519,7 @@
 			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
 			[&_img]:mx-auto [&_img]:block
 			[&>blockquote]:text-base md:[&>blockquote]:text-lg [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
-			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-gray-300 [&_blockquote]:pl-7
+			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
 			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
 			"
