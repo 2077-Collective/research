@@ -1343,7 +1343,7 @@
 							target="_blank"
 							rel="noopener noreferrer"
 							role="menuitem"
-							class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
+							class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2"
 							data-sveltekit-preload-data
 						>
 							{#if option.isSvg}
@@ -1358,11 +1358,14 @@
 					<button
 						onclick={copyShareLink}
 						role="menuitem"
-						class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2 !font-mono"
+						class={cn(
+							'w-full px-4 py-2 hover:bg-neutral-80 text-left flex items-center gap-2 !font-mono transition',
+							copySuccess && 'text-[#0BC8D2]'
+						)}
 					>
 						<Link2 class="w-5 h-5" />
 						{#if copySuccess}
-							<span class="text-special-blue text-sm">Link copied</span>
+							<span class="text-sm">Link copied</span>
 						{:else}
 							<span class="text-sm">Copy link</span>
 						{/if}
@@ -1555,7 +1558,7 @@
 			[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0312BF]
+			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0CDEE9]
 			"
 				class:copied={copiedHeaderId}
 			>

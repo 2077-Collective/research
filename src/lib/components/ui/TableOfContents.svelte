@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { ChevronDown } from 'lucide-svelte';
+	import { ArrowDown, ChevronDown } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { destroy, init } from 'tocbot';
 
@@ -147,6 +147,11 @@
 	<div
 		class="hidden lg:block w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
 	>
+		<div class="text-sm font-mono flex items-center gap-2 pl-7 text-neutral-40">
+			<p>Table of contents</p>
+			<ArrowDown class="size-4" />
+		</div>
+
 		<div id={tocSelector.replace('#', '')} class="toc">
 			<ul class="toc-list">
 				{#each tocLinks as link, index}
@@ -295,8 +300,8 @@
 	}
 
 	:global(.is-active-link) {
-		font-weight: 600;
-		color: var(--primary);
+		/* font-weight: 600; */
+		color: #0cdee9 !important;
 	}
 
 	:global(.toc-list) {
@@ -323,10 +328,11 @@
 	}
 
 	:global(.toc-list-item > a.node-name--H2) {
-		border-left: 2px solid var(--neutral-80);
+		border-left: 2px solid #333;
+		@apply text-neutral-20;
 	}
 
 	:global(.toc-list-item > a.node-name--H2.is-active-link) {
-		border-left: 2px solid white;
+		border-left: 2px solid #0cdee9;
 	}
 </style>
