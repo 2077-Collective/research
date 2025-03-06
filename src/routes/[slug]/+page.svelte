@@ -71,7 +71,7 @@
 
 	let closeTimeout: ReturnType<typeof setTimeout>;
 
-	const encodedUrl = encodeURIComponent($page.url.href);
+	const encodedUrl = $page.url.href;
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${encodedUrl}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}`;
@@ -85,7 +85,7 @@
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + ' ' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/url?url=${encodedUrl}&text=${encodeURIComponent(data.article.title)}`;
 	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title + ' ' + $page.url.href)}`;
-	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${encodeURIComponent(encodedUrl)}`;
+	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${data.article.summary + '' + $page.url.href}`;
 	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
