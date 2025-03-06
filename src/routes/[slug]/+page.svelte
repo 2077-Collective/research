@@ -4,6 +4,8 @@
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
+	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
+	import Mail from '$lib/components/ui/icons/Mail.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Research from '$lib/components/ui/icons/Research.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
@@ -36,8 +38,6 @@
 	} from 'lucide-svelte';
 	import ArrowLeft from 'lucide-svelte/icons/arrow-left';
 	import BrainCog from 'lucide-svelte/icons/brain-cog';
-	import Linkedin from 'lucide-svelte/icons/linkedin';
-	import Mail from 'lucide-svelte/icons/mail';
 	import XIcon from 'lucide-svelte/icons/x';
 	import Prism from 'prismjs';
 	import 'prismjs/components/prism-c';
@@ -99,7 +99,7 @@
 		{ name: 'Email', url: mailShareURL, icon: Mail },
 		{ name: 'X/Twitter', url: twitterShareURL, icon: TwitterIcon },
 		{ name: 'Telegram', url: telegramShareURL, icon: Telegram },
-		{ name: 'LinkedIn', url: linkedinShareURL, icon: Linkedin },
+		{ name: 'LinkedIn', url: linkedinShareURL, icon: LinkedIn },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
 		{ name: 'Whatsapp', url: whatsappShareUrl, icon: Whatsapp }
