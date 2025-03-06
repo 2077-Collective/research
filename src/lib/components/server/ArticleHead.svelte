@@ -32,7 +32,7 @@
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={sanitizedTitle} />
 		<meta property="og:description" content={sanitizedSummary} />
-		<meta property="og:image" content={'https://monivoice.com/og.png'} />
+		<meta property="og:image" content={sanitizedThumb} />
 
 		<!-- Twitter meta tags -->
 		<meta name="twitter:card" content="summary_large_image" />
