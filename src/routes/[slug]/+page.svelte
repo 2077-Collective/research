@@ -1252,7 +1252,7 @@
 			[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
 			[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
 			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-lg [&>p]:text-lg lg:[&>p]:text-2xl [&>p]:break-words [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+			[&>p]:text-[17px] lg:[&>p]:text-2xl [&>p]:break-words [&>p]:text-neutral-5 [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
 			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-gray-400 [&_p:has(img)]:text-center
 			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
 			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
