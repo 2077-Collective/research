@@ -39,6 +39,10 @@ const CategorySchema = z.object({
 	is_primary: z.boolean()
 });
 
+const TagSchema = z.object({
+	name: z.string()
+});
+
 const AuthorSchema = z.object({
 	username: z.string(),
 	full_name: z.string().optional(),
@@ -56,6 +60,7 @@ export const ArticleMetadataSchema = z.object({
 	thumb_url: z.string().optional(),
 	thumb: z.union([z.string(), ThumbDataSchema]).optional(),
 	categories: z.array(CategorySchema),
+	tags: z.array(TagSchema),
 	min_read: z.number().nullable().optional(),
 	views: z.number(),
 	isSponsored: z.boolean().optional(),
@@ -101,6 +106,9 @@ export interface ArticleMetadata {
 		name: string;
 		is_primary: boolean;
 	}>;
+	tags: Array<{
+		name: string;
+	}>;
 	min_read?: number | null;
 	views: number;
 	isSponsored?: boolean;
@@ -126,47 +134,4 @@ export interface Article extends ArticleMetadata {
 			children: any[];
 		}>;
 	}>;
-}
-
-export interface StrapiArticle {
-	slug: string;
-	title: string;
-	summary: string;
-	content: string;
-	createdAt: string;
-	updatedAt: string;
-	publishedAt: string;
-	article_status: string;
-	thumb?: ThumbData;
-	categories: {
-		data: Array<{
-			attributes: {
-				name: string;
-				is_primary: boolean;
-			};
-		}>;
-	};
-	gpt_summary?: string;
-	views: number;
-	min_read: number | null;
-	table_of_contents: Array<{
-		id: string;
-		title: string;
-		children: Array<{
-			id: string;
-			title: string;
-			children: any[];
-		}>;
-	}>;
-	isSponsored?: boolean;
-	sponsorColor?: string;
-	sponsorTextColor?: string;
-	authors?: {
-		data: Array<{
-			attributes: {
-				username: string;
-				full_name?: string;
-			};
-		}>;
-	};
 }
