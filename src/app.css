@@ -119,6 +119,7 @@
 
 	p {
 		@apply tracking-normal;
+		--step-0: clamp(1.125rem, 0.9946rem + 0.6522vw, 1.5rem);
 	}
 
 	code {
