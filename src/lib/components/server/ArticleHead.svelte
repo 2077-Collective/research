@@ -25,10 +25,14 @@
 		<meta name="generator" content="2077 Research" />
 
 		<!-- OG meta tags -->
+		<meta property="og:site_name" content={sanitizedTitle} />
+		<meta property="og:locale" content="en" />
+		<meta property="og:url" content={sanitizedUrl} />
+
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={sanitizedTitle} />
 		<meta property="og:description" content={sanitizedSummary} />
-		<meta property="og:image" content={sanitizedThumb} />
+		<meta property="og:image" content={'https://monivoice.com/og.png'} />
 
 		<!-- Twitter meta tags -->
 		<meta name="twitter:card" content="summary_large_image" />
