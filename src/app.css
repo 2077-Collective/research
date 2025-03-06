@@ -100,6 +100,10 @@
 		--neutral-40: #999;
 		--neutral-60: #666666;
 		--neutral-80: #333333;
+
+		--new-text-color: #F5F5F5;
+		--new-background-color-1: #0C0C0D;
+		--new-background-color-2: #0D0D0D;
 	}
 
 	* {
@@ -108,8 +112,8 @@
 
 	body {
 		@apply tracking-normal font-hubot;
-		background-color: hsl(var(--background));
-		color: hsl(var(--foreground));
+		background-color: hsl(var(--new-background-color-1));
+		color: hsl(var(--new-text-color));
 		font-weight: 300;
 	}
 
