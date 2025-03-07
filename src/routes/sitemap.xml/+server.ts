@@ -1,47 +1,76 @@
 import type { RequestHandler } from '@sveltejs/kit';
-
 import { fetchGhostArticles } from '$lib/services/ghost.service';
 
+// Define the Article type
+interface Article {
+  slug: string;
+  updatedAt: string | Date;
+}
+
 export const GET: RequestHandler = async ({ request }) => {
-	const protocol = request.headers.get('x-forwarded-proto') || 'https';
-	const baseURL = `${protocol}://${request.headers.get('host')}`;
-	const articles = await fetchGhostArticles();
-	const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
-    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  try {
+    // Determine the protocol and base URL
+    const protocol = request.headers.get('x-forwarded-proto') || 'http';
+    const host = request.headers.get('host') || 'localhost:5173';
+    const baseURL = import.meta.env.VITE_BASE_URL || `${protocol}://${host}`;
+    console.log('Base URL:', baseURL);
+
+    // Fetch articles from Ghost CMS
+    console.log('Fetching articles from Ghost CMS...');
+    const articles = await fetchGhostArticles();
+    console.log('Fetched articles:', articles);
+
+    // Generate the sitemap XML
+    console.log('Generating sitemap XML...');
+    const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+      <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+        <!-- Static Pages -->
         <url>
-            <loc>${baseURL}</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>1.0</priority>
+          <loc>${baseURL}</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>1.0</priority>
         </url>
 
         <url>
-            <loc>${baseURL}/reports</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
-            <changefreq>daily</changefreq>
-            <priority>0.4</priority>
+          <loc>${baseURL}/reports</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>daily</changefreq>
+          <priority>0.4</priority>
         </url>
 
+        <url>
+          <loc>${baseURL}/article-review</loc>
+          <lastmod>${new Date().toISOString()}</lastmod>
+          <changefreq>monthly</changefreq>
+          <priority>0.7</priority>
+        </url>
+
+        <!-- Dynamic Articles from Ghost -->
         ${articles
-					.map(
-						(article: any) => `
-            <url>
-                <loc>${baseURL}/${article.slug}</loc>
-                <lastmod>${new Date(article.updatedAt).toISOString()}</lastmod>
-                <changefreq>monthly</changefreq>
-                <priority>0.8</priority>
-            </url>
-        `
-					)
-					.join('')}
-
-        <url>
-            <loc>${baseURL}/article-review</loc>
-            <lastmod>${new Date().toISOString()}</lastmod>
+          .map(
+            (article: Article) => `
+          <url>
+            <loc>${baseURL}/${article.slug}</loc>
+            <lastmod>${new Date(article.updatedAt || new Date()).toISOString()}</lastmod>
             <changefreq>monthly</changefreq>
-            <priority>0.7</priority>
-        </url>
-    </urlset>`;
+            <priority>0.8</priority>
+          </url>
+        `
+          )
+          .join('')}
+      </urlset>`;
 
-	return new Response(sitemap, { headers: { 'Content-Type': 'application/xml' } });
+    // Return the sitemap as a response with caching headers
+    console.log('Sitemap generated successfully.');
+    return new Response(sitemap, {
+      headers: {
+        'Content-Type': 'application/xml',
+        'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
+      }
+    });
+  } catch (error) {
+    console.error('Error generating sitemap:', error);
+    return new Response('Error generating sitemap', { status: 500 });
+  }
 };
