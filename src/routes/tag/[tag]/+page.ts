@@ -5,15 +5,15 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ params }) => {
-	if (!params.category) {
-		if (dev) console.error('Category parameter is missing');
-		throw error(404, 'Category not found');
+	if (!params.tag) {
+		if (dev) console.error('Tag parameter is missing');
+		throw error(404, 'Tag not found');
 	}
 
-	const category = unformatCategorySlug(params.category);
+	const tag = unformatCategorySlug(params.tag);
 
-	if (!category) {
-		if (dev) console.error(`Invalid category format: ${params.category}`);
+	if (!tag) {
+		if (dev) console.error(`Invalid category format: ${params.tag}`);
 		throw error(400, 'Invalid category format');
 	}
 
@@ -21,14 +21,14 @@ export const load: PageLoad = async ({ params }) => {
 	const limit = 1000;
 
 	try {
-		const articles = await fetchGhostArticles(formatCategorySlug(category), page, limit);
+		const articles = await fetchGhostArticles(formatCategorySlug(tag), page, limit);
 
 		if (!articles.length) {
-			if (dev) console.error(`No articles found for category: ${category}`);
-			throw error(404, `No articles found for category: ${category}`);
+			if (dev) console.error(`No articles found for category: ${tag}`);
+			throw error(404, `No articles found for category: ${tag}`);
 		}
 
-		return { category, articles };
+		return { tag, articles };
 	} catch (e) {
 		if (dev) console.error('Failed to fetch articles:', e);
 		throw error(500, 'Failed to fetch articles');

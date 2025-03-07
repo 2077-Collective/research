@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
-	import { init, destroy } from 'tocbot';
-	import { ChevronDown } from 'lucide-svelte';
+	import { ArrowDown, ChevronDown } from 'lucide-svelte';
+	import { onMount } from 'svelte';
+	import { destroy, init } from 'tocbot';
 
 	const {
 		tocSelector = '#toc',
@@ -147,6 +147,11 @@
 	<div
 		class="hidden lg:block w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
 	>
+		<div class="text-sm font-mono flex items-center gap-2 pl-7 text-neutral-40">
+			<p>Table of contents</p>
+			<ArrowDown class="size-4" />
+		</div>
+
 		<div id={tocSelector.replace('#', '')} class="toc">
 			<ul class="toc-list">
 				{#each tocLinks as link, index}
@@ -196,7 +201,7 @@
 <!-- Mobile TOC -->
 {#if browser && showMobileTOC}
 	<button
-		class="sticky top-[72px] md:top-[86px] p-0 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm"
+		class="sticky top-[72px] md:top-[86px] py-4 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto"
 		class:h-screen={isOpen}
 		on:click={() => (isOpen = !isOpen)}
 	>
@@ -213,7 +218,9 @@
 			</div>
 		{/if}
 		{#if isOpen}
-			<ul class="flex px-2 font-hubot flex-col gap-3 bg-secondary p-0 w-full h-[calc(100vh-72px)] overflow-y-auto">
+			<ul
+				class="flex px-2 font-hubot flex-col gap-3 bg-secondary p-0 w-full h-[calc(100vh-72px)] overflow-y-auto"
+			>
 				{#each tocLinks as link}
 					<li class="w-full">
 						<a
@@ -258,73 +265,74 @@
 {/if}
 
 <style>
-    :global(.toc) {
-        width: 100%;
-        overflow-y: auto;
-        padding: 10px;
-        scrollbar-width: thin;
-        scrollbar-color: var(--neutral-80) transparent;
-    }
+	:global(.toc) {
+		width: 100%;
+		overflow-y: auto;
+		padding: 10px;
+		scrollbar-width: thin;
+		scrollbar-color: var(--neutral-80) transparent;
+	}
 
-    :global(.toc::-webkit-scrollbar) {
-        width: 2px;
-    }
+	:global(.toc::-webkit-scrollbar) {
+		width: 2px;
+	}
 
-    :global(.toc::-webkit-scrollbar-track) {
-        background: transparent;
-    }
+	:global(.toc::-webkit-scrollbar-track) {
+		background: transparent;
+	}
 
-    :global(.toc::-webkit-scrollbar-thumb) {
-        background-color: var(--neutral-80);
-        border-radius: 2px;
-    }
+	:global(.toc::-webkit-scrollbar-thumb) {
+		background-color: var(--neutral-80);
+		border-radius: 2px;
+	}
 
-    :global(.toc::-webkit-scrollbar-thumb:hover) {
-        background-color: var(--neutral-60);
-    }
+	:global(.toc::-webkit-scrollbar-thumb:hover) {
+		background-color: var(--neutral-60);
+	}
 
-    :global(.toc-link) {
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: color 0.2s ease;
-        color: inherit;
-        padding: 0.25rem 0;
-        display: block;
-    }
+	:global(.toc-link) {
+		text-decoration: none;
+		font-size: 14px !important;
+		transition: color 0.2s ease;
+		color: inherit;
+		padding: 0.25rem 0;
+		display: block;
+	}
 
-    :global(.is-active-link) {
-        font-weight: 600;
-        color: var(--primary);
-    }
+	:global(.is-active-link) {
+		/* font-weight: 600; */
+		color: #0cdee9 !important;
+	}
 
-    :global(.toc-list) {
-        margin: 0;
-        padding: 0;
-    }
+	:global(.toc-list) {
+		margin: 0;
+		padding: 0;
+	}
 
-    :global(.toc-list-item) {
-        margin: 0;
-        padding: 0;
-    }
+	:global(.toc-list-item) {
+		margin: 0;
+		padding: 0;
+	}
 
-    :global(.toc-list) {
-        margin: 0;
-    }
+	:global(.toc-list) {
+		margin: 0;
+	}
 
-    :global(.toc-list-item) {
-        margin: 0.5rem 0;
-        padding-left: 1rem;
-    }
+	:global(.toc-list-item) {
+		margin: 0.5rem 0;
+		padding-left: 1rem;
+	}
 
-    :global(.toc-list-item > a) {
-        padding-left: 1rem;
-    }
+	:global(.toc-list-item > a) {
+		padding-left: 1rem;
+	}
 
-    :global(.toc-list-item > a.node-name--H2) {
-        border-left: 2px solid var(--neutral-80);
-    }
+	:global(.toc-list-item > a.node-name--H2) {
+		border-left: 2px solid #333;
+		@apply text-neutral-20;
+	}
 
-    :global(.toc-list-item > a.node-name--H2.is-active-link) {
-        border-left: 2px solid white;
-    }
+	:global(.toc-list-item > a.node-name--H2.is-active-link) {
+		border-left: 2px solid #0cdee9;
+	}
 </style>

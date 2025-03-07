@@ -4,6 +4,7 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
+	import { cn } from '$lib/utils/ui-components';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
@@ -45,9 +46,12 @@
 		<Footer />
 		<Toaster richColors position="top-center" />
 
-		{#if showButton}
+		<div class="container flex items-center justify-end">
 			<button
-				class="flex items-center justify-center gap-1 text-2xl transition-colors duration-300 group text-[12.667px] size-11 bg-[#19191A] rounded-full text-[#B4B4B4] group fixed bottom-8 md:bottom-11 right-3 md:right-10 font-semibold shadow-2xl border border-[#333] z-[999999]"
+				class={cn(
+					'flex items-center justify-center gap-1 text-2xl group text-[12.667px] size-10 bg-[#19191A] rounded-full text-[#B4B4B4] group fixed bottom-8 md:bottom-11 font-semibold shadow-2xl hover:shadow-hover hover:bg-white border border-[#333] -z-50 transition opacity-0',
+					showButton && 'opacity-100 z-[999999]'
+				)}
 				aria-label="Scroll back to the top of the page"
 				onclick={handleScrollToTop}
 			>
@@ -57,7 +61,7 @@
 					style="stroke-width: 1.4"
 				/>
 			</button>
-		{/if}
+		</div>
 	</div>
 </div>
 

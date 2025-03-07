@@ -1,5 +1,6 @@
 import type { PostOrPage } from '@tryghost/content-api';
 import { calculateReadingTime } from './calculate-read-time';
+import { CATEGORIES_COLOR, TAGS_COLOR } from './tag-accent-colors';
 
 export const transformArticle = (articleData: PostOrPage) => {
 	if (!articleData?.id) {
@@ -8,6 +9,12 @@ export const transformArticle = (articleData: PostOrPage) => {
 	}
 
 	const { id } = articleData;
+
+	const articleTags = articleData.tags || [];
+	const tags = articleTags.filter((tag) => (tag.accent_color || '').toLowerCase() === TAGS_COLOR);
+	const categories = articleTags.filter(
+		(tag) => (tag.accent_color || '').toLowerCase() === CATEGORIES_COLOR
+	);
 
 	try {
 		return {
@@ -23,9 +30,13 @@ export const transformArticle = (articleData: PostOrPage) => {
 				}
 			},
 			summary: articleData.excerpt || '',
-			categories: (articleData.tags || []).map((cat: any) => ({
+			categories: categories.map((cat: any) => ({
 				name: cat.name || '',
 				is_primary: cat?.is_primary || false
+			})),
+			tags: tags.map((tag: any) => ({
+				name: tag.name || ''
+				// is_primary: cat?.is_primary || false
 			})),
 			authors: (articleData.authors || []).map((author: any) => ({
 				username: author.slug || '',
@@ -52,6 +63,11 @@ export const transformArticle = (articleData: PostOrPage) => {
 
 export const transformToFullArticle = (articleData: PostOrPage) => {
 	if (!articleData.id) return null;
+	const articleTags = articleData.tags || [];
+	const tags = articleTags.filter((tag) => (tag.accent_color || '').toLowerCase() === TAGS_COLOR);
+	const categories = articleTags.filter(
+		(tag) => (tag.accent_color || '').toLowerCase() === CATEGORIES_COLOR
+	);
 
 	try {
 		return {
@@ -67,9 +83,13 @@ export const transformToFullArticle = (articleData: PostOrPage) => {
 				}
 			},
 			summary: articleData.excerpt || '',
-			categories: (articleData.tags || []).map((cat: any) => ({
+			categories: categories.map((cat: any) => ({
 				name: cat.name || '',
 				is_primary: cat?.is_primary || false
+			})),
+			tags: tags.map((tag: any) => ({
+				name: tag.name || ''
+				// is_primary: cat?.is_primary || false
 			})),
 			authors: (articleData.authors || []).map((author: any) => ({
 				username: author.slug || '',
