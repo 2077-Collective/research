@@ -1156,7 +1156,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-base max-md:max-w-full mt-4 text-neutral-40">
+						<p class="text-base font-medium max-md:max-w-full mt-4 text-neutral-40">
 							{article.summary}
 						</p>
 
