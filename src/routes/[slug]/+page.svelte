@@ -769,6 +769,7 @@
 	</div>
 {/if}
 
+<!--
 {#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	<button
 		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 flex items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm"
@@ -784,6 +785,7 @@
 		Sign in to Listen</button
 	>
 {/if}
+-->
 
 <!-- Fixed bottom bar for mobile -->
 <div
