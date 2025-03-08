@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { ArrowDown, ChevronDown } from 'lucide-svelte';
+	import { ChevronDown } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { destroy, init } from 'tocbot';
 
@@ -43,7 +43,7 @@
 			activeLinkClass: 'is-active-link',
 			listClass: 'toc-list',
 			listItemClass: 'toc-list-item',
-			extraLinkClasses: 'hover:underline hover:text-primary transition-colors duration-200',
+			extraLinkClasses: 'hover:text-neutral-20 transition-colors duration-200',
 			scrollSmooth: true,
 			headingsOffset: 100,
 			scrollSmoothOffset: -100,
@@ -145,11 +145,11 @@
 <!-- Desktop TOC -->
 {#if browser}
 	<div
-		class="hidden lg:block w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot"
+		class="hidden lg:block w-1/5 sticky top-24 space-y-4 text-sm max-h-[calc(100vh-6rem)] overflow-y-auto font-hubot uppercase"
 	>
-		<div class="text-sm font-mono flex items-center gap-2 pl-7 text-neutral-40">
+		<div class="text-[15px] font-mono flex items-center gap-2 text-neutral-60 uppercase">
 			<p>Table of contents</p>
-			<ArrowDown class="size-4" />
+			<!-- <ArrowDown class="size-4" /> -->
 		</div>
 
 		<div id={tocSelector.replace('#', '')} class="toc">
@@ -159,7 +159,6 @@
 						<a
 							href={link.getAttribute('href')}
 							class="toc-link {link.classList.contains('is-active-link') ? 'is-active-link' : ''}"
-							style="opacity: {1 - Math.abs(selectedItemIndex - index) / tocLinks.length}"
 							on:mouseenter={(e) => (e.currentTarget.style.opacity = '1')}
 							on:mouseleave={(e) =>
 								(e.currentTarget.style.opacity = (
@@ -174,10 +173,11 @@
 						>
 							{link.textContent}
 						</a>
+
 						{#if isExpanded(link.getAttribute('href')) && link.parentElement?.tagName === 'H1'}
 							<ul class="toc-list">
 								{#each Array.from(link.parentElement?.querySelectorAll('.toc-list .toc-link') || []) as subLink}
-									<li class="toc-list-item">
+									<li class="toc-list-item pl-4">
 										<a
 											href={subLink.getAttribute('href')}
 											class="toc-link {subLink.classList.contains('is-active-link')
@@ -201,7 +201,7 @@
 <!-- Mobile TOC -->
 {#if browser && showMobileTOC}
 	<button
-		class="sticky top-[72px] md:top-[86px] py-4 lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto"
+		class="sticky top-[80px] md:top-[86px] lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto z-[99999999999999] mb-4 font-medium"
 		class:h-screen={isOpen}
 		on:click={() => (isOpen = !isOpen)}
 	>
@@ -211,7 +211,9 @@
 		/>
 		{#if !isOpen}
 			<div class="p-3 bg-secondary w-full">
-				<div class="w-11/12 overflow-hidden whitespace-nowrap text-ellipsis">
+				<div
+					class="w-11/12 overflow-hidden whitespace-nowrap text-ellipsis uppercase font-mono text-neutral-20"
+				>
 					{tocLinks.find((l) => l.classList.contains('is-active-link'))?.textContent ||
 						'Table of Contents'}
 				</div>
@@ -219,17 +221,17 @@
 		{/if}
 		{#if isOpen}
 			<ul
-				class="flex px-2 font-hubot flex-col gap-3 bg-secondary p-0 w-full h-[calc(100vh-72px)] overflow-y-auto"
+				class="flex px-4 py-2 font-hubot flex-col gap-3 bg-secondary w-full h-[calc(100dvh-80px)] overflow-y-auto"
 			>
 				{#each tocLinks as link}
 					<li class="w-full">
 						<a
 							href={link.getAttribute('href')}
-							class="text-sm block w-full transition-colors duration-200 {link.classList.contains(
+							class="text-[15px] block w-full transition-colors duration-200 uppercase font-mono {link.classList.contains(
 								'is-active-link'
 							)
-								? 'font-medium'
-								: 'font-normal'}"
+								? 'font-medium text-white'
+								: 'font-normal text-neutral-40'}"
 							on:click|preventDefault={(e) => {
 								handleClick(e, link.getAttribute('href'));
 								const id = link.getAttribute('href')?.substring(1);
@@ -238,17 +240,18 @@
 						>
 							{link.textContent}
 						</a>
+
 						{#if isExpanded(link.getAttribute('href')) && link.parentElement?.tagName === 'H1'}
-							<ul class="mt-2 space-y-2 pl-4">
+							<ul class="mt-2 space-y-2">
 								{#each Array.from(link.parentElement?.querySelectorAll('.toc-list .toc-link') || []) as subLink}
-									<li class="w-full">
+									<li class="w-full !pl-4">
 										<a
 											href={subLink.getAttribute('href')}
 											class="text-sm block w-full transition-colors duration-200 {subLink.classList.contains(
 												'is-active-link'
 											)
-												? 'font-medium'
-												: 'font-normal'}"
+												? 'font-medium text-white'
+												: 'font-normal text-neutral-20'}"
 											on:click|preventDefault={(e) => handleClick(e, subLink.getAttribute('href'))}
 										>
 											{subLink.textContent}
@@ -268,7 +271,7 @@
 	:global(.toc) {
 		width: 100%;
 		overflow-y: auto;
-		padding: 10px;
+		/* padding: 10px; */
 		scrollbar-width: thin;
 		scrollbar-color: var(--neutral-80) transparent;
 	}
@@ -292,16 +295,16 @@
 
 	:global(.toc-link) {
 		text-decoration: none;
-		font-size: 14px !important;
 		transition: color 0.2s ease;
 		color: inherit;
 		padding: 0.25rem 0;
 		display: block;
+		@apply text-sm font-mono font-medium;
 	}
 
 	:global(.is-active-link) {
 		/* font-weight: 600; */
-		color: #0cdee9 !important;
+		@apply !text-neutral-10;
 	}
 
 	:global(.toc-list) {
@@ -319,20 +322,25 @@
 	}
 
 	:global(.toc-list-item) {
-		margin: 0.5rem 0;
-		padding-left: 1rem;
+		/* margin: 0.5rem 0; */
+		/* padding-left: 1rem; */
 	}
 
 	:global(.toc-list-item > a) {
-		padding-left: 1rem;
+		/* padding-left: 1rem; */
 	}
 
 	:global(.toc-list-item > a.node-name--H2) {
-		border-left: 2px solid #333;
-		@apply text-neutral-20;
+		/* border-left: 2px solid #333; */
+		@apply text-neutral-60 pl-4;
+	}
+
+	:global(.toc-list-item > a.node-name--H1) {
+		/* border-left: 2px solid #333; */
+		@apply text-neutral-60;
 	}
 
 	:global(.toc-list-item > a.node-name--H2.is-active-link) {
-		border-left: 2px solid #0cdee9;
+		/* border-left: 2px solid #0cdee9; */
 	}
 </style>
