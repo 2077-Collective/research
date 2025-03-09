@@ -3,13 +3,11 @@
 	import type { Article } from '$lib/types/article';
 	import { sanitizeTitle } from '$lib/utils/sanitise';
 	import ArticleJsonLd from './ArticleJsonLd.svelte';
-	// Import the utility function
 
 	const { article }: { article?: Article } = $props();
 
 	const pageUrl = $page.url.origin;
 
-	// Sanitize the article data using the utility function
 	const sanitizedTitle = article ? sanitizeTitle(article.title) : '';
 	const sanitizedSummary = article ? sanitizeTitle(article.summary) : '';
 	const sanitizedThumb = article ? sanitizeTitle(article.thumb_url || '') : '';
@@ -28,7 +26,6 @@
 		<meta property="og:site_name" content={sanitizedTitle} />
 		<meta property="og:locale" content="en" />
 		<meta property="og:url" content={sanitizedUrl} />
-
 		<meta property="og:type" content="website" />
 		<meta property="og:title" content={sanitizedTitle} />
 		<meta property="og:description" content={sanitizedSummary} />
