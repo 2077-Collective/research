@@ -11,7 +11,6 @@
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
-	import * as Popover from '$lib/components/ui/popover';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
@@ -1268,15 +1267,15 @@
 		)}
 	>
 		{#if isLoggedIn}
-			<Popover.Root>
-				<Popover.Trigger>
-					<span
-						class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
-					>
-						<span>Listen</span>
-						<Headphones class="size-4" />
-					</span>
-				</Popover.Trigger>
+			<!-- <Popover.Root>
+				<Popover.Trigger> -->
+			<button
+				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition opacity-50 pointer-events-none"
+			>
+				<span>Listen</span>
+				<Headphones class="size-4" />
+			</button>
+			<!-- </Popover.Trigger>
 				<Popover.Content
 					sideOffset={8}
 					side="bottom"
@@ -1284,7 +1283,7 @@
 					class="rounded-[4px] border-[#262626] p-3 bg-background text-sm"
 					>Audio player here</Popover.Content
 				>
-			</Popover.Root>
+			</Popover.Root> -->
 		{:else}
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
