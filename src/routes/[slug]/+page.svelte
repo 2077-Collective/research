@@ -234,9 +234,19 @@
 		if (!contentContainer) return;
 
 		const contentRect = contentContainer.getBoundingClientRect();
-		// Always show in reading mode, otherwise show after scroll
-		showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
-		// showTopbar = isReadingMode || (window.scrollY > 550 && contentRect.bottom >= 0);
+		const titleElement = document.querySelector('h1'); // Assuming the title is in an h1 element
+
+		if (titleElement) {
+			const titleRect = titleElement.getBoundingClientRect();
+
+			// Only update the URL if the user has scrolled past the title
+			if (window.scrollY > titleRect.bottom) {
+				showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
+			} else {
+				// Revert to the original URL if the user scrolls back to the title
+				window.history.replaceState({}, '', window.location.pathname);
+			}
+		}
 	}
 
 	type ClickOutsideOptions = {
@@ -289,7 +299,6 @@
 	function processHeaderIds() {
 		if (!window) return;
 
-		// Get container based on reading mode
 		const container = isReadingMode
 			? document.querySelector('.reading-content')
 			: document.getElementById('content-container');
@@ -297,7 +306,10 @@
 		if (!container) return;
 
 		const headers = container.querySelectorAll('h1, h2');
-		headers.forEach((header) => {
+		headers.forEach((header, index) => {
+			// Skip the first header if it's the title
+			if (index === 0 && header.textContent === data.article.title) return;
+
 			if (!header.id) {
 				const id = header.textContent
 					?.toLowerCase()
@@ -308,12 +320,10 @@
 			}
 			header.classList.add('group');
 
-			// Remove existing indicator span if it exists
 			const existingSpan = header.querySelector('span[data-header-indicator]');
 			if (existingSpan) {
 				existingSpan.remove();
 			}
-			// Create and add the new indicator span
 			const headerIndicator = document.createElement('span');
 			headerIndicator.innerText = '#';
 			headerIndicator.className =
@@ -346,7 +356,10 @@
 
 		const headers = container.querySelectorAll('h1, h2, h3');
 		const clickHandlers = new WeakMap();
-		headers.forEach((header) => {
+		headers.forEach((header, index) => {
+			// Skip the first header if it's the title
+			if (index === 0 && header.textContent === data.article.title) return;
+
 			let clickHandler = clickHandlers.get(header);
 			if (!clickHandler) {
 				clickHandler = () => handleHeaderClick(header as HTMLElement);
@@ -428,7 +441,7 @@
 				'figcaption',
 				'article',
 				'div',
-				'span',
+				'span'
 			],
 			ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
 		});
