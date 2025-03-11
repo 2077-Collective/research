@@ -43,7 +43,7 @@
 			activeLinkClass: 'is-active-link',
 			listClass: 'toc-list',
 			listItemClass: 'toc-list-item',
-			extraLinkClasses: 'hover:text-neutral-20 transition-colors duration-200',
+			extraLinkClasses: 'hover:!text-neutral-40 transition-colors duration-200',
 			scrollSmooth: true,
 			headingsOffset: 100,
 			scrollSmoothOffset: -100,
@@ -274,6 +274,10 @@
 		/* padding: 10px; */
 		scrollbar-width: thin;
 		scrollbar-color: var(--neutral-80) transparent;
+	}
+
+	:global(.is-active-link) {
+		@apply !text-red-500;
 	}
 
 	:global(.toc::-webkit-scrollbar) {
