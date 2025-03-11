@@ -424,7 +424,12 @@
 				'table',
 				'tr',
 				'td',
-				'th'
+				'th',
+				'figure',
+				'figcaption',
+				'article',
+				'div',
+				'span',
 			],
 			ALLOWED_ATTR: ['href', 'src', 'alt', 'class', 'id', 'target', 'rel']
 		});
@@ -1561,6 +1566,9 @@
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
 			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0CDEE9]
+			[&_figure]:my-6 [&_figure]:text-center
+			[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
+
 			"
 				class:copied={copiedHeaderId}
 			>
