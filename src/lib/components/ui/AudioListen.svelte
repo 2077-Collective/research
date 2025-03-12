@@ -53,8 +53,6 @@
 		audio.load();
 		audio.src = articleAudioUrl;
 
-		audio.playbackRate = playbackSpeed;
-
 		audio.addEventListener('play', () => {
 			isPlaying = true;
 		});
@@ -75,10 +73,14 @@
 	});
 
 	const handleAudioSpeedChange = () => {
+		if (!audio) return;
+
 		if (playbackSpeed === 2) {
 			playbackSpeed = 0.5;
+			audio.playbackRate = 0.5;
 		} else {
 			playbackSpeed = playbackSpeed + 0.25;
+			audio.playbackRate = playbackSpeed + 0.25;
 		}
 	};
 
