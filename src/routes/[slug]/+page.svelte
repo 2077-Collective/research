@@ -8,6 +8,7 @@
 	import Mail from '$lib/components/ui/icons/Mail.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Research from '$lib/components/ui/icons/Research.svelte';
+	import Discord from '$lib/components/ui/icons/Discord.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
@@ -81,16 +82,17 @@
 		return str.endsWith('.') ? str.slice(0, -1) : str;
 	}
 
-	const encodedUrl = encodeURIComponent($page.url.href);
+	const baseUrl = new URL(window.location.href);
+	baseUrl.hash = '';
+	const encodedUrl = encodeURIComponent(baseUrl.toString());
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${removeTrailingPeriod(data.article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
-
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + '%0A%0A' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/msg_url?url=${encodedUrl}&text=${'%0A' + encodeURIComponent(data.article.title)}`;
 	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${'From 2077 Research' + '%0A%0A' + encodeURIComponent(data.article.title) + '%0A%0A' + data.article.summary + '%0A%0A' + encodedUrl}`;
-	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
+	const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
 		name: string;
@@ -106,8 +108,8 @@
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: LinkedIn },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
-		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp }
-		// { name: 'Discord', url: discordShareURL, icon: Discord }
+		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp },
+		{ name: 'Discord', url: discordShareURL, icon: Discord }
 	];
 
 	let progress = $state(0);
@@ -221,7 +223,10 @@
 
 	async function copyShareLink() {
 		const url = new URL(window.location.href);
+
+		url.hash = '';
 		await navigator.clipboard.writeText(url.toString());
+
 		copySuccess = true;
 		setTimeout(() => {
 			copySuccess = false;
@@ -234,16 +239,14 @@
 		if (!contentContainer) return;
 
 		const contentRect = contentContainer.getBoundingClientRect();
-		const titleElement = document.querySelector('h1'); // Assuming the title is in an h1 element
+		const titleElement = document.querySelector('h1');
 
 		if (titleElement) {
 			const titleRect = titleElement.getBoundingClientRect();
 
-			// Only update the URL if the user has scrolled past the title
 			if (window.scrollY > titleRect.bottom) {
 				showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
 			} else {
-				// Revert to the original URL if the user scrolls back to the title
 				window.history.replaceState({}, '', window.location.pathname);
 			}
 		}
@@ -307,7 +310,6 @@
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header, index) => {
-			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			if (!header.id) {
@@ -357,7 +359,6 @@
 		const headers = container.querySelectorAll('h1, h2, h3');
 		const clickHandlers = new WeakMap();
 		headers.forEach((header, index) => {
-			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			let clickHandler = clickHandlers.get(header);

@@ -64,6 +64,7 @@
 		"@neondatabase/serverless": "^0.10.3",
 		"@supabase/supabase-js": "^2.49.1",
 		"@sveltejs/adapter-vercel": "^5.4.8",
+		"@tryghost/algolia": "^0.2.11",
 		"@tryghost/content-api": "^1.11.21",
 		"@vercel/analytics": "^1.4.1",
 		"@vercel/functions": "^1.5.0",
