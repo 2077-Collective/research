@@ -10,7 +10,6 @@
 	import Algolia from './icons/Algolia.svelte';
 	import EmptySearch from './icons/EmptySearch.svelte';
 
-	// Initialize Algolia client
 	const client = algoliasearch(
 		import.meta.env.VITE_ALGOLIA_APP_ID,
 		import.meta.env.VITE_ALGOLIA_SEARCH_KEY
@@ -31,28 +30,14 @@
 		objectID: string;
 		title: string;
 		slug: string;
-		html: string;
-		tags: {
+		categories: {
 			id: string;
 			name: string;
 			slug: string;
 		}[];
-		authors: {
-			name: string;
-			slug: string;
-		}[];
-		_highlightResult?: {
-			title?: {
-				value: string;
-				matchedWords: string[] | undefined;
-			};
-			html?: {
-				value: string;
-				matchedWords: string[] | undefined;
-			};
-		};
-		_snippetResult?: {
-			html?: {
+		_highlightResult?: HighlightResultWithContent;
+		_snippetResult?: SnippetResult & {
+			content_excerpt: {
 				value: string;
 			};
 		};
@@ -81,54 +66,33 @@
 			loading.set(true);
 
 			try {
-				// Perform the search
 				const response = await client.searchSingleIndex({
-					indexName: 'ghost-cms-articles',
+					indexName: 'Article',
 					searchParams: { query }
 				});
 
-				// Log the full Algolia response
-				console.log('Algolia Response:', response);
-
-				// Extract hits from the response
 				const hits = response.hits as SearchResult[];
 
-				// Log the hits for debugging
-				console.log('Hits:', hits);
-
-				// Filter hits based on matched words in the HTML content
 				const filteredHits = hits.filter(
 					(result) =>
-						result._highlightResult?.html?.matchedWords &&
-						result._highlightResult.html.matchedWords.length > 0
+						result._highlightResult?.content_excerpt?.matchedWords &&
+						result._highlightResult.content_excerpt.matchedWords.length > 0
 				);
 
-				// Log the filtered hits for debugging
-				console.log('Filtered Hits:', filteredHits);
-
-				// Extract unique categories from tags
 				const categories: string[] = Array.from(
-					new Set(filteredHits.map((result) => result.tags[0]?.name).filter(Boolean))
+					new Set(filteredHits.map((result) => result.categories[0]?.name).filter(Boolean))
 				);
 
-				// Log the categories for debugging
-				console.log('Categories:', categories);
-
-				// Group hits by category
-				const transformedHits: Record<string, SearchResult[]> = categories.reduce(
+				const transformedHits: any = categories.reduce(
 					(acc, category) => {
 						acc[category] = filteredHits.filter(
-							(result) => result.tags[0]?.name === category
+							(result) => result.categories[0]?.name === category
 						);
 						return acc;
 					},
-					{} as Record<string, SearchResult[]>
+					{} as Record<string, typeof hits>
 				);
 
-				// Log the transformed hits for debugging
-				console.log('Transformed Hits:', transformedHits);
-
-				// Update the results store
 				results.set(transformedHits);
 			} catch (error) {
 				results.set({});
@@ -212,7 +176,7 @@
 										{#each articles as article}
 											{@const highlight = article._highlightResult}
 											{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-											{#if highlight?.html?.matchedWords && highlight.html.matchedWords.length > 0}
+											{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
 												<li class="group cursor-pointer hover:bg-[#0CDEE9]">
 													<a
 														href={`/${article.slug}`}
@@ -238,7 +202,9 @@
 																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
 															>
 																{@html DOMPurify.sanitize(
-																	article._snippetResult && article._snippetResult.html ? article._snippetResult.html.value : ''
+																	article._snippetResult
+																		? article._snippetResult.content_excerpt.value
+																		: ''
 																)}
 															</p>
 

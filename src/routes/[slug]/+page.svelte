@@ -83,7 +83,6 @@
 	const baseUrl = new URL($page.url.href);
 	baseUrl.hash = '';
 	const encodedUrl = encodeURIComponent(baseUrl.toString());
-
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${removeTrailingPeriod(data.article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
@@ -241,6 +240,7 @@
 
 		if (titleElement) {
 			const titleRect = titleElement.getBoundingClientRect();
+
 			if (window.scrollY > titleRect.bottom) {
 				showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
 			} else {
@@ -309,6 +309,7 @@
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header, index) => {
+			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			if (!header.id) {
@@ -358,6 +359,7 @@
 		const headers = container.querySelectorAll('h1, h2, h3');
 		const clickHandlers = new WeakMap();
 		headers.forEach((header, index) => {
+			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			let clickHandler = clickHandlers.get(header);
