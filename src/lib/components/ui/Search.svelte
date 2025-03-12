@@ -30,14 +30,28 @@
 		objectID: string;
 		title: string;
 		slug: string;
-		categories: {
+		html: string;
+		tags: {
 			id: string;
 			name: string;
 			slug: string;
 		}[];
-		_highlightResult?: HighlightResultWithContent;
-		_snippetResult?: SnippetResult & {
-			content_excerpt: {
+		authors: {
+			name: string;
+			slug: string;
+		}[];
+		_highlightResult?: {
+			title?: {
+				value: string;
+				matchedWords: string[] | undefined;
+			};
+			html?: {
+				value: string;
+				matchedWords: string[] | undefined;
+			};
+		};
+		_snippetResult?: {
+			html?: {
 				value: string;
 			};
 		};
@@ -67,7 +81,7 @@
 
 			try {
 				const response = await client.searchSingleIndex({
-					indexName: 'Article',
+					indexName: 'ghost-cms-articles',
 					searchParams: { query }
 				});
 
@@ -75,18 +89,18 @@
 
 				const filteredHits = hits.filter(
 					(result) =>
-						result._highlightResult?.content_excerpt?.matchedWords &&
-						result._highlightResult.content_excerpt.matchedWords.length > 0
+						result._highlightResult?.html?.matchedWords &&
+						result._highlightResult.html.matchedWords.length > 0
 				);
 
 				const categories: string[] = Array.from(
-					new Set(filteredHits.map((result) => result.categories[0]?.name).filter(Boolean))
+					new Set(filteredHits.map((result) => result.tags[0]?.name).filter(Boolean))
 				);
 
 				const transformedHits: any = categories.reduce(
 					(acc, category) => {
 						acc[category] = filteredHits.filter(
-							(result) => result.categories[0]?.name === category
+							(result) => result.tags[0]?.name === category
 						);
 						return acc;
 					},
@@ -176,7 +190,7 @@
 										{#each articles as article}
 											{@const highlight = article._highlightResult}
 											{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-											{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
+											{#if highlight?.html?.matchedWords && highlight.html.matchedWords.length > 0}
 												<li class="group cursor-pointer hover:bg-[#0CDEE9]">
 													<a
 														href={`/${article.slug}`}
@@ -202,9 +216,7 @@
 																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
 															>
 																{@html DOMPurify.sanitize(
-																	article._snippetResult
-																		? article._snippetResult.content_excerpt.value
-																		: ''
+																	article._snippetResult && article._snippetResult.html ? article._snippetResult.html.value : ''
 																)}
 															</p>
 
