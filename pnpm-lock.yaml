@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@beyondwords/player':
+        specifier: ^0.3.4
+        version: 0.3.4
       '@cartamd/plugin-anchor':
         specifier: ^2.1.1
         version: 2.1.1(carta-md@4.6.7(svelte@5.0.0-next.263))(svelte@5.0.0-next.263)
@@ -303,6 +306,9 @@ packages:
   '@babel/runtime@7.26.0':
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
     engines: {node: '>=6.9.0'}
+
+  '@beyondwords/player@0.3.4':
+    resolution: {integrity: sha512-CFODtfwgvax7eeaNSkD5XbYlfXXmSN3CS8MDmyjA9+ryZYR43Ci2XlLK/wMJKOluTrPCvUVAZAXrr6FtrCDU4Q==}
 
   '@cartamd/plugin-anchor@2.1.1':
     resolution: {integrity: sha512-jSczddhRr68K3AyZxjejdyuPac+9hPnm91nzTXPXQqh4PXZocAvhQwf5dPUcU0s2+7kI3JzEdraF7W7S4RkJDA==}
@@ -3999,6 +4005,8 @@ snapshots:
   '@babel/runtime@7.26.0':
     dependencies:
       regenerator-runtime: 0.14.1
+
+  '@beyondwords/player@0.3.4': {}
 
   '@cartamd/plugin-anchor@2.1.1(carta-md@4.6.7(svelte@5.0.0-next.263))(svelte@5.0.0-next.263)':
     dependencies:

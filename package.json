@@ -48,6 +48,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@beyondwords/player": "^0.3.4",
 		"@cartamd/plugin-anchor": "^2.1.1",
 		"@cartamd/plugin-attachment": "^4.1.1",
 		"@cartamd/plugin-code": "^4.0.6",

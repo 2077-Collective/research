@@ -2,6 +2,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
+	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
@@ -733,15 +734,58 @@
 
 		return sortedPhrases.join(', ');
 	}
+
+	let articleAudioUrl = $state('');
+	let isAudioLoading = $state(true);
+
+	const fetchAudio = async () => {
+		if (!isLoggedIn) {
+			isAudioLoading = false;
+			return;
+		}
+
+		const options = {
+			method: 'GET',
+			headers: {
+				accept: 'application/json',
+				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
+			},
+			mode: 'no-cors'
+		};
+
+		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
+
+		try {
+			const response = await fetch(URL, options);
+			const result = await response.json();
+
+			console.log({ result });
+
+			const content = result.content;
+
+			if (content && Array.isArray(content)) {
+				const contentItem = content[0];
+				const audioItem = contentItem.audio.find(
+					(audio: any) => audio.content_type === 'audio/mpeg'
+				);
+
+				if (audioItem) {
+					articleAudioUrl = audioItem.url;
+				}
+			}
+		} catch (error) {
+			console.log({ error });
+		} finally {
+			isAudioLoading = false;
+		}
+	};
+
+	$effect(() => {
+		fetchAudio();
+	});
 </script>
 
 <ArticleHead article={data.article} />
-
-<!-- {#if loadingBookmarks}
-	<div class="h-dvh w-dvw bg-background z-[99] flex items-center justify-center fixed top-0 left-0">
-		<Loader2 class="animate-spin" />
-	</div>
-{/if} -->
 
 <div
 	class={cn(
@@ -1254,8 +1298,6 @@
 
 			<h4 class="font-powerGroteskBold font-bold">{data.article.title}</h4>
 		</div>
-
-		{@render topBar('', !showTopbar)}
 	</div>
 </div>
 
@@ -1267,23 +1309,7 @@
 		)}
 	>
 		{#if isLoggedIn}
-			<!-- <Popover.Root>
-				<Popover.Trigger> -->
-			<button
-				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition opacity-50 pointer-events-none"
-			>
-				<span>Listen</span>
-				<Headphones class="size-4" />
-			</button>
-			<!-- </Popover.Trigger>
-				<Popover.Content
-					sideOffset={8}
-					side="bottom"
-					align="start"
-					class="rounded-[4px] border-[#262626] p-3 bg-background text-sm"
-					>Audio player here</Popover.Content
-				>
-			</Popover.Root> -->
+			<AudioListen {articleAudioUrl} isLoading={isAudioLoading} />
 		{:else}
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
