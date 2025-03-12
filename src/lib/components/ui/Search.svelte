@@ -85,6 +85,8 @@
 					searchParams: { query }
 				});
 
+				console.log('Algolia Response:', response);
+
 				const hits = response.hits as SearchResult[];
 
 				const filteredHits = hits.filter(
