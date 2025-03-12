@@ -749,8 +749,7 @@
 			headers: {
 				accept: 'application/json',
 				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
-			},
-			mode: 'no-cors'
+			}
 		};
 
 		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
@@ -758,8 +757,6 @@
 		try {
 			const response = await fetch(URL, options);
 			const result = await response.json();
-
-			console.log({ result });
 
 			const content = result.content;
 
@@ -1445,7 +1442,7 @@
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
 			/>
 
-			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
+			<!-- {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 				<iframe
 					id="AudioNativeElevenLabsPlayer"
 					title="AudioNative ElevenLabs Player"
@@ -1457,7 +1454,7 @@
 					style="max-height: 90px;"
 					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
 				></iframe>
-			{/if}
+			{/if} -->
 		</div>
 
 		<div class="relative mt-8">

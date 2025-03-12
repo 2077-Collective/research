@@ -50,6 +50,9 @@
 	$effect(() => {
 		if (!audio) return;
 
+		audio.load();
+		audio.src = articleAudioUrl;
+
 		audio.playbackRate = playbackSpeed;
 
 		audio.addEventListener('play', () => {
@@ -78,15 +81,23 @@
 			playbackSpeed = playbackSpeed + 0.25;
 		}
 	};
+
+	// console.log(process.env.NODE_ENV);
 </script>
 
 {#if isLoading}
-	<div>Hello</div>
+	<div
+		class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
+	>
+		<span>Loading audio</span>
+		<Headphones class="size-4" />
+	</div>
 {:else}
 	<Popover.Root>
-		<Popover.Trigger
+		<Popover.Trigger disabled={articleAudioUrl.length === 0}
 			><button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
+				disabled={articleAudioUrl.length === 0}
 			>
 				<span>{isPlaying ? 'Listening' : 'Listen'}</span>
 				<Headphones class="size-4" />
@@ -145,11 +156,19 @@
 			</div>
 		</Popover.Content>
 	</Popover.Root>
+
+	<audio
+		bind:this={audio}
+		class="absolute -z-50"
+		onseeking={() => (isSeeking = true)}
+		onseeked={() => (isSeeking = false)}
+	>
+		<source src={articleAudioUrl} type="audio/mpeg" />
+	</audio>
 {/if}
 
-<audio
+<!-- <audio
 	bind:this={audio}
-	class="absolute -z-50"
 	onseeking={() => (isSeeking = true)}
 	onseeked={() => (isSeeking = false)}
 >
@@ -157,7 +176,7 @@
 		src={'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net/audio/projects/48883/podcasts/42bd258a-05ed-4663-99d5-aa58e4fc1786/versions/1741689730/media/7a460bee93d1c0e2a0da0fa2a917fa81_compiled.mp3'}
 		type="audio/mpeg"
 	/>
-</audio>
+</audio> -->
 
 <style>
 	input[type='range'] {
