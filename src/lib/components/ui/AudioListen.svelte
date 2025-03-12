@@ -33,6 +33,7 @@
 		if (!audio) return;
 		const target = event.target as HTMLInputElement;
 		audio.currentTime = parseFloat(target.value);
+		currentTime = parseFloat(target.value);
 	};
 
 	// Format time (mm:ss)
@@ -49,12 +50,7 @@
 		if (!audio) return;
 
 		audio.addEventListener('loadedmetadata', () => {
-			console.log('LOADED ===>', audio?.duration);
 			duration = audio?.duration || 0;
-		});
-
-		audio.addEventListener('', () => {
-			console.log('LOADING...');
 		});
 
 		audio.addEventListener('timeupdate', updateTime);
@@ -100,8 +96,8 @@
 						{/if}
 					</button>
 				{:else}
-					<div class="size-8 flex items-center">
-						<Loader2 class="size-6 animate-spin" />
+					<div class="size-8 flex items-center justify-center">
+						<Loader2 class="size-5 animate-spin" />
 					</div>
 				{/if}
 
