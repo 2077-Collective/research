@@ -99,9 +99,9 @@
 			align="start"
 			sideOffset={8}
 		>
-			<div class="text-[15px] font-medium font-mono text-neutral-40 mb-2.5">
+			<!-- <div class="text-[15px] font-medium font-mono text-neutral-40 mb-2.5">
 				{isPlaying ? 'Listening' : 'Listen'} to audio
-			</div>
+			</div> -->
 
 			<div
 				class="flex items-center justify-between gap-3 text-sm text-neutral-40 font-mono font-medium"
