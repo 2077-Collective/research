@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Popover from '$lib/components/ui/popover';
-	import { Headphones, Loader2, PauseCircle, PlayCircle } from 'lucide-svelte';
+	import { Headphones, Loader2, Pause, Play } from 'lucide-svelte';
 
 	let { articleAudioUrl, isLoading } = $props();
 
@@ -10,6 +10,7 @@
 	let currentTime = $state(0);
 	let duration = $state(0);
 	let isSeeking = $state(false);
+	let playbackSpeed = $state(1);
 
 	const togglePlay = () => {
 		if (!audio) return;
@@ -49,6 +50,16 @@
 	$effect(() => {
 		if (!audio) return;
 
+		audio.playbackRate = playbackSpeed;
+
+		audio.addEventListener('play', () => {
+			isPlaying = true;
+		});
+
+		audio.addEventListener('pause', () => {
+			isPlaying = false;
+		});
+
 		audio.addEventListener('loadedmetadata', () => {
 			duration = audio?.duration || 0;
 		});
@@ -59,6 +70,14 @@
 			isPlaying = false;
 		});
 	});
+
+	const handleAudioSpeedChange = () => {
+		if (playbackSpeed === 2) {
+			playbackSpeed = 0.5;
+		} else {
+			playbackSpeed = playbackSpeed + 0.25;
+		}
+	};
 </script>
 
 {#if isLoading}
@@ -80,7 +99,7 @@
 			align="start"
 			sideOffset={8}
 		>
-			<div class="text-[15px] font-medium font-mono text-neutral-20 mb-2">
+			<div class="text-[15px] font-medium font-mono text-neutral-40 mb-2.5">
 				{isPlaying ? 'Listening' : 'Listen'} to audio
 			</div>
 
@@ -88,15 +107,15 @@
 				class="flex items-center justify-between gap-3 text-sm text-neutral-40 font-mono font-medium"
 			>
 				{#if !isSeeking}
-					<button onclick={togglePlay} class="text-neutral-60">
+					<button onclick={togglePlay} class="text-neutral-60 [&_svg]:fill-neutral-60">
 						{#if isPlaying}
-							<PauseCircle class="size-8" />
+							<Pause />
 						{:else}
-							<PlayCircle class="size-8" />
+							<Play />
 						{/if}
 					</button>
 				{:else}
-					<div class="size-8 flex items-center justify-center">
+					<div class="size-6 flex items-center justify-center">
 						<Loader2 class="size-5 animate-spin" />
 					</div>
 				{/if}
@@ -113,8 +132,15 @@
 					/>
 				</div>
 
-				<div class="w-11 flex-shrink-0 flex justify-end">
-					<p>{formatTime(duration - currentTime)}</p>
+				<div class="flex items-center gap-3">
+					<div class="w-11 flex-shrink-0 flex justify-end">
+						<p>{formatTime(duration - currentTime)}</p>
+					</div>
+
+					<button
+						class="w-10 h-6 flex items-center justify-center text-[10px] font-normal border rounded-[6px] border-neutral-80 hover:bg-neutral-80 transition"
+						onclick={handleAudioSpeedChange}>{playbackSpeed}x</button
+					>
 				</div>
 			</div>
 		</Popover.Content>
