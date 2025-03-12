@@ -1,0 +1,18 @@
+{
+    "ghost": {
+      "apiUrl": "https://ghost-2077.arvensis.systems",
+      "apiKey": "007a3b7fc8a10ab03bf88d748b",
+      "version": "v5.0"
+    },
+    "algolia": {
+      "appId": "J1CCIFNBD5",
+      "apiKey": "1014ae79f982ff8373f5b13252046a3f",
+      "index": "ghost-cms-articles"
+    },
+    "indexSettings": {
+      "searchableAttributes": ["title", "excerpt", "content"],
+      "attributesToSnippet": ["content:20"],
+      "attributesForFaceting": ["filterOnly(tags)"]
+    },
+    "ignore_slugs": []
+  }
