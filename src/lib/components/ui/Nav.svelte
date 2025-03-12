@@ -58,7 +58,7 @@
 
 <div
 	class={cn(
-		'fixed top-0 pt-4 pb-4 md:pt-4 w-full z-[999] transition',
+		'fixed top-0 pt-4 pb-4 md:pt-4 w-full z-[99999999] transition',
 		addBackgroundColor && 'bg-background'
 	)}
 >
@@ -110,7 +110,7 @@
 	<!-- Mobile Menu Overlay -->
 	{#if mobileMenuOpen}
 		<div
-			class="fixed inset-0 bg-background/90 backdrop-blur-sm z-50"
+			class="fixed inset-0 bg-background/90 backdrop-blur-sm z-[99999999999]"
 			in:fade={{ duration: 200 }}
 			out:fade={{ duration: 150 }}
 		>
