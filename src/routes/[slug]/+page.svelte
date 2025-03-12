@@ -1,4 +1,3 @@
-<!-- TODO: Add links to share buttons -->
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
@@ -8,7 +7,6 @@
 	import Mail from '$lib/components/ui/icons/Mail.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
 	import Research from '$lib/components/ui/icons/Research.svelte';
-	import Discord from '$lib/components/ui/icons/Discord.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
@@ -82,17 +80,19 @@
 		return str.endsWith('.') ? str.slice(0, -1) : str;
 	}
 
-	const baseUrl = new URL(window.location.href);
+	const baseUrl = new URL($page.url.href);
 	baseUrl.hash = '';
 	const encodedUrl = encodeURIComponent(baseUrl.toString());
+
 	const twitterShareURL = `https://twitter.com/intent/tweet?text=${removeTrailingPeriod(data.article.summary) + ' : ' + encodedUrl + '%0A%0A' + 'Via @2077Research'}`;
 	const linkedinShareURL = `https://www.linkedin.com/shareArticle?mini=true&url=${encodedUrl}`;
 	const redditShareURL = `https://www.reddit.com/submit?url=${encodedUrl}&title=${encodeURIComponent(data.article.title)}&text=${encodeURIComponent(data.article.summary)}`;
+
 	const farcasterShareURL = `https://warpcast.com/~/compose?text=${encodeURIComponent(data.article.title + '%0A%0A' + encodedUrl)}`;
 	const telegramShareURL = `https://t.me/share/msg_url?url=${encodedUrl}&text=${'%0A' + encodeURIComponent(data.article.title)}`;
 	const whatsappShareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(data.article.title) + '%0A%0A' + encodedUrl}`;
 	const mailShareURL = `mailto:?subject=${encodeURIComponent(data.article.title)}&body=${'From 2077 Research' + '%0A%0A' + encodeURIComponent(data.article.title) + '%0A%0A' + data.article.summary + '%0A%0A' + encodedUrl}`;
-	const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
+	// const discordShareURL = `https://discordapp.com/share?url=${encodeURIComponent(encodedUrl)}`;
 
 	interface ShareOption {
 		name: string;
@@ -108,8 +108,8 @@
 		{ name: 'LinkedIn', url: linkedinShareURL, icon: LinkedIn },
 		{ name: 'Farcaster', url: farcasterShareURL, icon: Farcaster },
 		{ name: 'Reddit', url: redditShareURL, icon: Reddit },
-		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp },
-		{ name: 'Discord', url: discordShareURL, icon: Discord }
+		{ name: 'WhatsApp', url: whatsappShareUrl, icon: Whatsapp }
+		// { name: 'Discord', url: discordShareURL, icon: Discord }
 	];
 
 	let progress = $state(0);
@@ -223,10 +223,8 @@
 
 	async function copyShareLink() {
 		const url = new URL(window.location.href);
-
 		url.hash = '';
 		await navigator.clipboard.writeText(url.toString());
-
 		copySuccess = true;
 		setTimeout(() => {
 			copySuccess = false;
@@ -243,11 +241,12 @@
 
 		if (titleElement) {
 			const titleRect = titleElement.getBoundingClientRect();
-
 			if (window.scrollY > titleRect.bottom) {
 				showFloatingButtons = isReadingMode || (window.scrollY > 100 && contentRect.bottom >= 0);
 			} else {
-				window.history.replaceState({}, '', window.location.pathname);
+				const url = new URL(window.location.href);
+				url.hash = '';
+				window.history.replaceState({}, '', url);
 			}
 		}
 	}
@@ -448,20 +447,14 @@
 		});
 	}
 
-	// Update state management for reading mode
 	let isReadingMode = $state(false);
 
-	// Function to refresh TOC when content is updated
 	function refreshToc() {
 		if (contentState === 'ready') {
 		}
 	}
 
 	onMount(() => {
-		// const storedReadingMode = localStorage.getItem('readingMode');
-		// if (storedReadingMode !== null) {
-		// 	isReadingMode = storedReadingMode === 'true';
-		// }
 		currentURL = window.location.href;
 		contentState = 'ready';
 
@@ -744,8 +737,6 @@
 	function joinPhrases(obj: Record<string, string>, key: keyof typeof obj): string {
 		const phrases = Object.values(obj);
 		const selectedPhrase = obj[key];
-
-		// Move the selected phrase to the beginning if it exists
 		const sortedPhrases = selectedPhrase
 			? [selectedPhrase, ...phrases.filter((phrase) => phrase !== selectedPhrase)]
 			: phrases;
@@ -756,19 +747,7 @@
 
 <ArticleHead article={data.article} />
 
-<!-- {#if loadingBookmarks}
-	<div class="h-dvh w-dvw bg-background z-[99] flex items-center justify-center fixed top-0 left-0">
-		<Loader2 class="animate-spin" />
-	</div>
-{/if} -->
-
-<div
-	class={cn(
-		'fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]'
-		// loadingBookmarks && 'hidden'
-	)}
-	aria-hidden="true"
->
+<div class={cn('fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]')} aria-hidden="true">
 	<div
 		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
 		style="width: {progress}%"
@@ -828,28 +807,6 @@
 	</div>
 {/if}
 
-<!--
-{#if !isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-	<button
-		class="fixed bottom-28 md:bottom-8 left-1/2 -translate-x-1/2 z-[9999] bg-[#19191A] h-10 items-center justify-center gap-2 px-4 py-2.5 rounded-[43.17px] text-[12.667px] text-[#B4B4B4] group hover:bg-white hover:text-black hover:shadow-hover transition font-ibm hidden"
-		onclick={() => {
-			bannerText = 'Listening to articles';
-			showAuthBanner = true;
-			bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
-		}}
-	>
-		<svg width="21" height="20" viewBox="0 0 21 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path
-				d="M7.19997 1.93549C6.08933 1.2587 4.66602 2.05812 4.66602 3.35873V16.6414C4.66602 17.942 6.08933 18.7414 7.19997 18.0646L18.0985 11.4233C19.1644 10.7738 19.1644 9.22631 18.0985 8.57681L7.19997 1.93549Z"
-				class="fill-[#666666] group-hover:fill-neutral-80 transition"
-			/>
-		</svg>
-
-		Sign in to Listen</button
-	>
-{/if}
--->
-
 <!-- Share Modal mobile -->
 {#if showShareModal}
 	<div
@@ -861,7 +818,6 @@
 			>
 				<div class="flex items-center justify-between">
 					<h5 class="font-powerGroteskBold text-2xl font-bold leading-0">Share this article</h5>
-
 					<button
 						class="text-white hover:text-neutral-40 transition"
 						onclick={() => {
@@ -871,7 +827,6 @@
 						<X />
 					</button>
 				</div>
-
 				<div class="space-y-4">
 					<div class="w-full aspect-[1/0.35] flex-shrink-0 overflow-hidden">
 						<img
@@ -880,14 +835,11 @@
 							class="w-full h-full object-cover pointer-events-none select-none object-top"
 						/>
 					</div>
-
 					<div>
 						<h6 class="font-bold font-powerGroteskBold text-xl leading-[22px]">
 							{data.article.title}
 						</h6>
-
 						<p class="text-xs text-neutral-20 mt-2">{data.article.summary}</p>
-
 						{#if data.article.authors}
 							<div class="font-mono text-xs mt-4">
 								<span class="text-neutral-40">By</span>
@@ -902,17 +854,15 @@
 									{#if index < data.article.authors.length - 2}
 										<span>,</span>
 									{:else if index < data.article.authors.length - 1}
-										<span>{' '}and{' '}</span>
+										<span> and </span>
 									{/if}
 								{/each}
 							</div>
 						{/if}
 					</div>
 				</div>
-
 				<div class="py-[14px] border-y border-[#2D2D2D]">
 					<p class="font-mono font-normal text-neutral-20 -tracking-[0.8px] mb-2">Share to:</p>
-
 					<div class="flex items-center gap-5 flex-wrap [&_svg]:!size-[22.505px]">
 						{#each shareOptions as option}
 							<a
@@ -933,7 +883,6 @@
 						{/each}
 					</div>
 				</div>
-
 				<ul class="text-neutral-20 space-y-3 text-base">
 					<li>
 						<button
@@ -944,7 +893,8 @@
 								!copySuccess && 'hover:text-neutral-40',
 								copySuccess && 'pointer-events-none text-special-blue'
 							)}
-							><Link class="size-4" />
+						>
+							<Link class="size-4" />
 							{#if copySuccess}
 								<span>Link copied</span>
 							{:else}
@@ -952,7 +902,6 @@
 							{/if}
 						</button>
 					</li>
-
 					<li>
 						<button
 							class="hover:text-neutral-40 transition !font-mono -tracking-[1px] flex items-center gap-2"
@@ -1110,156 +1059,6 @@
 			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
 		</div>
 	</div>
-
-	<!-- Desktop vertical toolbar -->
-	<!-- <div class="w-12 flex-shrink-0 relative max-md:hidden">
-		<div
-			class="w-full p-2 sticky top-28 border text-neutral-20 bg-[#19191A] border-[#333] rounded-[16px] flex flex-col items-center space-y-4"
-		>
-			<Tooltip.Root openDelay={5}>
-				<Tooltip.Trigger class="w-full aspect-square"
-					><button
-						class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition disabled:opacity-50"
-						aria-label="Show AI Summary"
-						data-summary-toggle
-						disabled={!data?.article?.gpt_summary}
-						onclick={() => {
-							if (data?.article?.gpt_summary) {
-								if (isLoggedIn) {
-									toggleSummary();
-								} else {
-									showAuthBanner = true;
-									bannerText = 'Reading article summaries';
-								}
-							}
-						}}
-					>
-						<BrainCog class="size-5" />
-					</button></Tooltip.Trigger
-				>
-				<Tooltip.Content
-					class="bg-[#19191A] border-[#333] font-mono text-xs"
-					side="left"
-					sideOffset={10}
-				>
-					<p>AI Summary</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-
-			<div
-				class="relative"
-				onmouseenter={handleMouseEnter}
-				onmouseleave={handleMouseLeave}
-				role="menu"
-				tabindex="0"
-			>
-				<button
-					onkeydown={(e) => e.key === 'Escape' && (showShareDropdown = false)}
-					class="w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
-					aria-label="Share article"
-					aria-expanded={showShareDropdown}
-					aria-haspopup="true"
-					data-share-toggle
-				>
-					<Share class="size-5" />
-				</button>
-
-				{#if showShareDropdown}
-					<div
-						class="share-dropdown absolute {dropdownPosition === 'bottom'
-							? 'mt-2 top-full'
-							: 'bottom-full mb-2'} 
-						left-0 w-40 bg-backgroundLighter shadow-lg z-50 transition-opacity duration-200 sm:left-auto sm:right-0 font-mono"
-					>
-						{#each shareOptions as option}
-							<a
-								href={option.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								role="menuitem"
-								class="px-4 py-2 hover:bg-white hover:text-black flex items-center gap-2"
-								data-sveltekit-preload-data
-							>
-								{#if option.isSvg}
-									{@html option.icon}
-								{:else}
-									{@const IconComponent = option.icon}
-									<IconComponent class="w-5 h-5" />
-								{/if}
-								<span class="text-sm">{option.name}</span>
-							</a>
-						{/each}
-						<button
-							onclick={copyShareLink}
-							role="menuitem"
-							class="w-full px-4 py-2 hover:bg-white hover:text-black text-left flex items-center gap-2"
-						>
-							<Link2 class="w-5 h-5" />
-							{#if copySuccess}
-								<span class="text-special-blue text-sm">Link Copied</span>
-							{:else}
-								<span class="text-sm">Copy Link</span>
-							{/if}
-						</button>
-					</div>
-				{/if}
-			</div>
-
-			<Tooltip.Root openDelay={5}>
-				<Tooltip.Trigger class="w-full aspect-square"
-					><button
-						onclick={() => {
-							if (isLoggedIn) {
-								handlePdfDownload(data.article);
-							} else {
-								showAuthBanner = true;
-								bannerText = 'Downloading articles';
-							}
-						}}
-						class="disabled:cursor-wait w-full aspect-square flex items-center justify-center gap-2 hover:text-neutral-40 transition"
-						aria-label="Download as PDF"
-						disabled={isDownloading}
-					>
-						{#if isDownloading}
-							<div
-								class="size-5 border-2 border-current border-t-transparent rounded-full animate-spin"
-								aria-busy="true"
-							></div>
-						{:else}
-							<FileDown class="size-5" />
-						{/if}
-					</button></Tooltip.Trigger
-				>
-				<Tooltip.Content
-					class="bg-[#19191A] border-[#333] font-mono text-xs"
-					side="left"
-					sideOffset={10}
-				>
-					<p>Download PDF</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-
-			<Tooltip.Root openDelay={5}>
-				<Tooltip.Trigger class="w-full aspect-square"
-					><button
-						class="w-full aspect-square flex flex-col items-center justify-center gap-2"
-						onclick={handleToogleAddToBookmarks}
-					>
-						<Bookmark
-							class={cn('size-5 transition', isBookmarked && 'text-[#0CDEE9] fill-[#0CDEE9]')}
-						/>
-					</button></Tooltip.Trigger
-				>
-				<Tooltip.Content
-					class="bg-[#19191A] border-[#333] font-mono text-xs"
-					side="left"
-					sideOffset={10}
-				>
-					<p>{isBookmarked ? 'Remove from bookmarks' : 'Save to bookmarks'}</p>
-				</Tooltip.Content>
-			</Tooltip.Root>
-		</div>
-	</div> -->
 </div>
 
 <!-- Top bar when scrolled: Desktop -->
@@ -1288,23 +1087,12 @@
 		)}
 	>
 		{#if isLoggedIn}
-			<!-- <Popover.Root>
-				<Popover.Trigger> -->
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition opacity-50 pointer-events-none"
 			>
 				<span>Listen</span>
 				<Headphones class="size-4" />
 			</button>
-			<!-- </Popover.Trigger>
-				<Popover.Content
-					sideOffset={8}
-					side="bottom"
-					align="start"
-					class="rounded-[4px] border-[#262626] p-3 bg-background text-sm"
-					>Audio player here</Popover.Content
-				>
-			</Popover.Root> -->
 		{:else}
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
@@ -1457,15 +1245,6 @@
 
 		<div class="relative mt-8">
 			<header class="flex justify-between flex-col">
-				<!-- <button
-					aria-label="Back to Home"
-					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full mb-[38.5px] bg-[#19191A] group"
-					data-sveltekit-preload-data
-					onclick={() => history.back()}
-				>
-					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
-				</button> -->
-
 				<div class="flex flex-col max-w-full w-[794px]">
 					<section class="flex flex-col w-full">
 						<div class="flex items-center flex-wrap gap-2 font-mono">
@@ -1741,10 +1520,6 @@
 				</div>
 			</div>
 		{/if}
-
-		<!-- {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-			{@render floatingButtons()}
-		{/if} -->
 	</article>
 {/snippet}
 
@@ -1754,26 +1529,7 @@
 			class="max-md:hidden fixed bottom-24 right-3 md:right-10 flex gap-3 transition-all duration-300 z-[9999]"
 			in:fly={{ y: 20, duration: 300, opacity: 0 }}
 			out:fly={{ y: 20, duration: 300, opacity: 0 }}
-		>
-			<!-- {#if !isReadingMode && data?.article?.gpt_summary}
-				<button
-					onclick={toggleSummary}
-					class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
-					aria-label="Show AI Summary"
-					data-summary-toggle
-				>
-					<svelte:component this={BrainCog} class="size-5" />
-				</button>
-			{/if} -->
-
-			<!-- <button
-				onclick={toggleReadingMode}
-				class="bg-white text-primary-foreground size-11 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center"
-				aria-label="Toggle reading mode"
-			>
-				<svelte:component this={ScrollText} class="size-5" />
-			</button> -->
-		</div>
+		></div>
 	{/if}
 {/snippet}
 
@@ -1829,12 +1585,10 @@
 {/snippet}
 
 {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
-	<!-- Add this right after the main content div -->
 	{@render summaryPanel()}
 {/if}
 
 <style>
-	/* Add Garamond font */
 	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
 
 	/* Update reading mode styles */
