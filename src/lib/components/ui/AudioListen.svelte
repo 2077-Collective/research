@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Popover from '$lib/components/ui/popover';
-	import { Headphones, PauseCircle, PlayCircle } from 'lucide-svelte';
+	import { Headphones, Loader2, PauseCircle, PlayCircle } from 'lucide-svelte';
 
 	let { articleAudioUrl, isLoading } = $props();
 
@@ -9,6 +9,7 @@
 	let isPlaying = $state(false);
 	let currentTime = $state(0);
 	let duration = $state(0);
+	let isSeeking = $state(false);
 
 	const togglePlay = () => {
 		if (!audio) return;
@@ -52,26 +53,25 @@
 			duration = audio?.duration || 0;
 		});
 
+		audio.addEventListener('', () => {
+			console.log('LOADING...');
+		});
+
 		audio.addEventListener('timeupdate', updateTime);
 
 		audio.addEventListener('ended', () => {
 			isPlaying = false;
 		});
 	});
-
-	// let showPlayer = $state(false);
-
-	console.log({ articleAudioUrl });
 </script>
 
 {#if isLoading}
 	<div>Hello</div>
 {:else}
 	<Popover.Root>
-		<Popover.Trigger disabled={articleAudioUrl.length === 0}
+		<Popover.Trigger
 			><button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
-				disabled={articleAudioUrl.length === 0}
 			>
 				<span>{isPlaying ? 'Listening' : 'Listen'}</span>
 				<Headphones class="size-4" />
@@ -84,18 +84,26 @@
 			align="start"
 			sideOffset={8}
 		>
-			<div class="text-[15px] font-medium font-mono text-neutral-20 mb-2">Listening</div>
+			<div class="text-[15px] font-medium font-mono text-neutral-20 mb-2">
+				{isPlaying ? 'Listening' : 'Listen'} to audio
+			</div>
 
 			<div
 				class="flex items-center justify-between gap-3 text-sm text-neutral-40 font-mono font-medium"
 			>
-				<button onclick={togglePlay} class="text-neutral-60">
-					{#if isPlaying}
-						<PauseCircle class="size-8" />
-					{:else}
-						<PlayCircle class="size-8" />
-					{/if}
-				</button>
+				{#if !isSeeking}
+					<button onclick={togglePlay} class="text-neutral-60">
+						{#if isPlaying}
+							<PauseCircle class="size-8" />
+						{:else}
+							<PlayCircle class="size-8" />
+						{/if}
+					</button>
+				{:else}
+					<div class="size-8 flex items-center">
+						<Loader2 class="size-6 animate-spin" />
+					</div>
+				{/if}
 
 				<div class="flex-1">
 					<input
@@ -117,8 +125,16 @@
 	</Popover.Root>
 {/if}
 
-<audio bind:this={audio} class="absolute -z-50">
-	<source src={articleAudioUrl} type="audio/mpeg" />
+<audio
+	bind:this={audio}
+	class="absolute -z-50"
+	onseeking={() => (isSeeking = true)}
+	onseeked={() => (isSeeking = false)}
+>
+	<source
+		src={'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net/audio/projects/48883/podcasts/42bd258a-05ed-4663-99d5-aa58e4fc1786/versions/1741689730/media/7a460bee93d1c0e2a0da0fa2a917fa81_compiled.mp3'}
+		type="audio/mpeg"
+	/>
 </audio>
 
 <style>
@@ -129,6 +145,7 @@
 		cursor: pointer;
 		background: linear-gradient(to right, white var(--progress), var(--neutral-80) var(--progress));
 		border-radius: 8px !important;
+		transition: all 0.5s linear;
 	}
 
 	input[type='range']::-webkit-slider-runnable-track {
