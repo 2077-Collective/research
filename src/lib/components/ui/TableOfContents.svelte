@@ -221,7 +221,7 @@
 		{/if}
 		{#if isOpen}
 			<ul
-				class="flex px-4 py-2 font-hubot flex-col gap-3 bg-secondary w-full h-[calc(100dvh-80px)] overflow-y-auto"
+				class="flex px-4 py-4 font-hubot flex-col gap-3 bg-secondary w-full max-h-[calc(100dvh-80px)] overflow-y-auto"
 			>
 				{#each tocLinks as link}
 					<li class="w-full">
