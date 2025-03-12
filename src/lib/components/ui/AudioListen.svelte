@@ -94,7 +94,7 @@
 		</Popover.Trigger>
 
 		<Popover.Content
-			class="p-4 rounded-[8px] border-none bg-[#19191A]"
+			class="p-4 rounded-[8px] border-none bg-[#19191A] z-[99999]"
 			side="bottom"
 			align="start"
 			sideOffset={8}

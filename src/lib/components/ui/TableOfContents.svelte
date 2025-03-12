@@ -201,7 +201,7 @@
 <!-- Mobile TOC -->
 {#if browser && showMobileTOC}
 	<button
-		class="sticky top-[80px] md:top-[86px] lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto z-[99999999999999] mb-4 font-medium"
+		class="sticky top-[80px] md:top-[86px] lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto z-[99999] mb-4 font-medium"
 		class:h-screen={isOpen}
 		on:click={() => (isOpen = !isOpen)}
 	>

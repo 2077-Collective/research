@@ -58,7 +58,7 @@
 
 <div
 	class={cn(
-		'fixed top-0 pt-4 pb-4 md:pt-4 w-full z-[999] transition',
+		'fixed top-0 pt-4 pb-4 md:pt-4 w-full !z-[9999999] transition',
 		addBackgroundColor && 'bg-background'
 	)}
 >
