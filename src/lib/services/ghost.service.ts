@@ -26,6 +26,8 @@ export const fetchGhostArticles = async (
 			...((bookmarks || []).length > 0 && { filter: `slug:[${bookmarks}]` })
 		});
 
+		console.log('Ghost API response (browse):', JSON.stringify(posts, null, 2));
+
 		if (!posts) {
 			return [];
 		}
