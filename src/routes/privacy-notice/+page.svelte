@@ -1,3 +1,7 @@
+<script>
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
+</script>
+
 <svelte:head>
 	<meta charset="UTF-8" />
 	<title>Privacy Notice - 2077 Research</title>
@@ -85,3 +89,5 @@
 
 	<p>Last Updated: February 27, 2025</p>
 </div>
+
+<ScrollToTopButton />

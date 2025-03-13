@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
@@ -204,3 +205,5 @@
 		{/if}
 	</div>
 </div>
+
+<ScrollToTopButton />

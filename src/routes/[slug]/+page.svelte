@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import ArticleBottomBar from '$lib/components/ui/ArticleBottomBar.svelte';
+	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
@@ -12,6 +13,7 @@
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -21,7 +23,6 @@
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
-		ArrowUp,
 		Bookmark,
 		FileDown,
 		Headphones,
@@ -743,6 +744,52 @@
 
 		return sortedPhrases.join(', ');
 	}
+
+	let articleAudioUrl = $state('');
+	let isAudioLoading = $state(true);
+
+	const fetchAudio = async () => {
+		if (!isLoggedIn) {
+			isAudioLoading = false;
+			return;
+		}
+
+		const options = {
+			method: 'GET',
+			headers: {
+				accept: 'application/json',
+				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
+			}
+		};
+
+		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
+
+		try {
+			const response = await fetch(URL, options);
+			const result = await response.json();
+
+			const content = result.content;
+
+			if (content && Array.isArray(content)) {
+				const contentItem = content[0];
+				const audioItem = contentItem.audio.find(
+					(audio: any) => audio.content_type === 'audio/mpeg'
+				);
+
+				if (audioItem) {
+					articleAudioUrl = audioItem.url;
+				}
+			}
+		} catch (error) {
+			console.log({ error });
+		} finally {
+			isAudioLoading = false;
+		}
+	};
+
+	$effect(() => {
+		fetchAudio();
+	});
 </script>
 
 <ArticleHead article={data.article} />
@@ -987,7 +1034,7 @@
 	</div>
 </div>
 
-<!-- Back to top button -->
+<!-- Back to top button
 {#if showFloatingButtons && !loadingBookmarks}
 	<button
 		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
@@ -999,7 +1046,7 @@
 			style="stroke-width: 1.4"
 		/>
 	</button>
-{/if}
+{/if} -->
 
 <div class="md:flex gap-8 container">
 	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
@@ -1028,8 +1075,6 @@
 
 			<h4 class="font-powerGroteskBold font-bold">{data.article.title}</h4>
 		</div>
-
-		{@render topBar('', !showTopbar)}
 	</div>
 </div>
 
@@ -1041,12 +1086,7 @@
 		)}
 	>
 		{#if isLoggedIn}
-			<button
-				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition opacity-50 pointer-events-none"
-			>
-				<span>Listen</span>
-				<Headphones class="size-4" />
-			</button>
+			<AudioListen {articleAudioUrl} isLoading={isAudioLoading} />
 		{:else}
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
@@ -1182,7 +1222,7 @@
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
 			/>
 
-			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
+			<!-- {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 				<iframe
 					id="AudioNativeElevenLabsPlayer"
 					title="AudioNative ElevenLabs Player"
@@ -1194,7 +1234,7 @@
 					style="max-height: 90px;"
 					class="fixed left-1/2 -translate-x-1/2 bottom-32 md:bottom-8 z-[99999]"
 				></iframe>
-			{/if}
+			{/if} -->
 		</div>
 
 		<div class="relative mt-8">
@@ -1541,6 +1581,8 @@
 {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	{@render summaryPanel()}
 {/if}
+
+<ScrollToTopButton className="max-md:top-40" />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');

@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import Apple from '$lib/components/ui/icons/Apple.svelte';
 	import Google from '$lib/components/ui/icons/Google.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { Eye, EyeOff, Loader2 } from 'lucide-svelte';
@@ -215,3 +216,5 @@
 		</div>
 	</section>
 </div>
+
+<ScrollToTopButton />

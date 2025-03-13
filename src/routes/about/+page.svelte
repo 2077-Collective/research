@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ContributorCard from '$lib/components/ui/ContributorCard.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import TeamCard from '$lib/components/ui/TeamCard.svelte';
 	import { ArrowRight, ArrowUpRight } from 'lucide-svelte';
 
@@ -195,3 +196,5 @@
 		/>
 	</section>
 </div>
+
+<ScrollToTopButton />

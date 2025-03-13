@@ -5,6 +5,7 @@
 	import FormInput from '$lib/components/ui/form-input/form-input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import MarkdownEditor from '$lib/components/ui/MarkdownEditor.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import * as Select from '$lib/components/ui/select';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import type { SubmitFunction } from '@sveltejs/kit';
@@ -188,3 +189,5 @@
 		{/if}
 	</Button>
 </form>
+
+<ScrollToTopButton />
