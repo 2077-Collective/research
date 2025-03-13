@@ -1,6 +1,7 @@
 <script lang="ts">
 	import * as Popover from '$lib/components/ui/popover';
-	import { Headphones, Loader2, Pause, Play } from 'lucide-svelte';
+	import { cn } from '$lib/utils/ui-components';
+	import { Headphones, Loader2, Pause, Play, X } from 'lucide-svelte';
 
 	let { articleAudioUrl, isLoading } = $props();
 
@@ -11,6 +12,8 @@
 	let duration = $state(0);
 	let isSeeking = $state(false);
 	let playbackSpeed = $state(1);
+
+	let isMobileOpen = $state(false);
 
 	const togglePlay = () => {
 		if (!audio) return;
@@ -84,6 +87,10 @@
 		}
 	};
 
+	// $effect(()=> {
+
+	// });
+
 	// console.log(process.env.NODE_ENV);
 </script>
 
@@ -96,7 +103,7 @@
 	</div>
 {:else}
 	<Popover.Root>
-		<Popover.Trigger disabled={articleAudioUrl.length === 0}
+		<Popover.Trigger disabled={articleAudioUrl.length === 0} class="max-md:hidden"
 			><button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
 				disabled={articleAudioUrl.length === 0}
@@ -107,7 +114,7 @@
 		</Popover.Trigger>
 
 		<Popover.Content
-			class="p-4 rounded-[8px] border-none bg-[#19191A] z-[99999]"
+			class="max-md:hidden p-4 rounded-[8px] border-none bg-[#19191A] z-[99999]"
 			side="bottom"
 			align="start"
 			sideOffset={8}
@@ -116,48 +123,54 @@
 				{isPlaying ? 'Listening' : 'Listen'} to audio
 			</div> -->
 
-			<div
-				class="flex items-center justify-between gap-3 text-sm text-neutral-40 font-mono font-medium"
-			>
-				{#if !isSeeking}
-					<button onclick={togglePlay} class="text-neutral-60 [&_svg]:fill-neutral-60">
-						{#if isPlaying}
-							<Pause />
-						{:else}
-							<Play />
-						{/if}
-					</button>
-				{:else}
-					<div class="size-6 flex items-center justify-center">
-						<Loader2 class="size-5 animate-spin" />
-					</div>
-				{/if}
-
-				<div class="flex-1">
-					<input
-						type="range"
-						class="w-full"
-						min="0"
-						max={duration}
-						value={currentTime}
-						oninput={seek}
-						style={`--progress: ${(currentTime / duration) * 100}%`}
-					/>
-				</div>
-
-				<div class="flex items-center gap-3">
-					<div class="w-11 flex-shrink-0 flex justify-end">
-						<p>{formatTime(duration - currentTime)}</p>
-					</div>
-
-					<button
-						class="w-10 h-6 flex items-center justify-center text-[10px] font-normal border rounded-[6px] border-neutral-80 hover:bg-neutral-80 transition"
-						onclick={handleAudioSpeedChange}>{playbackSpeed}x</button
-					>
-				</div>
-			</div>
+			{@render audioPlayer()}
 		</Popover.Content>
 	</Popover.Root>
+
+	<!-- Listen button Mobile -->
+	<button
+		class="flex md:hidden max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
+		disabled={articleAudioUrl.length === 0}
+		onclick={() => {
+			if (articleAudioUrl.length > 0) {
+				isMobileOpen = true;
+			}
+		}}
+	>
+		<span>{isPlaying ? 'Listening' : 'Listen'}</span>
+		<Headphones class="size-4" />
+	</button>
+
+	<!-- Audio player mobile -->
+	{#if isMobileOpen}
+		<div
+			class="fixed top-0 h-dvh w-dvw bg-black/60 backdrop-blur-sm left-0 z-[999999999999999] flex items-end md:hidden"
+		>
+			<div
+				class={cn(
+					'bg-[#191a19] w-full pt-4 pb-7 rounded-t-[8px] translate-y-full transition-all duration-300',
+					isMobileOpen && 'translate-y-0 delay-150'
+				)}
+			>
+				<div class="container">
+					<div class="flex items-center justify-between">
+						<p class="text-base text-neutral-20 font-medium font-mono">Listening to audio</p>
+
+						<button
+							class="size-7 flex items-center justify-center group"
+							onclick={() => (isMobileOpen = false)}
+						>
+							<X class="size-5 group-hover:text-neutral-60 transition" />
+						</button>
+					</div>
+
+					<div class="mt-5">
+						{@render audioPlayer()}
+					</div>
+				</div>
+			</div>
+		</div>
+	{/if}
 
 	<audio
 		bind:this={audio}
@@ -168,6 +181,49 @@
 		<source src={articleAudioUrl} type="audio/mpeg" />
 	</audio>
 {/if}
+
+{#snippet audioPlayer()}
+	<div
+		class="flex items-center justify-between gap-3 text-sm text-neutral-40 font-mono font-medium"
+	>
+		{#if !isSeeking}
+			<button onclick={togglePlay} class="text-neutral-60 [&_svg]:fill-neutral-60">
+				{#if isPlaying}
+					<Pause />
+				{:else}
+					<Play />
+				{/if}
+			</button>
+		{:else}
+			<div class="size-6 flex items-center justify-center">
+				<Loader2 class="size-5 animate-spin" />
+			</div>
+		{/if}
+
+		<div class="flex-1">
+			<input
+				type="range"
+				class="w-full"
+				min="0"
+				max={duration}
+				value={currentTime}
+				oninput={seek}
+				style={`--progress: ${(currentTime / duration) * 100}%`}
+			/>
+		</div>
+
+		<div class="flex items-center gap-3">
+			<div class="w-11 flex-shrink-0 flex justify-end">
+				<p>{formatTime(duration - currentTime)}</p>
+			</div>
+
+			<button
+				class="w-10 h-6 flex items-center justify-center text-[10px] font-normal border rounded-[6px] border-neutral-80 hover:bg-neutral-80 transition"
+				onclick={handleAudioSpeedChange}>{playbackSpeed}x</button
+			>
+		</div>
+	</div>
+{/snippet}
 
 <!-- <audio
 	bind:this={audio}
