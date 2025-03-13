@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
-	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import ArticleBottomBar from '$lib/components/ui/ArticleBottomBar.svelte';
+	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
@@ -13,6 +13,7 @@
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -22,7 +23,6 @@
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
-		ArrowUp,
 		Bookmark,
 		FileDown,
 		Headphones,
@@ -794,7 +794,6 @@
 
 <ArticleHead article={data.article} />
 
-
 <div class={cn('fixed top-0 left-0 w-full h-[2.5px] bg-neutral-80 z-[99999]')} aria-hidden="true">
 	<div
 		class="h-full bg-neutral-20 transition-all duration-150 ease-out"
@@ -1035,7 +1034,7 @@
 	</div>
 </div>
 
-<!-- Back to top button -->
+<!-- Back to top button
 {#if showFloatingButtons && !loadingBookmarks}
 	<button
 		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
@@ -1047,7 +1046,7 @@
 			style="stroke-width: 1.4"
 		/>
 	</button>
-{/if}
+{/if} -->
 
 <div class="md:flex gap-8 container">
 	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
@@ -1582,6 +1581,8 @@
 {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	{@render summaryPanel()}
 {/if}
+
+<ScrollToTopButton className="max-md:top-40" />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');
