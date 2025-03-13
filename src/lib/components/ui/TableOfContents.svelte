@@ -201,7 +201,7 @@
 <!-- Mobile TOC -->
 {#if browser && showMobileTOC}
 	<button
-		class="sticky top-[80px] md:top-[86px] lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto z-[99999] mb-4 font-medium"
+		class="sticky top-[80px] md:top-[86px] lg:hidden text-left w-full bg-black bg-opacity-40 flex items-start text-sm overflow-y-auto z-[999999] mb-4 font-medium"
 		class:h-screen={isOpen}
 		on:click={() => (isOpen = !isOpen)}
 	>
@@ -221,7 +221,7 @@
 		{/if}
 		{#if isOpen}
 			<ul
-				class="flex px-4 py-2 font-hubot flex-col gap-3 bg-secondary w-full h-[calc(100dvh-80px)] overflow-y-auto"
+				class="flex px-4 py-4 font-hubot flex-col gap-3 bg-secondary w-full max-h-[calc(100dvh-80px)] overflow-y-auto"
 			>
 				{#each tocLinks as link}
 					<li class="w-full">

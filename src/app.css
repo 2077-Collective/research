@@ -54,6 +54,15 @@
 		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
 }
 
+@font-face {
+	font-family: 'KodeMono';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('KodeMono-Regular'),
+		url('/fonts/KodeMono-Regular.woff2') format('woff2');
+}
+
 @layer base {
 	:root {
 		--font-mono: 'Ubuntu Mono', monospace;
@@ -61,6 +70,7 @@
 		--font-hubot: 'Hubot Sans', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
 		--font-ibm: 'IBM Plex Sans', sans-serif;
+		--font-kode: 'KodeMono', monospace;
 
 		--background: 240 4% 5%;
 		--background-lighter: 240 4% 10%;
@@ -97,7 +107,7 @@
 		--neutral-05: #f2f2f2;
 		--neutral-10: #e6e6e6;
 		--neutral-20: #ccc;
-		--neutral-40: #999;
+		--neutral-40: #999999;
 		--neutral-60: #666666;
 		--neutral-80: #333333;
 	}
@@ -128,6 +138,12 @@
 	button,
 	a {
 		@apply tracking-wide;
+	}
+
+	figcaption {
+		font-family: var(--font-kode);
+		color: var(--neutral-40);
+		line-height: 0.5;
 	}
 
 	.hero {
