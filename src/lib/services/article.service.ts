@@ -21,8 +21,6 @@ export const getGhostArticleBySlug = async (slug: string) => {
 		{ formats: ['html'], include: ['authors', 'tags'] }
 	);
 
-	console.log('Ghost API response (read):', JSON.stringify(post, null, 2));
-
 	const transformedArticle = transformToFullArticleGhost(post);
 
 	cache.set(cacheKey, { data: transformedArticle, timestamp: Date.now() });

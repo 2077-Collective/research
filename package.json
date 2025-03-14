@@ -12,7 +12,10 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"replace-env": "node replace-env.js",
+		"index": "pnpm exec algolia index config.json",
+		"index-all": "pnpm replace-env && pnpm index"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.48.0",
