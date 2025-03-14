@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { getArticles } from '$lib/stores/articles.svelte';
-	import type { ArticleMetadata } from '$lib/types/article';
+	import type { Article, ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
 	interface $$Props {
+		articles: Article[];
 		articlesPerCategory?: number;
 		excludeCategory?: string;
 		customCategoryOrder?: string[];
@@ -16,17 +16,12 @@
 		articlesPerCategory = 1,
 		excludeCategory = '',
 		customCategoryOrder = ['Layer 1', 'Layer 2', 'Interoperability', 'DeFi', 'Privacy', 'DePIN'],
-		maxCategories = 6
+		maxCategories = 6,
+		articles: posts
 	} = $props();
 
 	const categoryOrder = customCategoryOrder;
 	let categoryArticles = $state<{ category: string; articles: ArticleMetadata[] }[]>([]);
-
-	function getThumbnailUrl(article: ArticleMetadata): string {
-		return typeof article.thumb === 'string'
-			? article.thumb
-			: article.thumb?.data?.attributes?.url || article.thumb_url || '';
-	}
 
 	function getRecentArticlesByCategory(articles: ArticleMetadata[]) {
 		const categoryMap = new Map<string, ArticleMetadata[]>();
@@ -66,7 +61,7 @@
 	}
 
 	$effect(() => {
-		const articles = getArticles();
+		const articles = posts;
 
 		if (articles?.length > 0) {
 			categoryArticles = getRecentArticlesByCategory(articles);
