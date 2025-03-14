@@ -76,8 +76,6 @@
 					searchParams: { query, attributesToSnippet: ['html:30'] }
 				});
 
-				console.log('Algolia Response:', response);
-
 				const hits = response.hits as SearchResult[];
 
 				const filteredHits = hits.filter(
@@ -87,8 +85,6 @@
 						(result._highlightResult?.html?.matchedWords &&
 							result._highlightResult.html.matchedWords.length > 0)
 				);
-
-				console.log('Filtered Hits:', filteredHits);
 
 				const categories: string[] = Array.from(
 					new Set(filteredHits.map((result) => result.tags[0]?.name).filter(Boolean))
