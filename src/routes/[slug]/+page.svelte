@@ -307,7 +307,6 @@
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header, index) => {
-			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			if (!header.id) {
@@ -846,7 +845,7 @@
 								{#each data.article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] text-neutral-5 hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}
@@ -1229,7 +1228,7 @@
 								{#each article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}

@@ -131,8 +131,8 @@
 		@apply tracking-normal;
 	}
 
-	code {
-		font-family: var(--font-power);
+	pre, code {
+		font-family: var(--font-mono) !important;
 	}
 
 	button,
