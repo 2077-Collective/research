@@ -1,14 +1,14 @@
-import { default as algoliasearch } from 'algoliasearch';
+const algoliasearch = require('algoliasearch');
 
 const client = algoliasearch(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_ADMIN_KEY);
 const index = client.initIndex(process.env.ALGOLIA_INDEX_NAME);
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  // Verify the secret key (optional but recommended)
+  // Verify the secret key
   const secretKey = req.query.key;
   if (secretKey !== process.env.VERCEL_SECRET_KEY) {
     return res.status(401).json({ message: 'Unauthorized' });
