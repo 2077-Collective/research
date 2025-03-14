@@ -20,7 +20,7 @@
 			value: string;
 			matchedWords: string[] | undefined;
 		};
-		content_excerpt?: {
+		html?: {
 			value: string;
 			matchedWords: string[] | undefined;
 		};
@@ -30,14 +30,19 @@
 		objectID: string;
 		title: string;
 		slug: string;
-		categories: {
+		html: string;
+		tags: {
 			id: string;
 			name: string;
 			slug: string;
 		}[];
+		authors: {
+			name: string;
+			slug: string;
+		}[];
 		_highlightResult?: HighlightResultWithContent;
-		_snippetResult?: SnippetResult & {
-			content_excerpt: {
+		_snippetResult?: {
+			html?: {
 				value: string;
 			};
 		};
@@ -67,27 +72,27 @@
 
 			try {
 				const response = await client.searchSingleIndex({
-					indexName: 'Article',
-					searchParams: { query }
+					indexName: 'ghost-cms-articles',
+					searchParams: { query, attributesToSnippet: ['html:30'] }
 				});
 
 				const hits = response.hits as SearchResult[];
 
 				const filteredHits = hits.filter(
 					(result) =>
-						result._highlightResult?.content_excerpt?.matchedWords &&
-						result._highlightResult.content_excerpt.matchedWords.length > 0
+						(result._highlightResult?.title?.matchedWords &&
+							result._highlightResult.title.matchedWords.length > 0) ||
+						(result._highlightResult?.html?.matchedWords &&
+							result._highlightResult.html.matchedWords.length > 0)
 				);
 
 				const categories: string[] = Array.from(
-					new Set(filteredHits.map((result) => result.categories[0]?.name).filter(Boolean))
+					new Set(filteredHits.map((result) => result.tags[0]?.name).filter(Boolean))
 				);
 
 				const transformedHits: any = categories.reduce(
 					(acc, category) => {
-						acc[category] = filteredHits.filter(
-							(result) => result.categories[0]?.name === category
-						);
+						acc[category] = filteredHits.filter((result) => result.tags[0]?.name === category);
 						return acc;
 					},
 					{} as Record<string, typeof hits>
@@ -175,8 +180,19 @@
 									<ul>
 										{#each articles as article}
 											{@const highlight = article._highlightResult}
-											{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-											{#if highlight?.content_excerpt?.matchedWords && highlight.content_excerpt.matchedWords.length > 0}
+											{@const snippet = article._snippetResult}
+											{@const formattedDate = (() => {
+												try {
+													if (!article.created_at) return 'Date unavailable';
+													const dateObj = new Date(article.created_at);
+													if (isNaN(dateObj.getTime())) return 'Date unavailable';
+													return format(dateObj, 'dd MMM yyyy');
+												} catch (e) {
+													console.warn('Date formatting error:', e, article.created_at);
+													return 'Date unavailable';
+												}
+											})()}
+											{#if (highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0) || (highlight?.html?.matchedWords && highlight.html.matchedWords.length > 0)}
 												<li class="group cursor-pointer hover:bg-[#0CDEE9]">
 													<a
 														href={`/${article.slug}`}
@@ -184,6 +200,7 @@
 														onclick={() => handleCloseSearch(false)}
 													>
 														<div class="border-b border-[#343434] pt-1.5 pb-3">
+															<!-- Title -->
 															{#if highlight?.title?.matchedWords && highlight.title.matchedWords.length > 0}
 																<p
 																	class="text-base font-powerGroteskBold font-bold transition [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:!not-italic group-hover:text-[#022C2F]"
@@ -198,16 +215,28 @@
 																</p>
 															{/if}
 
-															<p
-																class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
-															>
-																{@html DOMPurify.sanitize(
-																	article._snippetResult
-																		? article._snippetResult.content_excerpt.value
-																		: ''
-																)}
-															</p>
+															<!-- Snippet -->
+															{#if snippet?.html?.value}
+																<p
+																	class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
+																>
+																	{@html DOMPurify.sanitize(snippet.html.value)}
+																</p>
+															{:else if highlight?.html?.value}
+																<p
+																	class="text-neutral-20 [&>em]:text-[#0CDEE9] [&>em]:group-hover:text-white [&>em]:font-medium [&>em]:not-italic text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
+																>
+																	{@html DOMPurify.sanitize(highlight.html.value)}
+																</p>
+															{:else}
+																<p
+																	class="text-neutral-20 text-[13px] font-ibm group-hover:text-neutral-80 mt-1"
+																>
+																	No matching content found.
+																</p>
+															{/if}
 
+															<!-- Date -->
 															<div class="mt-4 md:mt-1">
 																<p
 																	class="text-xs font-mono text-neutral-40 group-hover:text-neutral-80"

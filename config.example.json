@@ -1,0 +1,18 @@
+{
+  "ghost": {
+    "apiUrl": "$PUBLIC_GHOST_URL",
+    "apiKey": "$PUBLIC_GHOST_KEY",
+    "version": "v5.0"
+  },
+  "algolia": {
+    "appId": "$VITE_ALGOLIA_APP_ID",
+    "apiKey": "$VITE_ALGOLIA_ADMIN_KEY",
+    "index": "$VITE_ALGOLIA_INDEX_NAME"
+  },
+  "indexSettings": {
+    "searchableAttributes": ["title", "excerpt", "content", "created_at"],
+    "attributesToSnippet": ["content:20"],
+    "attributesForFaceting": ["filterOnly(tags)"],
+    "customFields": ["published_at", "created_at", "updated_at"]
+  }
+}

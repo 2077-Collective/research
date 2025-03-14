@@ -12,7 +12,11 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:integration": "playwright test",
-		"test:unit": "vitest"
+		"test:unit": "vitest",
+		"setup-config": "[ -f config.json ] || cp config.example.json config.json",
+		"replace-env": "node replace-env.js",
+		"index": "pnpm exec algolia index config.json",
+		"index-all": "pnpm setup-config && pnpm replace-env && pnpm index"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.48.0",
@@ -21,6 +25,7 @@
 		"@sveltejs/vite-plugin-svelte": "^4.0.0-next.6",
 		"@types/eslint": "^9.6.0",
 		"@types/prismjs": "^1.26.4",
+		"@tryghost/algolia": "^0.2.11",
 		"@types/tryghost__content-api": "^1.3.17",
 		"autoprefixer": "^10.4.20",
 		"bits-ui": "^0.22.0",
