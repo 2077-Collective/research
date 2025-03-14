@@ -307,7 +307,6 @@
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header, index) => {
-			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			if (!header.id) {
