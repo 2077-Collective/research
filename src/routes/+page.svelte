@@ -11,6 +11,7 @@
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
+	const recentPosts = $derived(data.recentPosts);
 
 	const FEATURED_COUNT = 5;
 	const POPULAR_COUNT = 10;
@@ -87,7 +88,7 @@
 	</section>
 
 	<section class="mt-16 mb-10 md:mb-16 container">
-		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
+		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} articles={recentPosts} />
 	</section>
 
 	<div class="flex justify-center relative mb-14 max-md:mb-10">
