@@ -8,7 +8,6 @@
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
 	import Mail from '$lib/components/ui/icons/Mail.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
-	import Research from '$lib/components/ui/icons/Research.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
@@ -966,19 +965,17 @@
 
 <!-- Fixed bottom bar for mobile -->
 <ArticleBottomBar
-	onSummaryClick={() => {
-		if (isLoggedIn) {
-			toggleSummary();
-		} else {
-			showAuthBanner = true;
-			bannerText = 'Reading article summaries';
-		}
-	}}
-	isSummaryDisabled={!data?.article?.gpt_summary}
+	{isAudioLoading}
+	{articleAudioUrl}
 	{loadingBookmarks}
 	{isLoggedIn}
 	onShareClick={() => (showShareModal = true)}
 	{userEmail}
+	audioOnLoggedOut={() => {
+		bannerText = 'Listening to articles';
+		showAuthBanner = true;
+		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
+	}}
 />
 
 <!-- Share Mobile -->
@@ -1058,22 +1055,6 @@
 
 		<div class={isReadingMode ? 'hidden' : 'mb-12'}>
 			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
-		</div>
-	</div>
-</div>
-
-<!-- Top bar when scrolled: Desktop -->
-<div
-	class={cn(
-		'fixed z-[9999] bg-background w-full py-4 top-0 left-0 hidden -translate-y-full will-change-transform transition duration-500',
-		showTopbar && !loadingBookmarks && 'translate-y-0'
-	)}
->
-	<div class="container flex items-center justify-between">
-		<div class="flex items-center gap-6">
-			<a href="/" class="ml-1"><Research /></a>
-
-			<h4 class="font-powerGroteskBold font-bold">{data.article.title}</h4>
 		</div>
 	</div>
 </div>

@@ -3,7 +3,7 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { Headphones, Loader2, Pause, Play, X } from 'lucide-svelte';
 
-	let { articleAudioUrl, isLoading } = $props();
+	let { articleAudioUrl, isLoading, mobileClassName = '' } = $props();
 
 	let audio: HTMLAudioElement | null = null;
 
@@ -87,10 +87,6 @@
 		}
 	};
 
-	// $effect(()=> {
-
-	// });
-
 	// console.log(process.env.NODE_ENV);
 </script>
 
@@ -105,7 +101,9 @@
 	<Popover.Root>
 		<Popover.Trigger disabled={articleAudioUrl.length === 0} class="max-md:hidden"
 			><button
-				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
+				class={cn(
+					'flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40'
+				)}
 				disabled={articleAudioUrl.length === 0}
 			>
 				<span>{isPlaying ? 'Listening' : 'Listen'}</span>
@@ -119,17 +117,16 @@
 			align="start"
 			sideOffset={8}
 		>
-			<!-- <div class="text-[15px] font-medium font-mono text-neutral-40 mb-2.5">
-				{isPlaying ? 'Listening' : 'Listen'} to audio
-			</div> -->
-
 			{@render audioPlayer()}
 		</Popover.Content>
 	</Popover.Root>
 
 	<!-- Listen button Mobile -->
 	<button
-		class="flex md:hidden max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40"
+		class={cn(
+			'flex md:hidden max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40',
+			mobileClassName
+		)}
 		disabled={articleAudioUrl.length === 0}
 		onclick={() => {
 			if (articleAudioUrl.length > 0) {
