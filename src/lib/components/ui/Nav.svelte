@@ -24,7 +24,7 @@
 
 		{
 			name: 'Contributors',
-			href: '/contributors'
+			href: '/authors'
 		},
 
 		{

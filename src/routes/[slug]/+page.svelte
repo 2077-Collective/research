@@ -846,7 +846,7 @@
 								{#each data.article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] text-neutral-5 hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}
@@ -1229,7 +1229,7 @@
 								{#each article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}
