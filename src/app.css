@@ -121,6 +121,8 @@
 		background-color: hsl(var(--background));
 		color: hsl(var(--foreground));
 		font-weight: 300;
+		background-color: #0A0A0A;
+		color: #FAFAFA;
 	}
 
 	button {
