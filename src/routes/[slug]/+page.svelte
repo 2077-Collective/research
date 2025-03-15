@@ -1310,7 +1310,7 @@
 			[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_pre]:bg-gray-800 [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0CDEE9] [&_code:not(pre_>_code)]:bg-gray-800 [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
+			[&_pre]:overflow-x-auto [&_pre]:bg-[#1A1A1A] [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
 			[&_figure]:my-6 [&_figure]:text-center
 			[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
 
