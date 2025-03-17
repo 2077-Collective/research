@@ -29,7 +29,11 @@ export const GET: RequestHandler = async ({ params, request }) => {
 	// Twitterbot/1.0
 
 	// If Twitterbot is detected, return lightweight metadata HTML
-	if (userAgent.includes('TelegramBot') || userAgent.includes('Twitterbot')) {
+	if (
+		userAgent.includes('TelegramBot') ||
+		userAgent.includes('Twitterbot') ||
+		userAgent.includes('WhatsApp')
+	) {
 		return new Response(
 			`
       <!DOCTYPE html>
