@@ -3,6 +3,7 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
+	import { Image } from '@unpic/svelte';
 	import { format } from 'date-fns';
 	import { gsap } from 'gsap';
 	import { ArrowRight } from 'lucide-svelte';
@@ -68,12 +69,15 @@
 	tabindex="0"
 >
 	<div class="flex md:aspect-[2.045/0.9] items-center justify-center">
-		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
-			<img
-				src={article.thumb_url}
+		<a
+			href={`/${article.slug}`}
+			class="!size-full"
+			data-sveltekit-preload-data
+			aria-label={`Thumbnail for article: ${article.title}`}
+		>
+			<Image
+				src={article.thumb_url || ''}
 				alt={`Thumbnail for article: ${article.title}`}
-				loading="eager"
-				fetchpriority="high"
 				decoding="async"
 				class="size-full object-cover"
 			/>

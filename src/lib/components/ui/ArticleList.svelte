@@ -107,19 +107,8 @@
 
 <div>
 	{#if !hideFeatured}
-		<section class="pt-32 bg-[#0C0C0D] relative overflow-hidden pb-40">
+		<section class="pt-32 bg-[#0A0A0A] relative overflow-hidden pb-40">
 			<div class="container relative z-20">
-				<!-- <div class="flex items-center gap-3 mb-4 md:mb-9">
-				<a
-					href="/"
-					aria-label="Back to Home"
-					class="flex gap-2 justify-center items-center px-2 size-[42px] rounded-full bg-[#19191A] group"
-					data-sveltekit-preload-data
-				>
-					<ArrowLeft class="size-6 group-hover:-translate-x-px transition will-change-transform" />
-				</a>
-			</div> -->
-
 				<div>
 					<h2
 						id="latest-research"
@@ -127,18 +116,14 @@
 					>
 						{title}
 					</h2>
-
-					<!-- <p class="max-w-[485px] text-sm font-hubot mt-3">
-					The news around making Ethereum faster, cheaper, and more efficient with Layer 2s,
-					rollups, and sharding—paving the way for mass adoption.
-				</p> -->
 				</div>
 			</div>
 
-			<img
+			<enhanced:img
 				class="absolute top-0 pointer-events-none opacity-10 w-full"
-				src="/category-header-bg.png"
+				src="/static/category-header-bg.png"
 				alt="Header mesh"
+				decoding="async"
 			/>
 		</section>
 
@@ -151,7 +136,7 @@
 		</section>
 	{/if}
 
-	<section class="py-14 bg-[#0C0C0D]">
+	<section class="py-14 bg-[#0A0A0A]">
 		{#if filteredArticles.slice(hideFeatured ? 0 : 1, visibleArticles).length > 0}
 			<div class="container flex items-center justify-between mb-10">
 				<h3 class="text-3xl md:text-[40px] font-bold md:leading-9 font-powerGroteskBold">{''}</h3>

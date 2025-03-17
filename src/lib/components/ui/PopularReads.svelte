@@ -3,6 +3,7 @@
 	import type { CarouselAPI } from '$lib/components/ui/carousel/context.js';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import type { ArticleMetadata } from '$lib/types/article';
+	import { Image } from '@unpic/svelte';
 	import { format } from 'date-fns';
 	import Badge from './badge/badge.svelte';
 
@@ -107,11 +108,9 @@
 								<div
 									class="flex max-md:aspect-[1/0.6] 2xl:aspect-[1/1] md:aspect-[15/17] items-center justify-center overflow-hidden"
 								>
-									<img
-										src={article.thumb_url}
+									<Image
+										src={article.thumb_url || ''}
 										alt={`Thumbnail for article: ${article.title}`}
-										loading="eager"
-										fetchpriority="high"
 										decoding="async"
 										class="!size-full object-cover group-hover:scale-105 transition will-change-transform"
 									/>

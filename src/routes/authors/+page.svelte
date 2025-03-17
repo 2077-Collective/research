@@ -25,10 +25,11 @@
 		</div>
 	</div>
 
-	<img
-		src="/contritbutors-header.png"
+	<enhanced:img
+		src="/static/contritbutors-header.png"
 		class="absolute top-0 right-0 pointer-events-none h-full"
 		alt="header bg"
+		decoding="async"
 	/>
 </section>
 
@@ -122,7 +123,7 @@
 
 						<div class="flex items-end justify-between mt-4">
 							<a
-								href={`/contributors/${contributor.username}`}
+								href={`/authors/${contributor.username}`}
 								class="h-9 flex items-center gap-2 rounded-[4px] bg-neutral-80 text-neutral-10 py-1.5 px-4 group text-sm !font-mono hover:opacity-80 transition"
 								onclick={(e) => e.stopPropagation()}
 								data-sveltekit-preload-data

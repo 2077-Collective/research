@@ -12,6 +12,7 @@
 
 	const { data }: { data: PageData } = $props();
 	const articles = $derived(data.articles);
+	const recentPosts = $derived(data.recentPosts);
 
 	const FEATURED_COUNT = 5;
 	const POPULAR_COUNT = 10;
@@ -66,16 +67,18 @@
 				>
 			</div>
 
-			<img
-				src="/HAND_ELEMENT.png"
-				class="mix-blend-screen pointer-events-none select-none"
-				alt="hand-element"
-				width="689"
-				height="608"
-				loading="eager"
-				fetchpriority="high"
-				decoding="async"
-			/>
+			<div class="md:min-w-[689px] min-h-[608px]">
+				<enhanced:img
+					src="/static/HAND_ELEMENT.webp"
+					class="mix-blend-screen pointer-events-none select-none"
+					alt="hand-element"
+					width="689"
+					height="608"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			</div>
 		</div>
 
 		<div class="absolute bottom-0 h-[40%] w-full pointer-events-none hero-mask"></div>
@@ -88,7 +91,7 @@
 	</section>
 
 	<section class="mt-16 mb-10 md:mb-16 container">
-		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} />
+		<RecentCategoryArticles maxCategories={6} articlesPerCategory={1} articles={recentPosts} />
 	</section>
 
 	<div class="flex justify-center relative mb-14 max-md:mb-10">

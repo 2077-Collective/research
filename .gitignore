@@ -20,4 +20,7 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# json
+config.json
+
 .pnpm-store

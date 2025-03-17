@@ -20,6 +20,7 @@
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
+	import { Image } from '@unpic/svelte';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
 		Bookmark,
@@ -307,7 +308,6 @@
 
 		const headers = container.querySelectorAll('h1, h2');
 		headers.forEach((header, index) => {
-			// Skip the first header if it's the title
 			if (index === 0 && header.textContent === data.article.title) return;
 
 			if (!header.id) {
@@ -875,10 +875,11 @@
 				</div>
 				<div class="space-y-4">
 					<div class="w-full aspect-[1/0.35] flex-shrink-0 overflow-hidden">
-						<img
-							src={data.article.thumb_url}
+						<Image
+							src={data.article.thumb_url || ''}
 							alt={data.article.title}
 							class="w-full h-full object-cover pointer-events-none select-none object-top"
+							decoding="async"
 						/>
 					</div>
 					<div>
@@ -892,7 +893,7 @@
 								{#each data.article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] text-neutral-5 hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}
@@ -1197,10 +1198,11 @@
 {#snippet header(article: Article)}
 	<div class="relative pt-32">
 		<div class="rounded-[8px] overflow-hidden relative">
-			<img
-				src={article.thumb_url}
+			<Image
+				src={article.thumb_url || ''}
 				alt={article.title}
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
+				decoding="async"
 			/>
 
 			<!-- {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
@@ -1240,7 +1242,7 @@
 							{article.title}
 						</h1>
 
-						<p class="text-lg max-md:max-w-full mt-4 text-neutral-20 font-medium">
+						<p class="text-base max-md:max-w-full mt-4 text-neutral-20 font-medium">
 							{article.summary}
 						</p>
 
@@ -1250,7 +1252,7 @@
 								{#each article.authors as author, index}
 									<a
 										class="underline underline-offset-[3px] hover:text-neutral-20 transition"
-										href={author.username ? `/contributors/${author.username}` : null}
+										href={author.username ? `/authors/${author.username}` : null}
 										data-sveltekit-preload-data
 									>
 										{(author.full_name || author.username || '').trim()}
@@ -1332,7 +1334,7 @@
 			[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
 			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
 			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#0CDEE9]
+			[&_pre]:overflow-x-auto [&_pre]:bg-[#1A1A1A] [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
 			[&_figure]:my-6 [&_figure]:text-center
 			[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
 
