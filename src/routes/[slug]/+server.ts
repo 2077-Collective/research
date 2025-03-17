@@ -32,7 +32,8 @@ export const GET: RequestHandler = async ({ params, request }) => {
 	if (
 		userAgent.includes('TelegramBot') ||
 		userAgent.includes('Twitterbot') ||
-		userAgent.includes('WhatsApp')
+		userAgent.includes('WhatsApp') ||
+		userAgent.includes('LinkedInBot')
 	) {
 		return new Response(
 			`
