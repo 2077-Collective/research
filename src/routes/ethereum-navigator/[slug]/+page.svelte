@@ -56,7 +56,7 @@
 <div class="text-white">
 	<article class="container mx-auto px-4 py-16 max-w-4xl">
 		{#if post.thumbnail_url}
-			<enhanced:img
+			<img
 				src={post.thumbnail_url || ''}
 				alt={post.title}
 				class="w-full aspect-video object-cover rounded-lg mb-8"
@@ -81,7 +81,7 @@
 			{#if post.authors && post.authors.length > 0}
 				{#each post.authors as author}
 					<div class="flex items-center gap-2">
-						<enhanced:img
+						<img
 							src="https://beehiiv-images-production.s3.amazonaws.com/uploads/user/profile_picture/5b0c5e78-b7a5-4966-afb6-572c8f3304c8/2077_.png"
 							alt={`${author}'s profile picture`}
 							class="w-6 h-6 rounded-full"
