@@ -368,7 +368,7 @@
 			</h3>
 
 			<div class="flex gap-2 items-center">
-				<enhanced:img
+				<img
 					src={testimonial.avatar || ''}
 					alt={testimonial.author}
 					class="size-9 md:size-[54px] rounded-full object-cover object-top"

@@ -4,6 +4,7 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
+	import { Image } from '@unpic/svelte';
 	import { format } from 'date-fns';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
@@ -89,12 +90,14 @@
 
 		<a href={`/${article.slug}`} data-sveltekit-preload-data aria-label="Go to article">
 			<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
-				<enhanced:img
+				<Image
 					src={article.thumb_url || ''}
 					alt=""
 					class="size-full object-cover group-hover:scale-105 transition will-change-transform"
 					loading="lazy"
 					decoding="async"
+					width={377.368}
+					height={165}
 				/>
 			</div></a
 		>
@@ -179,7 +182,7 @@
 
 		<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
 			<div class="overflow-hidden">
-				<enhanced:img
+				<Image
 					src={thumbnailUrl || ''}
 					alt=""
 					class="aspect-[1/0.5] object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"

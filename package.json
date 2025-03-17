@@ -71,6 +71,7 @@
 		"@sveltejs/adapter-vercel": "^5.4.8",
 		"@sveltejs/enhanced-img": "^0.4.4",
 		"@tryghost/content-api": "^1.11.21",
+		"@unpic/svelte": "^1.0.0",
 		"@vercel/analytics": "^1.4.1",
 		"@vercel/functions": "^1.5.0",
 		"algoliasearch": "^5.20.2",

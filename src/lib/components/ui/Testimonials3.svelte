@@ -370,7 +370,7 @@
 			<div class="flex gap-2">
 				<div class="flex gap-2 justify-between w-full">
 					<div class="flex gap-2 items-center">
-						<enhanced:img
+						<img
 							src={testimonial.avatar || ''}
 							alt={testimonial.author}
 							class="size-9 md:size-[54px] object-cover object-top rounded-full"
