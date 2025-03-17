@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
 	import AudioListen from './AudioListen.svelte';
 
+	let isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
 	const {
 		loadingBookmarks,
 		isLoggedIn,
@@ -30,9 +32,11 @@
 	}
 
 	onMount(() => {
-		window.addEventListener('scroll', handleScroll);
+		if (isMobile) {
+			window.addEventListener('scroll', handleScroll);
 
-		return () => window.removeEventListener('scroll', handleScroll);
+			return () => window.removeEventListener('scroll', handleScroll);
+		}
 	});
 </script>
 
