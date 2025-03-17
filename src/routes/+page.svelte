@@ -66,16 +66,18 @@
 				>
 			</div>
 
-			<enhanced:img
-				src="/static/HAND_ELEMENT.webp"
-				class="mix-blend-screen pointer-events-none select-none"
-				alt="hand-element"
-				width="689"
-				height="608"
-				loading="eager"
-				fetchpriority="high"
-				decoding="async"
-			/>
+			<div class="md:min-w-[689px] min-h-[608px]">
+				<enhanced:img
+					src="/static/HAND_ELEMENT.webp"
+					class="mix-blend-screen pointer-events-none select-none"
+					alt="hand-element"
+					width="689"
+					height="608"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			</div>
 		</div>
 
 		<div class="absolute bottom-0 h-[40%] w-full pointer-events-none hero-mask"></div>

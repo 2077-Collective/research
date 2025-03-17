@@ -111,7 +111,6 @@
 									<Image
 										src={article.thumb_url || ''}
 										alt={`Thumbnail for article: ${article.title}`}
-										loading="lazy"
 										decoding="async"
 										class="!size-full object-cover group-hover:scale-105 transition will-change-transform"
 									/>

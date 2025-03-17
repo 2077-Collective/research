@@ -110,7 +110,6 @@
 			class="w-[1144.5px] absolute bottom-0 right-0 pointer-events-none max-md:hidden"
 			src="/static/about-us-hero.png"
 			alt="Half sun"
-			loading="lazy"
 			decoding="async"
 		/>
 	</section>
@@ -194,7 +193,6 @@
 			class="w-[1198.5px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none"
 			src="/static/contributors-bg.png"
 			alt="contributors bg"
-			loading="lazy"
 			decoding="async"
 		/>
 	</section>

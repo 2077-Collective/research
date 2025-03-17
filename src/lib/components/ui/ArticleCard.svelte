@@ -94,7 +94,6 @@
 					src={article.thumb_url || ''}
 					alt=""
 					class="size-full object-cover group-hover:scale-105 transition will-change-transform"
-					loading="lazy"
 					decoding="async"
 					width={377.368}
 					height={165}
@@ -186,7 +185,6 @@
 					src={thumbnailUrl || ''}
 					alt=""
 					class="aspect-[1/0.5] object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
-					loading="lazy"
 					decoding="async"
 				/>
 			</div>

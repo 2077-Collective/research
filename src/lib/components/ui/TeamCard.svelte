@@ -40,7 +40,6 @@
 				src={picture_url ? picture_url : '/philosopher.png'}
 				class="size-full object-cover object-top"
 				alt={full_name}
-				loading="lazy"
 			/>
 			<div
 				class={cn(

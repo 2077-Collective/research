@@ -206,7 +206,6 @@
 				alt="hand-element"
 				width="689"
 				height="608"
-				loading="lazy"
 				fetchpriority="high"
 				decoding="async"
 			/>

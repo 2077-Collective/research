@@ -123,7 +123,6 @@
 				class="absolute top-0 pointer-events-none opacity-10 w-full"
 				src="/static/category-header-bg.png"
 				alt="Header mesh"
-				loading="lazy"
 				decoding="async"
 			/>
 		</section>

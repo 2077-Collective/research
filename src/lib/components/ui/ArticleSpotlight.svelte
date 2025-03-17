@@ -37,7 +37,6 @@
 			src={thumbnailUrl}
 			alt={`Thumbnail for article: ${article.title}`}
 			class="!w-full lg:w-4/6 object-contain"
-			loading="lazy"
 			decoding="async"
 		/>
 	</a>

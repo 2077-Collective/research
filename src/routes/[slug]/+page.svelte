@@ -833,7 +833,6 @@
 							src={data.article.thumb_url || ''}
 							alt={data.article.title}
 							class="w-full h-full object-cover pointer-events-none select-none object-top"
-							loading="lazy"
 							decoding="async"
 						/>
 					</div>
@@ -1182,7 +1181,6 @@
 				src={article.thumb_url || ''}
 				alt={article.title}
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
-				loading="lazy"
 				decoding="async"
 			/>
 

@@ -374,7 +374,6 @@
 							src={testimonial.avatar || ''}
 							alt={testimonial.author}
 							class="size-9 md:size-[54px] object-cover object-top rounded-full"
-							loading="lazy"
 							decoding="async"
 						/>
 						<div>

@@ -286,7 +286,6 @@
 			class="w-[1288px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none object-cover"
 			src="/static/Overlay-Shadow.png"
 			alt="Overlay shadow"
-			loading="lazy"
 			fetchpriority="high"
 			decoding="async"
 		/>
@@ -372,7 +371,6 @@
 					src={testimonial.avatar || ''}
 					alt={testimonial.author}
 					class="size-9 md:size-[54px] rounded-full object-cover object-top"
-					loading="lazy"
 					fetchpriority="high"
 					decoding="async"
 				/>

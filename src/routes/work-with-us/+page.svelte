@@ -100,7 +100,6 @@
 			class="2xl:h-[480px] h-[480px] md:size-full object-cover opacity-50"
 			src="/static/perspective-grid-work.png"
 			alt="perspective grid work with us"
-			loading="lazy"
 			decoding="async"
 		/>
 
