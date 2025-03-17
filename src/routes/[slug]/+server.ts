@@ -26,8 +26,10 @@ export const GET: RequestHandler = async ({ params, request }) => {
 		: `${origin}${post.thumb_url}`;
 	const sanitizedUrl = `${origin}/${post.slug}`;
 
+	// Twitterbot/1.0
+
 	// If Twitterbot is detected, return lightweight metadata HTML
-	if (userAgent.includes('Twitterbot')) {
+	if (userAgent.includes('TelegramBot') || userAgent.includes('Twitterbot')) {
 		return new Response(
 			`
       <!DOCTYPE html>
@@ -36,6 +38,13 @@ export const GET: RequestHandler = async ({ params, request }) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${sanitizedTitle}</title>
+
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="${sanitizedTitle}">
+        <meta property="og:description" content="${sanitizedSummary}">
+        <meta property="og:image" content="${sanitizedThumb}">
+        <meta property="og:url" content="${sanitizedUrl}">
+        <meta property="og:site_name" content="2077Research">
         
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:title" content="${sanitizedTitle}">
