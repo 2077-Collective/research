@@ -29,10 +29,10 @@ export const GET: RequestHandler = async ({ params, request }) => {
       <html lang="en">
       <head>
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={${sanitizedTitle}} />
-        <meta name="twitter:description" content={${sanitizedSummary}} />
-        <meta name="twitter:image" content={${sanitizedThumb}} />
-        <meta name="twitter:url" content={${sanitizedUrl}} />
+        <meta name="twitter:title" content="${sanitizedTitle}" />
+        <meta name="twitter:description" content="${sanitizedSummary}" />
+        <meta name="twitter:image" content="${sanitizedThumb}" />
+        <meta name="twitter:url" content="${sanitizedUrl}" />
         <meta name="twitter:site" content="@2077Research" />
       </head>
       <body></body>
