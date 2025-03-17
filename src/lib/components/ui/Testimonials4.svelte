@@ -377,7 +377,7 @@
 					decoding="async"
 				/>
 				<div>
-					<p class="font-medium font-powerGroteskBold max-md:text-sm capitalize">
+					<p class="font-powerGroteskBold capitalize">
 						{testimonial.author}
 					</p>
 					{#if testimonial.company}

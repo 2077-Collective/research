@@ -36,7 +36,7 @@
 	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5" />
 
 	<!-- Images Preload -->
-	<link rel="preload" as="image" href="/HAND_ELEMENT.webp" type="image/webp" />
+	<link rel="preload" as="image" href="/HAND_ELEMENT.webp" type="image/webp" fetchpriority="high" />
 
 	<!-- Fonts preload -->
 	<link
@@ -45,6 +45,7 @@
 		as="font"
 		type="font/woff"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 	<link
 		rel="preload"
@@ -52,6 +53,7 @@
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 	<link
 		rel="preload"
@@ -59,6 +61,7 @@
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 	<link
 		rel="preload"
@@ -66,6 +69,7 @@
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 	<link
 		rel="preload"
@@ -73,6 +77,7 @@
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 	<link
 		rel="preload"
@@ -80,6 +85,7 @@
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"
+		fetchpriority="high"
 	/>
 
 	<meta name="msapplication-TileColor" content="#da532c" />
