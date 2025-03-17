@@ -68,6 +68,7 @@
 			src="https://media.beehiiv.com/cdn-cgi/image/fit=scale-down,format=auto,onerror=redirect,quality=80/uploads/publication/logo/cbd91fa6-23cb-4f0c-9fe4-b7313cd81b5b/eth_navigator_Logo.jpg"
 			alt="Ethereum Navigator Logo"
 			class="w-16 h-16 mx-auto mb-6"
+			loading="lazy"
 		/>
 		<h1 class="text-4xl font-bold mb-8 font-powerGroteskBold">Ethereum Navigator</h1>
 
@@ -134,6 +135,7 @@
 									src={post.thumbnail_url}
 									alt={post.title}
 									class="w-full aspect-[16/9] object-cover"
+									loading="lazy"
 								/>
 							{/if}
 
@@ -178,6 +180,7 @@
 													src="https://beehiiv-images-production.s3.amazonaws.com/uploads/user/profile_picture/5b0c5e78-b7a5-4966-afb6-572c8f3304c8/2077_.png"
 													alt=""
 													class="w-5 h-5 rounded-full bg-black"
+													loading="lazy"
 												/>
 												<span class="text-sm text-neutral-40 font-mono">{author}</span>
 											</div>

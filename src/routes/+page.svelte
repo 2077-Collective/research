@@ -66,8 +66,8 @@
 				>
 			</div>
 
-			<img
-				src="/HAND_ELEMENT.png"
+			<enhanced:img
+				src="/static/HAND_ELEMENT.png"
 				class="mix-blend-screen pointer-events-none select-none"
 				alt="hand-element"
 				width="689"

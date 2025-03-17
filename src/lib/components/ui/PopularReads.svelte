@@ -107,11 +107,10 @@
 								<div
 									class="flex max-md:aspect-[1/0.6] 2xl:aspect-[1/1] md:aspect-[15/17] items-center justify-center overflow-hidden"
 								>
-									<img
-										src={article.thumb_url}
+									<enhanced:img
+										src={article.thumb_url || ''}
 										alt={`Thumbnail for article: ${article.title}`}
-										loading="eager"
-										fetchpriority="high"
+										loading="lazy"
 										decoding="async"
 										class="!size-full object-cover group-hover:scale-105 transition will-change-transform"
 									/>

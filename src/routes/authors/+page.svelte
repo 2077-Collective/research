@@ -24,10 +24,12 @@
 		</div>
 	</div>
 
-	<img
-		src="/contritbutors-header.png"
+	<enhanced:img
+		src="/static/contritbutors-header.png"
 		class="absolute top-0 right-0 pointer-events-none h-full"
 		alt="header bg"
+		loading="lazy"
+		decoding="async"
 	/>
 </section>
 

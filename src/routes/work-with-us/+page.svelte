@@ -96,10 +96,12 @@
 	</section>
 
 	<section class="overflow-hidden md:mt-10 relative mt-16">
-		<img
+		<enhanced:img
 			class="2xl:h-[480px] h-[480px] md:size-full object-cover opacity-50"
-			src="/perspective-grid-work.png"
+			src="/static/perspective-grid-work.png"
 			alt="perspective grid work with us"
+			loading="lazy"
+			decoding="async"
 		/>
 
 		<div class="absolute left-1/2 -translate-x-1/2 z-30 top-0 mt-6 md:mt-14">

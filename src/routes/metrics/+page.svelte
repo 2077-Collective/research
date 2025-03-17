@@ -6,7 +6,13 @@
 <BaseHead />
 
 <div class="pt-32 relative overflow-hidden">
-	<img class="w-[670px] absolute top-0 right-0" src="/metrics-half-moon.png" alt="half moon" />
+	<enhanced:img
+		class="w-[670px] absolute top-0 right-0"
+		src="/static/metrics-half-moon.png"
+		alt="half moon"
+		loading="lazy"
+		decoding="async"
+	/>
 
 	<div class="container relative z-20">
 		<h1 class="text-[32px] font-powerGroteskBold font-bold">Metrics</h1>

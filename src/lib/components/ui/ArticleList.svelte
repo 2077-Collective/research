@@ -109,7 +109,6 @@
 	{#if !hideFeatured}
 		<section class="pt-32 bg-[#0A0A0A] relative overflow-hidden pb-40">
 			<div class="container relative z-20">
-
 				<div>
 					<h2
 						id="latest-research"
@@ -120,10 +119,12 @@
 				</div>
 			</div>
 
-			<img
+			<enhanced:img
 				class="absolute top-0 pointer-events-none opacity-10 w-full"
-				src="/category-header-bg.png"
+				src="/static/category-header-bg.png"
 				alt="Header mesh"
+				loading="lazy"
+				decoding="async"
 			/>
 		</section>
 

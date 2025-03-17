@@ -85,10 +85,10 @@
 				<div class="md:hidden mt-8">
 					<p class="text-neutral-40 text-sm font-mono">Looking to work with us?</p>
 
-					<div class="mt-[15px] border-y border-[#222] divide-y divide-[#222] font-ibm">
+					<div class="mt-[15px] border-y border-[#222] divide-y divide-[#222]">
 						<a
 							href="mailto:research@2077.xyz"
-							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light"
+							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light font-ibm"
 						>
 							Get in Touch
 							<ArrowUpRight class="size-4" />
@@ -96,7 +96,7 @@
 
 						<a
 							href="/work-with-us"
-							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light"
+							class="flex items-center gap-2 py-3 w-full text-neutral-20 text-sm font-light font-ibm"
 						>
 							View our Services Page
 							<ArrowUpRight class="size-4" />
@@ -106,10 +106,12 @@
 			</div>
 		</div>
 
-		<img
+		<enhanced:img
 			class="w-[1144.5px] absolute bottom-0 right-0 pointer-events-none max-md:hidden"
-			src="/about-us-hero.png"
+			src="/static/about-us-hero.png"
 			alt="Half sun"
+			loading="lazy"
+			decoding="async"
 		/>
 	</section>
 
@@ -188,10 +190,12 @@
 			</div>
 		</div>
 
-		<img
+		<enhanced:img
 			class="w-[1198.5px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none"
-			src="/contributors-bg.png"
+			src="/static/contributors-bg.png"
 			alt="contributors bg"
+			loading="lazy"
+			decoding="async"
 		/>
 	</section>
 </div>

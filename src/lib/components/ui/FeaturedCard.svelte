@@ -68,11 +68,16 @@
 	tabindex="0"
 >
 	<div class="flex md:aspect-[2.045/0.9] items-center justify-center">
-		<a href={`/${article.slug}`} class="!size-full" data-sveltekit-preload-data>
-			<img
-				src={article.thumb_url}
+		<a
+			href={`/${article.slug}`}
+			class="!size-full"
+			data-sveltekit-preload-data
+			aria-label={`Thumbnail for article: ${article.title}`}
+		>
+			<enhanced:img
+				src={article.thumb_url || ''}
 				alt={`Thumbnail for article: ${article.title}`}
-				loading="eager"
+				loading="lazy"
 				fetchpriority="high"
 				decoding="async"
 				class="size-full object-cover"

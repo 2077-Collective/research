@@ -370,10 +370,12 @@
 			<div class="flex gap-2">
 				<div class="flex gap-2 justify-between w-full">
 					<div class="flex gap-2 items-center">
-						<img
-							src={testimonial.avatar}
+						<enhanced:img
+							src={testimonial.avatar || ''}
 							alt={testimonial.author}
 							class="size-9 md:size-[54px] object-cover object-top rounded-full"
+							loading="lazy"
+							decoding="async"
 						/>
 						<div>
 							<p class="font-powerGroteskBold !font-medium capitalize">{testimonial.author}</p>

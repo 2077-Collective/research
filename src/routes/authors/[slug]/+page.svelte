@@ -92,10 +92,12 @@
 			</div>
 		</div>
 
-		<img
+		<enhanced:img
 			class="w-[1144.5px] absolute bottom-0 right-0 pointer-events-none max-md:hidden"
-			src="/about-us-hero.png"
+			src="/static/about-us-hero.png"
 			alt="Half sun"
+			loading="lazy"
+			decoding="async"
 		/>
 	</section>
 
@@ -182,10 +184,12 @@
 									></a>
 
 									<div class="overflow-hidden">
-										<img
-											src={article.thumb_url}
+										<enhanced:img
+											src={article.thumb_url || ''}
 											alt=""
 											class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+											loading="lazy"
+											decoding="async"
 										/>
 									</div>
 
@@ -231,10 +235,12 @@
 								></a>
 
 								<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
-									<img
-										src={article.thumb_url}
+									<enhanced:img
+										src={article.thumb_url || ''}
 										alt=""
 										class="size-full object-cover group-hover:scale-105 transition will-change-transform"
+										loading="lazy"
+										decoding="async"
 									/>
 								</div>
 

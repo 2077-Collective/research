@@ -282,10 +282,13 @@
 
 <div class="bg-[#010304] relative overflow-hidden">
 	<div>
-		<img
+		<enhanced:img
 			class="w-[1288px] absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 pointer-events-none select-none object-cover"
-			src="/Overlay+Shadow.png"
+			src="/static/Overlay-Shadow.png"
 			alt="Overlay shadow"
+			loading="lazy"
+			fetchpriority="high"
+			decoding="async"
 		/>
 
 		<div class="py-10 md:py-16">
@@ -365,10 +368,13 @@
 			</h3>
 
 			<div class="flex gap-2 items-center">
-				<img
-					src={testimonial.avatar}
+				<enhanced:img
+					src={testimonial.avatar || ''}
 					alt={testimonial.author}
 					class="size-9 md:size-[54px] rounded-full object-cover object-top"
+					loading="lazy"
+					fetchpriority="high"
+					decoding="async"
 				/>
 				<div>
 					<p class="font-medium font-powerGroteskBold max-md:text-sm capitalize">
