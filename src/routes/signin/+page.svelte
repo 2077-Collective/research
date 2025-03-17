@@ -201,7 +201,7 @@
 
 		<div class="flex-1 max-lg:hidden flex-shrink-0">
 			<enhanced:img
-				src="/static/HAND_ELEMENT.png"
+				src="/static/HAND_ELEMENT.webp"
 				class="mix-blend-screen pointer-events-none select-none -mt-6"
 				alt="hand-element"
 				width="689"

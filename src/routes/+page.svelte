@@ -67,7 +67,7 @@
 			</div>
 
 			<enhanced:img
-				src="/static/HAND_ELEMENT.png"
+				src="/static/HAND_ELEMENT.webp"
 				class="mix-blend-screen pointer-events-none select-none"
 				alt="hand-element"
 				width="689"
