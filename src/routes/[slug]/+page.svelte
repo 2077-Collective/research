@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import ArticleBottomBar from '$lib/components/ui/ArticleBottomBar.svelte';
+	import ArticleStickyBar from '$lib/components/ui/ArticleStickyBar.svelte';
 	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
@@ -1032,20 +1033,6 @@
 	</div>
 </div>
 
-<!-- Back to top button
-{#if showFloatingButtons && !loadingBookmarks}
-	<button
-		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
-		aria-label="Scroll back to the top of the page"
-		onclick={handleScrollToTop}
-	>
-		<ArrowUp
-			class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
-			style="stroke-width: 1.4"
-		/>
-	</button>
-{/if} -->
-
 <div class="md:flex gap-8 container">
 	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
 		{#if !isReadingMode}
@@ -1497,6 +1484,19 @@
 				</div>
 			</div>
 		{/if}
+
+		<div class="relative">
+			<div class="sticky top-28">
+				<ArticleStickyBar
+					{isLoggedIn}
+					onNotSignedInListenClick={() => {
+						bannerText = 'Listening to articles';
+						showAuthBanner = true;
+						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
+					}}
+				/>
+			</div>
+		</div>
 	</article>
 {/snippet}
 
