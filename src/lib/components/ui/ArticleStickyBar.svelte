@@ -1,13 +1,21 @@
 <script lang="ts">
-	import HeadPhones from './icons/HeadPhones.svelte';
 	import HomeDoor from './icons/HomeDoor.svelte';
 	import PeopleCircle from './icons/PeopleCircle.svelte';
 	import ShareArrow from './icons/ShareArrow.svelte';
 	import TextSize from './icons/TextSize.svelte';
 
 	import * as Tooltip from '$lib/components/ui/tooltip';
+	import { cn } from '$lib/utils/ui-components';
+	import AudioListen from './AudioListen.svelte';
+	import HeadPhones from './icons/HeadPhones.svelte';
 
-	let { isLoggedIn, onNotSignedInListenClick, onReadCustomizeClick, onAccountClick } = $props();
+	let {
+		isLoggedIn,
+		onNotSignedInListenClick,
+		onReadCustomizeClick,
+		onAccountClick,
+		articleAudioUrl
+	} = $props();
 </script>
 
 <div
@@ -32,10 +40,25 @@
 	</Tooltip.Root>
 
 	<Tooltip.Root openDelay={5}>
-		<Tooltip.Trigger class="hover:text-white transition">
-			<span>
-				<HeadPhones />
-			</span>
+		<Tooltip.Trigger
+			class={cn('transition', (articleAudioUrl || !isLoggedIn) && 'hover:text-white')}
+		>
+			{#if !isLoggedIn}
+				<span>
+					<HeadPhones />
+				</span>
+			{:else}
+				<AudioListen
+					{articleAudioUrl}
+					isLoading={false}
+					hideLabel
+					className={'[&_svg]:size-6'}
+					align={'start'}
+					side="left"
+					sideOffset={2}
+					alignOffset={-10}
+				/>
+			{/if}
 		</Tooltip.Trigger>
 
 		<Tooltip.Content
@@ -81,9 +104,11 @@
 
 	<Tooltip.Root openDelay={5}>
 		<Tooltip.Trigger class="hover:text-white transition">
-			<span>
-				<PeopleCircle />
-			</span>
+			<a href="/signin">
+				<span>
+					<PeopleCircle />
+				</span></a
+			>
 		</Tooltip.Trigger>
 
 		<Tooltip.Content

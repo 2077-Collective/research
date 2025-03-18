@@ -3,7 +3,29 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { Headphones, Loader2, Pause, Play, X } from 'lucide-svelte';
 
-	let { articleAudioUrl, isLoading, mobileClassName = '' } = $props();
+	let {
+		articleAudioUrl,
+		isLoading,
+		mobileClassName = '',
+		className = '',
+		hideLabel = false,
+		side = 'bottom',
+		align = 'start',
+		sideOffset = 8,
+		alignOffset = 0
+	}: {
+		articleAudioUrl: string;
+		isLoading: boolean;
+		mobileClassName?: string;
+		className?: string;
+		hideLabel?: boolean;
+		side?: 'bottom' | 'top' | 'right' | 'left' | undefined;
+		align?: 'start' | 'center' | 'end' | undefined;
+		sideOffset?: number;
+		alignOffset?: number;
+	} = $props();
+
+	// "bottom" | "top" | "right" | "left" | undefined'
 
 	let audio: HTMLAudioElement | null = null;
 
@@ -102,20 +124,25 @@
 		<Popover.Trigger disabled={articleAudioUrl.length === 0} class="max-md:hidden"
 			><button
 				class={cn(
-					'flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40'
+					'flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition disabled:pointer-events-none disabled:opacity-40',
+					className
 				)}
 				disabled={articleAudioUrl.length === 0}
 			>
-				<span>{isPlaying ? 'Listening' : 'Listen'}</span>
+				{#if !hideLabel}
+					<span>{isPlaying ? 'Listening' : 'Listen'}</span>
+				{/if}
+
 				<Headphones class="size-4" />
 			</button>
 		</Popover.Trigger>
 
 		<Popover.Content
 			class="max-md:hidden p-4 rounded-[8px] border-none bg-[#19191A] z-[99999]"
-			side="bottom"
-			align="start"
-			sideOffset={8}
+			{side}
+			{align}
+			{sideOffset}
+			{alignOffset}
 		>
 			{@render audioPlayer()}
 		</Popover.Content>

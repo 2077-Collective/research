@@ -1494,6 +1494,7 @@
 						showAuthBanner = true;
 						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
 					}}
+					{articleAudioUrl}
 				/>
 			</div>
 		</div>
