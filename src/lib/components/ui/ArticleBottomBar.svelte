@@ -3,6 +3,7 @@
 	import { ForwardIcon, Headphones, Home, User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import AudioListen from './AudioListen.svelte';
+	import ReadingCustomizeMobile from './ReadingCustomizeMobile.svelte';
 
 	let isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
@@ -18,6 +19,8 @@
 
 	let lastScrollY = $state(0);
 	let scrollDirection: 'up' | 'down' = $state('up');
+
+	let openCustomize = $state(false);
 
 	function handleScroll() {
 		const currentScrollY = window.scrollY;
@@ -73,7 +76,10 @@
 		</button>
 	{/if}
 
-	<button class="min-h-10 flex flex-col items-center justify-center gap-2">
+	<button
+		class="min-h-10 flex flex-col items-center justify-center gap-2"
+		onclick={() => (openCustomize = true)}
+	>
 		<svg class="size-5" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path
 				d="M5.92676 16.25V6.99902M21.25 0.75H8.75M11.25 7H0.75M15 1V16.25"
@@ -110,3 +116,5 @@
 		{/if}
 	</div>
 </div>
+
+<ReadingCustomizeMobile open={openCustomize} onClose={() => (openCustomize = false)} />
