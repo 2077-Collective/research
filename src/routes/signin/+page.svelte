@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import Apple from '$lib/components/ui/icons/Apple.svelte';
 	import Google from '$lib/components/ui/icons/Google.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { Eye, EyeOff, Loader2 } from 'lucide-svelte';
@@ -59,8 +60,6 @@
 					return;
 				}
 			}
-
-			console.log({ data, error });
 		} catch (error) {
 			toast.error('An error occured. Please try again.');
 		} finally {
@@ -202,16 +201,17 @@
 		</div>
 
 		<div class="flex-1 max-lg:hidden flex-shrink-0">
-			<img
-				src="/HAND_ELEMENT.png"
+			<enhanced:img
+				src="/static/HAND_ELEMENT.webp"
 				class="mix-blend-screen pointer-events-none select-none -mt-6"
 				alt="hand-element"
-				width="689px"
-				height="608px"
-				loading="eager"
+				width="689"
+				height="608"
 				fetchpriority="high"
 				decoding="async"
 			/>
 		</div>
 	</section>
 </div>
+
+<ScrollToTopButton />

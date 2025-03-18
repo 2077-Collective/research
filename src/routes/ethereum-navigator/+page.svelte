@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 
@@ -82,7 +83,6 @@
 				scrolling="no"
 				sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
 				referrerpolicy="no-referrer-when-downgrade"
-				loading="lazy"
 				aria-label="Newsletter signup form"
 			></iframe>
 		</div>
@@ -204,3 +204,5 @@
 		{/if}
 	</div>
 </div>
+
+<ScrollToTopButton />

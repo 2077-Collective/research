@@ -11,7 +11,6 @@
 			frameborder="0"
 			scrolling="no"
 			sandbox="allow-scripts allow-same-origin allow-forms"
-			loading="lazy"
 			class="!bg-transparent rounded-[8px] w-[586px] max-w-full beehiiv-frame h-12 flex items-center justify-center"
 			aria-label="Newsletter subscription form"
 		></iframe>

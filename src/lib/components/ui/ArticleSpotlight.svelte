@@ -3,6 +3,7 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
+	import { Image } from '@unpic/svelte';
 	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
@@ -27,14 +28,16 @@
 </script>
 
 <div class="flex flex-col lg:flex-row w-full">
-	<a href={`/${article.slug}`} class="!w-full lg:!w-4/6">
-		<img
+	<a
+		href={`/${article.slug}`}
+		class="!w-full lg:!w-4/6"
+		aria-label={`Thumbnail for article: ${article.title}`}
+	>
+		<Image
 			src={thumbnailUrl}
 			alt={`Thumbnail for article: ${article.title}`}
-			loading="eager"
-			fetchpriority="high"
-			decoding="async"
 			class="!w-full lg:w-4/6 object-contain"
+			decoding="async"
 		/>
 	</a>
 
