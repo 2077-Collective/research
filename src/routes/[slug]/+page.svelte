@@ -710,7 +710,7 @@
 			if (error) {
 				bookmarks = currentBookmarks;
 
-				toast.error(`Couldn't add article to bookmarks`);
+				toast.error(`Couldn't add article to bookmarks.`);
 			}
 		} catch (error) {
 			bookmarks = currentBookmarks;
