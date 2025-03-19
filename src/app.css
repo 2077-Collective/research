@@ -40,6 +40,26 @@
 }
 
 @font-face {
+	font-family: 'Charter';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('Charter'),
+		url('/fonts/CharterRegular.ttf') format('ttf');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('OpenSans'),
+		url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('ttf');
+	font-display: swap;
+}
+
+@font-face {
 	font-family: 'Hubot Sans';
 	src:
 		url('/fonts/Hubot-Sans.woff2') format('woff2 supports variations'),
@@ -74,8 +94,10 @@
 		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans', sans-serif;
+		--font-open-sans: 'OpenSans', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
 		--font-ibm: 'IBM Plex Sans', sans-serif;
+		--font-charter: 'Charter', sans-serif;
 		--font-kode: 'KodeMono', monospace;
 
 		--background: 0 0% 4%;
@@ -166,5 +188,30 @@
 
 	.font-powerGroteskBold {
 		font-weight: 700 !important;
+	}
+
+	.default-theme {
+		background-color: #19191a;
+		color: white;
+	}
+
+	.white-theme {
+		background-color: white;
+		color: #010102;
+	}
+
+	.grey-theme {
+		background-color: #2b3031;
+		color: white;
+	}
+
+	.blue-theme {
+		background-color: #1c2a3b;
+		color: white;
+	}
+
+	.off-white-theme {
+		background-color: #fef5eb;
+		color: #171717;
 	}
 }

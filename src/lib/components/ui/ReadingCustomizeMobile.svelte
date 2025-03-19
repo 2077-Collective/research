@@ -4,24 +4,24 @@
 
 	const { open, onClose } = $props();
 
-	let selectedSize = $state(16);
+	let selectedSize = $state(18);
 	let selectedFont = $state('hubot-sans');
 	let selectedTheme = $state(1);
 
 	const FONT_SIZES = [16, 17, 18, 19, 20];
 	const FONT_FAMILIES = [
 		{
-			family_name: '',
+			family_name: '--font-hubot',
 			label: 'Hubot Sans',
 			value: 'hubot-sans'
 		},
 		{
-			family_name: '',
+			family_name: '--font-charter',
 			label: 'Charter',
 			value: 'charter'
 		},
 		{
-			family_name: '',
+			family_name: '--font-open-sans',
 			label: 'Open Sans',
 			value: 'open-sans'
 		}
@@ -30,33 +30,81 @@
 		{
 			id: 1,
 			bg_color: '#19191A',
-			text_color: 'white'
+			text_color: 'white',
+			value: 'default'
 		},
 
 		{
 			id: 2,
 			bg_color: 'white',
-			text_color: '#010102'
+			text_color: '#010102',
+			value: 'white'
 		},
 
 		{
 			id: 3,
 			bg_color: '#2B3031',
-			text_color: 'white'
+			text_color: 'white',
+			value: 'grey'
 		},
 
 		{
 			id: 4,
 			bg_color: '#1C2A3B',
-			text_color: 'white'
+			text_color: 'white',
+			value: 'blue'
 		},
 
 		{
 			id: 5,
 			bg_color: '#FEF5EB',
-			text_color: '#171717'
+			text_color: '#171717',
+			value: 'off-white'
 		}
 	];
+
+	const handleFontFamilyChange = (family: string, value: string) => {
+		const articleContainer = document.getElementById('content-container');
+
+		if (!articleContainer) return;
+
+		articleContainer.style.fontFamily = `var(${family})`;
+
+		selectedFont = value;
+	};
+
+	const handleFontsizeChange = (size: number) => {
+		const articleContainer = document.getElementById('content-container');
+
+		if (!articleContainer) return;
+
+		const elements = articleContainer.querySelectorAll('p, ol, ul, blockquote');
+		elements.forEach((el) => {
+			(el as HTMLElement).style.fontSize = `${size}px`;
+		});
+
+		selectedSize = size;
+	};
+
+	const handleThemeChange = (themeId: number, value: string) => {
+		const page = document.getElementById('article-page');
+		if (!page) return;
+
+		const selectedThemeFind = THEMES.find((theme) => theme.id === themeId);
+		if (!selectedThemeFind) return;
+
+		page.style.background = selectedThemeFind.bg_color;
+		page.style.color = selectedThemeFind.text_color;
+
+		page.classList = `${value}-theme group`;
+
+		const elements = page.querySelectorAll('p, ol, ul, blockquote, h1, h2, h3, h4, h5, h6');
+		elements.forEach((el) => {
+			(el as HTMLElement).style.color = selectedThemeFind.text_color;
+		});
+
+		selectedTheme = themeId;
+	};
 </script>
 
 {#if open}
@@ -79,7 +127,7 @@
 									'bg-[#121212] p-2.5 rounded-[8px] border border-[#121212] text-sm text-neutral-40 transition',
 									selectedSize === size && 'text-white border-[#07858C]'
 								)}
-								onclick={() => (selectedSize = size)}>{size}px</button
+								onclick={() => handleFontsizeChange(size)}>{size}px</button
 							>
 						{/each}
 					</div>
@@ -95,7 +143,8 @@
 									'bg-[#0F0F0F] p-2.5 rounded-[8px] text-sm text-[#9F9F9F] transition opacity-50',
 									selectedFont === font.value && 'bg-white text-[#121212] opacity-100'
 								)}
-								onclick={() => (selectedFont = font.value)}>{font.label}</button
+								onclick={() => handleFontFamilyChange(font.family_name, font.value)}
+								style={`font-family:var(${font.family_name}) !important`}>{font.label}</button
 							>
 						{/each}
 					</div>
@@ -112,11 +161,13 @@
 								selectedTheme === theme.id && 'bg-white text-[#121212] opacity-100`
 								)}
 								style={`background-color:${theme.bg_color}; border:1px solid ${selectedTheme === theme.id ? '#07858C' : theme.bg_color}; color:${theme.text_color}`}
-								onclick={() => (selectedTheme = theme.id)}
+								onclick={() => handleThemeChange(theme.id, theme.value)}
 							>
 								<AlignLeft class="size-[35px] mb-2" />
 
-								<span class="size-[30px] border rounded-full flex items-center justify-center">
+								<span
+									class="size-[30px] border border-[#606060] rounded-full flex items-center justify-center"
+								>
 									{#if selectedTheme === theme.id}
 										<svg
 											width="24"

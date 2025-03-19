@@ -1033,16 +1033,18 @@
 	</div>
 </div>
 
-<div class="md:flex gap-8 container">
-	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
-		{#if !isReadingMode}
-			{@render header(data.article)}
-		{/if}
+<div id="article-page">
+	<div class="md:flex gap-8 container">
+		<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
+			{#if !isReadingMode}
+				{@render header(data.article)}
+			{/if}
 
-		{@render body(data.article)}
+			{@render body(data.article)}
 
-		<div class={isReadingMode ? 'hidden' : 'mb-12'}>
-			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+			<div class={isReadingMode ? 'hidden' : 'mb-12'}>
+				<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+			</div>
 		</div>
 	</div>
 </div>
