@@ -67,7 +67,7 @@
 				>
 			</div>
 
-			<div class="md:min-w-[689px] min-h-[608px]">
+			<div class="md:min-w-[689px] md:min-h-[608px]">
 				<enhanced:img
 					src="/static/HAND_ELEMENT.webp"
 					class="mix-blend-screen pointer-events-none select-none"
