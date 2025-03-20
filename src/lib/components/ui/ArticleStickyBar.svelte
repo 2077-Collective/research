@@ -22,6 +22,7 @@
 	} = $props();
 
 	let isOpenCustomizeOpen = $state(false);
+	let isShareOpen = $state(false);
 </script>
 
 <div
@@ -91,8 +92,14 @@
 					role="button"
 					tabindex="0"
 					class="relative block"
-					onmouseover={() => (isOpenCustomizeOpen = true)}
-					onfocus={() => (isOpenCustomizeOpen = true)}
+					onmouseover={() => {
+						isOpenCustomizeOpen = true;
+						isShareOpen = false;
+					}}
+					onfocus={() => {
+						isOpenCustomizeOpen = true;
+						isShareOpen = false;
+					}}
 					onmouseleave={() => (isOpenCustomizeOpen = false)}
 					onblur={() => (isOpenCustomizeOpen = false)}
 				>
@@ -100,8 +107,8 @@
 
 					<div
 						class={cn(
-							'absolute top-full right-0 w-[400px] p-4 bg-[#19191A] shadow-lg rounded-[8px] border border-neutral-80 opacity-0 -z-[9999] pointer-events-none transition',
-							isOpenCustomizeOpen && 'z-[9999] opacity-100 pointer-events-auto'
+							'absolute top-full right-0 w-[400px] p-4 bg-[#19191A] shadow-lg rounded-[8px] border border-neutral-80 opacity-0 -z-[9999999] pointer-events-none transition',
+							isOpenCustomizeOpen && 'z-[999999999] opacity-100 pointer-events-auto'
 						)}
 					>
 						<ReadingCustomize
@@ -129,7 +136,7 @@
 
 	<Tooltip.Root openDelay={5}>
 		<Tooltip.Trigger class="hover:text-white transition">
-			<Popover.Root>
+			<Popover.Root open={isShareOpen} onOpenChange={(open) => (isShareOpen = open)}>
 				<Popover.Trigger>
 					<span>
 						<ShareArrow />
@@ -142,13 +149,15 @@
 			</Popover.Root>
 		</Tooltip.Trigger>
 
-		<Tooltip.Content
-			side="left"
-			sideOffset={28}
-			class="bg-[#19191b] border-0 text-sm text-neutral-20 font-mono max-w-[160px] px-2.5 py-1.5"
-		>
-			<p>Share this article</p>
-		</Tooltip.Content>
+		{#if !isShareOpen}
+			<Tooltip.Content
+				side="left"
+				sideOffset={28}
+				class="bg-[#19191b] border-0 text-sm text-neutral-20 font-mono max-w-[160px] px-2.5 py-1.5"
+			>
+				<p>Share this article</p>
+			</Tooltip.Content>
+		{/if}
 	</Tooltip.Root>
 
 	{#if !isLoggedIn}
