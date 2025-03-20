@@ -109,6 +109,7 @@
 							onClose={() => (isOpenCustomizeOpen = false)}
 							className="relative p-0 w-full text-left"
 							hideContainer
+							hidex
 						/>
 					</div>
 				</span>

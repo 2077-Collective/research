@@ -6,12 +6,14 @@
 		open,
 		onClose,
 		className = '',
-		hideContainer = false
+		hideContainer = false,
+		hidex = false
 	}: {
 		open: boolean;
 		onClose: () => void;
 		className?: string;
 		hideContainer?: boolean;
+		hidex?: boolean;
 	} = $props();
 
 	let selectedSize = $state(18);
@@ -123,7 +125,9 @@
 			<div class="flex items-center justify-between">
 				<span class="text-2xl text-white font-powerGroteskBold">Customize</span>
 
-				<button onclick={onClose}><X class="size-5" /></button>
+				{#if !hidex}
+					<button onclick={onClose}><X class="size-5" /></button>
+				{/if}
 			</div>
 
 			<div class="mt-6 space-y-4">
