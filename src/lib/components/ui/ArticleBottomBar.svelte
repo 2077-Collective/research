@@ -14,7 +14,8 @@
 		isAudioLoading,
 		userEmail,
 		onShareClick,
-		audioOnLoggedOut
+		audioOnLoggedOut,
+		onNotSignedInReadCustomizeClick
 	} = $props();
 
 	let lastScrollY = $state(0);
@@ -78,7 +79,7 @@
 
 	<button
 		class="min-h-10 flex flex-col items-center justify-center gap-2"
-		onclick={() => (openCustomize = true)}
+		onclick={() => (!isLoggedIn ? onNotSignedInReadCustomizeClick() : (openCustomize = true))}
 	>
 		<svg class="size-5" viewBox="0 0 22 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 			<path

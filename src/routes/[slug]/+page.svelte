@@ -979,6 +979,11 @@
 		showAuthBanner = true;
 		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
 	}}
+	onNotSignedInReadCustomizeClick={() => {
+		bannerText = 'Customizing your reading experience';
+		showAuthBanner = true;
+		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
+	}}
 />
 
 <!-- Share Mobile -->
