@@ -732,7 +732,8 @@
 		listen: 'listen to narrated articles',
 		summary: 'read article summaries',
 		download: 'download PDFs',
-		save: 'save articles to read later'
+		save: 'save articles to read later',
+		customize: 'customize your reading experience'
 	};
 
 	function joinPhrases(obj: Record<string, string>, key: keyof typeof obj): string {
@@ -747,9 +748,10 @@
 
 	let articleAudioUrl = $state('');
 	let isAudioLoading = $state(true);
+	let blockAudio = $state(true);
 
 	const fetchAudio = async () => {
-		if (!isLoggedIn) {
+		if (!isLoggedIn || blockAudio) {
 			isAudioLoading = false;
 			return;
 		}
@@ -816,9 +818,8 @@
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign up for free to {bannerSubTitle}, customize your reading experience, highlight key
-						insights, follow topics, and receive curated newsletters. Explore the future of Ethereum
-						without limits.
+						Sign up for free to {bannerSubTitle}, highlight key insights, follow topics, and receive
+						curated newsletters. Explore the future of Ethereum without limits.
 					</p>
 				</div>
 
@@ -1487,7 +1488,7 @@
 			</div>
 		{/if}
 
-		<div class="relative">
+		<div class="relative max-md:hidden">
 			<div class="sticky top-28">
 				<ArticleStickyBar
 					{isLoggedIn}
@@ -1497,12 +1498,53 @@
 						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
 					}}
 					{articleAudioUrl}
-					onReadCustomizeClick={() => {}}
+					onNotSignedInReadCustomizeClick={() => {
+						bannerText = 'Customizing your reading experience';
+						showAuthBanner = true;
+						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
+					}}
 					onAccountClick={() => {}}
+					shareOptions={shareButtons}
 				/>
 			</div>
 		</div>
 	</article>
+{/snippet}
+
+{#snippet shareButtons()}
+	{#each shareOptions as option}
+		<a
+			href={option.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			role="menuitem"
+			class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2 [&_svg]:!size-5"
+			data-sveltekit-preload-data
+		>
+			{#if option.isSvg}
+				{@html option.icon}
+			{:else}
+				{@const IconComponent = option.icon}
+				<IconComponent class="" />
+			{/if}
+			<span class="text-sm">{option.name}</span>
+		</a>
+	{/each}
+	<button
+		onclick={copyShareLink}
+		role="menuitem"
+		class={cn(
+			'w-full px-4 py-2 hover:bg-neutral-80 text-left flex items-center gap-2 !font-mono transition',
+			copySuccess && 'text-[#0BC8D2]'
+		)}
+	>
+		<Link2 class="w-5 h-5" />
+		{#if copySuccess}
+			<span class="text-sm">Link copied</span>
+		{:else}
+			<span class="text-sm">Copy link</span>
+		{/if}
+	</button>
 {/snippet}
 
 {#snippet floatingButtons()}

@@ -2,7 +2,17 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { AlignLeft, X } from 'lucide-svelte';
 
-	const { open, onClose } = $props();
+	const {
+		open,
+		onClose,
+		className = '',
+		hideContainer = false
+	}: {
+		open: boolean;
+		onClose: () => void;
+		className?: string;
+		hideContainer?: boolean;
+	} = $props();
 
 	let selectedSize = $state(18);
 	let selectedFont = $state('hubot-sans');
@@ -29,7 +39,7 @@
 	const THEMES = [
 		{
 			id: 1,
-			bg_color: '#19191A',
+			bg_color: '#010102',
 			text_color: 'white',
 			value: 'default'
 		},
@@ -108,17 +118,17 @@
 </script>
 
 {#if open}
-	<div class="fixed w-full bottom-0 z-[999999999] bg-[#191919] pt-[29px] pb-10">
-		<div class="container">
+	<div class={cn('fixed w-full bottom-0 z-[999999999] bg-[#191919] pt-[29px] pb-10', className)}>
+		<div class={cn(!hideContainer && 'container')}>
 			<div class="flex items-center justify-between">
-				<h4 class="text-2xl text-white font-powerGroteskBold">Customize</h4>
+				<span class="text-2xl text-white font-powerGroteskBold">Customize</span>
 
 				<button onclick={onClose}><X class="size-5" /></button>
 			</div>
 
 			<div class="mt-6 space-y-4">
 				<div class="space-y-2">
-					<p class="text-neutral-40 font-mono">Font size</p>
+					<span class="text-neutral-40 font-mono">Font size</span>
 
 					<div class="grid grid-cols-5 gap-1.5">
 						{#each FONT_SIZES as size}
@@ -134,7 +144,7 @@
 				</div>
 
 				<div class="space-y-2">
-					<p class="text-neutral-40 font-mono">Font</p>
+					<span class="text-neutral-40 font-mono">Font</span>
 
 					<div class="grid grid-cols-3 gap-2">
 						{#each FONT_FAMILIES as font}
@@ -151,7 +161,7 @@
 				</div>
 
 				<div class="space-y-2">
-					<p class="text-neutral-40 font-mono">Theme</p>
+					<span class="text-neutral-40 font-mono">Theme</span>
 
 					<div class="grid grid-cols-5 gap-2">
 						{#each THEMES as theme}

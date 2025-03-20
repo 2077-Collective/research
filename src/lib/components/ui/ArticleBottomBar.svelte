@@ -3,7 +3,7 @@
 	import { ForwardIcon, Headphones, Home, User } from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import AudioListen from './AudioListen.svelte';
-	import ReadingCustomizeMobile from './ReadingCustomizeMobile.svelte';
+	import ReadingCustomize from './ReadingCustomize.svelte';
 
 	let isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
@@ -117,4 +117,4 @@
 	</div>
 </div>
 
-<ReadingCustomizeMobile open={openCustomize} onClose={() => (openCustomize = false)} />
+<ReadingCustomize open={openCustomize} onClose={() => (openCustomize = false)} />
