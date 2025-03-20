@@ -83,7 +83,6 @@
 				scrolling="no"
 				sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
 				referrerpolicy="no-referrer-when-downgrade"
-				loading="lazy"
 				aria-label="Newsletter signup form"
 			></iframe>
 		</div>

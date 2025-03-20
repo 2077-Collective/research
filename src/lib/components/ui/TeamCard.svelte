@@ -37,7 +37,7 @@
 	<div class="absolute inset-0">
 		<div class="size-full relative">
 			<img
-				src={picture_url || '/philosopher.png'}
+				src={picture_url ? picture_url : '/philosopher.png'}
 				class="size-full object-cover object-top"
 				alt={full_name}
 			/>

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Article, ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
+	import { Image } from '@unpic/svelte';
 	import { ArrowRight } from 'lucide-svelte';
 	import Badge from './badge/badge.svelte';
 
@@ -99,14 +100,13 @@
 					{#each articles as article}
 						<div class="space-y-2 group relative">
 							<div class="aspect-[1/0.5] overflow-hidden rounded-sm">
-								<img
-									src={article.thumb_url}
+								<Image
+									src={article.thumb_url || ''}
 									alt=""
 									class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-									width="400"
-									height="300"
-									loading="lazy"
-									decoding="async"
+									width={400}
+									height={300}
+									sizes
 								/>
 							</div>
 
