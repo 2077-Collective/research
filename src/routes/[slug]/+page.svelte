@@ -12,6 +12,7 @@
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -22,7 +23,6 @@
 	import { Image } from '@unpic/svelte';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
-		ArrowUp,
 		Bookmark,
 		FileDown,
 		Headphones,
@@ -988,20 +988,6 @@
 	</div>
 </div>
 
-<!-- Back to top button -->
-{#if showFloatingButtons && !loadingBookmarks}
-	<button
-		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
-		aria-label="Scroll back to the top of the page"
-		onclick={handleScrollToTop}
-	>
-		<ArrowUp
-			class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
-			style="stroke-width: 1.4"
-		/>
-	</button>
-{/if}
-
 <div class="md:flex gap-8 container">
 	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
 		{#if !isReadingMode}
@@ -1543,6 +1529,8 @@
 {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	{@render summaryPanel()}
 {/if}
+
+<ScrollToTopButton className="max-md:top-40" />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');

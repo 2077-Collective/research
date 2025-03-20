@@ -5,6 +5,7 @@
 	import Grid from '$lib/components/ui/icons/Grid.svelte';
 	import List from '$lib/components/ui/icons/List.svelte';
 	import X from '$lib/components/ui/icons/X.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
@@ -287,3 +288,5 @@
 		{/if}
 	</section>
 </div>
+
+<ScrollToTopButton />

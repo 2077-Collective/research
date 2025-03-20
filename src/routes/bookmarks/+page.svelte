@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { fetchGhostArticles } from '$lib/services/ghost.service';
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
@@ -117,3 +118,5 @@
 		</div>
 	{/if}
 </div>
+
+<ScrollToTopButton />

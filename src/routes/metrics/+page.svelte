@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { ArrowUp, Search } from 'lucide-svelte';
 </script>
 
@@ -240,3 +241,5 @@
 		</section>
 	</div>
 </div>
+
+<ScrollToTopButton />

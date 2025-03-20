@@ -4,9 +4,7 @@
 	import Nav from '$lib/components/ui/Nav.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import SubscribeSection from '$lib/components/ui/SubscribeSection.svelte';
-	import { cn } from '$lib/utils/ui-components';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
-	import { ArrowUp } from 'lucide-svelte';
 	import '../app.css';
 
 	injectAnalytics();
@@ -105,23 +103,6 @@
 		<JoinSection />
 		<Footer />
 		<Toaster richColors position="top-center" />
-
-		<div class="container flex items-center justify-end">
-			<button
-				class={cn(
-					'flex items-center justify-center gap-1 text-2xl group text-[12.667px] size-10 bg-[#19191A] rounded-full text-[#B4B4B4] group fixed bottom-8 md:bottom-11 font-semibold shadow-2xl hover:shadow-hover hover:bg-white border border-[#333] -z-50 transition opacity-0',
-					showButton && 'opacity-100 z-[999999]'
-				)}
-				aria-label="Scroll back to the top of the page"
-				onclick={handleScrollToTop}
-			>
-				<!-- <span class="max-md:hidden">Back to the Top</span> -->
-				<ArrowUp
-					class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
-					style="stroke-width: 1.4"
-				/>
-			</button>
-		</div>
 	</div>
 </div>
 

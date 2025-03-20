@@ -3,6 +3,7 @@
 	import FeaturedArticles from '$lib/components/ui/FeaturedArticles.svelte';
 	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
@@ -118,3 +119,5 @@
 
 	<Testimonials4 />
 </div>
+
+<ScrollToTopButton />

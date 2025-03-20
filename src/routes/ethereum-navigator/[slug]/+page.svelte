@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import type { PageData } from './$types';
 	//import DOMPurify from 'dompurify';
 	import DOMPurify from 'isomorphic-dompurify';
@@ -111,6 +112,8 @@
 		</div>
 	</article>
 </div>
+
+<ScrollToTopButton />
 
 <style>
 	:global(.prose) {

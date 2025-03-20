@@ -13,6 +13,7 @@
 	import Pymnts from '$lib/components/ui/icons/partners/Pymnts.svelte';
 	import Spire from '$lib/components/ui/icons/partners/Spire.svelte';
 	import Starknet from '$lib/components/ui/icons/partners/Starknet.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import Testimonials3 from '$lib/components/ui/Testimonials3.svelte';
 	import { CheckSquare2, Copy } from 'lucide-svelte';
 
@@ -149,3 +150,5 @@
 		<Testimonials3 />
 	</section>
 </div>
+
+<ScrollToTopButton />
