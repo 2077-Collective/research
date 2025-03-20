@@ -39,7 +39,7 @@
 	font-display: swap;
 } */
 
-/* @font-face {
+@font-face {
 	font-family: 'Charter';
 	font-style: normal;
 	font-weight: normal;
@@ -57,7 +57,7 @@
 		local('OpenSans'),
 		url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('ttf');
 	font-display: swap;
-} */
+}
 
 @font-face {
 	font-family: 'Hubot Sans';
