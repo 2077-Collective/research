@@ -36,7 +36,8 @@ const config = {
 					// ✅ Add media-src directive
 					'self',
 					'https://*.beehiiv.com',
-					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net'
+					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net',
+					'https://ghost-2077.arvensis.systems'
 				],
 				'frame-ancestors': ['self'],
 				'base-uri': ['self'],
