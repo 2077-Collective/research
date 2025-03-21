@@ -20,16 +20,9 @@ const config = {
 					'https://elevenlabs.io',
 					'https://fonts.googleapis.com',
 					'https://embeds.beehiiv.com',
-					'https://www.beehiiv.com',
-					"'nonce-EP2PB0BhKijGKuZMC050hw=='"
+					'https://www.beehiiv.com'
 				],
-				'img-src': [
-					'self',
-					'data:',
-					'https:',
-					'https://*.beehiiv.com',
-					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net/**'
-				],
+				'img-src': ['self', 'data:', 'https:', 'https://*.beehiiv.com'],
 				'style-src': [
 					'self',
 					'unsafe-inline',
@@ -43,8 +36,7 @@ const config = {
 					// ✅ Add media-src directive
 					'self',
 					'https://*.beehiiv.com',
-					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net',
-					'https://ghost-2077.arvensis.systems'
+					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net'
 				],
 				'frame-ancestors': ['self'],
 				'base-uri': ['self'],
