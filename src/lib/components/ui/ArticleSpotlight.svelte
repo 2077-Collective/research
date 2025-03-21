@@ -3,7 +3,6 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { Image } from '@unpic/svelte';
 	import Badge from './badge/badge.svelte';
 
 	const { article }: { article: ArticleMetadata } = $props();
@@ -33,7 +32,7 @@
 		class="!w-full lg:!w-4/6"
 		aria-label={`Thumbnail for article: ${article.title}`}
 	>
-		<Image
+		<img
 			src={thumbnailUrl}
 			alt={`Thumbnail for article: ${article.title}`}
 			class="!w-full lg:w-4/6 object-contain"

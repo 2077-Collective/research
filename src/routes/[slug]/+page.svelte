@@ -21,7 +21,6 @@
 	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
-	import { Image } from '@unpic/svelte';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
 		Bookmark,
@@ -877,7 +876,7 @@
 				</div>
 				<div class="space-y-4">
 					<div class="w-full aspect-[1/0.35] flex-shrink-0 overflow-hidden">
-						<Image
+						<img
 							src={data.article.thumb_url || ''}
 							alt={data.article.title}
 							class="w-full h-full object-cover pointer-events-none select-none object-top"
@@ -1193,7 +1192,7 @@
 {#snippet header(article: Article)}
 	<div class="relative pt-32">
 		<div class="rounded-[8px] overflow-hidden relative">
-			<Image
+			<img
 				src={article.thumb_url || ''}
 				alt={article.title}
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
