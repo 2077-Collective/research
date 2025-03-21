@@ -3,7 +3,6 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { getAuthorsText } from '$lib/utils/authors';
 	import { formatCategorySlug } from '$lib/utils/format';
-	import { Image } from '@unpic/svelte';
 	import { format } from 'date-fns';
 	import { gsap } from 'gsap';
 	import { ArrowRight } from 'lucide-svelte';
@@ -75,7 +74,7 @@
 			data-sveltekit-preload-data
 			aria-label={`Thumbnail for article: ${article.title}`}
 		>
-			<Image
+			<img
 				src={article.thumb_url || ''}
 				alt={`Thumbnail for article: ${article.title}`}
 				decoding="async"

@@ -9,7 +9,6 @@
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
-	import { Image } from '@unpic/svelte';
 	import { format } from 'date-fns';
 	import { ArrowRight } from 'lucide-svelte';
 	import type { PageData } from './$types';
@@ -185,7 +184,7 @@
 									></a>
 
 									<div class="overflow-hidden">
-										<Image
+										<img
 											src={article.thumb_url || ''}
 											alt=""
 											class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
@@ -235,7 +234,7 @@
 								></a>
 
 								<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
-									<Image
+									<img
 										src={article.thumb_url || ''}
 										alt=""
 										class="size-full object-cover group-hover:scale-105 transition will-change-transform"
