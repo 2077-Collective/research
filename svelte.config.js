@@ -20,9 +20,16 @@ const config = {
 					'https://elevenlabs.io',
 					'https://fonts.googleapis.com',
 					'https://embeds.beehiiv.com',
-					'https://www.beehiiv.com'
+					'https://www.beehiiv.com',
+					"'nonce-EP2PB0BhKijGKuZMC050hw=='"
 				],
-				'img-src': ['self', 'data:', 'https:', 'https://*.beehiiv.com'],
+				'img-src': [
+					'self',
+					'data:',
+					'https:',
+					'https://*.beehiiv.com',
+					'https://beyondwords-cdn-b7fyckdeejejb6dj.a03.azurefd.net/**'
+				],
 				'style-src': [
 					'self',
 					'unsafe-inline',
