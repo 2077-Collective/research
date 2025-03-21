@@ -9,6 +9,7 @@
 	import { toast } from 'svelte-sonner';
 	import { derived } from 'svelte/store';
 	import { z } from 'zod';
+	import { createGhostMember, getGhostMember } from '$lib/services/ghost.service';
 
 	const pageUrl = $page.url.origin;
 
@@ -75,26 +76,39 @@
 
 				if (metadataFieldsLength === 0) {
 					toast.error('Account with email already exists');
-
 					return;
 				}
 
 				if (metadataFieldsLength > 0 && !userMetadata.email_verified) {
-					toast.success('Account Created. Check email for verification link.');
-					email = '';
-					password = '';
+					try {
+						const existingMember = await getGhostMember(email);
 
+						if (!existingMember) {
+							await createGhostMember(email);
+							console.log('Ghost member created successfully');
+						} else {
+							console.log('Ghost member already exists');
+						}
+
+						toast.success('Account Created. Check email for verification link.');
+						email = '';
+						password = '';
+					} catch (ghostError) {
+						console.error('Error with Ghost integration:', ghostError);
+						toast.success('Account Created. Check email for verification link.');
+						email = '';
+						password = '';
+					}
 					return;
 				}
 			}
 
 			if (error) {
 				toast.error(error.message);
-
 				return;
 			}
 		} catch (error) {
-			toast.error('An error occured. Please try again.');
+			toast.error('An error occurred. Please try again.');
 		} finally {
 			isSubmitting = false;
 		}

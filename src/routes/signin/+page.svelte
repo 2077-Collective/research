@@ -10,6 +10,7 @@
 	import { toast } from 'svelte-sonner';
 	import { derived } from 'svelte/store';
 	import { z } from 'zod';
+	import { getGhostMember, createGhostMember } from '$lib/services/ghost.service';
 
 	const pageUrl = $page.url.origin;
 
@@ -30,6 +31,19 @@
 	const signUpURL = $paramValue ? `/signup?callback_url=${$paramValue}` : '/signup';
 	const redirectURL = $paramValue || '/reports';
 
+	const syncGhostMembership = async (userEmail: string) => {
+		try {
+			const existingMember = await getGhostMember(userEmail);
+
+			if (!existingMember) {
+				await createGhostMember(userEmail);
+				console.log('Ghost member created for existing Supabase user');
+			}
+		} catch (error) {
+			console.error('Error syncing Ghost membership:', error);
+		}
+	};
+
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
 
@@ -46,24 +60,25 @@
 			});
 
 			if (data.user) {
+				if (data.user.email) {
+					await syncGhostMembership(data.user.email);
+				}
+
 				await goto(redirectURL);
-
 				toast.success('Log in successful');
-
 				return;
 			}
 
 			if (error) {
 				if (error.code === 'invalid_credentials') {
 					toast.error('Invalid credentials');
-
 					return;
 				}
 			}
 
 			console.log({ data, error });
 		} catch (error) {
-			toast.error('An error occured. Please try again.');
+			toast.error('An error occurred. Please try again.');
 		} finally {
 			isSubmitting = false;
 		}
