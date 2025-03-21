@@ -9,6 +9,22 @@
 			"destination": "https://research.2077.xyz/spectra-finance-moving-toward-a-more-robust-defi-and-ird-ecosystem"
 		},
 		{
+			"source": "/charting-ethereums-account-abstraction-roadmap-eip-3074-eip-5806-eip-7702/",
+			"destination": "https://research.2077.xyz/charting-ethereums-account-abstraction-roadmap-i-eip-3074-eip-5806-eip-7702"
+		},
+		{
+			"source": "/defining-interest-rates-for-stablecoins-1/",
+			"destination": "https://research.2077.xyz/defining-interest-rates-for-stablecoins"
+		},
+		{
+			"source": "/making-crosschain-tokens-fungible-part-1/",
+			"destination": "https://research.2077.xyz/how-to-make-cross-chain-tokens-fungible-again-part-1"
+		},
+		{
+			"source": "/depin-on-ethereum-redefining-coordination-systems-1/",
+			"destination": "https://research.2077.xyz/depin-on-ethereum-redefining-coordination-systems"
+		},
+		{
 			"source": "/p/(.*)",
 			"destination": "https://cms.2077.xyz/p/$1"
 		},
