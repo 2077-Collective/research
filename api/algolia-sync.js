@@ -1,10 +1,16 @@
 const algoliasearch = require('algoliasearch');
 const GhostContentAPI = require('@tryghost/content-api');
+const Bottleneck = require('bottleneck');
+
+const algoliaLimiter = new Bottleneck({
+  minTime: 200,
+  maxConcurrent: 2
+});
 
 module.exports = async (req, res) => {
     console.log('--- Webhook Received ---');
     console.log('Request Method:', req.method);
-    console.log('Request Query:', req.query);
+    console.log('Request Query:', { ...req.query, key: req.query.key ? '***' : undefined });
     console.log('Request Body:', JSON.stringify(req.body, null, 2));
 
     if (req.method !== 'POST') {
@@ -107,7 +113,10 @@ module.exports = async (req, res) => {
                 console.log('Prepared Algolia Record:', JSON.stringify(record, null, 2));
 
                 try {
-                    const indexResponse = await index.saveObject(record);
+                    // Apply rate limiting to the indexing operation
+                    const indexResponse = await algoliaLimiter.schedule(() => 
+                        index.saveObject(record)
+                    );
                     console.log('Algolia Indexing Response:', indexResponse);
                     return res.status(200).json({
                         message: 'Post indexed successfully',
@@ -126,7 +135,10 @@ module.exports = async (req, res) => {
             case 'post.deleted': {
                 console.log(`Attempting to delete post ${post.id} from Algolia index`);
                 try {
-                    const deleteResponse = await index.deleteObject(post.id);
+                    // Apply rate limiting to the delete operation
+                    const deleteResponse = await algoliaLimiter.schedule(() => 
+                        index.deleteObject(post.id)
+                    );
                     console.log('Algolia Delete Response:', deleteResponse);
                     return res.status(200).json({
                         message: 'Post removed from index',
