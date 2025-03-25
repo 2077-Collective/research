@@ -13,9 +13,6 @@ module.exports = async (req, res) => {
     }
 
     const secretKey = req.query.key;
-    console.log('Received Secret Key:', secretKey);
-    console.log('Expected Secret Key:', process.env.VERCEL_SECRET_KEY);
-
     if (secretKey !== process.env.VERCEL_SECRET_KEY) {
         console.error('Unauthorized Access - Invalid Secret Key');
         return res.status(401).json({ message: 'Unauthorized' });
@@ -38,7 +35,6 @@ module.exports = async (req, res) => {
         });
     }
 
-    // Initialize clients
     let client, index, ghost;
     try {
         client = algoliasearch(
@@ -61,7 +57,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        if (!req.body || !req.body.current || !req.body.current.post) {
+        if (!req.body?.current?.post) {
             console.error('Invalid Webhook Payload', req.body);
             return res.status(400).json({
                 message: 'Invalid Webhook Payload',
@@ -77,7 +73,7 @@ module.exports = async (req, res) => {
         console.log('Post Title:', post.title);
 
         switch (event) {
-            case 'post.published':
+            case 'post.published': {
                 console.log('Attempting to fetch full post details...');
                 let fullPost;
                 try {
@@ -101,8 +97,8 @@ module.exports = async (req, res) => {
                     html: fullPost.html,
                     excerpt: fullPost.excerpt,
                     content: fullPost.plaintext,
-                    tags: fullPost.tags ? fullPost.tags.map(tag => tag.name) : [],
-                    authors: fullPost.authors ? fullPost.authors.map(author => author.name) : [],
+                    tags: fullPost.tags?.map(tag => tag.name) ?? [],
+                    authors: fullPost.authors?.map(author => author.name) ?? [],
                     created_at: fullPost.created_at,
                     updated_at: fullPost.updated_at,
                     published_at: fullPost.published_at,
@@ -124,9 +120,10 @@ module.exports = async (req, res) => {
                         error: indexError.message
                     });
                 }
+            }
 
             case 'post.unpublished':
-            case 'post.deleted':
+            case 'post.deleted': {
                 console.log(`Attempting to delete post ${post.id} from Algolia index`);
                 try {
                     const deleteResponse = await index.deleteObject(post.id);
@@ -142,20 +139,23 @@ module.exports = async (req, res) => {
                         error: deleteError.message
                     });
                 }
+            }
 
-            default:
+            default: {
                 console.warn('Unhandled Event Type:', event);
                 return res.status(400).json({
                     message: 'Unhandled event type',
                     event
                 });
+            }
         }
     } catch (error) {
         console.error('Unexpected Webhook Processing Error:', error);
+        const isProd = process.env.NODE_ENV === 'production';
         return res.status(500).json({
             message: 'Unexpected Internal Error',
-            error: error.message,
-            stack: error.stack
+            error: isProd ? 'An unexpected error occurred' : error.message,
+            ...(isProd ? {} : { stack: error.stack })
         });
     }
 };
