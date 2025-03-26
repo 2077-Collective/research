@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { Badge } from '$lib/components/ui/badge';
-	import { getGhostArticleBySlug } from '$lib/services/article.service';
 	import { fetchGhostArticles } from '$lib/services/ghost.service';
 	import type { Article, ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -17,6 +16,7 @@
 	let savedArticles = $state<Article[]>([]);
 	let historyArticles = $state<ArticleWithProgress[]>([]);
 	let isLoading = $state(true);
+	let userName = $state('');
 
 	const getBookmarks = async (id: string) => {
 		const { data, error: dataError } = await supabase
@@ -61,12 +61,15 @@
 			.limit(3);
 
 		if (data && data.length > 0) {
-			const articlesWithProgress = await Promise.all(
-				data.map(async (item) => {
-					const article = await getGhostArticleBySlug(item.articleId);
-					return { ...article, progress: item.progress };
-				})
-			);
+			const articleIds = data.map((item) => item.articleId);
+			const posts = await fetchGhostArticles(undefined, 1, 10000, articleIds);
+
+			const articlesWithProgress = posts.map((post: any) => {
+				return {
+					...post,
+					progress: data.find((p) => p.articleId === post.slug)?.progress || 0
+				};
+			});
 
 			historyArticles = articlesWithProgress;
 		}
@@ -86,6 +89,10 @@
 			if (user) {
 				await getBookmarks(user.id);
 				await getReadHistory(user.id);
+
+				const name = user.user_metadata?.full_name || user.email?.split('@')[0] || 'there';
+
+				userName = name.split(' ')[0];
 
 				isLoading = false;
 			} else {
@@ -122,7 +129,7 @@
 
 <section class="pt-32 pb-[50px] bg-[#010102] relative overflow-hidden">
 	<div class="container">
-		<h1 class="text-[32px] font-powerGroteskBold">Welcome back</h1>
+		<h1 class="text-[32px] font-powerGroteskBold">Welcome back, {userName}.</h1>
 	</div>
 
 	<img
@@ -448,7 +455,7 @@
 
 					<p class="mt-4 text-sm text-neutral-10">
 						However, this "honeymoon period" did not last long. As various L2s began competing for
-						TVL, users’ assets became increasingly fragmented across different L2s, exposing
+						TVL, users&apos assets became increasingly fragmented across different L2s, exposing
 						numerous challenges in user experience (UX), particularly in cross-L2 interactions.
 					</p>
 				</div>

@@ -3,7 +3,7 @@
 	import { Badge } from '$lib/components/ui/badge';
 	import Grid from '$lib/components/ui/icons/Grid.svelte';
 	import List from '$lib/components/ui/icons/List.svelte';
-	import { getGhostArticleBySlug } from '$lib/services/article.service';
+	import { fetchGhostArticles } from '$lib/services/ghost.service';
 	import type { Article, ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { supabase } from '$lib/utils/supabase';
@@ -26,12 +26,15 @@
 			.order('updated_at', { ascending: false });
 
 		if (data && data.length > 0) {
-			const articlesWithProgress = await Promise.all(
-				data.map(async (item) => {
-					const article = await getGhostArticleBySlug(item.articleId);
-					return { ...article, progress: item.progress };
-				})
-			);
+			const articleIds = data.map((item) => item.articleId);
+			const posts = await fetchGhostArticles(undefined, 1, 10000, articleIds);
+
+			const articlesWithProgress = posts.map((post: any) => {
+				return {
+					...post,
+					progress: data.find((p) => p.articleId === post.slug)?.progress || 0
+				};
+			});
 
 			historyArticles = articlesWithProgress;
 		}
