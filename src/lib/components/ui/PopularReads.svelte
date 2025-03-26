@@ -32,7 +32,9 @@
 	}
 
 	function getPrimaryCategory(article: ArticleMetadata) {
-		return article.categories.find((category) => category.is_primary);
+		const primary = article.categories.find((category) => category.is_primary);
+
+		return primary ?? article.categories[0];
 	}
 </script>
 

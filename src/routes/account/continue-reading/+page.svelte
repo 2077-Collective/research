@@ -7,14 +7,18 @@
 
 	const articles = Array.from({ length: 5 });
 
-	let viewStyle = $state<'GRID' | 'LIST'>('LIST');
+	let viewStyle = $state<'GRID' | 'LIST'>('GRID');
+
+	const handleBackNavigate = () => {
+		history.back();
+	};
 </script>
 
 <div class="pt-32 pb-[60px]">
 	<div class="container">
 		<div class="flex items-center justify-between mb-10">
 			<div class="flex items-center gap-3">
-				<button class="flex-shrink-0">
+				<button class="flex-shrink-0" onclick={handleBackNavigate}>
 					<ArrowLeft />
 				</button>
 				<h1 class="text-[24px] font-powerGroteskBold">Continue reading</h1>
@@ -55,7 +59,7 @@
 					{#each articles as article}
 						<div>
 							<div class="flex items-center justify-between">
-								<Badge>Scaling</Badge>
+								<Badge class="rounded-none">Scaling</Badge>
 
 								<button
 									class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"

@@ -1,9 +1,88 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { Badge } from '$lib/components/ui/badge';
+	import { fetchGhostArticles } from '$lib/services/ghost.service';
+	import type { Article, ArticleMetadata } from '$lib/types/article';
+	import { formatCategorySlug } from '$lib/utils/format';
+	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
+	import { error } from '@sveltejs/kit';
+	import { format } from 'date-fns';
 	import { ArrowRight, ChevronRight } from 'lucide-svelte';
+	import { toast } from 'svelte-sonner';
 
-	const savedArticles = Array.from({ length: 5 });
+	// const savedArticles = Array.from({ length: 10 });
+
+	let savedArticles = $state<Article[]>([]);
+	let isLoading = $state(true);
+
+	const getBookmarks = async (id: string) => {
+		const { data, error: dataError } = await supabase
+			.from('UserBookmarks')
+			.select('*')
+			.eq('userId', id)
+			.limit(1)
+			.single();
+
+		if (data) {
+			const savedBookmarks: string[] = data.articleIds || [];
+
+			if (savedBookmarks.length > 0) {
+				const posts = await fetchGhostArticles(undefined, 1, 10000, savedBookmarks);
+
+				savedArticles = posts.reverse();
+			}
+		}
+
+		if (dataError) {
+			if (dataError.code === 'PGRST116') {
+				const { error: createError } = await supabase
+					.from('UserBookmarks')
+					.insert({ userId: id, articleIds: [] });
+
+				if (createError) {
+					toast.error('An error occured. Please try again.');
+				}
+			} else {
+				toast.error('Error fetching bookmarks');
+				throw error(500, 'Error fetching bookmarks');
+			}
+		}
+	};
+
+	const handleDataFetch = async () => {
+		isLoading = true;
+		try {
+			const {
+				data: { user }
+			} = await supabase.auth.getUser();
+
+			if (user) {
+				await getBookmarks(user.id);
+
+				isLoading = false;
+			} else {
+				goto('/signin?callback_url=/account');
+			}
+		} catch (errorData) {
+			console.error(errorData);
+			toast.error('Error loading bookmarks. Please try again.');
+
+			savedArticles = [];
+
+			throw error(500, 'An error occured');
+		}
+	};
+
+	function getPrimaryCategory(article: ArticleMetadata) {
+		const primary = article.categories.find((category) => category.is_primary);
+
+		return primary ?? article.categories[0];
+	}
+
+	$effect(() => {
+		handleDataFetch();
+	});
 </script>
 
 <section class="pt-32 pb-[50px] bg-[#010102] relative overflow-hidden">
@@ -37,7 +116,7 @@
 			{#each Array.from({ length: 3 }) as article}
 				<div>
 					<div class="flex items-center justify-between">
-						<Badge>Scaling</Badge>
+						<Badge class="rounded-none">Scaling</Badge>
 
 						<button
 							class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"
@@ -92,48 +171,60 @@
 		<button
 			class="text-xl !font-powerGroteskBold inline-flex items-center gap-1.5 hover:text-neutral-20 transition group"
 			>Saved Articles
-			<ChevronRight class="size-5 group-hover:translate-x-[2px] transition will-change-transform" />
+			<!-- <ChevronRight class="size-5 group-hover:translate-x-[2px] transition will-change-transform" /> -->
 		</button>
 	</div>
 
 	<div class="mt-[18px] border-y border-[#202020]">
-		<div class="container grid grid-cols-5 divide-x divide-[#202020]">
-			{#each savedArticles as article, i}
-				<div
-					class={cn(
-						'px-5 pt-[31px] pb-[50px]',
-						i === 0 && 'border-l border-[#202020]',
-						savedArticles.length - 1 === i && '!border-r border-[#202020]'
-					)}
-				>
-					<Badge class="rounded-none">Scaling</Badge>
+		<div class="container">
+			<div class="grid grid-cols-5 border-l border-[#202020]">
+				{#each savedArticles as article, i}
+					{@const primaryCategory = getPrimaryCategory(article)?.name}
+					{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
+					<div
+						class={cn(
+							'px-5 pt-[31px] pb-[50px] border-r border-[#202020]'
+							// i === 0 && 'border-l border-[#202020]',
+							// savedArticles.length - 1 === i && '!border-r border-[#202020]'
+						)}
+					>
+						<a
+							href={`/category/${formatCategorySlug(primaryCategory)}`}
+							data-sveltekit-preload-data
+						>
+							<Badge class="rounded-none">{primaryCategory}</Badge></a
+						>
 
-					<div class="mt-1 group">
-						<div class="aspect-[1/1.1] relative overflow-hidden">
-							<img
-								class="size-full object-cover group-hover:scale-110 transition will-change-transform"
-								src="https://ghost-2077.arvensis.systems/content/images/2025/03/rsby3bojlx6dmvwsvt7a-1.webp"
-								alt="thumbnail"
-							/>
-						</div>
+						<div class="mt-1 group relative">
+							<a href={`/${article.slug}`} data-sveltekit-preload-data>
+								<div class="aspect-[1/1.1] relative overflow-hidden">
+									<img
+										class="size-full object-cover group-hover:scale-110 transition will-change-transform"
+										src={article.thumb_url}
+										alt={`Thumbnail for article: ${article.title}`}
+										loading="eager"
+									/>
+								</div>
 
-						<div class="mt-4">
-							<h3
-								class="font-powerGroteskBold text-xl leading-[22px] group-hover:underline underline-offset-[3px]"
-							>
-								DePIN On Ethereum: Redefining Coordination Systems
-							</h3>
+								<div class="mt-4">
+									<h3
+										class="font-powerGroteskBold text-xl leading-[22px] group-hover:underline underline-offset-[3px]"
+									>
+										{article.title}
+									</h3>
 
-							<div
-								class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
-							>
-								<p>20 Jan 2024</p>
-								<p class="pl-2">5 min read</p>
-							</div>
+									<div
+										class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+									>
+										<p>{formattedDate}</p>
+										<p class="pl-2">{article.min_read} min read</p>
+									</div>
+								</div>
+							</a>
 						</div>
 					</div>
-				</div>
-			{/each}
+				{/each}
+			</div>
 		</div>
 	</div>
 </div>
