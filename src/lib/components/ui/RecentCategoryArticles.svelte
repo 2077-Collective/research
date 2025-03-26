@@ -100,12 +100,13 @@
 						<div class="space-y-2 group relative">
 							<div class="aspect-[1/0.5] overflow-hidden rounded-sm">
 								<img
-									src={article.thumb_url || ''}
+									src={article.thumb_url}
 									alt=""
 									class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-									width={400}
-									height={300}
-									sizes
+									width="400"
+									height="300"
+									loading="lazy"
+									decoding="async"
 								/>
 							</div>
 
