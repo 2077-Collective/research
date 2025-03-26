@@ -20,11 +20,18 @@
 
 <div class="pt-[43px] pb-[60px]">
 	<div class="container">
-		<button
-			class="text-xl !font-powerGroteskBold inline-flex items-center gap-1.5 hover:text-neutral-20 transition group"
-			>Continue Reading
-			<ChevronRight class="size-5 group-hover:translate-x-[2px] transition will-change-transform" />
-		</button>
+		<a href="/account/continue-reading" class="inline-flex items-center gap-4 group">
+			<button
+				class="text-xl !font-powerGroteskBold inline-flex items-center gap-1.5 hover:text-neutral-20 transition group"
+				>Continue Reading
+				<ChevronRight
+					class="size-5 group-hover:translate-x-[2px] transition will-change-transform"
+				/>
+			</button>
+			<p class="text-[#0AB2BA] text-sm font-mono opacity-0 group-hover:opacity-100 transition">
+				View all
+			</p>
+		</a>
 
 		<div class="mt-7 grid grid-cols-3 gap-6">
 			{#each Array.from({ length: 3 }) as article}
