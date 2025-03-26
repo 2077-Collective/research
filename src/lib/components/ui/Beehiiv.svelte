@@ -23,7 +23,6 @@
 		frameborder="0"
 		scrolling="no"
 		sandbox="allow-scripts allow-same-origin allow-forms"
-		loading="lazy"
 		aria-label="Newsletter signup form"
 		class="md:min-w-[700px] w-full min-h-[320px]"
 	></iframe>

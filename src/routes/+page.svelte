@@ -3,6 +3,7 @@
 	import FeaturedArticles from '$lib/components/ui/FeaturedArticles.svelte';
 	import PopularReads from '$lib/components/ui/PopularReads.svelte';
 	import RecentCategoryArticles from '$lib/components/ui/RecentCategoryArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import Testimonials4 from '$lib/components/ui/Testimonials4.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { ArrowRight } from 'lucide-svelte';
@@ -66,16 +67,18 @@
 				>
 			</div>
 
-			<img
-				src="/HAND_ELEMENT.png"
-				class="mix-blend-screen pointer-events-none select-none"
-				alt="hand-element"
-				width="689"
-				height="608"
-				loading="eager"
-				fetchpriority="high"
-				decoding="async"
-			/>
+			<div class="md:min-w-[689px] md:min-h-[608px]">
+				<enhanced:img
+					src="/static/HAND_ELEMENT.webp"
+					class="mix-blend-screen pointer-events-none select-none"
+					alt="hand-element"
+					width="689"
+					height="608"
+					loading="eager"
+					fetchpriority="high"
+					decoding="async"
+				/>
+			</div>
 		</div>
 
 		<div class="absolute bottom-0 h-[40%] w-full pointer-events-none hero-mask"></div>
@@ -116,3 +119,5 @@
 
 	<Testimonials4 />
 </div>
+
+<ScrollToTopButton />

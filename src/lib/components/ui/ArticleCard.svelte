@@ -90,9 +90,12 @@
 		<a href={`/${article.slug}`} data-sveltekit-preload-data aria-label="Go to article">
 			<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
 				<img
-					src={article.thumb_url}
+					src={article.thumb_url || ''}
 					alt=""
 					class="size-full object-cover group-hover:scale-105 transition will-change-transform"
+					decoding="async"
+					width={377.368}
+					height={165}
 				/>
 			</div></a
 		>
@@ -178,9 +181,10 @@
 		<a href={`/${article.slug}`} class="block group" data-sveltekit-preload-data>
 			<div class="overflow-hidden">
 				<img
-					src={thumbnailUrl}
+					src={thumbnailUrl || ''}
 					alt=""
 					class="aspect-[1/0.5] object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+					decoding="async"
 				/>
 			</div>
 

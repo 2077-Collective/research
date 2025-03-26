@@ -1,5 +1,6 @@
 <script lang="ts">
 	import X from '$lib/components/ui/icons/X.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { cn } from '$lib/utils/ui-components';
 	import { ArrowRight, ChevronDown, ChevronUp } from 'lucide-svelte';
 	import type { PageData } from '../$types';
@@ -24,10 +25,11 @@
 		</div>
 	</div>
 
-	<img
-		src="/contritbutors-header.png"
+	<enhanced:img
+		src="/static/contritbutors-header.png"
 		class="absolute top-0 right-0 pointer-events-none h-full"
 		alt="header bg"
+		decoding="async"
 	/>
 </section>
 
@@ -150,3 +152,5 @@
 		</div>
 	{/each}
 </section>
+
+<ScrollToTopButton />

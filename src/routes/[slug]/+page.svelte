@@ -2,16 +2,18 @@
 	import { page } from '$app/stores';
 	import ArticleHead from '$lib/components/server/ArticleHead.svelte';
 	import ArticleBottomBar from '$lib/components/ui/ArticleBottomBar.svelte';
+	import ArticleStickyBar from '$lib/components/ui/ArticleStickyBar.svelte';
+	import AudioListen from '$lib/components/ui/AudioListen.svelte';
 	import { Badge } from '$lib/components/ui/badge';
 	import Farcaster from '$lib/components/ui/icons/Farcaster.svelte';
 	import LinkedIn from '$lib/components/ui/icons/LinkedIn.svelte';
 	import Mail from '$lib/components/ui/icons/Mail.svelte';
 	import Reddit from '$lib/components/ui/icons/Reddit.svelte';
-	import Research from '$lib/components/ui/icons/Research.svelte';
 	import Telegram from '$lib/components/ui/icons/Telegram.svelte';
 	import Whatsapp from '$lib/components/ui/icons/Whatsapp.svelte';
 	import TwitterIcon from '$lib/components/ui/icons/X.svelte';
 	import RelatedArticles from '$lib/components/ui/RelatedArticles.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import TableOfContents from '$lib/components/ui/TableOfContents.svelte';
 	import type { Article } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -21,7 +23,6 @@
 	import { error } from '@sveltejs/kit';
 	import DOMPurify from 'isomorphic-dompurify';
 	import {
-		ArrowUp,
 		Bookmark,
 		FileDown,
 		Headphones,
@@ -708,7 +709,7 @@
 			if (error) {
 				bookmarks = currentBookmarks;
 
-				toast.error(`Couldn't add article to bookmarks`);
+				toast.error(`Couldn't add article to bookmarks.`);
 			}
 		} catch (error) {
 			bookmarks = currentBookmarks;
@@ -730,7 +731,8 @@
 		listen: 'listen to narrated articles',
 		summary: 'read article summaries',
 		download: 'download PDFs',
-		save: 'save articles to read later'
+		save: 'save articles to read later',
+		customize: 'customize your reading experience'
 	};
 
 	function joinPhrases(obj: Record<string, string>, key: keyof typeof obj): string {
@@ -742,6 +744,53 @@
 
 		return sortedPhrases.join(', ');
 	}
+
+	let articleAudioUrl = $state('');
+	let isAudioLoading = $state(true);
+	let blockAudio = $state(true);
+
+	const fetchAudio = async () => {
+		if (!isLoggedIn || blockAudio) {
+			isAudioLoading = false;
+			return;
+		}
+
+		const options = {
+			method: 'GET',
+			headers: {
+				accept: 'application/json',
+				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
+			}
+		};
+
+		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
+
+		try {
+			const response = await fetch(URL, options);
+			const result = await response.json();
+
+			const content = result.content;
+
+			if (content && Array.isArray(content)) {
+				const contentItem = content[0];
+				const audioItem = contentItem.audio.find(
+					(audio: any) => audio.content_type === 'audio/mpeg'
+				);
+
+				if (audioItem) {
+					articleAudioUrl = audioItem.url;
+				}
+			}
+		} catch (error) {
+			console.log({ error });
+		} finally {
+			isAudioLoading = false;
+		}
+	};
+
+	$effect(() => {
+		fetchAudio();
+	});
 </script>
 
 <ArticleHead article={data.article} />
@@ -768,9 +817,8 @@
 					</h2>
 
 					<p class="mt-[13px] text-neutral-20 font-medium">
-						Sign up for free to {bannerSubTitle}, customize your reading experience, highlight key
-						insights, follow topics, and receive curated newsletters. Explore the future of Ethereum
-						without limits.
+						Sign up for free to {bannerSubTitle}, highlight key insights, follow topics, and receive
+						curated newsletters. Explore the future of Ethereum without limits.
 					</p>
 				</div>
 
@@ -829,9 +877,10 @@
 				<div class="space-y-4">
 					<div class="w-full aspect-[1/0.35] flex-shrink-0 overflow-hidden">
 						<img
-							src={data.article.thumb_url}
+							src={data.article.thumb_url || ''}
 							alt={data.article.title}
 							class="w-full h-full object-cover pointer-events-none select-none object-top"
+							decoding="async"
 						/>
 					</div>
 					<div>
@@ -918,19 +967,22 @@
 
 <!-- Fixed bottom bar for mobile -->
 <ArticleBottomBar
-	onSummaryClick={() => {
-		if (isLoggedIn) {
-			toggleSummary();
-		} else {
-			showAuthBanner = true;
-			bannerText = 'Reading article summaries';
-		}
-	}}
-	isSummaryDisabled={!data?.article?.gpt_summary}
+	{isAudioLoading}
+	{articleAudioUrl}
 	{loadingBookmarks}
 	{isLoggedIn}
 	onShareClick={() => (showShareModal = true)}
 	{userEmail}
+	audioOnLoggedOut={() => {
+		bannerText = 'Listening to articles';
+		showAuthBanner = true;
+		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
+	}}
+	onNotSignedInReadCustomizeClick={() => {
+		bannerText = 'Customizing your reading experience';
+		showAuthBanner = true;
+		bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
+	}}
 />
 
 <!-- Share Mobile -->
@@ -986,49 +1038,19 @@
 	</div>
 </div>
 
-<!-- Back to top button -->
-{#if showFloatingButtons && !loadingBookmarks}
-	<button
-		class="flex items-center justify-center gap-1 md:px-4 md:py-2 text-2xl transition group text-[12.667px] size-9 bg-[#19191A] rounded-[43px] text-[#B4B4B4] group fixed top-40 right-3 md:right-14 font-semibold border border-[#333] z-[9999] hover:bg-white hover:text-black hover:border-white hover:shadow-hover md:hidden"
-		aria-label="Scroll back to the top of the page"
-		onclick={handleScrollToTop}
-	>
-		<ArrowUp
-			class="size-4 rounded-full group-hover:-translate-y-[2px] will-change-transform transition group-hover:text-black flex-shrink-0"
-			style="stroke-width: 1.4"
-		/>
-	</button>
-{/if}
+<div id="article-page">
+	<div class="md:flex gap-8 container">
+		<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
+			{#if !isReadingMode}
+				{@render header(data.article)}
+			{/if}
 
-<div class="md:flex gap-8 container">
-	<div class="flex flex-col gap-y-6 md:gap-y-14 flex-1">
-		{#if !isReadingMode}
-			{@render header(data.article)}
-		{/if}
+			{@render body(data.article)}
 
-		{@render body(data.article)}
-
-		<div class={isReadingMode ? 'hidden' : 'mb-12'}>
-			<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+			<div class={isReadingMode ? 'hidden' : 'mb-12'}>
+				<RelatedArticles categories={data.article.categories} currentArticleId={data.article.id} />
+			</div>
 		</div>
-	</div>
-</div>
-
-<!-- Top bar when scrolled: Desktop -->
-<div
-	class={cn(
-		'fixed z-[9999] bg-background w-full py-4 top-0 left-0 hidden -translate-y-full will-change-transform transition duration-500',
-		showTopbar && !loadingBookmarks && 'translate-y-0'
-	)}
->
-	<div class="container flex items-center justify-between">
-		<div class="flex items-center gap-6">
-			<a href="/" class="ml-1"><Research /></a>
-
-			<h4 class="font-powerGroteskBold font-bold">{data.article.title}</h4>
-		</div>
-
-		{@render topBar('', !showTopbar)}
 	</div>
 </div>
 
@@ -1040,12 +1062,7 @@
 		)}
 	>
 		{#if isLoggedIn}
-			<button
-				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition opacity-50 pointer-events-none"
-			>
-				<span>Listen</span>
-				<Headphones class="size-4" />
-			</button>
+			<AudioListen {articleAudioUrl} isLoading={isAudioLoading} />
 		{:else}
 			<button
 				class="flex max-md:flex-col-reverse items-center gap-2 md:px-4 hover:text-neutral-20 transition"
@@ -1176,9 +1193,10 @@
 	<div class="relative pt-32">
 		<div class="rounded-[8px] overflow-hidden relative">
 			<img
-				src={article.thumb_url}
+				src={article.thumb_url || ''}
 				alt={article.title}
 				class="w-full h-full aspect-video md:aspect-[1/0.4] object-cover pointer-events-none select-none"
+				decoding="async"
 			/>
 
 			{#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
@@ -1473,7 +1491,64 @@
 				</div>
 			</div>
 		{/if}
+
+		<div class="relative max-md:hidden">
+			<div class="sticky top-28">
+				<ArticleStickyBar
+					{isLoggedIn}
+					onNotSignedInListenClick={() => {
+						bannerText = 'Listening to articles';
+						showAuthBanner = true;
+						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'listen');
+					}}
+					{articleAudioUrl}
+					onNotSignedInReadCustomizeClick={() => {
+						bannerText = 'Customizing your reading experience';
+						showAuthBanner = true;
+						bannerSubTitle = joinPhrases(bannerSubtitlePhrases, 'customize');
+					}}
+					onAccountClick={() => {}}
+					shareOptions={shareButtons}
+				/>
+			</div>
+		</div>
 	</article>
+{/snippet}
+
+{#snippet shareButtons()}
+	{#each shareOptions as option}
+		<a
+			href={option.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			role="menuitem"
+			class="px-4 py-2 hover:bg-neutral-80 flex items-center gap-2 [&_svg]:!size-5"
+			data-sveltekit-preload-data
+		>
+			{#if option.isSvg}
+				{@html option.icon}
+			{:else}
+				{@const IconComponent = option.icon}
+				<IconComponent class="" />
+			{/if}
+			<span class="text-sm">{option.name}</span>
+		</a>
+	{/each}
+	<button
+		onclick={copyShareLink}
+		role="menuitem"
+		class={cn(
+			'w-full px-4 py-2 hover:bg-neutral-80 text-left flex items-center gap-2 !font-mono transition',
+			copySuccess && 'text-[#0BC8D2]'
+		)}
+	>
+		<Link2 class="w-5 h-5" />
+		{#if copySuccess}
+			<span class="text-sm">Link copied</span>
+		{:else}
+			<span class="text-sm">Copy link</span>
+		{/if}
+	</button>
 {/snippet}
 
 {#snippet floatingButtons()}
@@ -1540,6 +1615,8 @@
 {#if isLoggedIn && !isCheckingAuth && !loadingBookmarks}
 	{@render summaryPanel()}
 {/if}
+
+<ScrollToTopButton className="max-md:top-40" />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap');

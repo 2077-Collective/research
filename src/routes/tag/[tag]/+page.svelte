@@ -1,6 +1,7 @@
 <script lang="ts">
 	import BaseHead from '$lib/components/server/BaseHead.svelte';
 	import ArticleList from '$lib/components/ui/ArticleList.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import { setArticles } from '$lib/stores/articles.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
@@ -88,3 +89,5 @@
 		</div>
 	{/if}
 </div>
+
+<ScrollToTopButton />

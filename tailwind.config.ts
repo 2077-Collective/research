@@ -83,7 +83,9 @@ const config: Config = {
 				powerGroteskBold: 'var(--font-power)',
 				hubot: 'var(--font-hubot)',
 				'geist-mono': 'var(--font-geist-mono)',
-				ibm: 'var(--font-ibm)'
+				ibm: 'var(--font-ibm)',
+				charter: 'var(--font-charter)',
+				open_sans: 'var(--font-open-sans)'
 			},
 			letterSpacing: {
 				tightest: '-.075em',

@@ -5,6 +5,7 @@
 	import Grid from '$lib/components/ui/icons/Grid.svelte';
 	import List from '$lib/components/ui/icons/List.svelte';
 	import X from '$lib/components/ui/icons/X.svelte';
+	import ScrollToTopButton from '$lib/components/ui/ScrollToTopButton.svelte';
 	import type { ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
 	import { cn } from '$lib/utils/ui-components';
@@ -92,10 +93,11 @@
 			</div>
 		</div>
 
-		<img
+		<enhanced:img
 			class="w-[1144.5px] absolute bottom-0 right-0 pointer-events-none max-md:hidden"
-			src="/about-us-hero.png"
+			src="/static/about-us-hero.png"
 			alt="Half sun"
+			decoding="async"
 		/>
 	</section>
 
@@ -183,9 +185,10 @@
 
 									<div class="overflow-hidden">
 										<img
-											src={article.thumb_url}
+											src={article.thumb_url || ''}
 											alt=""
 											class="aspect-[1/0.5] w-full object-cover rounded-t-lg group-hover:scale-105 transition will-change-transform"
+											decoding="async"
 										/>
 									</div>
 
@@ -232,9 +235,10 @@
 
 								<div class="w-full max-w-[377.368px] min-h-[165px] flex-shrink-0 overflow-hidden">
 									<img
-										src={article.thumb_url}
+										src={article.thumb_url || ''}
 										alt=""
 										class="size-full object-cover group-hover:scale-105 transition will-change-transform"
+										decoding="async"
 									/>
 								</div>
 
@@ -283,3 +287,5 @@
 		{/if}
 	</section>
 </div>
+
+<ScrollToTopButton />

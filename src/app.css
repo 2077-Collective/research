@@ -1,6 +1,6 @@
-@import '@fontsource-variable/inter';
+/* @import '@fontsource-variable/inter'; */
 @import '@fontsource/ubuntu-mono';
-@import '@fontsource-variable/geist-mono';
+/* @import '@fontsource-variable/geist-mono'; */
 @import '@fontsource/ibm-plex-sans';
 @import '@fontsource/ibm-plex-sans/500.css';
 @import '@fontsource/ibm-plex-sans/600.css';
@@ -9,13 +9,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
+/* @font-face {
 	font-family: 'Menlo Regular';
 	font-style: normal;
 	font-weight: normal;
 	src:
 		local('Menlo Regular'),
 		url('/fonts/Menlo-Regular.woff') format('woff');
+	font-display: swap;
 }
 
 @font-face {
@@ -25,6 +26,7 @@
 	src:
 		local('Sohne'),
 		url('/fonts/Soehne-Breit-Kraftig.woff2') format('woff2');
+	font-display: swap;
 }
 
 @font-face {
@@ -34,6 +36,27 @@
 	src:
 		local('ABC Favorit Variable'),
 		url('/fonts/ABCFavoritVariable-Trial.woff2') format('woff2');
+	font-display: swap;
+} */
+
+@font-face {
+	font-family: 'Charter';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('Charter'),
+		url('/fonts/CharterRegular.ttf') format('ttf');
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'OpenSans';
+	font-style: normal;
+	font-weight: normal;
+	src:
+		local('OpenSans'),
+		url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('ttf');
+	font-display: swap;
 }
 
 @font-face {
@@ -43,6 +66,7 @@
 		url('/fonts/Hubot-Sans.woff2') format('woff2-variations');
 	font-weight: 200 900;
 	font-stretch: -100%;
+	font-display: swap;
 }
 
 @font-face {
@@ -52,6 +76,7 @@
 	src:
 		local('PowerGrotesk'),
 		url('/fonts/PowerGrotesk-Variable.woff2') format('woff2');
+	font-display: swap;
 }
 
 @font-face {
@@ -61,6 +86,7 @@
 	src:
 		local('KodeMono-Regular'),
 		url('/fonts/KodeMono-Regular.woff2') format('woff2');
+	font-display: swap;
 }
 
 @layer base {
@@ -68,8 +94,10 @@
 		--font-mono: 'Ubuntu Mono', monospace;
 		--font-power: 'PowerGrotesk';
 		--font-hubot: 'Hubot Sans', sans-serif;
+		--font-open-sans: 'OpenSans', sans-serif;
 		--font-geist-mono: 'Geist Mono Variable', monospace;
 		--font-ibm: 'IBM Plex Sans', sans-serif;
+		--font-charter: 'Charter', sans-serif;
 		--font-kode: 'KodeMono', monospace;
 
 		--background: 0 0% 4%;
@@ -131,7 +159,8 @@
 		@apply tracking-normal;
 	}
 
-	pre, code {
+	pre,
+	code {
 		font-family: var(--font-mono) !important;
 	}
 
@@ -147,7 +176,7 @@
 	}
 
 	.hero {
-		background: url('/hero.png');
+		background: url('/hero.webp');
 		background-repeat: no-repeat;
 		background-position: center;
 		@apply pt-16 md:pt-20 pb-20 md:pb-40;
@@ -160,4 +189,29 @@
 	.font-powerGroteskBold {
 		font-weight: 700 !important;
 	}
+
+	/* .default-theme {
+		background-color: #19191a;
+		color: white;
+	}
+
+	.white-theme {
+		background-color: white;
+		color: #010102;
+	}
+
+	.grey-theme {
+		background-color: #2b3031;
+		color: white;
+	}
+
+	.blue-theme {
+		background-color: #1c2a3b;
+		color: white;
+	}
+
+	.off-white-theme {
+		background-color: #fef5eb;
+		color: #171717;
+	} */
 }
