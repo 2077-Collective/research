@@ -143,92 +143,106 @@
 
 <div class="pt-[43px] pb-[60px]">
 	<div class="container">
-		<a href="/account/continue-reading" class="inline-flex items-center gap-4 group">
+		<a
+			href={historyArticles.length > 0 ? '/account/continue-reading' : '/account'}
+			class="inline-flex items-center gap-4 group"
+		>
 			<button
 				class="text-xl !font-powerGroteskBold inline-flex items-center gap-1.5 hover:text-neutral-20 transition group"
 				>Continue Reading
-				<ChevronRight
-					class="size-5 group-hover:translate-x-[2px] transition will-change-transform"
-				/>
+				{#if historyArticles.length > 0}
+					<ChevronRight
+						class="size-5 group-hover:translate-x-[2px] transition will-change-transform"
+					/>
+				{/if}
 			</button>
-			<p class="text-[#0AB2BA] text-sm font-mono opacity-0 group-hover:opacity-100 transition">
-				View all
-			</p>
+
+			{#if historyArticles.length > 0}
+				<p class="text-[#0AB2BA] text-sm font-mono opacity-0 group-hover:opacity-100 transition">
+					View all
+				</p>
+			{/if}
 		</a>
 
-		<div class="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-			{#each historyArticles as article}
-				{@const primaryCategory = getPrimaryCategory(article)?.name}
-				{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-				{@const progress = Math.floor(Number(article.progress))}
+		{#if historyArticles.length > 0}
+			<div class="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+				{#each historyArticles as article}
+					{@const primaryCategory = getPrimaryCategory(article)?.name}
+					{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
+					{@const progress = Math.floor(Number(article.progress))}
 
-				<div>
-					<div class="flex items-center justify-between">
-						<a
-							href={`/category/${formatCategorySlug(primaryCategory)}`}
-							data-sveltekit-preload-data
-						>
-							<Badge class="rounded-none">{primaryCategory}</Badge></a
-						>
+					<div>
+						<div class="flex items-center justify-between">
+							<a
+								href={`/category/${formatCategorySlug(primaryCategory)}`}
+								data-sveltekit-preload-data
+							>
+								<Badge class="rounded-none">{primaryCategory}</Badge></a
+							>
 
-						<a
-							href={`/category/${formatCategorySlug(primaryCategory)}`}
-							data-sveltekit-preload-data
-						>
-							<button
-								class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"
-								>View All <ArrowRight
-									class="size-3.5 group-hover:translate-x-[2px] transition will-change-transform"
-								/></button
-							></a
-						>
-					</div>
+							<a
+								href={`/category/${formatCategorySlug(primaryCategory)}`}
+								data-sveltekit-preload-data
+							>
+								<button
+									class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"
+									>View All <ArrowRight
+										class="size-3.5 group-hover:translate-x-[2px] transition will-change-transform"
+									/></button
+								></a
+							>
+						</div>
 
-					<a href={`/${article.slug}`} data-sveltekit-preload-data>
-						<div class="mt-1 group">
-							<div class="h-[165px] relative overflow-hidden cursor-pointer">
-								<img
-									class="size-full object-cover group-hover:scale-110 transition will-change-transform"
-									src={article.thumb_url}
-									alt={`Thumbnail for article: ${article.title}`}
-									loading="eager"
-								/>
-							</div>
+						<a href={`/${article.slug}`} data-sveltekit-preload-data>
+							<div class="mt-1 group">
+								<div class="h-[165px] relative overflow-hidden cursor-pointer">
+									<img
+										class="size-full object-cover group-hover:scale-110 transition will-change-transform"
+										src={article.thumb_url}
+										alt={`Thumbnail for article: ${article.title}`}
+										loading="eager"
+									/>
+								</div>
 
-							<div class="mt-4">
-								<h3
-									class="font-powerGroteskBold text-lg leading-[18.9px] group-hover:underline underline-offset-[3px]"
-								>
-									{article.title}
-								</h3>
+								<div class="mt-4">
+									<h3
+										class="font-powerGroteskBold text-lg leading-[18.9px] group-hover:underline underline-offset-[3px]"
+									>
+										{article.title}
+									</h3>
+
+									<div
+										class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+									>
+										<p>{formattedDate}</p>
+										<p class="pl-2">{article.min_read} min read</p>
+									</div>
+								</div>
 
 								<div
-									class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+									class="mt-3 text-xs font-mono text-neutral-10 flex items-center justify-between gap-10"
 								>
-									<p>{formattedDate}</p>
-									<p class="pl-2">{article.min_read} min read</p>
+									<div class="bg-[#272728] h-2.5 flex-1 rounded-[40px] relative overflow-hidden">
+										<div
+											class="bg-[#0AB2BA] absolute inset-y-0 rounded-[40px]"
+											style={`width: ${progress}%`}
+										></div>
+									</div>
+
+									<p class="w-20 text-right leading-0">
+										{progress}% Complete
+									</p>
 								</div>
 							</div>
-
-							<div
-								class="mt-3 text-xs font-mono text-neutral-10 flex items-center justify-between gap-10"
-							>
-								<div class="bg-[#272728] h-2.5 flex-1 rounded-[40px] relative overflow-hidden">
-									<div
-										class="bg-[#0AB2BA] absolute inset-y-0 rounded-[40px]"
-										style={`width: ${progress}%`}
-									></div>
-								</div>
-
-								<p class="w-20 text-right leading-0">
-									{progress}% Complete
-								</p>
-							</div>
-						</div>
-					</a>
-				</div>
-			{/each}
-		</div>
+						</a>
+					</div>
+				{/each}
+			</div>
+		{:else}
+			<div class="text-center text-sm text-neutral-40 font-mono py-12">
+				<p>Nothing to see here</p>
+			</div>
+		{/if}
 	</div>
 </div>
 
@@ -241,54 +255,60 @@
 		</button>
 	</div>
 
-	<div class="mt-[18px] border-y border-[#202020]">
-		<div class="container">
-			<div
-				class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-[#202020]"
-			>
-				{#each savedArticles as article, i}
-					{@const primaryCategory = getPrimaryCategory(article)?.name}
-					{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-					<div class={cn('px-5 pt-[31px] pb-[50px] border-r border-[#202020]')}>
-						<a
-							href={`/category/${formatCategorySlug(primaryCategory)}`}
-							data-sveltekit-preload-data
-						>
-							<Badge class="rounded-none">{primaryCategory}</Badge></a
-						>
+	{#if savedArticles.length > 0}
+		<div class="mt-[18px] border-y border-[#202020]">
+			<div class="container">
+				<div
+					class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-[#202020]"
+				>
+					{#each savedArticles as article, i}
+						{@const primaryCategory = getPrimaryCategory(article)?.name}
+						{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
+						<div class={cn('px-5 pt-[31px] pb-[50px] border-r border-[#202020]')}>
+							<a
+								href={`/category/${formatCategorySlug(primaryCategory)}`}
+								data-sveltekit-preload-data
+							>
+								<Badge class="rounded-none">{primaryCategory}</Badge></a
+							>
 
-						<div class="mt-1 group relative">
-							<a href={`/${article.slug}`} data-sveltekit-preload-data>
-								<div class="aspect-[1/1.1] relative overflow-hidden">
-									<img
-										class="size-full object-cover group-hover:scale-110 transition will-change-transform"
-										src={article.thumb_url}
-										alt={`Thumbnail for article: ${article.title}`}
-										loading="eager"
-									/>
-								</div>
-
-								<div class="mt-4">
-									<h3
-										class="font-powerGroteskBold text-xl leading-[22px] group-hover:underline underline-offset-[3px]"
-									>
-										{article.title}
-									</h3>
-
-									<div
-										class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
-									>
-										<p>{formattedDate}</p>
-										<p class="pl-2">{article.min_read} min read</p>
+							<div class="mt-1 group relative">
+								<a href={`/${article.slug}`} data-sveltekit-preload-data>
+									<div class="aspect-[1/1.1] relative overflow-hidden">
+										<img
+											class="size-full object-cover group-hover:scale-110 transition will-change-transform"
+											src={article.thumb_url}
+											alt={`Thumbnail for article: ${article.title}`}
+											loading="eager"
+										/>
 									</div>
-								</div>
-							</a>
+
+									<div class="mt-4">
+										<h3
+											class="font-powerGroteskBold text-xl leading-[22px] group-hover:underline underline-offset-[3px]"
+										>
+											{article.title}
+										</h3>
+
+										<div
+											class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+										>
+											<p>{formattedDate}</p>
+											<p class="pl-2">{article.min_read} min read</p>
+										</div>
+									</div>
+								</a>
+							</div>
 						</div>
-					</div>
-				{/each}
+					{/each}
+				</div>
 			</div>
 		</div>
-	</div>
+	{:else}
+		<div class="text-center text-sm text-neutral-40 font-mono py-12">
+			<p>Nothing to see here</p>
+		</div>
+	{/if}
 </div>
 
 <div class="pt-[52px] pb-[112px]">
