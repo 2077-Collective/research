@@ -57,7 +57,9 @@
 				}}
 			>
 				<div class="flex items-center justify-between md:container mb-9">
-					<h2 class="text-2xl md:text-[32px] font-soehne font-medium">Trending Articles</h2>
+					<h2 class="text-2xl md:text-[32px] font-powerGroteskBold font-medium">
+						Trending Articles
+					</h2>
 
 					<div class="flex items-center gap-[30px] font-medium max-md:hidden">
 						<p>What everyone is reading right now</p>

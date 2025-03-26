@@ -122,7 +122,7 @@
 
 <section class="pt-32 pb-[50px] bg-[#010102] relative overflow-hidden">
 	<div class="container">
-		<h1 class="text-[32px] font-powerGroteskBold">Welcome back, Emmanuel.</h1>
+		<h1 class="text-[32px] font-powerGroteskBold">Welcome back</h1>
 	</div>
 
 	<img
@@ -147,7 +147,7 @@
 			</p>
 		</a>
 
-		<div class="mt-7 grid grid-cols-3 gap-6">
+		<div class="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 			{#each historyArticles as article}
 				{@const primaryCategory = getPrimaryCategory(article)?.name}
 				{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
@@ -234,17 +234,13 @@
 
 	<div class="mt-[18px] border-y border-[#202020]">
 		<div class="container">
-			<div class="grid grid-cols-5 border-l border-[#202020]">
+			<div
+				class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 border-l border-[#202020]"
+			>
 				{#each savedArticles as article, i}
 					{@const primaryCategory = getPrimaryCategory(article)?.name}
 					{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
-					<div
-						class={cn(
-							'px-5 pt-[31px] pb-[50px] border-r border-[#202020]'
-							// i === 0 && 'border-l border-[#202020]',
-							// savedArticles.length - 1 === i && '!border-r border-[#202020]'
-						)}
-					>
+					<div class={cn('px-5 pt-[31px] pb-[50px] border-r border-[#202020]')}>
 						<a
 							href={`/category/${formatCategorySlug(primaryCategory)}`}
 							data-sveltekit-preload-data
@@ -294,7 +290,7 @@
 			<ChevronRight class="size-5 group-hover:translate-x-[2px] transition will-change-transform" />
 		</button>
 
-		<div class="mt-7 grid grid-cols-3 gap-4">
+		<div class="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 			<div>
 				<div class="bg-[#161617] pt-4 px-5 pb-5 rounded-[8px] group">
 					<div class="flex items-center gap-[14px]">

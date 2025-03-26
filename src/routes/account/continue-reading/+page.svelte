@@ -131,7 +131,7 @@
 
 		<div class="mt-7">
 			{#if viewStyle === 'GRID'}
-				<div class="grid grid-cols-3 gap-6">
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{#each historyArticles as article}
 						{@const primaryCategory = getPrimaryCategory(article)?.name}
 						{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
