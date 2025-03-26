@@ -27,7 +27,7 @@
 
 		if (data && data.length > 0) {
 			const articleIds = data.map((item) => item.articleId);
-			const posts = await fetchGhostArticles(undefined, 1, 10000, articleIds);
+			const posts = await fetchGhostArticles(undefined, 1, data.length, articleIds);
 
 			const articlesWithProgress = posts.map((post: any) => {
 				return {
