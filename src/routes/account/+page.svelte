@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { Badge } from '$lib/components/ui/badge';
+	import { getGhostArticleBySlug } from '$lib/services/article.service';
 	import { fetchGhostArticles } from '$lib/services/ghost.service';
 	import type { Article, ArticleMetadata } from '$lib/types/article';
 	import { formatCategorySlug } from '$lib/utils/format';
@@ -8,12 +9,13 @@
 	import { cn } from '$lib/utils/ui-components';
 	import { error } from '@sveltejs/kit';
 	import { format } from 'date-fns';
-	import { ArrowRight, ChevronRight } from 'lucide-svelte';
+	import { ArrowRight, ChevronRight, Loader2 } from 'lucide-svelte';
 	import { toast } from 'svelte-sonner';
 
-	// const savedArticles = Array.from({ length: 10 });
+	type ArticleWithProgress = Article & { progress: string };
 
 	let savedArticles = $state<Article[]>([]);
+	let historyArticles = $state<ArticleWithProgress[]>([]);
 	let isLoading = $state(true);
 
 	const getBookmarks = async (id: string) => {
@@ -50,6 +52,30 @@
 		}
 	};
 
+	const getReadHistory = async (id: string) => {
+		const { data, error: readHistoryError } = await supabase
+			.from('ReadHistory')
+			.select('*')
+			.eq('userId', id)
+			.order('updated_at', { ascending: false })
+			.limit(3);
+
+		if (data && data.length > 0) {
+			const articlesWithProgress = await Promise.all(
+				data.map(async (item) => {
+					const article = await getGhostArticleBySlug(item.articleId);
+					return { ...article, progress: item.progress };
+				})
+			);
+
+			historyArticles = articlesWithProgress;
+		}
+
+		if (readHistoryError) {
+			throw error(500, 'Error fetching read history');
+		}
+	};
+
 	const handleDataFetch = async () => {
 		isLoading = true;
 		try {
@@ -59,6 +85,7 @@
 
 			if (user) {
 				await getBookmarks(user.id);
+				await getReadHistory(user.id);
 
 				isLoading = false;
 			} else {
@@ -84,6 +111,14 @@
 		handleDataFetch();
 	});
 </script>
+
+{#if isLoading}
+	<div
+		class="fixed h-dvh w-dvw bg-background z-[9999999999999] top-0 left-0 flex items-center justify-center"
+	>
+		<Loader2 class="size-5 animate-spin" />
+	</div>
+{/if}
 
 <section class="pt-32 pb-[50px] bg-[#010102] relative overflow-hidden">
 	<div class="container">
@@ -113,53 +148,75 @@
 		</a>
 
 		<div class="mt-7 grid grid-cols-3 gap-6">
-			{#each Array.from({ length: 3 }) as article}
+			{#each historyArticles as article}
+				{@const primaryCategory = getPrimaryCategory(article)?.name}
+				{@const formattedDate = format(article.created_at, 'dd MMM yyyy')}
+				{@const progress = Math.floor(Number(article.progress))}
+
 				<div>
 					<div class="flex items-center justify-between">
-						<Badge class="rounded-none">Scaling</Badge>
+						<a
+							href={`/category/${formatCategorySlug(primaryCategory)}`}
+							data-sveltekit-preload-data
+						>
+							<Badge class="rounded-none">{primaryCategory}</Badge></a
+						>
 
-						<button
-							class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"
-							>View All <ArrowRight
-								class="size-3.5 group-hover:translate-x-[2px] transition will-change-transform"
-							/></button
+						<a
+							href={`/category/${formatCategorySlug(primaryCategory)}`}
+							data-sveltekit-preload-data
+						>
+							<button
+								class="flex items-center gap-1 text-xs !font-mono text-neutral-20 hover:text-neutral-40 group transition"
+								>View All <ArrowRight
+									class="size-3.5 group-hover:translate-x-[2px] transition will-change-transform"
+								/></button
+							></a
 						>
 					</div>
 
-					<div class="mt-1 group">
-						<div class="h-[165px] relative overflow-hidden cursor-pointer">
-							<img
-								class="size-full object-cover group-hover:scale-110 transition will-change-transform"
-								src="https://ghost-2077.arvensis.systems/content/images/2025/03/rsby3bojlx6dmvwsvt7a-1.webp"
-								alt="thumbnail"
-							/>
-						</div>
+					<a href={`/${article.slug}`} data-sveltekit-preload-data>
+						<div class="mt-1 group">
+							<div class="h-[165px] relative overflow-hidden cursor-pointer">
+								<img
+									class="size-full object-cover group-hover:scale-110 transition will-change-transform"
+									src={article.thumb_url}
+									alt={`Thumbnail for article: ${article.title}`}
+									loading="eager"
+								/>
+							</div>
 
-						<div class="mt-4">
-							<h3
-								class="font-powerGroteskBold text-lg leading-[18.9px] group-hover:underline underline-offset-[3px]"
-							>
-								Futures of Ethereum I: From Beacon Chain to Beam Chain
-							</h3>
+							<div class="mt-4">
+								<h3
+									class="font-powerGroteskBold text-lg leading-[18.9px] group-hover:underline underline-offset-[3px]"
+								>
+									{article.title}
+								</h3>
+
+								<div
+									class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+								>
+									<p>{formattedDate}</p>
+									<p class="pl-2">{article.min_read} min read</p>
+								</div>
+							</div>
 
 							<div
-								class="mt-2 text-xs font-mono divide-x divide-[#333] text-neutral-40 flex items-center gap-2"
+								class="mt-3 text-xs font-mono text-neutral-10 flex items-center justify-between gap-10"
 							>
-								<p>20 Jan 2024</p>
-								<p class="pl-2">5 min read</p>
+								<div class="bg-[#272728] h-2.5 flex-1 rounded-[40px] relative overflow-hidden">
+									<div
+										class="bg-[#0AB2BA] absolute inset-y-0 rounded-[40px]"
+										style={`width: ${progress}%`}
+									></div>
+								</div>
+
+								<p class="w-20 text-right leading-0">
+									{progress}% Complete
+								</p>
 							</div>
 						</div>
-
-						<div
-							class="mt-3 text-xs font-mono text-neutral-10 flex items-center justify-between gap-10"
-						>
-							<div class="bg-[#272728] h-2.5 flex-1 rounded-[40px] relative overflow-hidden">
-								<div class="bg-[#0AB2BA] absolute inset-y-0 w-1/2 rounded-[40px]"></div>
-							</div>
-
-							<p class="w-20 text-right leading-0">40% Complete</p>
-						</div>
-					</div>
+					</a>
 				</div>
 			{/each}
 		</div>
