@@ -24,6 +24,8 @@
 	let openCustomize = $state(false);
 
 	function handleScroll() {
+		if (!isMobile) return;
+
 		const currentScrollY = window.scrollY;
 
 		if (currentScrollY > lastScrollY) {

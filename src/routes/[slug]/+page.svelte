@@ -112,7 +112,10 @@
 
 	let progress = $state(0);
 
-	function updateReadingProgress() {
+	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
+	let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+	async function updateReadingProgress() {
 		const article = document.querySelector('article');
 		if (!article) return;
 
@@ -123,6 +126,47 @@
 		const totalHeight = articleHeight - windowHeight;
 		const currentProgress = (scrollTop / totalHeight) * 100;
 		progress = Math.min(Math.max(currentProgress, 0), 100);
+
+		if (isLoggedIn) {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+
+			timeoutId = setTimeout(async () => {
+				const { data, error } = await supabase
+					.from('ReadHistory')
+					.select('*')
+					.eq('userId', userId)
+					.eq('articleId', $slug)
+					.limit(1)
+					.single();
+
+				if (data) {
+					const { error } = await supabase
+						.from('ReadHistory')
+						.update({ progress })
+						.eq('userId', userId)
+						.eq('articleId', $slug)
+						.select();
+
+					if (error) {
+						console.error('Failed to update progress:', error);
+					}
+				}
+
+				if (error) {
+					if (error.code === 'PGRST116') {
+						const { error: createError } = await supabase
+							.from('ReadHistory')
+							.insert({ userId, articleId: $slug, progress });
+
+						if (createError) {
+							console.error('Failed to update progress:', error);
+						}
+					}
+				}
+			}, 2000);
+		}
 	}
 
 	async function highlightCodeBlocks() {
@@ -661,7 +705,6 @@
 	let openShareMobile = $state(false);
 	let isBookmarking = $state(false);
 
-	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
 	let isBookmarked = $state(false);
 
 	$effect(() => {
