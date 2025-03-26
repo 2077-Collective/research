@@ -53,16 +53,18 @@
 	};
 
 	const getReadHistory = async (id: string) => {
+		const LIMIT = 3;
+
 		const { data, error: readHistoryError } = await supabase
 			.from('ReadHistory')
 			.select('*')
 			.eq('userId', id)
 			.order('updated_at', { ascending: false })
-			.limit(3);
+			.limit(LIMIT);
 
 		if (data && data.length > 0) {
 			const articleIds = data.map((item) => item.articleId);
-			const posts = await fetchGhostArticles(undefined, 1, 3, articleIds);
+			const posts = await fetchGhostArticles(undefined, 1, LIMIT, articleIds, false);
 
 			const articlesWithProgress = posts.map((post: any) => {
 				return {
