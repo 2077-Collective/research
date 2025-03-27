@@ -759,11 +759,12 @@
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
-				'X-Api-Key': 'e083acdff2f2244dd4f9eb4d722d9842d35416ae39b6977253a4a4e7bff81c19'
+				'X-Api-Key': 'c33306af19ece2b7a66d6990a94df0f6516561ecb4b9accfb3e240247b7715ac'
 			}
+			// cache: 'force-cache'
 		};
 
-		const URL = `https://api.beyondwords.io/v1/projects/48883/player/by_source_id/${data.article.id}`;
+		const URL = `https://api.beyondwords.io/v1/projects/48910/player/by_source_id/${data.article.id}`;
 
 		try {
 			const response = await fetch(URL, options);
