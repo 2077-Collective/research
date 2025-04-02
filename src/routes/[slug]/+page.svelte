@@ -112,7 +112,10 @@
 
 	let progress = $state(0);
 
-	function updateReadingProgress() {
+	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
+	let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+	async function updateReadingProgress() {
 		const article = document.querySelector('article');
 		if (!article) return;
 
@@ -123,6 +126,47 @@
 		const totalHeight = articleHeight - windowHeight;
 		const currentProgress = (scrollTop / totalHeight) * 100;
 		progress = Math.min(Math.max(currentProgress, 0), 100);
+
+		if (isLoggedIn) {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+
+			timeoutId = setTimeout(async () => {
+				const { data, error } = await supabase
+					.from('ReadHistory')
+					.select('*')
+					.eq('userId', userId)
+					.eq('articleId', $slug)
+					.limit(1)
+					.single();
+
+				if (data) {
+					const { error } = await supabase
+						.from('ReadHistory')
+						.update({ progress })
+						.eq('userId', userId)
+						.eq('articleId', $slug)
+						.select();
+
+					if (error) {
+						console.error('Failed to update progress:', error);
+					}
+				}
+
+				if (error) {
+					if (error.code === 'PGRST116') {
+						const { error: createError } = await supabase
+							.from('ReadHistory')
+							.insert({ userId, articleId: $slug, progress });
+
+						if (createError) {
+							console.error('Failed to update progress:', error);
+						}
+					}
+				}
+			}, 2000);
+		}
 	}
 
 	async function highlightCodeBlocks() {
@@ -661,7 +705,6 @@
 	let openShareMobile = $state(false);
 	let isBookmarking = $state(false);
 
-	const slug = derived(page, ($page) => $page.url.pathname.split('/').pop());
 	let isBookmarked = $state(false);
 
 	$effect(() => {
@@ -790,6 +833,115 @@
 
 	$effect(() => {
 		fetchAudio();
+	});
+
+	// HIGHLIGHT FEATURE
+	let selectionText = $state('');
+	let menuVisible = $state(false);
+	let menuX = $state(0);
+	let menuY = $state(0);
+
+	let articleRef: HTMLElement | null = null;
+
+	const hasActiveSelection = (): boolean => {
+		const selection: Selection | null = window.getSelection();
+		if (!selection || selection.rangeCount === 0) return false;
+
+		const range: Range = selection.getRangeAt(0);
+
+		// Ensure selection is inside the article
+		if (!articleRef || !articleRef.contains(range.commonAncestorContainer)) return false;
+
+		// Ensure selection is not empty
+		return selection.toString().trim().length > 0;
+	};
+
+	const handleSelection = (event: MouseEvent): void => {
+		const selection: Selection | null = window.getSelection();
+		if (!selection || selection.rangeCount === 0) {
+			menuVisible = false;
+			return;
+		}
+
+		const range: Range = selection.getRangeAt(0);
+
+		console.log({ range });
+
+		// Ensure the selection is inside the article
+		if (!articleRef || !articleRef.contains(range.commonAncestorContainer)) {
+			menuVisible = false;
+			return;
+		}
+
+		selectionText = selection.toString().trim();
+
+		if (!selectionText) {
+			menuVisible = false;
+			return;
+		}
+
+		// Get bounding box of selection
+		const rect: DOMRect = range.getBoundingClientRect();
+		menuX = rect.left + window.scrollX;
+		menuY = rect.top + window.scrollY - 40; // Position above the selection
+
+		menuVisible = true;
+	};
+
+	function getSelectionOffsets(): { startOffset: number; endOffset: number } | null {
+		const selection = window.getSelection();
+		if (!selection || selection.rangeCount === 0) return null;
+
+		const range = selection.getRangeAt(0);
+
+		// Ensure selection is inside the article
+		if (!articleRef || !articleRef.contains(range.commonAncestorContainer)) return null;
+
+		return {
+			startOffset: range.startOffset,
+			endOffset: range.endOffset
+		};
+	}
+
+	const highlightText = (): void => {
+		if (!selectionText) return;
+
+		const selectionRange = getSelectionOffsets();
+
+		console.log('Highlighting text:', selectionText, selectionRange);
+		// Implement storing `selectionText`, startOffset, endOffset in DB logic here
+
+		menuVisible = false;
+	};
+
+	const handleClickOutsideSelection = (event: MouseEvent): void => {
+		const target = event.target as HTMLElement;
+
+		const active = hasActiveSelection();
+
+		if (
+			!articleRef ||
+			(!target.closest('.menu') && !articleRef.contains(target)) ||
+			(menuVisible && target.closest('.menu') && articleRef.contains(target))
+		) {
+			menuVisible = false;
+		}
+	};
+
+	$effect(() => {
+		if (articleRef) {
+			articleRef.addEventListener('mouseup', handleSelection);
+			// articleRef.addEventListener('mousedown', handleSelection);
+			articleRef.addEventListener('click', handleClickOutsideSelection);
+		}
+
+		return () => {
+			if (articleRef) {
+				articleRef.removeEventListener('mouseup', handleSelection);
+				// articleRef.removeEventListener('mousedown', handleSelection);
+				articleRef.removeEventListener('click', handleClickOutsideSelection);
+			}
+		};
 	});
 </script>
 
@@ -1037,6 +1189,19 @@
 		</button>
 	</div>
 </div>
+
+<!-- Hightlight menu -->
+{#if menuVisible}
+	<div
+		class="absolute rounded-2xl border border-[#333] bg-[#19191b] z-[9999] text-sm"
+		style="top: {menuY}px; left: {menuX}px;"
+	>
+		<button class="!font-mono p-1" onclick={highlightText}>Highlight</button>
+		<!-- <button>Respond</button>
+		<button>Share</button>
+		<button>Private note</button> -->
+	</div>
+{/if}
 
 <div id="article-page">
 	<div class="md:flex gap-8 container">
@@ -1306,35 +1471,7 @@
 		{/if}
 
 		<div class="w-full lg:max-w-[632px] mx-auto lg:px-0 pb-20">
-			<div
-				id="content-container"
-				class="text-primary font-hubot leading-8 flex flex-col
-			{isReadingMode ? 'reading-content' : ''}
-			[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
-			[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
-			[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
-			[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
-			[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
-			[&>p]:text-[18px] [&>p]:break-words [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
-			[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-neutral-400 [&_p:has(img)]:text-center
-			[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
-			[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
-			[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
-			[&_em]:leading-6 [&_em]:italic
-			[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-[18px] [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
-			[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-[18px] [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
-			[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
-			[&_img]:mx-auto [&_img]:block
-			[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
-			[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
-			[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
-			[&_pre]:overflow-x-auto [&_pre]:bg-[#1A1A1A] [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
-			[&_figure]:my-6 [&_figure]:text-center
-			[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
-
-			"
-				class:copied={copiedHeaderId}
-			>
+			<div class:copied={copiedHeaderId}>
 				{#if isReadingMode}
 					<div class="mb-16 font-eb-garamond border-b border-gray-800 pb-8">
 						<h1 class="text-[40px] mb-6 font-powerGroteskBold !leading-10 font-bold">
@@ -1383,7 +1520,37 @@
 					</div>
 				{/if}
 
-				{@html sanitizeContent(article.content)}
+				<article
+					id="content-container"
+					class="text-primary font-hubot leading-8 flex flex-col
+				{isReadingMode ? 'reading-content' : ''}
+				[&>h1]:scroll-mt-32 [&>h2]:scroll-mt-32 [&>h3]:scroll-mt-32 [&>h4]:scroll-mt-32
+				[&>h1]:text-[40px] [&>h1]:font-bold [&>h1]:font-powerGroteskBold [&>h1]:mb-6 [&>h1]:mt-16 [&_h1]:leading-10
+				[&>h2]:text-3xl max-md:[&>h2]:!leading-[34px] [&>h2]:font-powerGroteskBold [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&_h2]:leading-10
+				[&>h3]:text-2xl max-md:[&>h3]:!leading-[30px] [&>h3]:font-powerGroteskBold [&>h3]:font-bold [&>h3]:mt-6 [&>h3]:mb-4 [&_h3]:leading-10
+				[&>h4]:text-xl [&>h4]:font-powerGroteskBold [&>h4]:font-bold [&>h4]:mb-3
+				[&>p]:text-[18px] [&>p]:break-words [&_p]:leading-7 [&_p]:tracking-normal [&_p]:mb-4
+				[&_p:has(img)]:mt-6 [&_p:has(img)]:mb-12 [&_p:has(img)]:text-xs [&_p:has(img)]:text-neutral-400 [&_p:has(img)]:text-center
+				[&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-primary/60 [&_a]:transition-colors [&_a]:decoration-[#0CDEE9]
+				[&_strong]:font-semibold [&_strong]:leading-6 [&_strong]:tracking-normal [&_strong]:font-[inherit]
+				[&_table]:mb-6 md:[&_table]:mb-8 [&_table]:w-full md:[&_table]:w-2/3
+				[&_em]:leading-6 [&_em]:italic
+				[&_ol]:flex [&_ol]:flex-col [&_ol]:gap-y-1 [&_ol]:mb-6 [&_ol]:ml-6 [&_ol]:text-[18px] [&_ol]:list-decimal [&_ol]:leading-7 [&_ol]:tracking-normal
+				[&_ul]:flex [&_ul]:flex-col [&_ul]:gap-y-1 [&_ul]:mb-6 [&_ul]:ml-6 [&_ul]:text-[18px] [&_ul]:list-disc [&_ul]:leading-7 [&_ul]:tracking-normal
+				[&>ul>li]:leading-8 [&>ul>li>p]:mb-0 [&>ol>li>p]:mb-0
+				[&_img]:mx-auto [&_img]:block
+				[&>blockquote]:text-[18px] [&>blockquote]:leading-7 [&>blockquote]:tracking-normal
+				[&_blockquote]:border-l-4 [&_blockquote]:border-h-auto [&_blockquote]:border-neutral-300 [&_blockquote]:pl-7
+				[&_blockquote]:mb-4 [&_blockquote]:italic [&_blockquote>p:last-of-type]:mb-0
+				[&_pre]:overflow-x-auto [&_pre]:bg-[#1A1A1A] [&_pre]:text-gray-100 [&_pre]:p-4 [&_pre]:rounded-lg [&_code]:overflow-x-auto [&_code:not(pre_>_code)]:text-[#BFBFBF] [&_code:not(pre_>_code)]:bg-[#1A1A1A] [&_code:not(pre_>_code)]:px-2 [&_code:not(pre_>_code)]:py-1 [&_code:not(pre_>_code)]:rounded-sm
+				[&_figure]:my-6 [&_figure]:text-center
+				[&_figcaption>a]:text-xs [&_figcaption>span]:text-xs
+	
+				"
+					bind:this={articleRef}
+				>
+					{@html sanitizeContent(article.content)}
+				</article>
 			</div>
 
 			{#if article.tags.length > 0}
