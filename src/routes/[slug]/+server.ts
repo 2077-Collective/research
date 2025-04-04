@@ -17,13 +17,14 @@ export const GET: RequestHandler = async ({ params, request }) => {
 
 	const url = new URL(request.url);
 	const origin = url.origin;
+	const newThumbUrl = post.thumb_url.replace('ghost-2077.arvensis.systems', 'ghost.2077.xyz');
 
 	// Ensure absolute URLs for Twitter cards
 	const sanitizedTitle = post.title || 'Untitled Article';
 	const sanitizedSummary = post.summary || 'Read more on our website.';
 	const sanitizedThumb = post.thumb_url?.startsWith('http')
-		? post.thumb_url
-		: `${origin}${post.thumb_url}`;
+		? newThumbUrl
+		: `${origin}${newThumbUrl}`;
 	const sanitizedUrl = `${origin}/${post.slug}`;
 
 	// Twitterbot/1.0
