@@ -6,11 +6,12 @@ export const fetchGhostArticles = async (
 	category?: string,
 	page = 1,
 	limit = 15,
-	bookmarks?: string[]
+	bookmarks?: string[],
+	userCache = true
 ) => {
 	const cacheKey = `${category || 'all'}-${page || 1}-${limit}`;
 
-	if (cache.has(cacheKey)) {
+	if (userCache && cache.has(cacheKey)) {
 		const cached = cache.get(cacheKey);
 		if (cached && isCacheValid(cached.timestamp)) {
 			return cached.data;

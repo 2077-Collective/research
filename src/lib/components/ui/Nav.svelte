@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { supabase } from '$lib/utils/supabase';
 	import { cn } from '$lib/utils/ui-components';
-	import { ArrowUpRight, Menu, X } from 'lucide-svelte';
+	import { ArrowUpRight, Menu, User, X } from 'lucide-svelte';
 	import { fade } from 'svelte/transition';
 	import Button from './button/button.svelte';
 	import Research from './icons/Research.svelte';
@@ -52,6 +53,34 @@
 	function handleScroll() {
 		addBackgroundColor = scrollContainer().scrollTop > 50;
 	}
+
+	let isLoggedIn = $state(false);
+	let userEmail = $state<string | null>(null);
+
+	const handleFetchUser = async () => {
+		try {
+			const {
+				data: { user }
+			} = await supabase.auth.getUser();
+
+			if (user && user.user_metadata.email_verified) {
+				isLoggedIn = true;
+				userEmail = user.email || null;
+			} else {
+				isLoggedIn = false;
+				userEmail = null;
+			}
+		} catch (error) {
+			isLoggedIn = false;
+			userEmail = null;
+		} finally {
+			// isCheckingAuth = false;
+		}
+	};
+
+	$effect(() => {
+		handleFetchUser();
+	});
 </script>
 
 <svelte:window on:scroll={handleScroll} />
@@ -90,7 +119,21 @@
 			</div>
 		</div>
 
-		<Search />
+		<div class="flex items-center gap-4">
+			<Search />
+
+			<a class="max-md:hidden" href="/account">
+				{#if !isLoggedIn && !userEmail}
+					<User class="text-neutral-40" />
+				{:else}
+					<div
+						class="size-7 rounded-full bg-[#0AB2BA] uppercase font-medium text-sm flex items-center justify-center"
+					>
+						{userEmail?.charAt(0)}
+					</div>
+				{/if}
+			</a>
+		</div>
 
 		<!-- Mobile Menu Toggle -->
 		<div class="lg:hidden">
